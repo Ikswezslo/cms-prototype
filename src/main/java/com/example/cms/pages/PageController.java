@@ -28,26 +28,15 @@ public class PageController {
         this.repository = repository;
     }
 
-    @GetMapping("/raw")
-    List<Page> readAllPages() {
-        return repository.findAll();
-    }
-
-    @GetMapping("/{id}/raw")
-    Page readPage(@PathVariable long id) {
-        return repository.findById(id)
-                .orElseThrow(PageNotFound::new);
-    }
-
     @GetMapping
-    List<PageWithoutDetails> readAllPagesWithoutDetails() {
+    List<PageWithoutDetails> readAllPages() {
         return repository.findAll().stream()
                 .map(PageWithoutDetails::new)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    PageWithChildren readPageWithChildren(@PathVariable long id) {
+    PageWithChildren readPage(@PathVariable long id) {
         return repository.findById(id).map(parent -> new PageWithChildren(parent, repository.findAllByParent(parent)))
                 .orElseThrow(PageNotFound::new);
     }
@@ -64,6 +53,10 @@ public class PageController {
     ResponseEntity<?> updatePage(@PathVariable long id, @RequestBody @Valid Page toUpdate,
                                  BindingResult bindingResult) {
         validate(toUpdate, bindingResult);
+
+        if (toUpdate.getParent() != null && id == toUpdate.getParent().getId()) {
+            throw new PageBadRequest(PageBadRequestType.IdEqualsParentId);
+        }
 
         repository.findById(id)
                 .ifPresentOrElse(page -> {
@@ -95,11 +88,15 @@ public class PageController {
 
             throw new PageNotValid(errors);
         }
-        if (page.getParent() != null && page.getParent().getId() == null) {
-            throw new PageBadRequest(PageBadRequestType.NullParentId);
-        }
-        if (!repository.existsById(page.getParent().getId())) {
-            throw new PageBadRequest(PageBadRequestType.NotFoundParentId);
+        if(page.getParent() != null) {
+            if(page.getParent().getId() == null) {
+                throw new PageBadRequest(PageBadRequestType.NullParentId);
+            }
+            else {
+                if (!repository.existsById(page.getParent().getId())) {
+                    throw new PageBadRequest(PageBadRequestType.NotFoundParentId);
+                }
+            }
         }
     }
 

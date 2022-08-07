@@ -19,6 +19,8 @@ public class PageBadRequest extends RuntimeException{
                 return "Parent id was not found";
             case DeletingPageWitchChild:
                 return "Cannot delete page with at least one child";
+            case IdEqualsParentId:
+                return "Page id must be different than parent page id";
         }
         return "Unknown bad request";
     }
