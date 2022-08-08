@@ -1,0 +1,10 @@
+<div>
+    <h1>Lista uniwersytetów</h1>
+    <div *ngFor="let university of universitys">
+        <h3 class="item">
+            <a [title]="university.name + ' details'" [routerLink]="['/university', university.id]">
+                {{ university.name }}
+            </a>
+        </h3>
+    </div>
+</div>

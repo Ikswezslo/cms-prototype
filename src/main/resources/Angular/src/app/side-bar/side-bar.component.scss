@@ -1,0 +1,52 @@
+example-container {
+  width: 400px;
+  height: 200px;
+  margin: 12px;
+  border: 1px solid #555;
+}
+
+mat-drawer-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+:link {
+  color: black;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.button,
+button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  border: none;
+}
+
+.mainButton {
+  border-radius: 2px;
+  font-size: 20px;
+  background-color: #9ec6f7;
+
+}
+
+.subButton {
+  font-size: 15px;
+}
+
+.button:hover,
+button:hover {
+  opacity: 0.9;
+  font-weight: normal;
+}
+
+.button:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}

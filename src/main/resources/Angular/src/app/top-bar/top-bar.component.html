@@ -1,0 +1,37 @@
+<span class="begining">
+    <button style="text-align: center " mat-menu-item [routerLink]="['/']" class="subButton">Logo</button>
+    <button mat-button #isopen="matMenuTrigger" [matMenuTriggerFor]="aboveMenu" class="mainButton">
+        <mat-icon fontIcon="menu" [ngClass]="isopen.menuOpen ? 'menu':'close'"></mat-icon>
+        CMS
+    </button>
+</span>
+<mat-menu #aboveMenu="matMenu" yPosition="above">
+    <button mat-menu-item [routerLink]="['/']" class="subButton" >Strona główna</button>
+    <button mat-menu-item [routerLink]="['/university']" class="subButton" [matMenuTriggerFor]="universitysMenu">{{'UNIVERSITYS' | translate}}</button>
+    <button mat-menu-item [routerLink]="['/account']" class="subButton" [matMenuTriggerFor]="usersMenu">Użytkownicy</button>
+</mat-menu>
+
+<mat-menu #universitysMenu="matMenu" >
+    <div *ngFor="let university of universitys">
+        <button mat-menu-item class="subButton" [routerLink]="['/university', university.id]">
+                {{ university.name }}
+        </button>
+    </div>
+</mat-menu>
+
+<mat-menu #usersMenu="matMenu" >
+    <div *ngFor="let user of users">
+        <button mat-menu-item class="subButton" [routerLink]="['/account', user.id]">
+                {{ user.fullName }}
+        </button>
+    </div>
+</mat-menu>
+
+<button *ngIf="userLogged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
+        class="material-icons">person</i>{{userLogged.fullName}}</button>
+<mat-menu #userMenu="matMenu" yPosition="above">
+    <button mat-menu-item class="subButton" [routerLink]="['/account/1']">Profil</button>
+    <button mat-menu-item class="subButton">Ustawienia</button>
+    <button mat-menu-item class="subButton">Wyloguj</button>
+</mat-menu>
+

@@ -1,0 +1,24 @@
+<!-- <mat-drawer-container class="example-container" [hasBackdrop]="true">
+    <mat-drawer #drawer [mode]="'over'">I'm a drawer</mat-drawer>
+    <mat-drawer-content>
+      <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
+    </mat-drawer-content>
+  </mat-drawer-container> -->
+
+<mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+        <mat-icon *ngIf="!sidenav.opened">
+            menu
+        </mat-icon>
+        <mat-icon *ngIf="sidenav.opened">
+            menupen
+        </mat-icon>
+    </button>
+    Responsive side navigation
+</mat-toolbar>
+
+<mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <button mat-button class="mainButton"><i class="material-icons">menu</i> CMS</button>
+    <button mat-button [routerLink]="['/']" class="mainButton">{{'UNIVERSITYS' | translate}}</button>
+    <button mat-button class="mainButton">Test</button>
+</mat-sidenav>
