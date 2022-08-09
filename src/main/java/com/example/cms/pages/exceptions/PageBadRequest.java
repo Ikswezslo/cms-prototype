@@ -1,7 +1,7 @@
 package com.example.cms.pages.exceptions;
 
 
-public class PageBadRequest extends RuntimeException{
+public class PageBadRequest extends RuntimeException {
     private final String error;
 
     public PageBadRequest(PageBadRequestType type) {
@@ -11,8 +11,9 @@ public class PageBadRequest extends RuntimeException{
     public String getError() {
         return error;
     }
+
     private String getMessage(PageBadRequestType type) {
-        switch (type){
+        switch (type) {
             case NullParentId:
                 return "Parent id must not be null";
             case NotFoundParentId:

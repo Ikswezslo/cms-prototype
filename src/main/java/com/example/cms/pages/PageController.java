@@ -88,11 +88,10 @@ public class PageController {
 
             throw new PageNotValid(errors);
         }
-        if(page.getParent() != null) {
-            if(page.getParent().getId() == null) {
+        if (page.getParent() != null) {
+            if (page.getParent().getId() == null) {
                 throw new PageBadRequest(PageBadRequestType.NullParentId);
-            }
-            else {
+            } else {
                 if (!repository.existsById(page.getParent().getId())) {
                     throw new PageBadRequest(PageBadRequestType.NotFoundParentId);
                 }
