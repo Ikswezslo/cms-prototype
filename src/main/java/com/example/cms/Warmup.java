@@ -42,6 +42,7 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
         p3.setCreator("Adam");
         p3.setContent("Nice content");
         p3.setParent(p2);
+        p3.setHidden(true);
         pageRepository.save(p3);
 
         var p4 = new Page();

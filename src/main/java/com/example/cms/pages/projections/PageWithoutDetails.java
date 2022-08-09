@@ -9,11 +9,13 @@ public class PageWithoutDetails {
     Long parentID;
     String title;
     String creator;
+    boolean hidden;
 
     public PageWithoutDetails(Page page) {
         id = page.getId();
         title = page.getTitle();
         creator = page.getCreator();
+        hidden = page.isHidden();
 
         parentID = (page.getParent() == null) ? null :
                 page.getParent().getId();

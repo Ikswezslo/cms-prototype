@@ -12,6 +12,7 @@ public class PageWithChildren {
     PageWithoutDetails parent;
     String title;
     String creator;
+    boolean hidden;
     String content;
     List<PageWithoutDetails> children;
 
@@ -19,6 +20,7 @@ public class PageWithChildren {
         id = page.getId();
         title = page.getTitle();
         creator = page.getCreator();
+        hidden = page.isHidden();
         content = page.getContent();
 
         parent = (page.getParent() == null) ? null :

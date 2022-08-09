@@ -18,6 +18,7 @@ public class Page {
     private String title;
     @NotBlank(message = "Creator must not be empty")
     private String creator;
+    private boolean hidden;
     @NotNull(message = "Content must not be null")
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,5 +30,6 @@ public class Page {
         creator = source.getCreator();
         content = source.getContent();
         parent = source.getParent();
+        hidden = source.isHidden();
     }
 }
