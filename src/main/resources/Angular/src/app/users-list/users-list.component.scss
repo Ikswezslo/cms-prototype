@@ -1,0 +1,16 @@
+.item {
+    padding: 2px 5px;
+    margin: 0.5px;
+    background-color: rgb(184, 223, 255);
+    color: black;
+}
+
+:link {
+    color: black;
+    font-style: normal;
+    text-decoration: none;
+}
+:link::after{
+    color: black;
+
+}
