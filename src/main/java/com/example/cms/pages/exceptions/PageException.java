@@ -1,18 +1,15 @@
 package com.example.cms.pages.exceptions;
 
 
-public class PageBadRequest extends RuntimeException {
-    private final String error;
+import com.example.cms.validation.exceptions.BadRequestException;
 
-    public PageBadRequest(PageBadRequestType type) {
-        error = getMessage(type);
+public class PageException extends BadRequestException {
+
+    public PageException(PageExceptionType type) {
+        super(getMessage(type));
     }
 
-    public String getError() {
-        return error;
-    }
-
-    private String getMessage(PageBadRequestType type) {
+    private static String getMessage(PageExceptionType type) {
         switch (type) {
             case NullParentId:
                 return "Parent id must not be null";
