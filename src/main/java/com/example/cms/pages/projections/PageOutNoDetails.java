@@ -1,20 +1,21 @@
 package com.example.cms.pages.projections;
 
 import com.example.cms.pages.Page;
+import com.example.cms.user.User;
 import lombok.Value;
 
 @Value
-public class PageWithoutDetails {
+public class PageOutNoDetails {
     Long id;
     Long parentID;
     String title;
-    String creator;
+    Long creatorID;
     boolean hidden;
 
-    public PageWithoutDetails(Page page) {
+    public PageOutNoDetails(Page page) {
         id = page.getId();
         title = page.getTitle();
-        creator = page.getCreator();
+        creatorID = page.getCreator().getId();
         hidden = page.isHidden();
 
         parentID = (page.getParent() == null) ? null :
