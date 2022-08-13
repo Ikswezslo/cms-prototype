@@ -1,6 +1,6 @@
 package com.example.cms.pages.exceptions;
 
-public enum PageBadRequestType {
+public enum PageExceptionType {
     NullParentId,
     NotFoundParentId,
     DeletingPageWitchChild,
