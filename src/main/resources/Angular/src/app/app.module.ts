@@ -3,28 +3,27 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
+// import ngx-translate and the http loader
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import { UniversityDetailsComponent } from './university-details/university-details.component';
-import { SideBarComponent } from './side-bar/side-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-// import ngx-translate and the http loader
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { UserDetailsComponent } from './user-details/user-details.component';
-
-//
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from  '@angular/material/toolbar'; 
+import { MatToolbarModule } from  '@angular/material/toolbar';
 import { UsersListComponent } from './users-list/users-list.component';
-import { UniversityListComponent } from './university-list/university-list.component';
+import { PageDetailsComponent } from './page-details/page-details.component';
+import { PageListComponent } from './page-list/page-list.component';
+import { UniversitieDetailsComponent } from './universitie-details/universitie-details.component';
+import { UniversitieListComponent } from './universitie-list/universitie-list.component';
 
 
 @NgModule({
@@ -32,11 +31,11 @@ import { UniversityListComponent } from './university-list/university-list.compo
     AppComponent,
     MainPageComponent,
     TopBarComponent,
-    UniversityDetailsComponent,
     UserDetailsComponent,
-    SideBarComponent,
     UsersListComponent,
-    UniversityListComponent
+    PageDetailsComponent,
+    PageListComponent,
+    UniversitieListComponent
   ],
   imports: [
     BrowserModule,
@@ -49,10 +48,12 @@ import { UniversityListComponent } from './university-list/university-list.compo
     MatToolbarModule,
     RouterModule.forRoot([
       { path: '', component: MainPageComponent },
-      { path: 'university', component: UniversityListComponent },
-      { path: 'university/:universityId', component: UniversityDetailsComponent },
-      { path: 'account', component: UsersListComponent },
+      { path: 'universities', component: UniversitieListComponent },
+      { path: 'universitie/:universitieId', component: UniversitieDetailsComponent },
+      { path: 'accounts', component: UsersListComponent },
       { path: 'account/:userId', component: UserDetailsComponent },
+      { path: 'pages', component: PageListComponent },
+      { path: 'page/:pageId', component: PageDetailsComponent }
     ]),
     BrowserAnimationsModule,
     BrowserModule,
