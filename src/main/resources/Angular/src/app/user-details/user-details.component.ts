@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { user } from '../user';
+import { user } from '../models/user';
+import { PageService } from '../service/page.service';
 
 @Component({
   selector: 'app-user-details',
@@ -9,17 +10,24 @@ import { user } from '../user';
 })
 export class UserDetailsComponent implements OnInit {
 
-  user: user | undefined;
+  public user!: user;
+  public id: Number = 0;
 
-  constructor(private route: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    const routeParams = this.route.snapshot.paramMap;
-    const userIdFromRoute = Number(routeParams.get('userId'));
-
-    // Find the product that correspond with the id provided in route.
-    this.user = user.find(user => user.id === userIdFromRoute);
+  constructor(
+    private route: ActivatedRoute,
+    private userService: PageService) { 
   }
 
+  ngOnInit(): void{
+    const routeParams = this.route.snapshot.paramMap;
+    this.id = Number(routeParams.get('userId'));
+    this.loadUser();
+  }
 
+  loadUser() {
+    this.userService.getUser(this.id)
+    .subscribe(res => {
+      this.user = res;
+    });
+  }
 }
