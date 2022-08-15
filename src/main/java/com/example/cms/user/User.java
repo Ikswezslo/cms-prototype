@@ -21,7 +21,18 @@ public class User {
     Long universityID;
     Boolean isAccountDisabled;
 
-    public User() {
+    public User(User user) {
+        this.id = user.id;
+        this.username = user.username;
+        this.password = user.password;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.address = user.address;
+        this.phoneNumber = user.phoneNumber;
+        this.accountType = user.accountType;
+        this.universityID = user.universityID;
+        this.isAccountDisabled = user.isAccountDisabled;
     }
 
     public User(Long id, String username, String password,
@@ -55,6 +66,10 @@ public class User {
         this.accountType = accountType;
         this.universityID = universityID;
         this.isAccountDisabled = isAccountDisabled;
+    }
+
+    public User() {
+
     }
 
     public Long getId() {
