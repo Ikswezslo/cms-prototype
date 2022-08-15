@@ -78,8 +78,12 @@ public class PageService {
         if (parent != null) {
             checkExisting(parent.getId(), pageRepository, PageExceptionType.NotFoundParent);
         }
-        checkExisting(page.getUniversity().getId(), universityRepository, PageExceptionType.NotFoundUniversity);
-        checkExisting(page.getCreator().getId(), userRepository, PageExceptionType.NotFoundUser);
+        if(page.getUniversity() != null) {
+            checkExisting(page.getUniversity().getId(), universityRepository, PageExceptionType.NotFoundUniversity);
+        }
+        if(page.getCreator() != null) {
+            checkExisting(page.getCreator().getId(), userRepository, PageExceptionType.NotFoundUser);
+        }
     }
 
     private <T> void checkExisting(Long id, JpaRepository<T, Long> repository, PageExceptionType exceptionType) {
