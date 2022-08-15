@@ -11,10 +11,12 @@ public class PageException extends BadRequestException {
 
     private static String getMessage(PageExceptionType type) {
         switch (type) {
-            case NullParentId:
-                return "Parent id must not be null";
-            case NotFoundParentId:
-                return "Parent id was not found";
+            case NotFoundParent:
+                return "Parent was not found";
+            case NotFoundUniversity:
+                return "University was not found";
+            case NotFoundUser:
+                return "User was not found";
             case DeletingPageWitchChild:
                 return "Cannot delete page with at least one child";
             case IdEqualsParentId:

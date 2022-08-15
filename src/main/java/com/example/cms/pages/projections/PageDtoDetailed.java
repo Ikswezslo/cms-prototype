@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Value
-public class PageOutDetails {
+public class PageDtoDetailed {
     Long id;
-    PageOutNoDetails parent;
+    PageDtoSimple parent;
     String title;
     User creator;
     University university;
     boolean hidden;
     String content;
-    List<PageOutNoDetails> children;
+    List<PageDtoSimple> children;
 
-    public PageOutDetails(Page page) {
+    public PageDtoDetailed(Page page) {
         id = page.getId();
         title = page.getTitle();
         creator = page.getCreator();
@@ -28,8 +28,8 @@ public class PageOutDetails {
         university = page.getUniversity();
 
         parent = (page.getParent() == null) ? null :
-                new PageOutNoDetails(page.getParent());
+                new PageDtoSimple(page.getParent());
 
-        this.children = page.getChildren().stream().map(PageOutNoDetails::new).collect(Collectors.toList());
+        this.children = page.getChildren().stream().map(PageDtoSimple::new).collect(Collectors.toList());
     }
 }
