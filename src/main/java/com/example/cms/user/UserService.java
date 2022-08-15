@@ -1,5 +1,6 @@
 package com.example.cms.user;
 
+import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -20,11 +21,26 @@ public class UserService {
     }
 
     User getUser(@PathVariable long id){
-        return  repository.findById(id).get();
+        return  repository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     public ResponseEntity<?> createUser(User user){
         User result = repository.save(user);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(new User(result));
+    }
+
+    ResponseEntity<?> updateUser(long id, User toUpdate) {
+        repository.findById(id)
+                .ifPresentOrElse(user -> {
+                    user.updateUser(toUpdate);
+                    repository.save(user);
+                }, NotFoundException::new);
+        return ResponseEntity.noContent().build();
+    }
+
+    ResponseEntity<?> deleteUser(@PathVariable long id) {
+        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        repository.delete(user);
+        return ResponseEntity.noContent().build();
     }
 }

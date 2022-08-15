@@ -68,6 +68,19 @@ public class User {
         this.isAccountDisabled = isAccountDisabled;
     }
 
+    public void updateUser(final User user) {
+        this.username = user.username;
+        this.password = user.password;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.address = user.address;
+        this.phoneNumber = user.phoneNumber;
+        this.accountType = user.accountType;
+        this.universityID = user.universityID;
+        this.isAccountDisabled = user.isAccountDisabled;
+    }
+
     public User() {
 
     }
