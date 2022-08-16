@@ -1,13 +1,19 @@
 package com.example.cms.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.cms.University.University;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User {
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "enrolledUsers")
+    private Set<University> universities = new HashSet<>();
     @Id @GeneratedValue
     Long id;
     String username;
@@ -144,6 +150,7 @@ public class User {
     public void setAccountDisabled(Boolean accountDisabled) {
         isAccountDisabled = accountDisabled;
     }
+    public Set<University> getUniversities() { return universities; }
 
     @Override
     public String toString() {
