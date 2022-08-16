@@ -1,33 +1,35 @@
 package com.example.cms.pages.projections;
 
+import com.example.cms.University.University;
 import com.example.cms.pages.Page;
+import com.example.cms.user.User;
 import lombok.Value;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Value
-public class PageWithChildren {
+public class PageDtoDetailed {
     Long id;
-    PageWithoutDetails parent;
+    PageDtoSimple parent;
     String title;
-    String creator;
+    User creator;
+    University university;
     boolean hidden;
     String content;
-    List<PageWithoutDetails> children;
+    List<PageDtoSimple> children;
 
-    public PageWithChildren(Page page, List<Page> children) {
+    public PageDtoDetailed(Page page) {
         id = page.getId();
         title = page.getTitle();
         creator = page.getCreator();
         hidden = page.isHidden();
         content = page.getContent();
+        university = page.getUniversity();
 
         parent = (page.getParent() == null) ? null :
-                new PageWithoutDetails(page.getParent());
+                new PageDtoSimple(page.getParent());
 
-        this.children = children.stream()
-                .map(PageWithoutDetails::new)
-                .collect(Collectors.toList());
+        this.children = page.getChildren().stream().map(PageDtoSimple::new).collect(Collectors.toList());
     }
 }

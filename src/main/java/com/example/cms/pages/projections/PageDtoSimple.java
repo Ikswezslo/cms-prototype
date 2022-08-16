@@ -4,21 +4,16 @@ import com.example.cms.pages.Page;
 import lombok.Value;
 
 @Value
-public class PageWithoutDetails {
+public class PageDtoSimple {
     Long id;
-    Long parentID;
     String title;
-    String creator;
+    Long creatorID;
     boolean hidden;
 
-    public PageWithoutDetails(Page page) {
+    public PageDtoSimple(Page page) {
         id = page.getId();
         title = page.getTitle();
-        creator = page.getCreator();
+        creatorID = page.getCreator().getId();
         hidden = page.isHidden();
-
-        parentID = (page.getParent() == null) ? null :
-                page.getParent().getId();
-
     }
 }

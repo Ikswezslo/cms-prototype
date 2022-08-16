@@ -1,8 +1,9 @@
 package com.example.cms.pages.exceptions;
 
 public enum PageExceptionType {
-    NullParentId,
-    NotFoundParentId,
+    NotFoundParent,
+    NotFoundUniversity,
+    NotFoundUser,
     DeletingPageWitchChild,
     IdEqualsParentId
 }
