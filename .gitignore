@@ -18,6 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
+.jpb
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### H2 ####
+/h2db.mv.db

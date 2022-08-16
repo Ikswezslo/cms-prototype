@@ -1,0 +1,20 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        trace: false
+        web-allow-others: false
+  datasource:
+    url: jdbc:h2:file:./h2db;TRACE_LEVEL_FILE=0
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+server:
+    error:
+      include-message=always:

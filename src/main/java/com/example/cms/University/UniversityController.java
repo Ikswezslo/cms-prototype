@@ -8,7 +8,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "university")
+@RequestMapping(path = "universities")
 public class UniversityController {
     private final UniversityService universityService;
 

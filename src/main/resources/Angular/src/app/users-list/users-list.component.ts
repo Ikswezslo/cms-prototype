@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { user } from '../user';
+import { user } from '../models/user';
+import { PageService } from '../service/page.service';
 
 @Component({
   selector: 'app-users-list',
@@ -8,10 +10,22 @@ import { user } from '../user';
 })
 export class UsersListComponent implements OnInit {
 
-  users = user;
-  constructor() { }
+  users: user[] = [];
+  public selected = true;
+
+  constructor(
+    private http: HttpClient,
+    private userService: PageService) {}
 
   ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers(showHidden: Boolean = true) {
+    this.userService.getUsers()
+      .subscribe(res => {
+        this.users = res;
+    });
   }
 
 }

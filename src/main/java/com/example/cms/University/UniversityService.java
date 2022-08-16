@@ -1,6 +1,7 @@
 package com.example.cms.University;
 
 import com.example.cms.user.User;
+import com.example.cms.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
