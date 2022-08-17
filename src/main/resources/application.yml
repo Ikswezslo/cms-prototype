@@ -14,3 +14,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+server:
+    error:
+      include-message=always:

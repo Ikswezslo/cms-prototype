@@ -1,9 +1,13 @@
 package com.example.cms.University;
 
+import com.example.cms.user.User;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table
+@Table(name = "universities")
 public class University {
 
     @Id
@@ -17,6 +21,14 @@ public class University {
             strategy = GenerationType.SEQUENCE
     )
     private Long id;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_enrolled",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "university_id")
+    )
+    private Set<User> enrolledUsers = new HashSet<>();
     private String name;
     private String shortName;
     private Boolean isHidden;
@@ -64,6 +76,8 @@ public class University {
         isHidden = hidden;
     }
 
+    public Set<User> getEnrolledUsers() { return enrolledUsers;}
+
     @Override
     public String toString() {
         return "University{" +
@@ -72,5 +86,9 @@ public class University {
                 ", shortName='" + shortName + '\'' +
                 ", isHidden=" + isHidden +
                 '}';
+    }
+
+    public void enrollUsers(User user) {
+        enrolledUsers.add(user);
     }
 }

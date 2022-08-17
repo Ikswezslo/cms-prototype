@@ -1,13 +1,12 @@
 package com.example.cms.University;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@CrossOrigin
 @RestController
 @RequestMapping(path = "universities")
 public class UniversityController {
@@ -22,4 +21,11 @@ public class UniversityController {
         return universityService.getUniversities();
     }
 
+    @PutMapping("/{universityId}/users/{userId}")
+    public University enrollUsersToUniversity(
+            @PathVariable Long universityId,
+            @PathVariable Long userId
+    ){
+        return universityService.enrollUsersToUniversity(universityId, userId);
+    }
 }
