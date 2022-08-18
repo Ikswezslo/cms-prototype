@@ -4,6 +4,8 @@ import com.example.cms.University.University;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +18,9 @@ public class User {
     private Set<University> universities = new HashSet<>();
     @Id @GeneratedValue
     Long id;
+    @NotBlank(message = "Username must not be empty")
     String username;
+    @NotBlank(message = "Password must not be empty")
     String password;
     String firstName;
     String lastName;

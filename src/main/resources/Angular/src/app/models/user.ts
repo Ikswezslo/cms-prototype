@@ -1,8 +1,22 @@
-export interface user {
+export interface User {
     id: number;
-    fullName: string;
-    userName: string;
-    role: String;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    accountType: string;
+    isAccountDisabled: boolean;
 }
 
+export interface UserForm {
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    accountType: string;
+}
 
