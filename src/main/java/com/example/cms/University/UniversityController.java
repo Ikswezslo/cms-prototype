@@ -21,6 +21,12 @@ public class UniversityController {
         return universityService.getUniversities();
     }
 
+    @GetMapping("/{id}")
+    public University getUniversity(@PathVariable long id) {return universityService.getUniversity(id);}
+
+    @PostMapping
+    public void registerNewUniversity(@RequestBody University university) {universityService.addNewUniversity(university);}
+
     @PutMapping("/{universityId}/users/{userId}")
     public University enrollUsersToUniversity(
             @PathVariable Long universityId,
