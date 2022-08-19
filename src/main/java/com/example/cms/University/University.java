@@ -3,6 +3,8 @@ package com.example.cms.University;
 import com.example.cms.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +31,9 @@ public class University {
             inverseJoinColumns = @JoinColumn(name = "university_id")
     )
     private Set<User> enrolledUsers = new HashSet<>();
+    @NotBlank(message = "Name must not be empty")
     private String name;
+    @NotBlank(message = "Short name must not be empty")
     private String shortName;
     private Boolean isHidden;
 
