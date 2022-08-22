@@ -1,6 +1,6 @@
-package com.example.cms.pages;
+package com.example.cms.page;
 
-import com.example.cms.University.University;
+import com.example.cms.university.University;
 import com.example.cms.user.User;
 import lombok.Getter;
 import lombok.Setter;

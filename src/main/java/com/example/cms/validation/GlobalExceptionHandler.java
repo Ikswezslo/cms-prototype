@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException exception) {
+    public ResponseEntity<ValidationError> handleConstraintViolationException(ConstraintViolationException exception) {
         ValidationError error = new ValidationError();
         error.setStatus(HttpStatus.BAD_REQUEST);
         var violations = exception.getConstraintViolations().stream()

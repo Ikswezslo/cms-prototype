@@ -13,7 +13,6 @@ import java.util.List;
 public class UserService {
     private final UserRepository repository;
 
-    @Autowired
     UserService(final UserRepository repository){this.repository = repository;}
 
     public List<User> getUsers(){

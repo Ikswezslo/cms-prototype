@@ -1,15 +1,17 @@
 package com.example.cms;
 
-import com.example.cms.University.University;
-import com.example.cms.University.UniversityRepository;
-import com.example.cms.pages.Page;
-import com.example.cms.pages.PageRepository;
+import com.example.cms.university.University;
+import com.example.cms.university.UniversityRepository;
+import com.example.cms.page.Page;
+import com.example.cms.page.PageRepository;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Slf4j
 @Component
@@ -32,12 +34,12 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
         log.info("Application warmup after context refreshed");
 
 
-        User bob = new User(0L, "admin", "admin",
+        User bob = new User(1L, "admin", "admin",
                 "Bob", "Kovalski", "bob123@gmail.com",
                 "Piotrowo 1", "123456789", "admin",
                 0L, false
         );
-        User riker = new User(0L, "admin", "admin",
+        User riker = new User(2L, "admin", "admin",
                 "Riker", "Bobowski", "riker123@gmail.com",
                 "Piotrowo 1", "727456789", "admin",
                 0L, false

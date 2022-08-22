@@ -1,7 +1,7 @@
-package com.example.cms.pages;
+package com.example.cms.page;
 
-import com.example.cms.pages.projections.PageDtoDetailed;
-import com.example.cms.pages.projections.PageDtoSimple;
+import com.example.cms.page.projections.PageDtoDetailed;
+import com.example.cms.page.projections.PageDtoSimple;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,17 +29,17 @@ public class PageController {
     }
 
     @PostMapping
-    ResponseEntity<?> createPage(@RequestBody Page page) {
+    ResponseEntity<PageDtoSimple> createPage(@RequestBody Page page) {
         return service.save(page);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updatePage(@PathVariable long id, @RequestBody Page page) {
+    ResponseEntity<Void> updatePage(@PathVariable long id, @RequestBody Page page) {
         return service.update(id, page);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deletePage(@PathVariable long id) {
+    ResponseEntity<Void> deletePage(@PathVariable long id) {
         return service.delete(id);
     }
 }

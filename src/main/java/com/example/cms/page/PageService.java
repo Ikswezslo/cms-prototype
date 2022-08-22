@@ -1,10 +1,10 @@
-package com.example.cms.pages;
+package com.example.cms.page;
 
-import com.example.cms.University.UniversityRepository;
-import com.example.cms.pages.exceptions.PageException;
-import com.example.cms.pages.exceptions.PageExceptionType;
-import com.example.cms.pages.projections.PageDtoDetailed;
-import com.example.cms.pages.projections.PageDtoSimple;
+import com.example.cms.university.UniversityRepository;
+import com.example.cms.page.exceptions.PageException;
+import com.example.cms.page.exceptions.PageExceptionType;
+import com.example.cms.page.projections.PageDtoDetailed;
+import com.example.cms.page.projections.PageDtoSimple;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,17 +40,17 @@ public class PageService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public ResponseEntity<?> save(Page toSave) {
+    public ResponseEntity<PageDtoSimple> save(Page toSave) {
         validate(toSave);
         Page result = pageRepository.save(toSave);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(new PageDtoSimple(result));
     }
 
-    public ResponseEntity<?> update(long id, Page toUpdate) {
+    public ResponseEntity<Void> update(long id, Page toUpdate) {
         validate(toUpdate);
 
         if (toUpdate.getParent() != null && id == toUpdate.getParent().getId()) {
-            throw new PageException(PageExceptionType.IdEqualsParentId);
+            throw new PageException(PageExceptionType.ID_SAME_AS_PARENT);
         }
 
         pageRepository.findById(id)
@@ -62,11 +62,11 @@ public class PageService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<?> delete(long id) {
+    public ResponseEntity<Void> delete(long id) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
 
         if (pageRepository.existsByParent(page)) {
-            throw new PageException(PageExceptionType.DeletingPageWitchChild);
+            throw new PageException(PageExceptionType.DELETING_WITH_CHILD);
         }
 
         pageRepository.delete(page);
@@ -76,13 +76,13 @@ public class PageService {
     private void validate(Page page) {
         Page parent = page.getParent();
         if (parent != null) {
-            checkExisting(parent.getId(), pageRepository, PageExceptionType.NotFoundParent);
+            checkExisting(parent.getId(), pageRepository, PageExceptionType.NOT_FOUND_PARENT);
         }
         if(page.getUniversity() != null) {
-            checkExisting(page.getUniversity().getId(), universityRepository, PageExceptionType.NotFoundUniversity);
+            checkExisting(page.getUniversity().getId(), universityRepository, PageExceptionType.NOT_FOUND_UNIVERSITY);
         }
         if(page.getCreator() != null) {
-            checkExisting(page.getCreator().getId(), userRepository, PageExceptionType.NotFoundUser);
+            checkExisting(page.getCreator().getId(), userRepository, PageExceptionType.NOT_FOUND_USER);
         }
     }
 

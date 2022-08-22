@@ -1,6 +1,6 @@
-package com.example.cms.pages.projections;
+package com.example.cms.page.projections;
 
-import com.example.cms.pages.Page;
+import com.example.cms.page.Page;
 import lombok.Value;
 
 @Value

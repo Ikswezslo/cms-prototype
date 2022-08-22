@@ -1,31 +1,38 @@
 package com.example.cms.user;
 
-import com.example.cms.University.University;
+import com.example.cms.university.University;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 public class User {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "enrolledUsers")
     private Set<University> universities = new HashSet<>();
-    @Id @GeneratedValue
-    Long id;
-    String username;
-    String password;
-    String firstName;
-    String lastName;
-    String email;
-    String address;
-    String phoneNumber;
-    String accountType;
-    Long universityID;
-    Boolean isAccountDisabled;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String address;
+    private String phoneNumber;
+    private String accountType;
+    private Long universityID;
+    private Boolean isAccountDisabled;
 
     public User(User user) {
         this.id = user.id;
@@ -91,95 +98,6 @@ public class User {
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public Long getUniversityID() {
-        return universityID;
-    }
-
-    public void setUniversityID(Long universityID) {
-        this.universityID = universityID;
-    }
-
-    public Boolean getAccountDisabled() {
-        return isAccountDisabled;
-    }
-
-    public void setAccountDisabled(Boolean accountDisabled) {
-        isAccountDisabled = accountDisabled;
-    }
-    public Set<University> getUniversities() { return universities; }
-
     @Override
     public String toString() {
         return "User{" +
@@ -195,5 +113,18 @@ public class User {
                 ", universityID=" + universityID +
                 ", isAccountDisabled=" + isAccountDisabled +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

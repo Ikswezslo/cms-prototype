@@ -1,7 +1,7 @@
-package com.example.cms.pages.projections;
+package com.example.cms.page.projections;
 
-import com.example.cms.University.University;
-import com.example.cms.pages.Page;
+import com.example.cms.university.University;
+import com.example.cms.page.Page;
 import com.example.cms.user.User;
 import lombok.Value;
 
