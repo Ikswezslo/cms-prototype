@@ -2,6 +2,7 @@ package com.example.cms.University;
 
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
+import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,18 +24,9 @@ public class UniversityService {
 
 
     public University enrollUsersToUniversity(Long universityId, Long userId) {
-        boolean universityExists = universityRepository.existsById(universityId);
-        boolean userExists = userRepository.existsById(userId);
-        if(!universityExists){
-            throw new IllegalStateException("University with id " + universityId + " does not exists.");
-        }
-        if(!userExists){
-            throw new IllegalStateException("User with id " + userId + " does not exists.");
 
-        }
-
-        University university = universityRepository.findById(universityId).get();
-        User user = userRepository.findById(userId).get();
+        University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
 
         university.enrollUsers(user);
         return universityRepository.save(university);
