@@ -23,7 +23,7 @@
 <mat-menu #usersMenu="matMenu" >
     <div *ngFor="let user of users">
         <button mat-menu-item class="subButton" [routerLink]="['/account', user.id]">
-                {{ user.fullName }}
+                {{ user.username }}
         </button>
     </div>
 </mat-menu>
@@ -37,7 +37,7 @@
 </mat-menu>
 
 <button *ngIf="userLogged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
-        class="material-icons">person</i>{{userLogged.fullName}}</button>
+        class="material-icons">person</i>{{userLogged.firstName}}</button>
 <mat-menu #userMenu="matMenu" yPosition="above">
     <button mat-menu-item class="subButton" [routerLink]="['/account/1']">Profil</button>
     <button mat-menu-item class="subButton">Ustawienia</button>

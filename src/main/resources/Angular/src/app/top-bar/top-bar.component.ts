@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { page } from '../models/page';
 import { universitie } from '../models/universitie';
-import { user } from '../models/user';
+import { User } from '../models/user';
 import { PageService } from '../service/page.service';
 
 @Component({
@@ -12,15 +12,20 @@ import { PageService } from '../service/page.service';
 })
 export class TopBarComponent implements OnInit {
 
-  userLogged: user= {
+  userLogged: User= {
     id: 0,
-    fullName: 'Wiktoria Moczulak',
-    userName: 'wmoczulak',
-    role: "Admin"
+    firstName: 'Wiktoria',
+    lastName: 'Moczulak',
+    username: 'wmoczulak',
+    accountType: "Admin",
+    password: '',
+    email: '',
+    phoneNumber: '',
+    isAccountDisabled: false
   };
   imageSrc = 'assets/images/pp.png'
   universitys: universitie[]= [];
-  users: user[] = [];
+  users: User[] = [];
   pages: page[] = [];
 
   constructor(private getService: PageService) { }

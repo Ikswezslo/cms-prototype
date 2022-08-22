@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { user } from '../models/user';
+import { User } from '../models/user';
 import { PageService } from '../service/page.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { PageService } from '../service/page.service';
 })
 export class UsersListComponent implements OnInit {
 
-  users: user[] = [];
+  users: User[] = [];
   public selected = true;
 
   constructor(

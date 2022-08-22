@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { universitie } from '../models/universitie';
@@ -16,7 +15,7 @@ export class UniversitieDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private universitieService: PageService) { 
+    private universitieService: PageService) {
   }
 
   ngOnInit(): void{
