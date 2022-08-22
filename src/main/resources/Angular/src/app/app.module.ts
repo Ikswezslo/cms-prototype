@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule }    from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 // import ngx-translate and the http loader
@@ -24,6 +25,7 @@ import { PageDetailsComponent } from './page-details/page-details.component';
 import { PageListComponent } from './page-list/page-list.component';
 import { UniversitieDetailsComponent } from './universitie-details/universitie-details.component';
 import { UniversitieListComponent } from './universitie-list/universitie-list.component';
+import { UserCreateComponent } from './user-create/user-create.component';
 
 
 @NgModule({
@@ -35,10 +37,13 @@ import { UniversitieListComponent } from './universitie-list/universitie-list.co
     UsersListComponent,
     PageDetailsComponent,
     PageListComponent,
-    UniversitieListComponent
+    UniversitieListComponent,
+    UniversitieDetailsComponent,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     MatMenuModule,
     MatSidenavModule,
@@ -51,6 +56,7 @@ import { UniversitieListComponent } from './universitie-list/universitie-list.co
       { path: 'universities', component: UniversitieListComponent },
       { path: 'universitie/:universitieId', component: UniversitieDetailsComponent },
       { path: 'accounts', component: UsersListComponent },
+      { path: 'accounts/create', component: UserCreateComponent },
       { path: 'account/:userId', component: UserDetailsComponent },
       { path: 'pages', component: PageListComponent },
       { path: 'page/:pageId', component: PageDetailsComponent }

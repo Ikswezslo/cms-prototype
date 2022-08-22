@@ -33,6 +33,8 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
 
         var user = new User();
         user.setId(1L);
+        user.setUsername("tomm");
+        user.setPassword("1234");
         user.setFirstName("Tom");
         userRepository.save(user);
 
