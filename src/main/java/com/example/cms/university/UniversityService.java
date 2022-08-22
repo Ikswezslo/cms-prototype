@@ -19,7 +19,8 @@ public class UniversityService {
         this.universityRepository = universityRepository;
         this.userRepository = userRepository;
     }
-    public List<University> getUniversities(){
+
+    public List<University> getUniversities() {
         return universityRepository.findAll();
     }
 
@@ -33,11 +34,13 @@ public class UniversityService {
         return universityRepository.save(university);
     }
 
-    public University getUniversity(long id) {return universityRepository.findById(id).orElseThrow(NotFoundException::new);}
+    public University getUniversity(long id) {
+        return universityRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
 
     public void addNewUniversity(University university) {
         Optional<University> universitiesByName = universityRepository.findUniversitiesByName(university.getName());
-        if(universitiesByName.isPresent()){
+        if (universitiesByName.isPresent()) {
             throw new IllegalStateException("name taken");
         }
         universityRepository.save(university);

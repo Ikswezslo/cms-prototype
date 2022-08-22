@@ -1,6 +1,5 @@
 package com.example.cms.university;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,22 +14,27 @@ public class UniversityController {
     public UniversityController(UniversityService universityService) {
         this.universityService = universityService;
     }
+
     @GetMapping
-    public List<University> getUniversities(){
+    public List<University> getUniversities() {
         return universityService.getUniversities();
     }
 
     @GetMapping("/{id}")
-    public University getUniversity(@PathVariable long id) {return universityService.getUniversity(id);}
+    public University getUniversity(@PathVariable long id) {
+        return universityService.getUniversity(id);
+    }
 
     @PostMapping
-    public void registerNewUniversity(@RequestBody University university) {universityService.addNewUniversity(university);}
+    public void registerNewUniversity(@RequestBody University university) {
+        universityService.addNewUniversity(university);
+    }
 
     @PutMapping("/{universityId}/users/{userId}")
     public University enrollUsersToUniversity(
             @PathVariable Long universityId,
             @PathVariable Long userId
-    ){
+    ) {
         return universityService.enrollUsersToUniversity(universityId, userId);
     }
 }

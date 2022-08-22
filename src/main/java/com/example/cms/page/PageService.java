@@ -1,10 +1,10 @@
 package com.example.cms.page;
 
-import com.example.cms.university.UniversityRepository;
 import com.example.cms.page.exceptions.PageException;
 import com.example.cms.page.exceptions.PageExceptionType;
 import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoSimple;
+import com.example.cms.university.UniversityRepository;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -78,10 +78,10 @@ public class PageService {
         if (parent != null) {
             checkExisting(parent.getId(), pageRepository, PageExceptionType.NOT_FOUND_PARENT);
         }
-        if(page.getUniversity() != null) {
+        if (page.getUniversity() != null) {
             checkExisting(page.getUniversity().getId(), universityRepository, PageExceptionType.NOT_FOUND_UNIVERSITY);
         }
-        if(page.getCreator() != null) {
+        if (page.getCreator() != null) {
             checkExisting(page.getCreator().getId(), userRepository, PageExceptionType.NOT_FOUND_USER);
         }
     }

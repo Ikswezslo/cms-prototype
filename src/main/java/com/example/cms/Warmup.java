@@ -1,9 +1,9 @@
 package com.example.cms;
 
-import com.example.cms.university.University;
-import com.example.cms.university.UniversityRepository;
 import com.example.cms.page.Page;
 import com.example.cms.page.PageRepository;
+import com.example.cms.university.University;
+import com.example.cms.university.UniversityRepository;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
                 "Piotrowo 1", "123456789", "admin",
                 0L, false
         );
-        User riker = new User(2L, "admin", "admin",
+        User riker = new User(2L, "admin2", "admin",
                 "Riker", "Bobowski", "riker123@gmail.com",
                 "Piotrowo 1", "727456789", "admin",
                 0L, false
@@ -49,9 +49,9 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
                 List.of(bob, riker)
         );
 
-        University put = new University("Poznan University of Technology", "PUT", true);
-        University zut = new University("West Pomeranian University of Technology" , "ZUT", true);
-        universityRepository.saveAll(List.of(put,zut));
+        University put = new University("Poznan University of Technology", "PUT", false);
+        University zut = new University("West Pomeranian University of Technology", "ZUT", true);
+        universityRepository.saveAll(List.of(put, zut));
 
         var p1 = new Page();
         p1.setId(1L);

@@ -1,7 +1,8 @@
 package com.example.cms.university;
 
 import com.example.cms.user.User;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -52,6 +53,7 @@ public class University {
         this.shortName = shortName;
         this.hidden = isHidden;
     }
+
     @Override
     public String toString() {
         return "University{" +
