@@ -35,3 +35,7 @@ build/
 
 ### H2 ####
 /h2db.mv.db
+
+# System files
+.DS_Store
+Thumbs.db

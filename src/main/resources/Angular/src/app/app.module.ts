@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }    from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 // import ngx-translate and the http loader
@@ -45,6 +45,7 @@ import { UserCreateComponent } from './user-create/user-create.component';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     MatMenuModule,
     MatSidenavModule,
     MatInputModule,

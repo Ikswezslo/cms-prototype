@@ -20,7 +20,7 @@ public class ValidationError {
         }
     }
 
-    private final String message = "ConstraintViolationException";
+    private static final String message = "ConstraintViolationException";
     private HttpStatus status;
     private List<Violation> violations;
 }

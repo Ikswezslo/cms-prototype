@@ -8,7 +8,7 @@ import java.util.List;
 
 @CrossOrigin // TODO: needs to be changed later
 @RestController
-@RequestMapping(path="/users")
+@RequestMapping(path = "/users")
 public class UserController {
 
     private final UserService userService;
@@ -19,27 +19,27 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping(path="/{id}")
-    User getUser(@PathVariable long id){
-        return  userService.getUser(id);
+    @GetMapping(path = "/{id}")
+    User getUser(@PathVariable long id) {
+        return userService.getUser(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user){
-        return  userService.createUser(user);
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody User toUpdate){
-        return  userService.updateUser(id, toUpdate);
+    ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody User toUpdate) {
+        return userService.updateUser(id, toUpdate);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteUser(@PathVariable long id){
+    ResponseEntity<?> deleteUser(@PathVariable long id) {
         return userService.deleteUser(id);
     }
 }
