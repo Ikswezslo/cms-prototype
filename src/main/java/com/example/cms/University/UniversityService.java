@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UniversityService {
@@ -30,5 +31,15 @@ public class UniversityService {
 
         university.enrollUsers(user);
         return universityRepository.save(university);
+    }
+
+    public University getUniversity(long id) {return universityRepository.findById(id).orElseThrow(NotFoundException::new);}
+
+    public void addNewUniversity(University university) {
+        Optional<University> universitiesByName = universityRepository.findUniversitiesByName(university.getName());
+        if(universitiesByName.isPresent()){
+            throw new IllegalStateException("name taken");
+        }
+        universityRepository.save(university);
     }
 }
