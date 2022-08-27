@@ -2,6 +2,7 @@ package com.example.cms.user;
 
 import com.example.cms.university.University;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -18,9 +19,9 @@ import java.util.Set;
 @Setter
 public class User {
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(mappedBy = "enrolledUsers")
-    private Set<University> universities = new HashSet<>();
+    private Set<University> enrolledUniversities = new HashSet<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
