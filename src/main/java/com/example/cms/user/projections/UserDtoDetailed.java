@@ -7,7 +7,7 @@ import lombok.Value;
 import java.util.Set;
 
 @Value
-public class UserD {
+public class UserDtoDetailed {
     Long id;
     String username;
     String password;
@@ -21,7 +21,7 @@ public class UserD {
     Boolean isAccountDisabled;
     Set<University> enrolledUniversities;
 
-    public UserD(User user) {
+    public UserDtoDetailed(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();

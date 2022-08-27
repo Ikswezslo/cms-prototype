@@ -1,6 +1,7 @@
 package com.example.cms.user;
 
-import com.example.cms.user.projections.UserD;
+import com.example.cms.user.projections.UserDtoDetailed;
+import com.example.cms.user.projections.UserDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +21,17 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserD> getUsers() {
+    public List<UserDtoSimple> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping(path = "/{id}")
-    public UserD getUser(@PathVariable long id) {
+    public UserDtoDetailed getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
     @PostMapping
-    public ResponseEntity<UserD> createUser(@RequestBody User user) {
+    public ResponseEntity<UserDtoSimple> createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
