@@ -4,13 +4,13 @@ import com.example.cms.university.University;
 import lombok.Value;
 
 @Value
-public class UniversityDtoSimple {
+public class UniversityD {
     Long id;
     String name;
     String shortName;
     boolean hidden;
 
-    public UniversityDtoSimple(University university) {
+    public UniversityD(University university) {
         this.id = university.getId();
         this.name = university.getName();
         this.shortName = university.getShortName();
