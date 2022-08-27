@@ -37,4 +37,12 @@ public class UniversityController {
     ) {
         return universityService.enrollUsersToUniversity(universityId, userId);
     }
+
+    @PutMapping("/{universityId}/pages/{pageID}")
+    public University connectMainPageToUniversity(
+            @PathVariable Long universityId,
+            @PathVariable Long pageID
+    ){
+        return universityService.connectMainPageToUniversity(universityId, pageID);
+    }
 }
