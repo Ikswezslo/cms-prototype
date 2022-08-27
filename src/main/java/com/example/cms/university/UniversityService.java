@@ -4,8 +4,10 @@ import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,11 +40,12 @@ public class UniversityService {
         return universityRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
-    public void addNewUniversity(University university) {
+    public ResponseEntity<University> addNewUniversity(University university) {
         Optional<University> universitiesByName = universityRepository.findUniversitiesByName(university.getName());
         if (universitiesByName.isPresent()) {
             throw new IllegalStateException("name taken");
         }
-        universityRepository.save(university);
+        University result = universityRepository.save(university);
+        return ResponseEntity.created(URI.create("/"+result.getId())).body(new University()); //TODO Change body when UniversityToSimple Created
     }
 }

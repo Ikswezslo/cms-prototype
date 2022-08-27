@@ -1,5 +1,6 @@
 package com.example.cms.university;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +27,7 @@ public class UniversityController {
     }
 
     @PostMapping
-    public void registerNewUniversity(@RequestBody University university) {
-        universityService.addNewUniversity(university);
-    }
+    public ResponseEntity<University> registerNewUniversity(@RequestBody University university) {return universityService.addNewUniversity(university);}
 
     @PutMapping("/{universityId}/users/{userId}")
     public University enrollUsersToUniversity(
