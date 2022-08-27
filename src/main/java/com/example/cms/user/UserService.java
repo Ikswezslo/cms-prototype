@@ -2,13 +2,13 @@ package com.example.cms.user;
 
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.net.URI;
 import java.util.List;
 
-@Service
+@Component
 public class UserService {
     private final UserRepository repository;
 
@@ -29,7 +29,7 @@ public class UserService {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(new User(result));
     }
 
-    ResponseEntity<?> updateUser(long id, User toUpdate) {
+    public ResponseEntity<Void> updateUser(long id, User toUpdate) {
         User user = repository.findById(id).orElseThrow(NotFoundException::new);
         user.updateUser(toUpdate);
         repository.save(user);
