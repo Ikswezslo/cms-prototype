@@ -1,48 +1,62 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { universitie } from '../models/universitie';
-import { page } from '../models/page';
-import { User, UserForm } from '../models/user';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {universitie} from '../models/universitie';
+import {page} from '../models/page';
+import {User, UserForm} from '../models/user';
+import {RestErrorHandler} from "../models/restError";
+
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PageService {
+    private mainUrl = 'http://localhost:8080/'
+    private userUrl = 'http://localhost:8080/users';
 
-  private userUrl = 'http://localhost:8080/users';
+    httpOptions = {
+        withCredentials: true
+    };
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+    constructor(private http: HttpClient) {
+    }
 
-  constructor(private http: HttpClient) { }
+    getPage(id: Number, defaultErrorHandling: boolean = true): Observable<page> {
+        return this.http.get<page>(this.mainUrl + 'pages/' + id, this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 
-  getPage(id: Number) {
-    return this.http.get<page>('http://127.0.0.1:8080/pages/' + id);
-  }
+    getPages(defaultErrorHandling: boolean = true): Observable<page[]> {
+        return this.http.get<page[]>(this.mainUrl + 'pages', this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 
-  getPages() {
-    return this.http.get<page[]>('http://127.0.0.1:8080/pages');
+    getUniversitie(id: Number, defaultErrorHandling: boolean = true): Observable<universitie> {
+        return this.http.get<universitie>(this.mainUrl + 'universities/' + id, this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 
-  }
+    getUniversities(defaultErrorHandling: boolean = true): Observable<universitie[]> {
+        return this.http.get<universitie[]>(this.mainUrl + 'universities', this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 
-  getUniversitie(id: Number) {
-    return this.http.get<universitie>('http://127.0.0.1:8080/universities/' + id);
-  }
+    getUser(id: Number, defaultErrorHandling: boolean = true): Observable<User> {
+        return this.http.get<User>(`${this.userUrl}/${id}`, this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 
-  getUniversities() {
-    return this.http.get<universitie[]>('http://127.0.0.1:8080/universities');
-  }
+    getUsers(defaultErrorHandling: boolean = true): Observable<User[]> {
+        return this.http.get<User[]>(this.userUrl, this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 
-  getUser(id: Number): Observable<User> {
-    return this.http.get<User>(`${this.userUrl}/${id}`);
-  }
+    createUser(user: UserForm, defaultErrorHandling: boolean = true): Observable<User> {
+        return this.http.post<User>(this.userUrl, user, this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.userUrl);
-  }
-
-  createUser(user: UserForm): Observable<User> {
-    return this.http.post<User>(this.userUrl, user, this.httpOptions)
-  }
+    login(user: { username: string, password: string }, defaultErrorHandling: boolean = true): Observable<any> {
+        return this.http.post<any>(this.mainUrl + 'login', user, this.httpOptions)
+            .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    }
 }

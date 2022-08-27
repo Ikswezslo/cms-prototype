@@ -1,28 +1,26 @@
 import {Component, OnInit} from '@angular/core';
 import {UserForm} from '../models/user';
 import {PageService} from '../service/page.service';
-import {RestErrorHandler} from "../models/restError";
 
 @Component({
-  selector: 'app-user-create',
-  templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.scss']
+    selector: 'app-user-create',
+    templateUrl: './user-create.component.html',
+    styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements OnInit {
 
-  readonly user = {} as UserForm;
+    readonly user = {} as UserForm;
 
-  constructor(private userService: PageService) {
-  }
+    constructor(private userService: PageService) {
+    }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
-  createUser(): void {
-    console.log(this.user);
-    this.userService.createUser(this.user).subscribe({
-      next: user => console.log(user),
-      error: error => RestErrorHandler.handleError(RestErrorHandler.prepareError(error))
-    });
-  }
+    createUser(): void {
+        console.log(this.user);
+        this.userService.createUser(this.user).subscribe({
+            next: user => console.log(user)
+        });
+    }
 }
