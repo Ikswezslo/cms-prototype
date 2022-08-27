@@ -4,6 +4,7 @@ import com.example.cms.page.exceptions.PageException;
 import com.example.cms.page.exceptions.PageExceptionType;
 import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoSimple;
+import com.example.cms.security.SecurityService;
 import com.example.cms.university.UniversityRepository;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
@@ -20,13 +21,15 @@ public class PageService {
     private final PageRepository pageRepository;
     private final UniversityRepository universityRepository;
     private final UserRepository userRepository;
+    private final SecurityService securityService;
 
     public PageService(PageRepository repository,
                        UniversityRepository universityRepository,
-                       UserRepository userRepository) {
+                       UserRepository userRepository, SecurityService securityService) {
         this.pageRepository = repository;
         this.universityRepository = universityRepository;
         this.userRepository = userRepository;
+        this.securityService = securityService;
     }
 
     public List<PageDtoSimple> getAll() {
@@ -52,12 +55,9 @@ public class PageService {
         if (toUpdate.getParent() != null && id == toUpdate.getParent().getId()) {
             throw new PageException(PageExceptionType.ID_SAME_AS_PARENT);
         }
-
-        pageRepository.findById(id)
-                .ifPresentOrElse(page -> {
-                    page.updateFrom(toUpdate);
-                    pageRepository.save(page);
-                }, NotFoundException::new);
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        page.updateFrom(toUpdate);
+        pageRepository.save(page);
 
         return ResponseEntity.noContent().build();
     }

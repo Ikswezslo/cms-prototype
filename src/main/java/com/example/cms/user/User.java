@@ -1,5 +1,6 @@
 package com.example.cms.user;
 
+import com.example.cms.security.Role;
 import com.example.cms.university.University;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     @NotEmpty
     private String username;
     @NotEmpty
@@ -33,9 +35,9 @@ public class User {
     private String email;
     private String address;
     private String phoneNumber;
-    private String accountType;
+    private Role accountType;
     private Long universityID;
-    private Boolean isAccountDisabled;
+    private boolean enabled;
 
     public User(User user) {
         this.id = user.id;
@@ -48,13 +50,13 @@ public class User {
         this.phoneNumber = user.phoneNumber;
         this.accountType = user.accountType;
         this.universityID = user.universityID;
-        this.isAccountDisabled = user.isAccountDisabled;
+        this.enabled = user.enabled;
     }
 
     public User(Long id, String username, String password,
                 String firstName, String lastName, String email,
-                String address, String phoneNumber, String accountType,
-                Long universityID, Boolean isAccountDisabled) {
+                String address, String phoneNumber, Role accountType,
+                Long universityID, boolean enabled) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -65,13 +67,13 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.accountType = accountType;
         this.universityID = universityID;
-        this.isAccountDisabled = isAccountDisabled;
+        this.enabled = enabled;
     }
 
     public User(String username, String password, String firstName,
                 String lastName, String email, String address,
-                String phoneNumber, String accountType, Long universityID,
-                Boolean isAccountDisabled) {
+                String phoneNumber, Role accountType, Long universityID,
+                boolean enabled) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -81,7 +83,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.accountType = accountType;
         this.universityID = universityID;
-        this.isAccountDisabled = isAccountDisabled;
+        this.enabled = enabled;
     }
 
     public void updateUser(final User user) {
@@ -94,7 +96,7 @@ public class User {
         this.phoneNumber = user.phoneNumber;
         this.accountType = user.accountType;
         this.universityID = user.universityID;
-        this.isAccountDisabled = user.isAccountDisabled;
+        this.enabled = user.enabled;
     }
 
     public User() {
@@ -114,7 +116,7 @@ public class User {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", accountType='" + accountType + '\'' +
                 ", universityID=" + universityID +
-                ", isAccountDisabled=" + isAccountDisabled +
+                ", enabled=" + enabled +
                 '}';
     }
 

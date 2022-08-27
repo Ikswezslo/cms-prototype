@@ -2,12 +2,14 @@ package com.example.cms.page;
 
 import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoSimple;
+import com.example.cms.security.LoggedUser;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin // TODO: needs to be changed later
 @RestController
 @RequestMapping("/pages")
 public class PageController {
@@ -19,7 +21,7 @@ public class PageController {
     }
 
     @GetMapping
-    List<PageDtoSimple> readAllPages() {
+    List<PageDtoSimple> readAllPages(@AuthenticationPrincipal LoggedUser principal) {
         return service.getAll();
     }
 
@@ -28,6 +30,7 @@ public class PageController {
         return service.get(id);
     }
 
+    @Secured("ROLE_USER")
     @PostMapping
     ResponseEntity<PageDtoSimple> createPage(@RequestBody Page page) {
         return service.save(page);
