@@ -1,14 +1,17 @@
 package com.example.cms.user;
 
+import com.example.cms.user.projections.UserD;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Component
+@Service
 public class UserService {
     private final UserRepository repository;
 
@@ -16,20 +19,20 @@ public class UserService {
         this.repository = repository;
     }
 
-    public List<User> getUsers() {
-        return repository.findAll();
+    public List<UserD> getUsers() {
+        return repository.findAll().stream().map(UserD::new).collect(Collectors.toList());
     }
 
-    User getUser(@PathVariable long id) {
-        return repository.findById(id).orElseThrow(NotFoundException::new);
+    public UserD getUser(@PathVariable long id) {
+        return repository.findById(id).map(UserD::new).orElseThrow(NotFoundException::new);
     }
 
-    public ResponseEntity<?> createUser(User user) {
+    public ResponseEntity<UserD> createUser(User user) {
         User result = repository.save(user);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new User(result));
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(new UserD(result));
     }
 
-    ResponseEntity<?> updateUser(long id, User toUpdate) {
+    public ResponseEntity<Void> updateUser(long id, User toUpdate) {
         repository.findById(id)
                 .ifPresentOrElse(user -> {
                     user.updateUser(toUpdate);
@@ -38,7 +41,7 @@ public class UserService {
         return ResponseEntity.noContent().build();
     }
 
-    ResponseEntity<?> deleteUser(@PathVariable long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         User user = repository.findById(id).orElseThrow(NotFoundException::new);
         repository.delete(user);
         return ResponseEntity.noContent().build();

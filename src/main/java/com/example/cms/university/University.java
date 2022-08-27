@@ -1,6 +1,7 @@
 package com.example.cms.university;
 
 import com.example.cms.user.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -29,6 +30,7 @@ public class University {
     )
     private Long id;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany
     @JoinTable(
             name = "users_enrolled",
