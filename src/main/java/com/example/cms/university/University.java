@@ -1,6 +1,8 @@
 package com.example.cms.university;
 
+import com.example.cms.page.Page;
 import com.example.cms.user.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -36,6 +38,14 @@ public class University {
             inverseJoinColumns = @JoinColumn(name = "university_id")
     )
     private Set<User> enrolledUsers = new HashSet<>();
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne
+    @JoinColumn(
+            name = "main_page_id",
+            referencedColumnName = "id"
+    )
+    private Page mainPage;
+
     @NotBlank(message = "Name must not be empty")
     private String name;
     @NotBlank(message = "Short name must not be empty")
@@ -67,6 +77,7 @@ public class University {
     public void enrollUsers(User user) {
         enrolledUsers.add(user);
     }
+
 
     @Override
     public boolean equals(Object o) {
