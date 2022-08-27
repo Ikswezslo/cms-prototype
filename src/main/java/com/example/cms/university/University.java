@@ -31,6 +31,7 @@ public class University {
     )
     private Long id;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany
     @JoinTable(
             name = "users_enrolled",
