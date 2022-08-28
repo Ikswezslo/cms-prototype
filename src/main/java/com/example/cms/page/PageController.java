@@ -4,7 +4,6 @@ import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoSimple;
 import com.example.cms.security.LoggedUser;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +29,6 @@ public class PageController {
         return service.get(id);
     }
 
-    @Secured("ROLE_USER")
     @PostMapping
     ResponseEntity<PageDtoSimple> createPage(@RequestBody Page page) {
         return service.save(page);

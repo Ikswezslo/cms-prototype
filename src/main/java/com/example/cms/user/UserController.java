@@ -31,6 +31,7 @@ public class UserController {
         return userService.getUser(id);
     }
 
+    @Secured("ROLE_USER")
     @PostMapping
     public ResponseEntity<UserDtoSimple> createUser(@RequestBody User user) {
         return userService.createUser(user);
