@@ -16,7 +16,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(
             HttpServletRequest request,
             HttpServletResponse response,
-            AccessDeniedException ex) throws IOException, ServletException {
-        throw ex;
+            AccessDeniedException exception) throws IOException, ServletException {
+        throw exception;
     }
 }
