@@ -22,7 +22,7 @@ public class LoggedUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.addAll(createRoleAuthorities(user.getAccountType()));
-        authorities.addAll(user.getUniversities().stream().map((
+        authorities.addAll(user.getEnrolledUniversities().stream().map((
                         university -> new SimpleGrantedAuthority(String.format("UNIVERSITY_%d", university.getId()))))
                 .collect(Collectors.toList())
         );

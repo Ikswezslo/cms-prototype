@@ -36,8 +36,6 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
-        log.info("Creating dummy data");
-
         User admin = new User(1L, "admin", passwordEncoder.encode("12345"),
                 "Bob", "Kovalski", "bob123@gmail.com",
                 "Piotrowo 1", "123456789", Role.ADMIN,
@@ -100,5 +98,7 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
         p4.setParent(p1);
         p4.setUniversity(put);
         pageRepository.save(p4);
+
+        log.info("Created dummy data");
     }
 }
