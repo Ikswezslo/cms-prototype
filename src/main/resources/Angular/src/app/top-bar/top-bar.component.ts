@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { page } from '../models/page';
-import { universitie } from '../models/universitie';
-import { User } from '../models/user';
-import { PageService } from '../service/page.service';
+import { page } from 'src/assets/models/page';
+import { university } from 'src/assets/models/university';
+import { User } from 'src/assets/models/user';
+import { UniversityService } from 'src/assets/service/university.service';
+import { UserService } from 'src/assets/service/user.service';
+import { PageService } from '../../assets/service/page.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -24,26 +25,29 @@ export class TopBarComponent implements OnInit {
     isAccountDisabled: false
   };
   imageSrc = 'assets/images/pp.png'
-  universitys: universitie[]= [];
+  universities: university[]= [];
   users: User[] = [];
   pages: page[] = [];
 
-  constructor(private getService: PageService) { }
+  constructor(
+    private pageService: PageService,
+    private userService: UserService,
+    private universityService: UniversityService) { }
 
   ngOnInit(): void {
-    this.getService.getUser(1)
+    this.userService.getUser(1)
       .subscribe(res => {
         this.userLogged = res;
       })
-    this.getService.getPages()
+    this.pageService.getPages()
       .subscribe(res => {
         this.pages = res.filter(element => !element.hidden);
       });
-    this.getService.getUniversities()
+    this.universityService.getUniversities()
       .subscribe(res => {
-        this.universitys = res;
+        this.universities = res;
       });
-    this.getService.getUsers()
+    this.userService.getUsers()
       .subscribe(res => {
         this.users = res;
       })

@@ -13,12 +13,23 @@ body {
 }
 
 .container {
-    display: flex;
-    flex-direction: row;
+    background-color: #9ec6f7;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+router-outlet {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
 }
 
 router-outlet+* {
-    padding: 0 16px;
+    padding: 0;
+    margin: 0;
 }
 
 :link {
@@ -131,33 +142,12 @@ app-top-bar {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0; 
+    z-index: 1000; 
 }
 
 app-top-bar h1 {
     color: rgb(0, 0, 0);
     margin: 0;
 }
-
-
-/* Checkout Cart, Shipping Prices */
-
-.cart-item,
-.shipping-item {
-    width: 100%;
-    min-width: 400px;
-    max-width: 450px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 16px 32px;
-    margin-bottom: 8px;
-    border-radius: 2px;
-    background-color: #EEEEEE;
-}
-
-
-/*
-  Copyright Google LLC. All Rights Reserved.
-  Use of this source code is governed by an MIT-style license that
-  can be found in the LICENSE file at https://angular.io/license
-  */
