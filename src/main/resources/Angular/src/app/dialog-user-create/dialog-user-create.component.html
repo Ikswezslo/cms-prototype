@@ -1,17 +1,18 @@
-
 <div class="form-input">
     <div class="row">
         <mat-form-field appearance="fill">
             <mat-label>Username</mat-label>
-            <input matInput required [(ngModel)]="user.username">
+            <input matInput required [(ngModel)]="user.username" [formControl]="usernameValid">
+            <mat-error *ngIf="usernameValid.hasError('required')">Username is required</mat-error>
         </mat-form-field>
         
         <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" required [(ngModel)]="user.password">
+            <input matInput [type]="hide ? 'password' : 'text'" required [(ngModel)]="user.password" [formControl]="passwordValid">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
+            <mat-error *ngIf="passwordValid.hasError('required')">Password is required</mat-error>
         </mat-form-field>
     </div>
     
@@ -30,8 +31,9 @@
     <div class="row">
         <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input matInput [formControl]="email" [(ngModel)]="user.email">
+            <input matInput placeholder="user@example.com" [formControl]="emailValid" [(ngModel)]="user.email">
             <mat-icon matSuffix> email</mat-icon>
+            <mat-error *ngIf="emailValid.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
         
         <mat-form-field appearance="fill">
@@ -43,13 +45,13 @@
         
     <mat-form-field appearance="fill">
         <mat-label>Account type</mat-label>
-        <mat-select required [(ngModel)]="user.accountType">
+        <mat-select required [formControl]="accountTypeValid" [(ngModel)]="user.accountType">
             <mat-option value="one">Main admin</mat-option>
             <mat-option value="two">University admin</mat-option>
             <mat-option value="three">User</mat-option>
         </mat-select>
+        <mat-error *ngIf="accountTypeValid.hasError('required')">Account type is required</mat-error>
     </mat-form-field>
-    
 </div>
 <span>
     <button mat-stroked-button class="button-option" (click)="close()">Close</button>

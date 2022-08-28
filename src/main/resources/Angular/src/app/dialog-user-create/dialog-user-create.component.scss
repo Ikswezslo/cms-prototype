@@ -32,3 +32,16 @@ mat-form-field {
     color: rgb(0, 0, 0);
     border: none;
 }
+
+button:hover.button-option {
+    background-color: #99eeff;
+    color: #ffffff;
+    padding: 8px 16px;
+  }
+  
+  button:disabled,
+  button[disabled].button-option{
+    padding: 8px 16px;
+    background-color: #cccccc;
+    color: #666666;
+  }
