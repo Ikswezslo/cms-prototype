@@ -2,9 +2,7 @@ package com.example.cms.page;
 
 import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoSimple;
-import com.example.cms.security.LoggedUser;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +18,7 @@ public class PageController {
     }
 
     @GetMapping
-    List<PageDtoSimple> readAllPages(@AuthenticationPrincipal LoggedUser principal) {
+    List<PageDtoSimple> readAllPages() {
         return service.getAll();
     }
 
