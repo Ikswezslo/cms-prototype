@@ -26,6 +26,7 @@ import { PageListComponent } from './page-list/page-list.component';
 import { UniversitieDetailsComponent } from './universitie-details/universitie-details.component';
 import { UniversitieListComponent } from './universitie-list/universitie-list.component';
 import { UserCreateComponent } from './user-create/user-create.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { UserCreateComponent } from './user-create/user-create.component';
     PageListComponent,
     UniversitieListComponent,
     UniversitieDetailsComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +60,7 @@ import { UserCreateComponent } from './user-create/user-create.component';
       { path: 'universitie/:universitieId', component: UniversitieDetailsComponent },
       { path: 'accounts', component: UsersListComponent },
       { path: 'accounts/create', component: UserCreateComponent },
+      { path: 'account/settings', component: UserSettingsComponent },
       { path: 'account/:userId', component: UserDetailsComponent },
       { path: 'pages', component: PageListComponent },
       { path: 'page/:pageId', component: PageDetailsComponent }
