@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { page } from '../models/page';
-import { PageService } from '../service/page.service';
+import { Router } from '@angular/router';
+import { ColDef, GridApi, RowSelectedEvent } from 'ag-grid-community';
+import { page } from 'src/assets/models/page';
+import { PageService } from '../../assets/service/page.service';
 
 
 @Component({
@@ -13,13 +15,30 @@ export class PageListComponent implements OnInit {
 
   pages: page[] = [];
   public selected = false;
+  gridApi = GridApi;
 
+  public columnDefs: ColDef[] = [
+    { field: 'id', type: 'numericColumn', filter: 'agNumberColumnFilter' },
+    { field: 'title'},
+    { field: 'creatorID', type: 'numericColumn', filter: 'agNumberColumnFilter' },
+  ];
+
+  public defaultColDef: ColDef = {
+    width: 300,
+    editable: false,
+    filter: 'agTextColumnFilter',
+    suppressMovable: true,
+    type: 'textColumn'
+  };
+  
   constructor(
     private http: HttpClient,
+    private router: Router,
     private pageService: PageService) {}
 
   ngOnInit(): void {
     this.loadPages();
+
   }
 
   loadPages(showHidden: Boolean = false) {
@@ -27,5 +46,12 @@ export class PageListComponent implements OnInit {
       .subscribe(res => {
         this.pages = showHidden ? res : res.filter(element => !element.hidden);
     });
+  }
+  
+  onRowSelected(event: RowSelectedEvent) {
+    this.router.navigateByUrl('/page/' + event.data.id);
+  }
+  onGridReady(params: any) {
+    params.columnApi.autoSizeAllColumns();
   }
 }
