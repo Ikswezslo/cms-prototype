@@ -1,22 +1,21 @@
+<h1>Pages</h1>
 <div class="options">
     <mat-form-field appearance="standard" class="option">
         <mat-label>Show</mat-label>
-        <mat-select formControlName="hiddenSelection" [(value)]="selected" (selectionChange)="loadPages($event.value)">
+        <mat-select [(value)]="selected" (selectionChange)="loadPages($event.value)">
             <mat-option [value]=true>All</mat-option>
             <mat-option [value]=false>Without hidden</mat-option>
         </mat-select>
     </mat-form-field>
 </div>
-<h1>Pages</h1>
-<span class="flex-container">
-    <div *ngFor="let page of pages" class="flex-item">
-        <h3>
-            <a [title]="page.title + ' details'" [routerLink]="['/page', page.id]">
-                ID: {{ page.id }} <br>
-                Tytuł: {{ page.title }} <br>
-                Autor: {{ page.creator }} <br>
-                Zawartość: {{ page.content }} <br>
-            </a>
-        </h3>
-    </div>
-</span>
+    <ag-grid-angular 
+        style="width: 500px; height: 100%;" 
+        domLayout='autoHeight'
+        class="ag-theme-alpine"
+        [rowData]="pages" 
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="'single'"
+        (rowSelected)="onRowSelected($event)"
+        (gridReady)="onGridReady($event)">
+    </ag-grid-angular>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { page } from '../models/page';
-import { PageService } from '../service/page.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { page } from 'src/assets/models/page';
+import { PageService } from '../../assets/service/page.service';
 
 @Component({
   selector: 'app-page-details',
@@ -14,8 +14,10 @@ export class PageDetailsComponent implements OnInit {
   public id: Number = 0;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private pageService: PageService) { 
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void{

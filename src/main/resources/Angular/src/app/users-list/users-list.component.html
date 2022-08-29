@@ -1,10 +1,23 @@
 <div>
     <h1>Lista użytkowników</h1>
-    <div *ngFor="let user of users">
+    <!-- <div *ngFor="let user of users">
         <h3 class="item">
             <a [title]="user.username + ' details'" [routerLink]="['/account', user.id]">
                 {{ user.username }}
             </a>
         </h3>
-    </div>
+    </div> -->
 </div>
+<button mat-button (click)="addUser()">Dodaj</button>
+
+<ag-grid-angular 
+    style="width: 1000px; height: 100%;" 
+    domLayout='autoHeight'
+    class="ag-theme-alpine"
+    [rowData]="users" 
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="'single'"
+    (rowSelected)="onRowSelected($event)"
+    (gridReady)="onGridReady($event)">>
+</ag-grid-angular>

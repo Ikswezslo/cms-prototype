@@ -1,0 +1,21 @@
+<h1>Uniwersytety</h1>
+<div class="options">
+    <mat-form-field appearance="standard" class="option">
+        <mat-label>Show</mat-label>
+        <mat-select [(value)]="selected" (selectionChange)="loadUniversities($event.value)">
+            <mat-option [value]=true>All</mat-option>
+            <mat-option [value]=false>Without hidden</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<ag-grid-angular 
+    style="width: 600px; height: 100%;" 
+    domLayout='autoHeight'
+    class="ag-theme-alpine"
+    [rowData]="universities" 
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="'single'"
+    (rowSelected)="onRowSelected($event)"
+    (gridReady)="onGridReady($event)">>
+</ag-grid-angular>

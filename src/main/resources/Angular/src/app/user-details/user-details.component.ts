@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { User } from '../models/user';
-import { PageService } from '../service/page.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'src/assets/models/user';
+import { UserService } from 'src/assets/service/user.service';
 
 @Component({
   selector: 'app-user-details',
@@ -14,8 +14,10 @@ export class UserDetailsComponent implements OnInit {
   public id: Number = 0;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
-    private userService: PageService) {
+    private userService: UserService) {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void{

@@ -3,6 +3,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AgGridModule } from 'ag-grid-angular';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 // import ngx-translate and the http loader
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -23,11 +26,10 @@ import { MatToolbarModule } from  '@angular/material/toolbar';
 import { UsersListComponent } from './users-list/users-list.component';
 import { PageDetailsComponent } from './page-details/page-details.component';
 import { PageListComponent } from './page-list/page-list.component';
-import { UniversitieDetailsComponent } from './universitie-details/universitie-details.component';
-import { UniversitieListComponent } from './universitie-list/universitie-list.component';
-import { UserCreateComponent } from './user-create/user-create.component';
+import { UniversityListComponent } from './university-list/university-list.component';
+import { UniversityDetailsComponent } from './university-details/university-details.component';
+import { DialogUserCreateComponent } from './dialog-user-create/dialog-user-create.component';
 import { LoginComponent } from './login/login.component';
-
 
 @NgModule({
   declarations: [
@@ -38,9 +40,9 @@ import { LoginComponent } from './login/login.component';
     UsersListComponent,
     PageDetailsComponent,
     PageListComponent,
-    UniversitieListComponent,
-    UniversitieDetailsComponent,
-    UserCreateComponent,
+    UniversityListComponent,
+    UniversityDetailsComponent,
+    DialogUserCreateComponent,
     LoginComponent
   ],
   imports: [
@@ -54,12 +56,14 @@ import { LoginComponent } from './login/login.component';
     MatSelectModule,
     MatIconModule,
     MatToolbarModule,
+    AgGridModule,
+    MatDialogModule,
     RouterModule.forRoot([
       { path: '', component: MainPageComponent },
-      { path: 'universities', component: UniversitieListComponent },
-      { path: 'universitie/:universitieId', component: UniversitieDetailsComponent },
+      { path: 'universities', component: UniversityListComponent },
+      { path: 'university/:universityId', component: UniversityDetailsComponent },
       { path: 'accounts', component: UsersListComponent },
-      { path: 'accounts/create', component: UserCreateComponent },
+      { path: 'accounts/create', component: DialogUserCreateComponent },
       { path: 'account/:userId', component: UserDetailsComponent },
       { path: 'pages', component: PageListComponent },
       { path: 'page/:pageId', component: PageDetailsComponent },
