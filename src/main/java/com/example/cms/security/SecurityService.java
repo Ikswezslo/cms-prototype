@@ -23,6 +23,9 @@ public class SecurityService {
     }
 
     public boolean hasUniversity(Long id) {
+        if(hasRole(Role.ADMIN)) {
+            return true;
+        }
         LoggedUser principal = getPrincipal();
         String authority = String.format("UNIVERSITY_%s", id);
         return principal.getAuthorities().contains(new SimpleGrantedAuthority(authority));

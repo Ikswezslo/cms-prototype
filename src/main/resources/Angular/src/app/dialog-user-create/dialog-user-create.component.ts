@@ -33,11 +33,10 @@ export class DialogUserCreateComponent implements OnInit {
     if (this.usernameValid.status == "VALID" && this.passwordValid.status == "VALID" &&
         this.emailValid.status == "VALID" && this.accountTypeValid.status == "VALID") {
       this.userService.createUser(this.user).subscribe({
-        next: user => console.log(user),
-        error: error => RestErrorHandler.handleError(RestErrorHandler.prepareError(error))
+        next: user => console.log(user)
       });
       this.close();
-    } 
+    }
   }
 
   close() {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PageService} from "../service/page.service";
+import { UserService } from 'src/assets/service/user.service';
 
 @Component({
     selector: 'app-login',
@@ -10,7 +10,7 @@ export class LoginComponent implements OnInit {
 
     readonly user = {} as { username: string, password: string };
 
-    constructor(private userService: PageService) {
+    constructor(private userService: UserService) {
     }
 
     ngOnInit(): void {
