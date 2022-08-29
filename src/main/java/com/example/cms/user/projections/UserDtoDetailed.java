@@ -1,5 +1,6 @@
 package com.example.cms.user.projections;
 
+import com.example.cms.security.Role;
 import com.example.cms.university.University;
 import com.example.cms.user.User;
 import lombok.Value;
@@ -16,9 +17,9 @@ public class UserDtoDetailed {
     String email;
     String address;
     String phoneNumber;
-    String accountType;
+    Role accountType;
     Long universityID;
-    Boolean isAccountDisabled;
+    boolean enabled;
     Set<University> enrolledUniversities;
 
     public UserDtoDetailed(User user) {
@@ -32,7 +33,7 @@ public class UserDtoDetailed {
         this.phoneNumber = user.getPhoneNumber();
         this.accountType = user.getAccountType();
         this.universityID = user.getUniversityID();
-        this.isAccountDisabled = user.getIsAccountDisabled();
+        this.enabled = user.isEnabled();
         this.enrolledUniversities = user.getEnrolledUniversities();
     }
 }

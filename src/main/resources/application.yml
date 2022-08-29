@@ -14,3 +14,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+server:
+  servlet.session.cookie:
+    http-only: true
+    secure: false

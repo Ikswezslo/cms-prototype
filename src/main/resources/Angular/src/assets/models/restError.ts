@@ -1,34 +1,56 @@
-export interface RestError {
-  statusCode: number;
-  url: string;
+import {catchError, OperatorFunction, throwError} from "rxjs";
 
-  message: string;
-  status: string;
-  violations: Violation[]
+export interface RestError {
+    message: string;
+    error: string;
+    status: string;
+    url: string;
+    method: string;
+    exception: string;
+    fieldViolations: Violation[]
 }
 
 export interface Violation {
-  field: string;
-  message: string;
+    field: string;
+    message: string;
 }
 
 export class RestErrorHandler {
 
-  static prepareError(responseError: any): RestError {
-    let error: RestError = responseError.error as RestError;
-    error.statusCode = responseError.status;
-    error.url = responseError.url;
-    return error;
-  }
+    static getRestError(responseError: any): RestError {
+        console.log(responseError)
+        let error: RestError = responseError.error as RestError;
+        if (error == null) {
+            error = {} as RestError;
+        }
+        if (error.fieldViolations == null) {
+            error.fieldViolations = [];
+        }
+        error.status = responseError.status;
+        error.url = responseError.url;
+        return error;
+    }
 
-  static handleError(error: RestError) {
-    console.error(error);
-    alert(`
-      ${error.statusCode} - ${error.status}
-      ${error.message}
+    static getErrorHandling(defaultErrorHandling: boolean): OperatorFunction<any, any> {
+        return catchError(error => {
+            console.log(error)
+            let restError: RestError = RestErrorHandler.getRestError(error)
+            if (defaultErrorHandling) {
+                RestErrorHandler.handleError(restError);
+            }
+            return throwError(() => restError);
+        })
+    }
 
-      url: ${error.url}
-      ${error.violations.map(value => `\n${value.field}: ${value.message}`).join('')}
-    `)
-  }
+    static handleError(error: RestError) {
+        console.error(error);
+        alert(`
+        ${error.status} - ${error.error}
+        Message: ${error.message}
+        Exception: ${error.exception}
+
+        Request: ${error.method} ${error.url}
+        ${error.fieldViolations.map(value => `\n${value.field}: ${value.message}`).join('')}
+        `)
+    }
 }

@@ -4,14 +4,14 @@ import com.example.cms.user.projections.UserDtoDetailed;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class UserService {
     private final UserRepository repository;
 
@@ -22,7 +22,6 @@ public class UserService {
     public List<UserDtoSimple> getUsers() {
         return repository.findAll().stream().map(UserDtoSimple::new).collect(Collectors.toList());
     }
-
     public UserDtoDetailed getUser(@PathVariable long id) {
         return repository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
@@ -33,11 +32,10 @@ public class UserService {
     }
 
     public ResponseEntity<Void> updateUser(long id, User toUpdate) {
-        repository.findById(id)
-                .ifPresentOrElse(user -> {
-                    user.updateUser(toUpdate);
-                    repository.save(user);
-                }, NotFoundException::new);
+        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        user.updateUser(toUpdate);
+        repository.save(user);
+
         return ResponseEntity.noContent().build();
     }
 
