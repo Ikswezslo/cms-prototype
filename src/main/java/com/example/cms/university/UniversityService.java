@@ -1,5 +1,7 @@
 package com.example.cms.university;
 
+import com.example.cms.university.exceptions.UniversityException;
+import com.example.cms.university.exceptions.UniversityExceptionType;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
@@ -43,7 +45,7 @@ public class UniversityService {
     public ResponseEntity<University> addNewUniversity(University university) {
         Optional<University> universitiesByName = universityRepository.findUniversitiesByName(university.getName());
         if (universitiesByName.isPresent()) {
-            throw new IllegalStateException("name taken");
+            throw new UniversityException(UniversityExceptionType.NAME_TAKEN);
         }
         University result = universityRepository.save(university);
         return ResponseEntity.created(URI.create("/"+result.getId())).body(new University()); //TODO Change body when UniversityToSimple Created
