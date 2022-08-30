@@ -2,6 +2,8 @@ package com.example.cms.page;
 
 import com.example.cms.university.University;
 import com.example.cms.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -36,6 +38,10 @@ public class Page {
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<Page> children;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne(mappedBy = "mainPage", fetch = FetchType.LAZY)
+    private University universityMainPage;
 
     public void updateFrom(final Page source) {
         title = source.getTitle();

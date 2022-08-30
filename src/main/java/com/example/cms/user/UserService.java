@@ -1,5 +1,7 @@
 package com.example.cms.user;
 
+import com.example.cms.user.projections.UserDtoDetailed;
+import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserService {
@@ -16,29 +19,27 @@ public class UserService {
         this.repository = repository;
     }
 
-    public List<User> getUsers() {
-        return repository.findAll();
+    public List<UserDtoSimple> getUsers() {
+        return repository.findAll().stream().map(UserDtoSimple::new).collect(Collectors.toList());
+    }
+    public UserDtoDetailed getUser(@PathVariable long id) {
+        return repository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
-    User getUser(@PathVariable long id) {
-        return repository.findById(id).orElseThrow(NotFoundException::new);
-    }
-
-    public ResponseEntity<?> createUser(User user) {
+    public ResponseEntity<UserDtoSimple> createUser(User user) {
         User result = repository.save(user);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new User(result));
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(new UserDtoSimple(result));
     }
 
-    ResponseEntity<?> updateUser(long id, User toUpdate) {
-        repository.findById(id)
-                .ifPresentOrElse(user -> {
-                    user.updateUser(toUpdate);
-                    repository.save(user);
-                }, NotFoundException::new);
+    public ResponseEntity<Void> updateUser(long id, User toUpdate) {
+        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        user.updateUser(toUpdate);
+        repository.save(user);
+
         return ResponseEntity.noContent().build();
     }
 
-    ResponseEntity<?> deleteUser(@PathVariable long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         User user = repository.findById(id).orElseThrow(NotFoundException::new);
         repository.delete(user);
         return ResponseEntity.noContent().build();

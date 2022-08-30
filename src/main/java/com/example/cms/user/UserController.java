@@ -1,12 +1,14 @@
 package com.example.cms.user;
 
+import com.example.cms.user.projections.UserDtoDetailed;
+import com.example.cms.user.projections.UserDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin // TODO: needs to be changed later
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -19,27 +21,29 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
+    public List<UserDtoSimple> getUsers() {
         return userService.getUsers();
     }
 
+    @Secured("ROLE_MODERATOR")
     @GetMapping(path = "/{id}")
-    User getUser(@PathVariable long id) {
+    public UserDtoDetailed getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
+    @Secured("ROLE_USER")
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<UserDtoSimple> createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody User toUpdate) {
+    ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody User toUpdate) {
         return userService.updateUser(id, toUpdate);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteUser(@PathVariable long id) {
+    ResponseEntity<Void> deleteUser(@PathVariable long id) {
         return userService.deleteUser(id);
     }
 }
