@@ -44,4 +44,11 @@ public class UniversityController {
     ){
         return universityService.connectMainPageToUniversity(universityId, pageID);
     }
+    @PutMapping("/{id}/{un_hide}")
+    public ResponseEntity<UniversityD> hideOrUnhideUniversity(
+            @PathVariable Long id,
+            @PathVariable boolean un_hide){
+
+        return universityService.setUn_Hide(id, un_hide);
+    }
 }

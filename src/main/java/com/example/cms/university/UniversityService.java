@@ -71,4 +71,11 @@ public class UniversityService {
         University result = universityRepository.save(university);
         return ResponseEntity.created(URI.create("/"+result.getId())).body(new UniversityD(result));
     }
+
+    public ResponseEntity<UniversityD> setUn_Hide(Long id, boolean un_hide) {
+        University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
+        university.setHidden(un_hide);
+        University result = universityRepository.save(university);
+        return ResponseEntity.created(URI.create("/"+result.getId())).body(new UniversityD(result));
+    }
 }
