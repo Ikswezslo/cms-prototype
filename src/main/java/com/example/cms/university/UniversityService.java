@@ -47,13 +47,14 @@ public class UniversityService {
         return ResponseEntity.created(URI.create("/"+result.getId())).body(new UniversityD(result));
     }
 
-    public University connectMainPageToUniversity(Long universityId, Long pageId) {
+    public ResponseEntity<UniversityD> connectMainPageToUniversity(Long universityId, Long pageId) {
 
         University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
         Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
 
         university.setMainPage(page);
-        return universityRepository.save(university);
+        University result = universityRepository.save(university);
+        return ResponseEntity.created(URI.create("/"+result.getId())).body(new UniversityD(result));
     }
 
 

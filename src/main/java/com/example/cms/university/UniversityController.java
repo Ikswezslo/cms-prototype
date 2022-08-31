@@ -38,7 +38,7 @@ public class UniversityController {
     }
 
     @PutMapping("/{universityId}/pages/{pageID}")
-    public University connectMainPageToUniversity(
+    public ResponseEntity<UniversityD> connectMainPageToUniversity(
             @PathVariable Long universityId,
             @PathVariable Long pageID
     ){

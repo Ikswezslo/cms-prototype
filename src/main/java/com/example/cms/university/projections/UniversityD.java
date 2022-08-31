@@ -1,5 +1,6 @@
 package com.example.cms.university.projections;
 
+import com.example.cms.page.Page;
 import com.example.cms.university.University;
 import com.example.cms.user.User;
 import lombok.Value;
@@ -10,6 +11,7 @@ import java.util.Set;
 public class UniversityD {
     Long id;
     String name;
+
     String shortName;
     boolean hidden;
 
