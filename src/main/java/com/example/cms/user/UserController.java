@@ -1,6 +1,7 @@
 package com.example.cms.user;
 
 import com.example.cms.user.projections.UserDtoDetailed;
+import com.example.cms.user.projections.UserDtoForm;
 import com.example.cms.user.projections.UserDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +34,13 @@ public class UserController {
 
     @Secured("ROLE_USER")
     @PostMapping
-    public ResponseEntity<UserDtoSimple> createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoForm form) {
+        return userService.createUser(form);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody User toUpdate) {
-        return userService.updateUser(id, toUpdate);
+    ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody UserDtoForm form) {
+        return userService.updateUser(id, form);
     }
 
     @DeleteMapping("/{id}")

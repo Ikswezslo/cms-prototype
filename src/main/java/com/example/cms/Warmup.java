@@ -1,103 +1,123 @@
 package com.example.cms;
 
-import com.example.cms.page.Page;
-import com.example.cms.page.PageRepository;
+import com.example.cms.page.PageService;
+import com.example.cms.page.projections.PageDtoForm;
 import com.example.cms.security.Role;
-import com.example.cms.university.University;
-import com.example.cms.university.UniversityRepository;
-import com.example.cms.user.User;
-import com.example.cms.user.UserRepository;
+import com.example.cms.university.UniversityService;
+import com.example.cms.university.projections.UniversityDtoForm;
+import com.example.cms.user.UserService;
+import com.example.cms.user.projections.UserDtoForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Slf4j
 @Component
 class Warmup implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final PageRepository pageRepository;
-    private final UserRepository userRepository;
-    private final UniversityRepository universityRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PageService pageService;
+    private final UserService userService;
+    private final UniversityService universityService;
 
-    Warmup(final PageRepository pageRepository,
-           final UserRepository userRepository,
-           final UniversityRepository universityRepository,
-           PasswordEncoder passwordEncoder) {
-        this.pageRepository = pageRepository;
-        this.userRepository = userRepository;
-        this.universityRepository = universityRepository;
-        this.passwordEncoder = passwordEncoder;
+    Warmup(final PageService pageService,
+           final UserService userService,
+           final UniversityService universityService) {
+        this.pageService = pageService;
+        this.userService = userService;
+        this.universityService = universityService;
     }
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
-        User admin = new User(1L, "admin", passwordEncoder.encode("12345"),
-                "Bob", "Kovalski", "bob123@gmail.com",
-                "Piotrowo 1", "123456789", Role.ADMIN,
-                0L, false
+
+        UserDtoForm admin = new UserDtoForm(
+                "admin",
+                "12345",
+                "Bob",
+                "Kovalski",
+                "bob123@gmail.com",
+                "Piotrowo 1",
+                "123456789",
+                Role.ADMIN
         );
-        User moderator = new User(2L, "moderator", passwordEncoder.encode("1234"),
-                "Riker", "Bobowski", "riker123@gmail.com",
-                "Piotrowo 2", "727456789", Role.MODERATOR,
-                0L, false
+        userService.createUser(admin);
+
+        UserDtoForm moderator = new UserDtoForm(
+                "moderator",
+                "1234",
+                "Riker",
+                "Bobowski",
+                "riker123@gmail.com",
+                "Piotrowo 2",
+                "727456789",
+                Role.MODERATOR
         );
-        User user = new User(3L, "user", passwordEncoder.encode("123"),
-                "Adam", "Nowak", "adam123@gmail.com",
-                "Piotrowo 3", "722351974", Role.USER,
-                0L, false
+        userService.createUser(moderator);
+
+        UserDtoForm user = new UserDtoForm(
+                "user",
+                "123",
+                "Adam",
+                "Nowak",
+                "adam123@gmail.com",
+                "Piotrowo 3",
+                "722351974",
+                Role.USER
         );
+        userService.createUser(user);
 
-        userRepository.saveAll(
-                List.of(admin, moderator, user)
+        UniversityDtoForm zut = new UniversityDtoForm(
+                "West Pomeranian University of Technology",
+                "ZUT",
+                "user"
         );
+        universityService.addNewUniversity(zut);
 
-        University put = new University("Poznan University of Technology", "PUT", false);
-        University zut = new University("West Pomeranian University of Technology", "ZUT", true);
+        UniversityDtoForm put = new UniversityDtoForm(
+                "Poznan University of Technology",
+                "PUT",
+                "admin"
+        );
+        universityService.addNewUniversity(put);
 
-        put.enrollUsers(admin);
-        universityRepository.saveAll(List.of(put, zut));
+        universityService.enrollUsersToUniversity(1L, 1L);
 
+        var p1 = new PageDtoForm(
+                "Title 1",
+                "Description 1",
+                "Other content",
+                "moderator",
+                1L
+        );
+        pageService.save(p1);
 
-        var p1 = new Page();
-        p1.setId(1L);
-        p1.setTitle("Title 1");
-        p1.setCreator(admin);
-        p1.setContent("Some content");
-        p1.setUniversity(put);
-        pageRepository.save(p1);
+        var p2 = new PageDtoForm(
+                "Title 2",
+                "Description 2",
+                "Other content",
+                "admin",
+                1L
+        );
+        pageService.save(p2);
 
-        var p2 = new Page();
-        p2.setId(2L);
-        p2.setTitle("Title 2");
-        p2.setCreator(moderator);
-        p2.setContent("Other content");
-        p2.setParent(p1);
-        p2.setUniversity(put);
-        pageRepository.save(p2);
+        var p3 = new PageDtoForm(
+                "Title 3",
+                "Description 3",
+                "Nice content",
+                "admin",
+                1L
+        );
+        pageService.save(p3);
 
-        var p3 = new Page();
-        p3.setId(3L);
-        p3.setTitle("Title 3");
-        p3.setCreator(admin);
-        p3.setContent("Nice content");
-        p3.setParent(p2);
-        p3.setHidden(true);
-        p3.setUniversity(put);
-        pageRepository.save(p3);
-
-        var p4 = new Page();
-        p4.setId(4L);
-        p4.setTitle("Title 4");
-        p4.setCreator(moderator);
-        p4.setContent("Very nice content");
-        p4.setParent(p1);
-        p4.setUniversity(put);
-        pageRepository.save(p4);
+        var p4 = new PageDtoForm(
+                "Title 4",
+                "Description 4",
+                "Very nice content",
+                "admin",
+                1L
+        );
+        pageService.save(p4);
 
         log.info("Created dummy data");
     }

@@ -2,8 +2,6 @@ package com.example.cms.page;
 
 import com.example.cms.university.University;
 import com.example.cms.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -11,18 +9,22 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "pages")
 public class Page {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Title must not be empty")
     private String title;
+    @NotBlank(message = "Description must not be empty")
+    private String description;
     @NotNull(message = "Content must not be null")
     private String content;
     private boolean hidden;
@@ -37,11 +39,7 @@ public class Page {
     private Page parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private List<Page> children;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToOne(mappedBy = "mainPage", fetch = FetchType.LAZY)
-    private University universityMainPage;
+    private Set<Page> children = new HashSet<>();
 
     public void updateFrom(final Page source) {
         title = source.getTitle();
@@ -49,6 +47,8 @@ public class Page {
         content = source.getContent();
         parent = source.getParent();
         hidden = source.isHidden();
+        university = source.getUniversity();
+        description = source.getDescription();
     }
 
     @Override

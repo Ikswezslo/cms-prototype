@@ -11,9 +11,9 @@ public class UserDtoSimple {
     String lastName;
 
     public UserDtoSimple(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
+        id = user.getId();
+        username = user.getUsername();
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
     }
 }
