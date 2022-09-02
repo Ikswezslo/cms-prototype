@@ -1,10 +1,9 @@
 package com.example.cms.university;
 
-import com.example.cms.university.exceptions.UniversityException;
-import com.example.cms.university.exceptions.UniversityExceptionType;
-
 import com.example.cms.page.Page;
 import com.example.cms.page.PageRepository;
+import com.example.cms.university.exceptions.UniversityException;
+import com.example.cms.university.exceptions.UniversityExceptionType;
 import com.example.cms.university.projections.UniversityDtoDetailed;
 import com.example.cms.university.projections.UniversityDtoForm;
 import com.example.cms.university.projections.UniversityDtoSimple;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
