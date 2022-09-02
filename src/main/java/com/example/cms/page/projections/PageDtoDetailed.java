@@ -5,6 +5,7 @@ import com.example.cms.university.projections.UniversityDtoSimple;
 import com.example.cms.user.projections.UserDtoSimple;
 import lombok.Value;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,8 @@ public class PageDtoDetailed {
     boolean hidden;
     String content;
     Set<PageDtoSimple> children;
+    LocalDateTime createdOn;
+    LocalDateTime updatedOn;
 
     public PageDtoDetailed(Page page) {
         id = page.getId();
@@ -33,5 +36,8 @@ public class PageDtoDetailed {
                 new PageDtoSimple(page.getParent());
 
         children = page.getChildren().stream().map(PageDtoSimple::new).collect(Collectors.toSet());
+
+        createdOn = page.getCreatedOn().toLocalDateTime();
+        updatedOn = page.getUpdatedOn().toLocalDateTime();
     }
 }

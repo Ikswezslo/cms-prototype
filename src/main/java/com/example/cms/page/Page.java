@@ -9,6 +9,8 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -40,6 +42,20 @@ public class Page {
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private Set<Page> children = new HashSet<>();
+    private Timestamp createdOn;
+    private Timestamp updatedOn;
+
+    @PrePersist
+    private void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        createdOn = Timestamp.valueOf(now);
+        updatedOn = Timestamp.valueOf(now);
+    }
+
+    @PreUpdate
+    private void preMerge() {
+        updatedOn = Timestamp.valueOf(LocalDateTime.now());
+    }
 
     public void updateFrom(final Page source) {
         title = source.getTitle();
