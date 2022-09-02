@@ -2,7 +2,6 @@ package com.example.cms.user;
 
 import com.example.cms.security.Role;
 import com.example.cms.university.University;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,55 +36,7 @@ public class User {
     private String address;
     private String phoneNumber;
     private Role accountType;
-    private Long universityID;
     private boolean enabled;
-
-    public User(User user) {
-        this.id = user.id;
-        this.username = user.username;
-        this.password = user.password;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
-        this.address = user.address;
-        this.phoneNumber = user.phoneNumber;
-        this.accountType = user.accountType;
-        this.universityID = user.universityID;
-        this.enabled = user.enabled;
-    }
-
-    public User(Long id, String username, String password,
-                String firstName, String lastName, String email,
-                String address, String phoneNumber, Role accountType,
-                Long universityID, boolean enabled) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.accountType = accountType;
-        this.universityID = universityID;
-        this.enabled = enabled;
-    }
-
-    public User(String username, String password, String firstName,
-                String lastName, String email, String address,
-                String phoneNumber, Role accountType, Long universityID,
-                boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.accountType = accountType;
-        this.universityID = universityID;
-        this.enabled = enabled;
-    }
 
     public void updateUser(final User user) {
         this.username = user.username;
@@ -96,12 +47,7 @@ public class User {
         this.address = user.address;
         this.phoneNumber = user.phoneNumber;
         this.accountType = user.accountType;
-        this.universityID = user.universityID;
         this.enabled = user.enabled;
-    }
-
-    public User() {
-
     }
 
     @Override
@@ -116,7 +62,6 @@ public class User {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", accountType='" + accountType + '\'' +
-                ", universityID=" + universityID +
                 ", enabled=" + enabled +
                 '}';
     }

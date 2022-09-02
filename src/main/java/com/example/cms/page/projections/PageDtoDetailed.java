@@ -1,11 +1,11 @@
 package com.example.cms.page.projections;
 
-import com.example.cms.university.University;
 import com.example.cms.page.Page;
-import com.example.cms.user.User;
+import com.example.cms.university.projections.UniversityDtoSimple;
+import com.example.cms.user.projections.UserDtoSimple;
 import lombok.Value;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Value
@@ -13,23 +13,25 @@ public class PageDtoDetailed {
     Long id;
     PageDtoSimple parent;
     String title;
-    User creator;
-    University university;
+    String description;
+    UserDtoSimple creator;
+    UniversityDtoSimple university;
     boolean hidden;
     String content;
-    List<PageDtoSimple> children;
+    Set<PageDtoSimple> children;
 
     public PageDtoDetailed(Page page) {
         id = page.getId();
         title = page.getTitle();
-        creator = page.getCreator();
+        description = page.getDescription();
+        creator = new UserDtoSimple(page.getCreator());
         hidden = page.isHidden();
         content = page.getContent();
-        university = page.getUniversity();
+        university = new UniversityDtoSimple(page.getUniversity());
 
         parent = (page.getParent() == null) ? null :
                 new PageDtoSimple(page.getParent());
 
-        this.children = page.getChildren().stream().map(PageDtoSimple::new).collect(Collectors.toList());
+        children = page.getChildren().stream().map(PageDtoSimple::new).collect(Collectors.toSet());
     }
 }
