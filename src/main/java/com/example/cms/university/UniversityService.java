@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -102,7 +103,7 @@ public class UniversityService {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
         university.setHidden(un_hide);
         University result = universityRepository.save(university);
-        return ResponseEntity.created(URI.create("/"+result.getId())).body(new UniversityD(result));
+        return ResponseEntity.created(URI.create("/"+result.getId())).body(new UniversityDtoSimple(result));
     }
 
     public ResponseEntity<Void> deleteUniversity(Long id) {
