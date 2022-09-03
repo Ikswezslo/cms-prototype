@@ -51,4 +51,10 @@ public class UniversityController {
 
         return universityService.setUn_Hide(id, un_hide);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUniversity(
+            @PathVariable Long id
+    ){
+        return universityService.deleteUniversity(id);
+    }
 }

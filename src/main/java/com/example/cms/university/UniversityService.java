@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,5 +78,26 @@ public class UniversityService {
         university.setHidden(un_hide);
         University result = universityRepository.save(university);
         return ResponseEntity.created(URI.create("/"+result.getId())).body(new UniversityD(result));
+    }
+
+    public ResponseEntity<Void> deleteUniversity(Long id) {
+        University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
+        validateForDelete(university);
+        universityRepository.delete(university);
+        return ResponseEntity.noContent().build();
+    }
+    private void validateForDelete(University university){
+        if(!university.isHidden()){
+            throw new UniversityException(UniversityExceptionType.UNIVERSITY_IS_NOT_HIDDEN);
+        }
+//        if(university.getMainPage() != null){
+//            throw new UniversityException(UniversityExceptionType.CONTENT_EXISTS);
+//        }
+        Set<User> enrolledUsers = university.getEnrolledUsers();
+        for(User user: enrolledUsers){
+            if(user.isEnabled()){
+                throw new UniversityException(UniversityExceptionType.ACTIVE_USER_EXISTS);
+            }
+        }
     }
 }
