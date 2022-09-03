@@ -1,6 +1,7 @@
 package com.example.cms.page;
 
 import com.example.cms.page.projections.PageDtoDetailed;
+import com.example.cms.page.projections.PageDtoForm;
 import com.example.cms.page.projections.PageDtoSimple;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +29,13 @@ public class PageController {
     }
 
     @PostMapping
-    ResponseEntity<PageDtoSimple> createPage(@RequestBody Page page) {
-        return service.save(page);
+    ResponseEntity<PageDtoDetailed> createPage(@RequestBody PageDtoForm form) {
+        return service.save(form);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Void> updatePage(@PathVariable long id, @RequestBody Page page) {
-        return service.update(id, page);
+    ResponseEntity<Void> updatePage(@PathVariable long id, @RequestBody PageDtoForm form) {
+        return service.update(id, form);
     }
 
     @DeleteMapping("/{id}")

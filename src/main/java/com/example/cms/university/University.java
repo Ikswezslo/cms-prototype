@@ -2,7 +2,6 @@ package com.example.cms.university;
 
 import com.example.cms.page.Page;
 import com.example.cms.user.User;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -18,7 +17,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class University {
-
     @Id
     @SequenceGenerator(
             name = "university_sequence",
@@ -31,7 +29,6 @@ public class University {
     )
     private Long id;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany
     @JoinTable(
             name = "users_enrolled",
@@ -39,31 +36,17 @@ public class University {
             inverseJoinColumns = @JoinColumn(name = "university_id")
     )
     private Set<User> enrolledUsers = new HashSet<>();
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToOne
-    @JoinColumn(
-            name = "main_page_id",
-            referencedColumnName = "id"
-    )
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "main_page_id", referencedColumnName = "id")
     private Page mainPage;
 
+    @Column(unique = true)
     @NotBlank(message = "Name must not be empty")
     private String name;
+    @Column(unique = true)
     @NotBlank(message = "Short name must not be empty")
     private String shortName;
     private boolean hidden;
-
-    public University() {
-
-    }
-
-    public University(String name,
-                      String shortName,
-                      Boolean isHidden) {
-        this.name = name;
-        this.shortName = shortName;
-        this.hidden = isHidden;
-    }
 
     @Override
     public String toString() {
@@ -78,7 +61,6 @@ public class University {
     public void enrollUsers(User user) {
         enrolledUsers.add(user);
     }
-
 
     @Override
     public boolean equals(Object o) {
