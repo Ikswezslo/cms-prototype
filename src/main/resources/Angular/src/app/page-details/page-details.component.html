@@ -1,6 +1,12 @@
-<div *ngIf="page">
-    <h1>{{page.title}}</h1>
-    <p>Autor: {{page.creator.firstName +" "+ page.creator.lastName + " (" + page.creator.username + ")"}}</p>
-    <p>Uniwersytet: {{page.university.name}}</p>
-    <p>Zawartość: <br> {{page.content}}</p>
+<div class="content" *ngIf="page">
+    <span>
+
+        <h1>{{page.title}}</h1>
+        <p>Autor: {{page.creator.firstName +" "+ page.creator.lastName + " (" + page.creator.username + ")"}}</p>
+        <p>Uniwersytet: {{page.university.name}}</p>
+        <p>Zawartość: <br> {{page.content}}</p>
+    </span>
+    <div class="pageView">
+        <span  [innerHtml]="pageHtml"></span>
+    </div>
 </div>

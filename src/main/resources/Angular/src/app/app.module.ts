@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AgGridModule } from 'ag-grid-angular';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 // import ngx-translate and the http loader
@@ -58,6 +60,8 @@ import { LoginComponent } from './login/login.component';
     MatToolbarModule,
     AgGridModule,
     MatDialogModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
     RouterModule.forRoot([
       { path: '', component: MainPageComponent },
       { path: 'universities', component: UniversityListComponent },

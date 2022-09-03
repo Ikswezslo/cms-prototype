@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { page } from 'src/assets/models/page';
 import { PageService } from '../../assets/service/page.service';
@@ -12,11 +13,14 @@ export class PageDetailsComponent implements OnInit {
 
   public page!: page;
   public id: Number = 0;
+  public pageHtml: any;
+  
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private pageService: PageService) { 
+    private pageService: PageService,
+    private sanitizer:DomSanitizer) { 
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -30,6 +34,7 @@ export class PageDetailsComponent implements OnInit {
     this.pageService.getPage(this.id)
     .subscribe(res => {
       this.page = res;
+      this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
     });
   }
 
