@@ -3,11 +3,12 @@ package com.example.cms.page;
 import com.example.cms.page.exceptions.PageException;
 import com.example.cms.page.exceptions.PageExceptionType;
 import com.example.cms.page.projections.PageDtoDetailed;
+import com.example.cms.page.projections.PageDtoForm;
 import com.example.cms.page.projections.PageDtoSimple;
-import com.example.cms.university.UniversityRepository;
+import com.example.cms.security.SecurityService;
+import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +19,15 @@ import java.util.stream.Collectors;
 @Service
 public class PageService {
     private final PageRepository pageRepository;
-    private final UniversityRepository universityRepository;
     private final UserRepository userRepository;
+    private final SecurityService securityService;
 
     public PageService(PageRepository repository,
-                       UniversityRepository universityRepository,
-                       UserRepository userRepository) {
+                       UserRepository userRepository,
+                       SecurityService securityService) {
         this.pageRepository = repository;
-        this.universityRepository = universityRepository;
         this.userRepository = userRepository;
+        this.securityService = securityService;
     }
 
     public List<PageDtoSimple> getAll() {
@@ -35,34 +36,25 @@ public class PageService {
                 .collect(Collectors.toList());
     }
 
-    public PageDtoDetailed get(long id) {
+    public PageDtoDetailed get(Long id) {
         return pageRepository.findById(id).map(PageDtoDetailed::new)
                 .orElseThrow(NotFoundException::new);
     }
 
-    public ResponseEntity<PageDtoSimple> save(Page toSave) {
-        validate(toSave);
-        Page result = pageRepository.save(toSave);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new PageDtoSimple(result));
+    public ResponseEntity<PageDtoDetailed> save(PageDtoForm form) {
+        Page result = pageRepository.save(formToPage(form));
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(new PageDtoDetailed(result));
     }
 
-    public ResponseEntity<Void> update(long id, Page toUpdate) {
-        validate(toUpdate);
-
-        if (toUpdate.getParent() != null && id == toUpdate.getParent().getId()) {
-            throw new PageException(PageExceptionType.ID_SAME_AS_PARENT);
-        }
-
-        pageRepository.findById(id)
-                .ifPresentOrElse(page -> {
-                    page.updateFrom(toUpdate);
-                    pageRepository.save(page);
-                }, NotFoundException::new);
+    public ResponseEntity<Void> update(Long id, PageDtoForm form) {
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        page.updateFrom(formToPage(form));
+        pageRepository.save(page);
 
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Void> delete(long id) {
+    public ResponseEntity<Void> delete(Long id) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
 
         if (pageRepository.existsByParent(page)) {
@@ -73,26 +65,32 @@ public class PageService {
         return ResponseEntity.noContent().build();
     }
 
-    private void validate(Page page) {
-        Page parent = page.getParent();
-        if (parent != null) {
-            checkExisting(parent.getId(), pageRepository, PageExceptionType.NOT_FOUND_PARENT);
-        }
-        if (page.getUniversity() != null) {
-            checkExisting(page.getUniversity().getId(), universityRepository, PageExceptionType.NOT_FOUND_UNIVERSITY);
-        }
-        if (page.getCreator() != null) {
-            checkExisting(page.getCreator().getId(), userRepository, PageExceptionType.NOT_FOUND_USER);
-        }
-    }
+    public Page formToPage(PageDtoForm form) {
+        Page page = new Page();
+        page.setTitle(form.getTitle());
+        page.setDescription(form.getDescription());
+        page.setContent(form.getContent());
+        page.setHidden(true);
 
-    private <T> void checkExisting(Long id, JpaRepository<T, Long> repository, PageExceptionType exceptionType) {
-        if (id == null) {
-            throw new PageException(exceptionType);
-        } else {
-            if (!repository.existsById(id)) {
-                throw new PageException(exceptionType);
-            }
+        if (form.getParentId() == null) {
+            throw new PageException(PageExceptionType.PARENT_IS_NULL);
         }
+
+        Page parent = pageRepository.findById(form.getParentId())
+                .orElseThrow(() -> {
+                    throw new PageException(PageExceptionType.NOT_FOUND_PARENT);
+                });
+
+        page.setParent(parent);
+        page.setUniversity(parent.getUniversity());
+
+        User creator = userRepository.findByUsername(form.getCreatorUsername())
+                .orElseThrow(() -> {
+                    throw new PageException(PageExceptionType.NOT_FOUND_USER);
+                });
+
+        page.setCreator(creator);
+
+        return page;
     }
 }

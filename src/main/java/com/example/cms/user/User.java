@@ -1,7 +1,7 @@
 package com.example.cms.user;
 
+import com.example.cms.security.Role;
 import com.example.cms.university.University;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +25,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     @NotEmpty
     private String username;
     @NotEmpty
@@ -34,56 +35,8 @@ public class User {
     private String email;
     private String address;
     private String phoneNumber;
-    private String accountType;
-    private Long universityID;
-    private Boolean isAccountDisabled;
-
-    public User(User user) {
-        this.id = user.id;
-        this.username = user.username;
-        this.password = user.password;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
-        this.address = user.address;
-        this.phoneNumber = user.phoneNumber;
-        this.accountType = user.accountType;
-        this.universityID = user.universityID;
-        this.isAccountDisabled = user.isAccountDisabled;
-    }
-
-    public User(Long id, String username, String password,
-                String firstName, String lastName, String email,
-                String address, String phoneNumber, String accountType,
-                Long universityID, Boolean isAccountDisabled) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.accountType = accountType;
-        this.universityID = universityID;
-        this.isAccountDisabled = isAccountDisabled;
-    }
-
-    public User(String username, String password, String firstName,
-                String lastName, String email, String address,
-                String phoneNumber, String accountType, Long universityID,
-                Boolean isAccountDisabled) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.accountType = accountType;
-        this.universityID = universityID;
-        this.isAccountDisabled = isAccountDisabled;
-    }
+    private Role accountType;
+    private boolean enabled;
 
     public void updateUser(final User user) {
         this.username = user.username;
@@ -94,12 +47,7 @@ public class User {
         this.address = user.address;
         this.phoneNumber = user.phoneNumber;
         this.accountType = user.accountType;
-        this.universityID = user.universityID;
-        this.isAccountDisabled = user.isAccountDisabled;
-    }
-
-    public User() {
-
+        this.enabled = user.enabled;
     }
 
     @Override
@@ -114,8 +62,7 @@ public class User {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", accountType='" + accountType + '\'' +
-                ", universityID=" + universityID +
-                ", isAccountDisabled=" + isAccountDisabled +
+                ", enabled=" + enabled +
                 '}';
     }
 

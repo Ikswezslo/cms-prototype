@@ -1,14 +1,15 @@
 package com.example.cms.user;
 
 import com.example.cms.user.projections.UserDtoDetailed;
+import com.example.cms.user.projections.UserDtoForm;
 import com.example.cms.user.projections.UserDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin // TODO: needs to be changed later
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -25,19 +26,21 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @Secured("ROLE_MODERATOR")
     @GetMapping(path = "/{id}")
     public UserDtoDetailed getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
+    @Secured("ROLE_USER")
     @PostMapping
-    public ResponseEntity<UserDtoSimple> createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoForm form) {
+        return userService.createUser(form);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody User toUpdate) {
-        return userService.updateUser(id, toUpdate);
+    ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody UserDtoForm form) {
+        return userService.updateUser(id, form);
     }
 
     @DeleteMapping("/{id}")

@@ -11,4 +11,6 @@ public interface UniversityRepository extends JpaRepository<University, Long> {
 
     @Query("SELECT university FROM University university WHERE university.name = ?1")
     Optional<University> findUniversitiesByName(String name);
+
+    boolean existsByNameOrShortName(String name, String shortName);
 }
