@@ -1,5 +1,7 @@
 package com.example.cms.user;
 
+import com.example.cms.security.LoggedUser;
+import com.example.cms.security.SecurityService;
 import com.example.cms.user.projections.UserDtoDetailed;
 import com.example.cms.user.projections.UserDtoForm;
 import com.example.cms.user.projections.UserDtoSimple;
@@ -17,10 +19,14 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final SecurityService securityService;
 
-    UserService(final UserRepository repository, PasswordEncoder passwordEncoder) {
+    UserService(final UserRepository repository,
+                PasswordEncoder passwordEncoder,
+                SecurityService securityService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.securityService = securityService;
     }
 
     public List<UserDtoSimple> getUsers() {
@@ -73,5 +79,15 @@ public class UserService {
         user.setAccountType(form.getAccountType());
         user.setEnabled(true);
         return user;
+    }
+
+    public UserDtoDetailed getLoggedUser() {
+        LoggedUser loggedUser = securityService.getPrincipal();
+        User user = repository.findByUsername(loggedUser.getUsername())
+                .orElseThrow(() -> {
+                            throw new BadRequestException("Not found logged user");
+                        }
+                );
+        return new UserDtoDetailed(user);
     }
 }
