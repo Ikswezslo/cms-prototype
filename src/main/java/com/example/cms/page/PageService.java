@@ -9,10 +9,9 @@ import com.example.cms.security.SecurityService;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,25 +35,28 @@ public class PageService {
                 .collect(Collectors.toList());
     }
 
+    public List<PageDtoSimple> getAllVisible(Pageable pageable) {
+        return pageRepository.findByHiddenFalse(pageable).stream()
+                .map(PageDtoSimple::new)
+                .collect(Collectors.toList());
+    }
+
     public PageDtoDetailed get(Long id) {
         return pageRepository.findById(id).map(PageDtoDetailed::new)
                 .orElseThrow(NotFoundException::new);
     }
 
-    public ResponseEntity<PageDtoDetailed> save(PageDtoForm form) {
-        Page result = pageRepository.save(formToPage(form));
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new PageDtoDetailed(result));
+    public PageDtoDetailed save(PageDtoForm form) {
+        return new PageDtoDetailed(pageRepository.save(formToPage(form)));
     }
 
-    public ResponseEntity<Void> update(Long id, PageDtoForm form) {
+    public void update(Long id, PageDtoForm form) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
         page.updateFrom(formToPage(form));
         pageRepository.save(page);
-
-        return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Void> delete(Long id) {
+    public void delete(Long id) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
 
         if (pageRepository.existsByParent(page)) {
@@ -62,7 +64,12 @@ public class PageService {
         }
 
         pageRepository.delete(page);
-        return ResponseEntity.noContent().build();
+    }
+
+    public void setHidden(Long id, boolean hidden) {
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        page.setHidden(hidden);
+        pageRepository.save(page);
     }
 
     public Page formToPage(PageDtoForm form) {

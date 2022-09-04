@@ -11,6 +11,12 @@ public class UniversityException extends BadRequestException {
         switch (type) {
             case NAME_TAKEN:
                 return "This name is already taken";
+            case CONTENT_EXISTS:
+                return "You cannot delete University with associated content";
+            case UNIVERSITY_IS_NOT_HIDDEN:
+                return "You cannot delete University which is not hidden";
+            case ACTIVE_USER_EXISTS:
+                return "You cannot delete University with active users";
         }
         return "Unknown bad request";
     }
