@@ -1,52 +1,14 @@
 <h1>Ustawienia</h1>
 
+<h2>Dane użytkownika</h2>
 <div class="form-input">
-    <div class="row">
-        <mat-form-field appearance="fill">
-            <mat-label>Username</mat-label>
-            <input matInput [disabled]="viewOnly" [(ngModel)]="user.username">
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Password</mat-label>
-            <input matInput [disabled]="viewOnly" [(ngModel)]="user.password" >
-        </mat-form-field>
-    </div>
-
-    <div class="row">
-        <mat-form-field appearance="fill">
-            <mat-label>First name</mat-label>
-            <input matInput [disabled]="viewOnly" [(ngModel)]="user.firstName">
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Last name</mat-label>
-            <input matInput [disabled]="viewOnly" [(ngModel)]="user.lastName">
-        </mat-form-field>
-    </div>
-
-    <div class="row">
-        <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput [disabled]="viewOnly" [(ngModel)]="user.email">
-            <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Phone number</mat-label>
-            <input matInput [disabled]="viewOnly" [(ngModel)]="user.phoneNumber">
-            <mat-icon matSuffix>phone</mat-icon>
-        </mat-form-field>
-    </div>
-
-    <mat-form-field appearance="fill">
-        <mat-label>Account type</mat-label>
-        <input matInput [disabled]="true" [(ngModel)]="user.accountType">
-    </mat-form-field>
-    
-    <div class="row">
-        <button mat-button class="button-option" *ngIf="viewOnly" (click)="startEdit()">Edytuj</button>
-        <button mat-button class="button-option" *ngIf="!viewOnly" (click)="stopEdit()">Zakończ edycje</button>
-        <button mat-button class="button-option" *ngIf="!viewOnly" (click)="save()">Zapisz</button>
+    <div>
+        <p>Username:</p> <p class="userProperties"> {{user.username}}</p>
+        <p>First name: </p> <p class="userProperties">{{user.firstName}}</p> 
+        <p>Last name:</p> <p class="userProperties">{{user.lastName}}</p>
+        <p>Email: </p> <p class="userProperties">{{user.email}}</p>
+        <p>Phone number: </p> <p class="userProperties">{{user.phoneNumber}}</p>
+        <p>Account type: </p> <p class="userProperties">{{user.accountType}}</p>
+        <button mat-button class="button-option" (click)="startEdit()">Edytuj</button>
     </div>
 </div>

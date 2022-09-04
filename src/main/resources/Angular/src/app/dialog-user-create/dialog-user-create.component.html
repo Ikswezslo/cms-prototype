@@ -55,7 +55,8 @@
 </div>
 <span>
     <button mat-stroked-button class="button-option" (click)="close()">Close</button>
-    <button mat-stroked-button class="button-option" (click)="createUser()">Add user</button>
+    <button mat-stroked-button class="button-option" *ngIf="!edit" (click)="createUser()">Add user</button>
+    <button mat-stroked-button class="button-option" *ngIf="edit" (click)="editUser()">Close edit</button>
 </span>
 
 
