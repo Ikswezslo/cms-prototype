@@ -43,9 +43,22 @@ public class UniversityController {
 
     @PutMapping("/{universityId}/pages/{pageID}")
     public University connectMainPageToUniversity(
-            @PathVariable long universityId,
-            @PathVariable long pageID
-    ) {
+            @PathVariable Long universityId,
+            @PathVariable Long pageID
+    ){
         return universityService.connectMainPageToUniversity(universityId, pageID);
+    }
+    @PutMapping("/{id}/{un_hide}")
+    public ResponseEntity<UniversityDtoSimple> hideOrUnhideUniversity(
+            @PathVariable Long id,
+            @PathVariable boolean un_hide){
+
+        return universityService.setUn_Hide(id, un_hide);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUniversity(
+            @PathVariable Long id
+    ){
+        return universityService.deleteUniversity(id);
     }
 }
