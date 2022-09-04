@@ -41,4 +41,13 @@
 .selectButton {
     max-height: 30px;
 }
-
+.button,
+button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #328eff;
+  color: rgb(0, 0, 0);
+  border: none;
+}
