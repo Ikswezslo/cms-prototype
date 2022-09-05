@@ -30,6 +30,7 @@ import { UniversityListComponent } from './university-list/university-list.compo
 import { UniversityDetailsComponent } from './university-details/university-details.component';
 import { DialogUserCreateComponent } from './dialog-user-create/dialog-user-create.component';
 import { LoginComponent } from './login/login.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -45,32 +46,32 @@ import { LoginComponent } from './login/login.component';
     DialogUserCreateComponent,
     LoginComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatToolbarModule,
-    AgGridModule,
-    MatDialogModule,
-    RouterModule.forRoot([
-      { path: '', component: MainPageComponent },
-      { path: 'universities', component: UniversityListComponent },
-      { path: 'university/:universityId', component: UniversityDetailsComponent },
-      { path: 'accounts', component: UsersListComponent },
-      { path: 'accounts/create', component: DialogUserCreateComponent },
-      { path: 'account/:userId', component: UserDetailsComponent },
-      { path: 'pages', component: PageListComponent },
-      { path: 'page/:pageId', component: PageDetailsComponent },
-      { path: 'login', component: LoginComponent }
-    ]),
-    BrowserAnimationsModule,
-    BrowserModule,
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        MatMenuModule,
+        MatSidenavModule,
+        MatInputModule,
+        MatSelectModule,
+        MatIconModule,
+        MatToolbarModule,
+        AgGridModule,
+        MatDialogModule,
+        RouterModule.forRoot([
+            {path: '', component: MainPageComponent},
+            {path: 'universities', component: UniversityListComponent},
+            {path: 'university/:universityId', component: UniversityDetailsComponent},
+            {path: 'accounts', component: UsersListComponent},
+            {path: 'accounts/create', component: DialogUserCreateComponent},
+            {path: 'account/:userId', component: UserDetailsComponent},
+            {path: 'pages', component: PageListComponent},
+            {path: 'page/:pageId', component: PageDetailsComponent},
+            {path: 'login', component: LoginComponent}
+        ]),
+        BrowserAnimationsModule,
+        BrowserModule,
         // ngx-translate and the loader module
         HttpClientModule,
         TranslateModule.forRoot({
@@ -79,8 +80,9 @@ import { LoginComponent } from './login/login.component';
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })
-  ],
+        }),
+        MatCardModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

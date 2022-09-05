@@ -28,5 +28,9 @@ export class PageService {
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
+  getNewPages(defaultErrorHandling: boolean = true): Observable<page[]> {
+    return this.http.get<page[]>(`${this.pageUrl}/cards?sort=createdOn,desc`, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 
 }
