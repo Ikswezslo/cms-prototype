@@ -48,6 +48,7 @@ public class Page {
     @PrePersist
     private void prePersist() {
         LocalDateTime now = LocalDateTime.now();
+
         createdOn = Timestamp.valueOf(now);
         updatedOn = Timestamp.valueOf(now);
     }
