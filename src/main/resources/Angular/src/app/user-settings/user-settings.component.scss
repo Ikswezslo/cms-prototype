@@ -1,0 +1,53 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+}
+
+.form-input {
+    border: 1px solid #000000;
+    margin: 5px;
+    min-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.userProperties{
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+mat-form-field {
+    width: 100%;
+    padding: 0 10px;
+}
+
+.button-option{
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    background-color: #328eff;
+    color: rgb(0, 0, 0);
+    border: none;
+}
+
+button:hover.button-option {
+    background-color: #99eeff;
+    color: #ffffff;
+    padding: 8px 16px;
+  }
+
+  button:disabled,
+  button[disabled].button-option{
+    padding: 8px 16px;
+    background-color: #cccccc;
+    color: #666666;
+  } 
