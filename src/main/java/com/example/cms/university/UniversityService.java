@@ -94,6 +94,7 @@ public class UniversityService {
                 });
 
         page.setCreator(creator);
+
         university.setMainPage(page);
 
         return university;

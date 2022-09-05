@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {university} from '../models/university';
+import {university, UniversityForm} from '../models/university';
 import {Observable} from "rxjs";
 import {RestErrorHandler} from "../models/restError";
 
@@ -27,5 +27,8 @@ export class UniversityService {
     return this.http.get<university[]>(this.universityUrl, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
-
+  addNewUniveristy(university: UniversityForm, defaultErrorHandling: boolean = true ) : Observable<university>{
+    return this.http.post<university>(this.universityUrl, university, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }
