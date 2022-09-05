@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from 'src/assets/service/user.service';
 
 @Component({
@@ -9,17 +10,22 @@ import { UserService } from 'src/assets/service/user.service';
 export class LoginComponent implements OnInit {
 
     readonly user = {} as { username: string, password: string };
+    showSpinner = false;
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService,
+        private router: Router) {
     }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 
     login(): void {
         console.log(this.user);
         this.userService.login(this.user).subscribe({
-            next: user => console.log(user)
+            next: user => {
+                console.log(user);
+                // this.router.navigateByUrl('');
+            }
+            
         });
     }
 

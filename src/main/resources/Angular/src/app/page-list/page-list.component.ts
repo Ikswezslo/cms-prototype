@@ -28,7 +28,6 @@ export class PageListComponent implements OnInit {
     editable: false,
     filter: 'agTextColumnFilter',
     suppressMovable: true,
-    type: 'textColumn'
   };
   
   constructor(
@@ -52,6 +51,6 @@ export class PageListComponent implements OnInit {
     this.router.navigateByUrl('/page/' + event.data.id);
   }
   onGridReady(params: any) {
-    params.columnApi.autoSizeAllColumns();
+    params.columnApi.autoSizeAllColumns(false);
   }
 }

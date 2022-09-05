@@ -14,3 +14,18 @@
     color: black;
 
 }
+.content{
+    display:flex;
+    flex-flow: row wrap;
+    align-items: flex-start
+}
+
+.pageView{
+    position: absolute;
+    right: 0px;
+    width: 300px;
+    margin: 10px;
+    width: 595px;
+    height: 842px;
+    background-color: white;
+}
