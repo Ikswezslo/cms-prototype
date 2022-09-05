@@ -30,6 +30,7 @@ public class PageController {
     @GetMapping("/cards")
     List<PageDtoCard> readAllPagesForCards(Pageable pageable) {
         return service.getPagesForCards(pageable);
+    }
 
     @GetMapping("/children")
     List<PageDtoSimple> readChildrenPages(@RequestParam(defaultValue = "") Long parent) {
