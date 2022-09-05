@@ -1,4 +1,5 @@
 <h1>Uniwersytety</h1>
+<button mat-button (click)="addUniversity()">Dodaj</button>
 <div class="options">
     <mat-form-field appearance="standard" class="option">
         <mat-label>Show</mat-label>
@@ -8,11 +9,11 @@
         </mat-select>
     </mat-form-field>
 </div>
-<ag-grid-angular 
-    style="width: 600px; height: 100%; max-width: 100%;" 
+<ag-grid-angular
+    style="width: 600px; height: 100%; max-width: 100%;"
     domLayout='autoHeight'
     class="ag-theme-alpine"
-    [rowData]="universities" 
+    [rowData]="universities"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
     [rowSelection]="'single'"

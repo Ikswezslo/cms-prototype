@@ -32,6 +32,9 @@ import { UniversityListComponent } from './university-list/university-list.compo
 import { UniversityDetailsComponent } from './university-details/university-details.component';
 import { DialogUserCreateComponent } from './dialog-user-create/dialog-user-create.component';
 import { LoginComponent } from './login/login.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { DialogUniversityCreateComponent } from './dialog-university-create/dialog-university-create.component';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +48,9 @@ import { LoginComponent } from './login/login.component';
     UniversityListComponent,
     UniversityDetailsComponent,
     DialogUserCreateComponent,
-    LoginComponent
+    LoginComponent,
+    UserSettingsComponent,
+    DialogUniversityCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +73,7 @@ import { LoginComponent } from './login/login.component';
       { path: 'university/:universityId', component: UniversityDetailsComponent },
       { path: 'accounts', component: UsersListComponent },
       { path: 'accounts/create', component: DialogUserCreateComponent },
+      { path: 'accounts/settings', component: UserSettingsComponent },
       { path: 'account/:userId', component: UserDetailsComponent },
       { path: 'pages', component: PageListComponent },
       { path: 'page/:pageId', component: PageDetailsComponent },

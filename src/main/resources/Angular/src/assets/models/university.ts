@@ -1,7 +1,11 @@
 export interface university {
     id: number;
     name: string;
-    shortName: String;
-    hidden: Boolean;
+    shortName: string;
+    hidden: boolean;
 }
-
+export interface UniversityForm{
+    name: string;
+    shortName: string;
+    creatorUsername: string;
+}
