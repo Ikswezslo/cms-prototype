@@ -100,4 +100,18 @@ public class PageService {
 
         return page;
     }
+
+    public List<PageDtoSimple> getAllChildren(Long parentId) {
+        Page parent = null;
+
+        if (parentId != null) {
+            parent = pageRepository.findById(parentId).orElseThrow(() -> {
+                throw new PageException(PageExceptionType.NOT_FOUND_PARENT);
+            });
+        }
+
+        return pageRepository.findByParent(parent).stream()
+                .map(PageDtoSimple::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -25,6 +25,11 @@ public class PageController {
         return service.getAll();
     }
 
+    @GetMapping("/children")
+    List<PageDtoSimple> readChildrenPages(@RequestParam(defaultValue = "") Long parent) {
+        return service.getAllChildren(parent);
+    }
+
     @GetMapping("/{id}")
     PageDtoDetailed readSinglePage(@PathVariable long id) {
         return service.get(id);

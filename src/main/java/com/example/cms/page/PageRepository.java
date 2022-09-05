@@ -10,4 +10,6 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 
     List<Page> findByHiddenFalse(Pageable pageable);
 
+    List<Page> findByParent(Page parent);
+
 }
