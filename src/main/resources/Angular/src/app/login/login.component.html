@@ -1,11 +1,35 @@
-<mat-form-field appearance="fill">
-    <mat-label>Username</mat-label>
-    <input matInput required [(ngModel)]="user.username">
-</mat-form-field>
+<div class="center">
 
-<mat-form-field appearance="fill">
-    <mat-label>Password</mat-label>
-    <input matInput required [(ngModel)]="user.password">
-</mat-form-field>
-
-<button mat-stroked-button (click)="login()">Login</button>
+    <mat-card style="width:fit-content">
+        <mat-card-header>
+            <mat-card-title>Logowaine do systemu</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form>
+                <table cellspacing="0">
+                    <tr>
+                        <td>
+                            <mat-form-field>
+                                <mat-label>Username</mat-label>
+                                <input matInput placeholder="Username" [(ngModel)]="user.username" name="username" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field>
+                                <mat-label>Password</mat-label>
+                                <input matInput placeholder="Password" [(ngModel)]="user.password" type="password"
+                                name="password" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button (click)="login()" class="loginButton">Login</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

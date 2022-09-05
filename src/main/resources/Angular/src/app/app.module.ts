@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AgGridModule } from 'ag-grid-angular';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 // import ngx-translate and the http loader
@@ -30,7 +32,13 @@ import { UniversityListComponent } from './university-list/university-list.compo
 import { UniversityDetailsComponent } from './university-details/university-details.component';
 import { DialogUserCreateComponent } from './dialog-user-create/dialog-user-create.component';
 import { LoginComponent } from './login/login.component';
+
 import {MatCardModule} from "@angular/material/card";
+
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { DialogUniversityCreateComponent } from './dialog-university-create/dialog-university-create.component';
+
+
 
 @NgModule({
   declarations: [
@@ -44,34 +52,39 @@ import {MatCardModule} from "@angular/material/card";
     UniversityListComponent,
     UniversityDetailsComponent,
     DialogUserCreateComponent,
-    LoginComponent
+    LoginComponent,
+    UserSettingsComponent,
+    DialogUniversityCreateComponent
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        MatMenuModule,
-        MatSidenavModule,
-        MatInputModule,
-        MatSelectModule,
-        MatIconModule,
-        MatToolbarModule,
-        AgGridModule,
-        MatDialogModule,
-        RouterModule.forRoot([
-            {path: '', component: MainPageComponent},
-            {path: 'universities', component: UniversityListComponent},
-            {path: 'university/:universityId', component: UniversityDetailsComponent},
-            {path: 'accounts', component: UsersListComponent},
-            {path: 'accounts/create', component: DialogUserCreateComponent},
-            {path: 'account/:userId', component: UserDetailsComponent},
-            {path: 'pages', component: PageListComponent},
-            {path: 'page/:pageId', component: PageDetailsComponent},
-            {path: 'login', component: LoginComponent}
-        ]),
-        BrowserAnimationsModule,
-        BrowserModule,
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatToolbarModule,
+    AgGridModule,
+    MatDialogModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    RouterModule.forRoot([
+      { path: '', component: MainPageComponent },
+      { path: 'universities', component: UniversityListComponent },
+      { path: 'university/:universityId', component: UniversityDetailsComponent },
+      { path: 'accounts', component: UsersListComponent },
+      { path: 'accounts/create', component: DialogUserCreateComponent },
+      { path: 'accounts/settings', component: UserSettingsComponent },
+      { path: 'account/:userId', component: UserDetailsComponent },
+      { path: 'pages', component: PageListComponent },
+      { path: 'page/:pageId', component: PageDetailsComponent },
+      { path: 'login', component: LoginComponent }
+    ]),
+    BrowserAnimationsModule,
+    BrowserModule,
         // ngx-translate and the loader module
         HttpClientModule,
         TranslateModule.forRoot({
