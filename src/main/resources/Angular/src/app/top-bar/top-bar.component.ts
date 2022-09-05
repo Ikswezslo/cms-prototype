@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { page } from 'src/assets/models/page';
-import { university } from 'src/assets/models/university';
+import { Page } from 'src/assets/models/page';
+import { University } from 'src/assets/models/university';
 import { User } from 'src/assets/models/user';
 import { UniversityService } from 'src/assets/service/university.service';
 import { UserService } from 'src/assets/service/user.service';
@@ -26,9 +26,9 @@ export class TopBarComponent implements OnInit {
     isAccountDisabled: false
   };
   imageSrc = 'assets/images/pp.png'
-  universities: university[]= [];
+  universities: University[]= [];
   users: User[] = [];
-  pages: page[] = [];
+  pages: Page[] = [];
 
   constructor(
     private pageService: PageService,

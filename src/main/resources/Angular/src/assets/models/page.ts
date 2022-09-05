@@ -1,16 +1,16 @@
-import { university } from "./university";
+import { University } from "./university";
 import { User } from "./user";
 import {Timestamp} from "rxjs";
 
-export interface page {
+export interface Page {
     id: number;
     title: string;
     creator: User;
     hidden: boolean;
     content: string;
-    parent: page;
-    university: university;
-    children: page[];
+    parent: Page;
+    university: University;
+    children: Page[];
     createdOn: Timestamp<any>;
     updatedOn: Timestamp<any>;
 }

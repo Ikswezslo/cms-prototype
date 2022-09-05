@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ColDef, ColumnApi, GridApi, RowSelectedEvent } from 'ag-grid-community';
 
-import { university } from 'src/assets/models/university';
+import { University } from 'src/assets/models/university';
 import { UniversityService } from 'src/assets/service/university.service';
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,7 +15,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class UniversityListComponent implements OnInit {
 
-  universities: university[] = [];
+  universities: University[] = [];
   public selected = false;
   gridApi!: GridApi;
   columnApi!: ColumnApi;

@@ -1,8 +1,8 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {university, UniversityForm} from '../models/university';
-import {Observable} from "rxjs";
-import {RestErrorHandler} from "../models/restError";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { University , UniversityForm } from '../models/university';
+import { Observable } from "rxjs";
+import { RestErrorHandler } from "../models/restError";
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +18,17 @@ export class UniversityService {
   constructor(private http: HttpClient) {
   }
 
-  getUniversity(id: Number, defaultErrorHandling: boolean = true): Observable<university> {
-    return this.http.get<university>(`${this.universityUrl}/${id}`, this.httpOptions)
+  getUniversity(id: Number, defaultErrorHandling: boolean = true): Observable<University> {
+    return this.http.get<University>(`${this.universityUrl}/${id}`, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  getUniversities(defaultErrorHandling: boolean = true): Observable<university[]> {
-    return this.http.get<university[]>(this.universityUrl, this.httpOptions)
+  getUniversities(defaultErrorHandling: boolean = true): Observable<University[]> {
+    return this.http.get<University[]>(this.universityUrl, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
-  addNewUniveristy(university: UniversityForm, defaultErrorHandling: boolean = true ) : Observable<university>{
-    return this.http.post<university>(this.universityUrl, university, this.httpOptions)
+  addNewUniveristy(University: UniversityForm, defaultErrorHandling: boolean = true ) : Observable<University>{
+    return this.http.post<University>(this.universityUrl, University, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

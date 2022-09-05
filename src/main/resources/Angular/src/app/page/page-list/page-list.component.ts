@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColDef, GridApi, RowSelectedEvent } from 'ag-grid-community';
-import { page } from 'src/assets/models/page';
+import { Page } from 'src/assets/models/page';
 import { PageService } from '../../../assets/service/page.service';
 
 
@@ -13,7 +13,7 @@ import { PageService } from '../../../assets/service/page.service';
 })
 export class PageListComponent implements OnInit {
 
-  pages: page[] = [];
+  pages: Page[] = [];
   public selected = false;
   gridApi = GridApi;
 
