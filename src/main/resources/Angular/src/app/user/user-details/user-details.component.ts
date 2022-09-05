@@ -30,6 +30,7 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getUser(this.id)
     .subscribe(res => {
       this.user = res;
+      this.user.accountType === "ADMIN"
     });
   }
 }

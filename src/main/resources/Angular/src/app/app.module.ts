@@ -19,21 +19,21 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import { UserDetailsComponent } from './user-details/user-details.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from  '@angular/material/toolbar';
-import { UsersListComponent } from './users-list/users-list.component';
-import { PageDetailsComponent } from './page-details/page-details.component';
-import { PageListComponent } from './page-list/page-list.component';
-import { UniversityListComponent } from './university-list/university-list.component';
-import { UniversityDetailsComponent } from './university-details/university-details.component';
-import { DialogUserCreateComponent } from './dialog-user-create/dialog-user-create.component';
+import { UsersListComponent } from './user/users-list/users-list.component';
+import { PageDetailsComponent } from './page/page-details/page-details.component';
+import { PageListComponent } from './page/page-list/page-list.component';
+import { UniversityListComponent } from './university/university-list/university-list.component';
+import { UniversityDetailsComponent } from './university/university-details/university-details.component';
+import { DialogUserCreateComponent } from './user/dialog-user-create/dialog-user-create.component';
 import { LoginComponent } from './login/login.component';
-import { UserSettingsComponent } from './user-settings/user-settings.component';
-import { DialogUniversityCreateComponent } from './dialog-university-create/dialog-university-create.component';
+import { UserSettingsComponent } from './user/user-settings/user-settings.component';
+import { DialogUniversityCreateComponent } from './university/dialog-university-create/dialog-university-create.component';
 
 
 @NgModule({

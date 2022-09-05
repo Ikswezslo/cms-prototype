@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {UniversityService} from "../../assets/service/university.service";
-import {UniversityForm} from "../../assets/models/university";
+import {UniversityService} from "../../../assets/service/university.service";
 import {FormControl, Validators} from "@angular/forms";
+import { UniversityForm } from 'src/assets/models/university';
 
 @Component({
   selector: 'app-dialog-university-create',

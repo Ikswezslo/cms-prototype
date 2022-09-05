@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { page } from 'src/assets/models/page';
-import { PageService } from '../../assets/service/page.service';
+import { PageService } from '../../../assets/service/page.service';
 
 @Component({
   selector: 'app-page-details',
