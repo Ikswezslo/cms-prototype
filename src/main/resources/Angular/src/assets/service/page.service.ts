@@ -24,7 +24,7 @@ export class PageService {
   }
 
   getPages(defaultErrorHandling: boolean = true): Observable<page[]> {
-    return this.http.get<page[]>(this.pageUrl, this.httpOptions)
+    return this.http.get<page[]>(this.pageUrl + "/all", this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
