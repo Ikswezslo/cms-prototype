@@ -1,0 +1,20 @@
+<div class="form-input">
+  <div class="row">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput required [(ngModel)]="university.name" [formControl]="nameValid">
+      <mat-error *ngIf="nameValid.hasError('required')">Name of university is required</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="fill">
+      <mat-label>Short Name</mat-label>
+      <input matInput required [(ngModel)]="university.shortName" [formControl]="shortNameValid">
+      <mat-error *ngIf="shortNameValid.hasError('required')">Short name of university is required</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<span>
+    <button mat-stroked-button class="button-option" (click)="close()">Close</button>
+    <button mat-stroked-button class="button-option" (click)="createUniversity()">Add university</button>
+</span>

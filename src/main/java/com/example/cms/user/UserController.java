@@ -26,6 +26,12 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping("/logged")
+    @Secured("ROLE_USER")
+    public UserDtoDetailed getLoggedUser() {
+        return userService.getLoggedUser();
+    }
+
     @Secured("ROLE_MODERATOR")
     @GetMapping(path = "/{id}")
     public UserDtoDetailed getUser(@PathVariable long id) {

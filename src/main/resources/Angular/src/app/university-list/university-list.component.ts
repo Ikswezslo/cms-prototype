@@ -2,8 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ColDef, ColumnApi, GridApi, RowSelectedEvent } from 'ag-grid-community';
+
 import { university } from 'src/assets/models/university';
 import { UniversityService } from 'src/assets/service/university.service';
+import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-university-list',
@@ -21,7 +24,7 @@ export class UniversityListComponent implements OnInit {
     { field: 'id', type: 'numericColumn', width: 100, filter: 'agNumberColumnFilter' },
     { field: 'name', width: 500},
     { field: 'shortName' },
-  
+
   ];
   public defaultColDef: ColDef = {
     width: 300,
@@ -31,20 +34,27 @@ export class UniversityListComponent implements OnInit {
 };
   constructor(
     private router: Router,
-    private universitieService: UniversityService) {}
+    private universityService: UniversityService,
+    public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadUniversities();
   }
 
   loadUniversities(showHidden: Boolean = false) {
-    this.universitieService.getUniversities()
+    this.universityService.getUniversities()
       .subscribe(res => {
         this.universities = showHidden ? res : res.filter(element => !element.hidden);
       });
     this.columnApi.autoSizeAllColumns();
   }
+  addUniversity(){
+    const dialogRef = this.dialog.open(DialogUniversityCreateComponent, {});
 
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadUniversities();
+    });
+  }
   onRowSelected(event: RowSelectedEvent) {
     this.router.navigateByUrl('/university/' + event.data.id);
   }

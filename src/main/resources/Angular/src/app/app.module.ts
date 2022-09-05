@@ -31,6 +31,7 @@ import { UniversityDetailsComponent } from './university-details/university-deta
 import { DialogUserCreateComponent } from './dialog-user-create/dialog-user-create.component';
 import { LoginComponent } from './login/login.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { DialogUniversityCreateComponent } from './dialog-university-create/dialog-university-create.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
     UniversityDetailsComponent,
     DialogUserCreateComponent,
     LoginComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    DialogUniversityCreateComponent
   ],
   imports: [
     BrowserModule,
