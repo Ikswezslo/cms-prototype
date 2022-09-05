@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { university } from 'src/assets/models/university';
+import { University } from 'src/assets/models/university';
 import { UniversityService } from 'src/assets/service/university.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { UniversityService } from 'src/assets/service/university.service';
 })
 export class UniversityDetailsComponent implements OnInit {
 
-  public university!: university;
+  public university!: University;
   public id: Number = 0;
 
   constructor(

@@ -43,6 +43,7 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
+    this.loadColumn();
   }
   
 
@@ -51,6 +52,22 @@ export class UsersListComponent implements OnInit {
       .subscribe(res => {
         this.users = res;
     });
+  }
+  loadColumn() {
+    this.columnDefs = [
+      { field: 'id' },
+      { field: 'username' },
+      { field: 'firstName' },
+      { field: 'lastName' },
+      { field: 'universityID' },
+      { field: 'email' },
+      { field: 'accountType' },
+    ];
+    
+  }
+  
+  xxx() {
+    
   }
 
   addUser() {

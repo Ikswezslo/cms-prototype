@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { page } from 'src/assets/models/page';
-import { PageService } from '../../assets/service/page.service';
+import { Page } from 'src/assets/models/page';
+import { PageService } from '../../../assets/service/page.service';
 
 @Component({
   selector: 'app-page-details',
@@ -11,7 +11,7 @@ import { PageService } from '../../assets/service/page.service';
 })
 export class PageDetailsComponent implements OnInit {
 
-  public page!: page;
+  public page!: Page;
   public id: Number = 0;
   public pageHtml: any;
   

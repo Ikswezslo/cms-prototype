@@ -5,4 +5,5 @@
   <p>ID: {{ user.id }}</p>
   <p>Email: {{ user.email }}</p>
   <p>Is disabled: {{ user.isAccountDisabled }}</p>
+  <p *ngIf="user.accountType == 'ADMIN'">AAAAA</p>
 </div>
