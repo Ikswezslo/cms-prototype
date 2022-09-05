@@ -2,6 +2,7 @@ package com.example.cms.page;
 
 import com.example.cms.page.exceptions.PageException;
 import com.example.cms.page.exceptions.PageExceptionType;
+import com.example.cms.page.projections.PageDtoCard;
 import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoForm;
 import com.example.cms.page.projections.PageDtoSimple;
@@ -32,6 +33,12 @@ public class PageService {
     public List<PageDtoSimple> getAll() {
         return pageRepository.findAll().stream()
                 .map(PageDtoSimple::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<PageDtoCard> getPagesForCards(Pageable pageable) {
+        return pageRepository.findAll(pageable).stream()
+                .map(PageDtoCard::new)
                 .collect(Collectors.toList());
     }
 

@@ -1,10 +1,13 @@
 <div>
-    <span style="align-items: center">
-        <h1>Strona główna</h1>
+  <span style="align-items: center; margin: 10px">
+        <h1>Ostatnio dodane strony:</h1>
     </span>
-    <span>
-        <p [routerLink]="['/universities']" class="item">{{'UNIVERSITYS' | translate}}</p>
-        <p [routerLink]="['/accounts']" class="item">{{'USERS' | translate}}</p>
-        <p [routerLink]="['/pages']" class="item">Pages</p>
-    </span>
+
+  <div *ngFor="let page of pages">
+    <mat-card style="margin:10px; " [routerLink]="['/page/'+page.id]">
+      <mat-card-title>{{page.title}}</mat-card-title>
+      <mat-card-subtitle>{{page.university.name}}</mat-card-subtitle>
+      <mat-card-subtitle>{{page.createdOn}}</mat-card-subtitle>
+    </mat-card>
+  </div>
 </div>

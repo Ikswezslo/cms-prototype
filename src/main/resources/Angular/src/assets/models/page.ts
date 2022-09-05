@@ -1,5 +1,6 @@
 import { university } from "./university";
 import { User } from "./user";
+import {Timestamp} from "rxjs";
 
 export interface page {
     id: number;
@@ -10,4 +11,6 @@ export interface page {
     parent: page;
     university: university;
     children: page[];
+    createdOn: Timestamp<any>;
+    updatedOn: Timestamp<any>;
 }

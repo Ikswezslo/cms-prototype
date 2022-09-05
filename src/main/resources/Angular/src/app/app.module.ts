@@ -32,8 +32,8 @@ import { UniversityListComponent } from './university/university-list/university
 import { UniversityDetailsComponent } from './university/university-details/university-details.component';
 import { DialogUserCreateComponent } from './user/dialog-user-create/dialog-user-create.component';
 import { LoginComponent } from './login/login.component';
-import { UserSettingsComponent } from './user/user-settings/user-settings.component';
-import { DialogUniversityCreateComponent } from './university/dialog-university-create/dialog-university-create.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { DialogUniversityCreateComponent } from './dialog-university-create/dialog-university-create.component';
 
 
 @NgModule({
@@ -67,6 +67,7 @@ import { DialogUniversityCreateComponent } from './university/dialog-university-
     MatDialogModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatCardModule,
     RouterModule.forRoot([
       { path: '', component: MainPageComponent },
       { path: 'universities', component: UniversityListComponent },
@@ -90,7 +91,7 @@ import { DialogUniversityCreateComponent } from './university/dialog-university-
                 deps: [HttpClient]
             }
         })
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
