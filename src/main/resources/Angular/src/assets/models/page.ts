@@ -5,6 +5,7 @@ export interface Page {
     id: number;
     title: string;
     creator: User;
+    description: string;
     hidden: boolean;
     content: string;
     parent: Page;
