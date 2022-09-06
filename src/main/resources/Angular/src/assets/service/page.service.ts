@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Page } from 'src/assets/models/page';
-import { RestErrorHandler } from "../models/restError";
-import { Observable } from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Page} from 'src/assets/models/page';
+import {RestErrorHandler} from "../models/restError";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class PageService {
   }
 
   getNewPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
-    return this.http.get<Page[]>(`${this.pageUrl}/cards?sort=createdOn,desc`, this.httpOptions)
+    return this.http.get<Page[]>(`${this.pageUrl}/all?sort=createdOn,desc`, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
