@@ -13,11 +13,11 @@ body {
 }
 
 .container {
-    background-color: #9ec6f7;
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    width: 100%;
+  background-color: #9ec6f7;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
 }
 
 router-outlet {
@@ -134,17 +134,17 @@ button:disabled {
 /* Top Bar */
 
 app-top-bar {
-    width: 100%;
-    height: 68px;
-    background-color: #006da3;
-    padding: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0; 
-    z-index: 1000; 
+  width: 100%;
+  height: 68px;
+  background-color: #006da3;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 app-top-bar h1 {

@@ -24,6 +24,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button'
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {UsersListComponent} from './user/users-list/users-list.component';
 import {PageDetailsComponent} from './page/page-details/page-details.component';
@@ -38,6 +39,9 @@ import {
 } from './university/dialog-university-create/dialog-university-create.component';
 import {QuillModule} from 'ngx-quill';
 import {QuillEditorComponent} from './quill-editor/quill-editor.component'
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -70,8 +74,10 @@ import {QuillEditorComponent} from './quill-editor/quill-editor.component'
     AgGridModule,
     MatDialogModule,
     MatCardModule,
+    MatButtonModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    FlexLayoutModule,
     QuillModule.forRoot(),
     RouterModule.forRoot([
       {path: '', component: MainPageComponent},
@@ -87,16 +93,18 @@ import {QuillEditorComponent} from './quill-editor/quill-editor.component'
     ]),
     BrowserAnimationsModule,
     BrowserModule,
-        // ngx-translate and the loader module
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        })
-    ],
+    // ngx-translate and the loader module
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MatDividerModule,
+    MatExpansionModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
