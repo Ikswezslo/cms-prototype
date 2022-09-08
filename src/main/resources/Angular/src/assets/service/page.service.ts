@@ -29,7 +29,7 @@ export class PageService {
   }
 
   getNewPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
-    return this.http.get<Page[]>(`${this.pageUrl}/cards?sort=createdOn,desc`, this.httpOptions)
+    return this.http.get<Page[]>(`${this.pageUrl}/all?sort=createdOn,desc`, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 

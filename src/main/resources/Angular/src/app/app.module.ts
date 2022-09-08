@@ -24,7 +24,6 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button'
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {UsersListComponent} from './user/users-list/users-list.component';
 import {PageDetailsComponent} from './page/page-details/page-details.component';
@@ -37,6 +36,8 @@ import {UserSettingsComponent} from './user/user-settings/user-settings.componen
 import {
   DialogUniversityCreateComponent
 } from './university/dialog-university-create/dialog-university-create.component';
+import {PageUserComponent} from './page/page-user/page-user.component';
+import {MatButtonModule} from '@angular/material/button'
 import {QuillModule} from 'ngx-quill';
 import {QuillEditorComponent} from './quill-editor/quill-editor.component'
 import {FlexLayoutModule} from "@angular/flex-layout";
@@ -58,6 +59,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     LoginComponent,
     UserSettingsComponent,
     DialogUniversityCreateComponent,
+    PageUserComponent,
     QuillEditorComponent
   ],
   imports: [
@@ -80,16 +82,17 @@ import {MatExpansionModule} from "@angular/material/expansion";
     FlexLayoutModule,
     QuillModule.forRoot(),
     RouterModule.forRoot([
-      {path: '', component: MainPageComponent},
-      {path: 'universities', component: UniversityListComponent},
-      {path: 'university/:universityId', component: UniversityDetailsComponent},
-      {path: 'accounts', component: UsersListComponent},
-      {path: 'accounts/create', component: DialogUserCreateComponent},
-      {path: 'accounts/settings', component: UserSettingsComponent},
-      {path: 'account/:userId', component: UserDetailsComponent},
-      {path: 'pages', component: PageListComponent},
-      {path: 'page/:pageId', component: PageDetailsComponent},
-      {path: 'login', component: LoginComponent}
+      { path: '', component: MainPageComponent },
+      { path: 'universities', component: UniversityListComponent },
+      { path: 'university/:universityId', component: UniversityDetailsComponent },
+      { path: 'accounts', component: UsersListComponent },
+      { path: 'accounts/create', component: DialogUserCreateComponent },
+      { path: 'accounts/settings', component: UserSettingsComponent },
+      { path: 'account/:userId', component: UserDetailsComponent },
+      { path: 'pages', component: PageListComponent },
+      { path: 'page/:pageId', component: PageDetailsComponent },
+      { path: 'pages/:userId', component: PageUserComponent },
+      { path: 'login', component: LoginComponent }
     ]),
     BrowserAnimationsModule,
     BrowserModule,
