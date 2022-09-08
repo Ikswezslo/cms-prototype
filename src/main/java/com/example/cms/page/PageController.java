@@ -60,11 +60,18 @@ public class PageController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/hide")
     ResponseEntity<Void> pageSetHidden(@PathVariable long id, @RequestParam boolean hidden) {
         service.setHidden(id, hidden);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/content")
+    ResponseEntity<Void> updatePageContent(@PathVariable long id, @RequestBody String content) {
+        service.updateContent(id, content);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deletePage(@PathVariable long id) {

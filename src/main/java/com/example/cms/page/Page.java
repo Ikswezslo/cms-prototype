@@ -27,6 +27,7 @@ public class Page {
     private String title;
     @NotBlank(message = "Description must not be empty")
     private String description;
+    @Lob
     @NotNull(message = "Content must not be null")
     private String content;
     private boolean hidden;

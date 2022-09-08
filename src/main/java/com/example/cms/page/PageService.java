@@ -121,4 +121,11 @@ public class PageService {
                 .map(PageDtoSimple::new)
                 .collect(Collectors.toList());
     }
+
+    public void updateContent(Long id, String content) {
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        page.setContent(content);
+
+        pageRepository.save(page);
+    }
 }

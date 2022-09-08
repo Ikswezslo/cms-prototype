@@ -1,0 +1,10 @@
+<div class="editor">
+  <h3 id="focusBlur">Default editor with height of 200px</h3>
+  <p>focused: {{ focused }}, blurred: {{ blurred }}</p>
+
+  <button (click)="save()">Zapisz</button>
+
+  <quill-editor [(ngModel)]="content" [sanitize]="true" [styles]="{height: '200px'}" (onFocus)="focus($event)"
+                (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)"
+                (onEditorCreated)="created($event)"></quill-editor>
+</div>
