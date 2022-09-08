@@ -1,6 +1,5 @@
 package com.example.cms.page;
 
-import com.example.cms.page.projections.PageDtoCard;
 import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoForm;
 import com.example.cms.page.projections.PageDtoSimple;
@@ -22,20 +21,13 @@ public class PageController {
     }
 
     @GetMapping("/all")
-    List<PageDtoSimple> readAllPages() {
-        return service.getAll();
-    }
-
-
-    @GetMapping("/cards")
-    List<PageDtoCard> readAllPagesForCards(Pageable pageable) {
-        return service.getPagesForCards(pageable);
+    List<PageDtoSimple> readAllPages(Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping("/children")
     List<PageDtoSimple> readChildrenPages(@RequestParam(defaultValue = "") Long parent) {
         return service.getAllChildren(parent);
-
     }
 
     @GetMapping("/{id}")

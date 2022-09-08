@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Page } from 'src/assets/models/page';
-import { University } from 'src/assets/models/university';
-import { User } from 'src/assets/models/user';
-import { UniversityService } from 'src/assets/service/university.service';
-import { UserService } from 'src/assets/service/user.service';
-import { PageService } from '../../assets/service/page.service';
+import {Component, OnInit} from '@angular/core';
+import {Page} from 'src/assets/models/page';
+import {University} from 'src/assets/models/university';
+import {User} from 'src/assets/models/user';
+import {UniversityService} from 'src/assets/service/university.service';
+import {UserService} from 'src/assets/service/user.service';
+import {PageService} from '../../assets/service/page.service';
 
 @Component({
   selector: 'app-top-bar',
