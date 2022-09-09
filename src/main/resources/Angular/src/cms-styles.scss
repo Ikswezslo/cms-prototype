@@ -1,0 +1,19 @@
+$base-content-gap: 20px;
+$base-container-width: 1000px;
+
+.cms-fixed-width {
+  width: 100%;
+  max-width: $base-container-width;
+}
+
+.cms-padding {
+  padding: $base-content-gap;
+}
+
+.cms-margin {
+  margin: $base-content-gap;
+}
+
+.cms-layout-gap {
+  row-gap: $base-content-gap;
+}
