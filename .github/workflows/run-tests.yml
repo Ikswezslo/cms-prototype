@@ -7,7 +7,7 @@ on:
 
   workflow_dispatch:
 jobs:
-  build:
+  backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,5 +19,29 @@ jobs:
           distribution: 'corretto'
           cache: maven
           
-      - name: Validate, build and run tests
+      - name: Validate, build and run backend tests
         run: mvn --batch-mode --update-snapshots verify
+        
+      - name: Build frontend
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+       run:
+         working-directory: ./src/main/resources/Angular
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: v17.5.0
+          cache: 'npm'
+          cache-dependency-path: './src/main/resources/Angular/package-lock.json'
+
+      - name: Install and build frontend
+        run: |
+          npm install
+          npm run build --if-present
