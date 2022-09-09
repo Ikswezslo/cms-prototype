@@ -18,6 +18,8 @@ export class PageService {
   constructor(private http: HttpClient) {
   }
 
+  public tempPage?: Page;
+
   getPage(id: Number, defaultErrorHandling: boolean = true): Observable<Page> {
     return this.http.get<Page>(`${this.pageUrl}/${id}`, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
@@ -30,6 +32,11 @@ export class PageService {
 
   getNewPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
     return this.http.get<Page[]>(`${this.pageUrl}/all?sort=createdOn,desc`, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  updatePageContent(id: Number, content: string, defaultErrorHandling: boolean = true): Observable<any> {
+    return this.http.patch<any>(`${this.pageUrl}/${id}/content`, content, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 

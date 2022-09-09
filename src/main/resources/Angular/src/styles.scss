@@ -37,5 +37,32 @@ $Angular-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+$base-content-gap: 20px;
+$base-container-width: 1000px;
+
+.cms-fixed-width {
+  width: 100%;
+  max-width: $base-container-width;
+}
+
+.cms-padding {
+  padding: $base-content-gap;
+}
+
+.cms-margin {
+  margin: $base-content-gap;
+}
+
+.cms-layout-gap {
+  row-gap: $base-content-gap;
+}

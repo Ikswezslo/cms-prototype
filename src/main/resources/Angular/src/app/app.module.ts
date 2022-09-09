@@ -37,7 +37,14 @@ import {
   DialogUniversityCreateComponent
 } from './university/dialog-university-create/dialog-university-create.component';
 import {PageUserComponent} from './page/page-user/page-user.component';
-
+import {MatButtonModule} from '@angular/material/button'
+import {QuillModule} from 'ngx-quill';
+import {QuillEditorComponent} from './page/quill-editor/quill-editor.component'
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {PageCardComponent} from './page/page-card/page-card.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +61,9 @@ import {PageUserComponent} from './page/page-user/page-user.component';
     LoginComponent,
     UserSettingsComponent,
     DialogUniversityCreateComponent,
-    PageUserComponent
+    PageUserComponent,
+    QuillEditorComponent,
+    PageCardComponent
   ],
   imports: [
     BrowserModule,
@@ -70,33 +79,40 @@ import {PageUserComponent} from './page/page-user/page-user.component';
     AgGridModule,
     MatDialogModule,
     MatCardModule,
+    MatButtonModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    MatSnackBarModule,
+    FlexLayoutModule,
+    QuillModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: MainPageComponent },
-      { path: 'universities', component: UniversityListComponent },
-      { path: 'university/:universityId', component: UniversityDetailsComponent },
-      { path: 'accounts', component: UsersListComponent },
-      { path: 'accounts/create', component: DialogUserCreateComponent },
-      { path: 'accounts/settings', component: UserSettingsComponent },
-      { path: 'account/:userId', component: UserDetailsComponent },
-      { path: 'pages', component: PageListComponent },
-      { path: 'page/:pageId', component: PageDetailsComponent },
-      { path: 'pages/:userId', component: PageUserComponent },
-      { path: 'login', component: LoginComponent }
+      {path: '', component: MainPageComponent},
+      {path: 'universities', component: UniversityListComponent},
+      {path: 'university/:universityId', component: UniversityDetailsComponent},
+      {path: 'accounts', component: UsersListComponent},
+      {path: 'accounts/create', component: DialogUserCreateComponent},
+      {path: 'accounts/settings', component: UserSettingsComponent},
+      {path: 'account/:userId', component: UserDetailsComponent},
+      {path: 'pages', component: PageListComponent},
+      {path: 'page/:pageId', component: PageDetailsComponent},
+      {path: 'page/:pageId/edit', component: QuillEditorComponent},
+      {path: 'pages/:userId', component: PageUserComponent},
+      {path: 'login', component: LoginComponent}
     ]),
     BrowserAnimationsModule,
     BrowserModule,
-        // ngx-translate and the loader module
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        })
-    ],
+    // ngx-translate and the loader module
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MatDividerModule,
+    MatExpansionModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

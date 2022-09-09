@@ -1,31 +1,9 @@
-.item {
-    padding: 2px 5px;
-    margin: 0.5px;
-    background-color: rgb(184, 223, 255);
-    color: black;
+@import 'src/styles';
+
+mat-card, app-page-card {
+  @extend .cms-fixed-width
 }
 
-:link {
-    color: black;
-    font-style: normal;
-    text-decoration: none;
-}
-:link::after{
-    color: black;
-
-}
-.content{
-    display:flex;
-    flex-flow: row wrap;
-    align-items: flex-start
-}
-
-.pageView{
-    position: absolute;
-    right: 0px;
-    width: 300px;
-    margin: 10px;
-    width: 595px;
-    height: 842px;
-    background-color: white;
+mat-card-title {
+  margin-bottom: 20px;
 }

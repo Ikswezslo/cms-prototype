@@ -1,0 +1,10 @@
+@import 'src/styles';
+
+.editor {
+  background-color: white;
+  max-width: $base-container-width;
+}
+
+mat-card {
+  @extend .cms-fixed-width
+}
