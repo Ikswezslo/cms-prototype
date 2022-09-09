@@ -28,6 +28,9 @@ jobs:
           echo test, and deploy your project.
   frontend:
     runs-on: ubuntu-latest
+    defaults:
+       run:
+         working-directory: ./src/main/resources/Angular
     steps:
       - uses: actions/checkout@v3
 
@@ -36,6 +39,7 @@ jobs:
         with:
           node-version: v17.5.0
           cache: 'npm'
+          cache-dependency-path: './src/main/resources/Angular/package-lock.json'
 
       - name: Install and build frontend
         run: |
