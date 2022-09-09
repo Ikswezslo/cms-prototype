@@ -1,4 +1,4 @@
-<div *ngIf="page" fxLayout='column' fxLayoutAlign="center center" class="cms-content" fxLayoutGap="20px">
+<div *ngIf="page" fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
 
   <mat-card fxFlex>
     <mat-card-title>Edytowanie strony</mat-card-title>
@@ -18,8 +18,6 @@
 
   <div fxFlex class="editor">
     <quill-editor [(ngModel)]="content" [sanitize]="true" [styles]="{height: '600px'}"
-                  (onFocus)="focus($event)"
-                  (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)"
                   (onEditorCreated)="created($event)"></quill-editor>
   </div>
 

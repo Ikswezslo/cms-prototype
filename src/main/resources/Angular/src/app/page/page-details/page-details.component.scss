@@ -1,33 +1,9 @@
-.item {
-    padding: 2px 5px;
-    margin: 0.5px;
-    background-color: rgb(184, 223, 255);
-    color: black;
-}
-
-:link {
-    color: black;
-    font-style: normal;
-    text-decoration: none;
-}
-:link::after{
-    color: black;
-
-}
-.content{
-    display:flex;
-    flex-flow: row wrap;
-    align-items: flex-start
-}
+@import 'src/styles';
 
 mat-card, app-page-card {
-  width: 100%;
-  max-width: 1000px;
+  @extend .cms-fixed-width
 }
 
-.cms-content {
-  margin-left: 20px;
-  margin-right: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+mat-card-title {
+  margin-bottom: 20px;
 }

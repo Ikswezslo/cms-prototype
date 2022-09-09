@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import Quill from "quill";
-import {EditorChangeContent, EditorChangeSelection} from "ngx-quill";
 import {Page} from "../../../assets/models/page";
 import {PageService} from "../../../assets/service/page.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -13,10 +12,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class QuillEditorComponent implements OnInit {
 
-  content?: String = undefined;
-
-  blurred = false
-  focused = false
+  content?: String;
 
   public page?: Page;
   public id?: Number;
@@ -33,7 +29,6 @@ export class QuillEditorComponent implements OnInit {
     const routeParams = this.route.snapshot.paramMap;
     this.id = Number(routeParams.get('pageId'));
 
-    console.log(this.pageService.tempPage)
     this.page = this.pageService.tempPage;
     this.pageService.tempPage = undefined;
 
@@ -46,37 +41,21 @@ export class QuillEditorComponent implements OnInit {
     this.pageService.getPage(id)
       .subscribe(res => {
         this.page = res;
-        console.log(res)
       });
   }
 
   created(quill: Quill) {
-    console.log('editor-created', quill, this.page)
-
-    quill.clipboard.dangerouslyPasteHTML(this.page?.content as string);
+    if (this.page?.content) {
+      quill.clipboard.dangerouslyPasteHTML(this.page.content);
+    }
   }
 
-  changedEditor(event: EditorChangeContent | EditorChangeSelection) {
-    console.log('editor-change', event)
-  }
-
-  focus($event: any) {
-    console.log('focus', $event)
-    this.focused = true
-    this.blurred = false
-  }
-
-  blur($event: any) {
-    console.log('blur', $event)
-    this.focused = false
-    this.blurred = true
-  }
 
   save() {
     console.log(this.content)
     if (this.content != undefined && this.page) {
       this.pageService.updatePageContent(this.page.id, this.content as string).subscribe(
-        res => {
+        () => {
           this.snackBar.open("Zapisano stronę", "Zamknij", {
             duration: 2000
           });

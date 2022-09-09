@@ -1,8 +1,8 @@
-<div fxLayout='column' fxLayoutAlign="center center" fxLayoutGap="20px" class="cms-content" *ngIf="page">
+<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="page">
   <app-page-card [page]="page" [goToBtn]="false">
     <button mat-button [matMenuTriggerFor]="actions">
       <mat-icon>label_important</mat-icon>
-      Akcje
+      <span>Akcje</span>
     </button>
   </app-page-card>
 
@@ -14,7 +14,6 @@
 
   <mat-card fxFlex>
     <mat-card-title>Zasoby strony</mat-card-title>
-    <mat-card-subtitle><br></mat-card-subtitle>
     <mat-card-content>
       <mat-accordion>
 
@@ -22,7 +21,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>attachment</mat-icon>
-              Dołączone pliki
+              <span>Dołączone pliki</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <p>Not yet implemented</p>
@@ -32,7 +31,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>photo_library</mat-icon>
-              Wykorzystane zdjęcia
+              <span>Wykorzystane zdjęcia</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <p>Not yet implemented</p>
@@ -42,14 +41,18 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="page.parent" fxFlex fxLayout='column' fxLayoutAlign="center start" fxLayoutGap="20px">
+  <mat-card *ngIf="page.parent" fxFlex>
     <mat-card-title>Nadstrona<br></mat-card-title>
-    <app-page-card [page]="page.parent" [gray]="true"></app-page-card>
+    <mat-card-content fxLayout='column' fxLayoutAlign="center start" class="cms-layout-gap">
+      <app-page-card [page]="page.parent" [gray]="true"></app-page-card>
+    </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="page.children.length" fxFlex fxLayout='column' fxLayoutAlign="center start" fxLayoutGap="20px">
+  <mat-card *ngIf="page.children.length" fxFlex>
     <mat-card-title>Podstrony<br></mat-card-title>
-    <app-page-card *ngFor="let child of page.children" [page]="child" [gray]="true"></app-page-card>
+    <mat-card-content fxLayout='column' fxLayoutAlign="center start" class="cms-layout-gap">
+      <app-page-card *ngFor="let child of page.children" [page]="child" [gray]="true"></app-page-card>
+    </mat-card-content>
   </mat-card>
 </div>
 

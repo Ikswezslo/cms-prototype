@@ -1,16 +1,10 @@
+@import 'src/styles';
+
 .editor {
   background-color: white;
-  max-width: 1000px;
-}
-
-.cms-content {
-  margin-left: 20px;
-  margin-right: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  max-width: $base-container-width;
 }
 
 mat-card {
-  width: 100%;
-  max-width: 1000px;
+  @extend .cms-fixed-width
 }
