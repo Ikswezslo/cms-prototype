@@ -1,0 +1,42 @@
+<mat-card *ngIf="page" fxFlex [ngClass]="{'gray': gray}">
+  <mat-card-title>
+    {{page.title}}
+    <mat-icon *ngIf="page.hidden">visibility_off</mat-icon>
+
+  </mat-card-title>
+
+  <mat-card-subtitle>
+    <div>
+      <span class="link" [routerLink]="['/university', page.university.id]">
+        <mat-icon>business</mat-icon>
+        {{page.university.name}}
+      </span>
+    </div>
+
+    <div>
+      <span class="link" [routerLink]="['/account', page.creator.id]">
+        <mat-icon>account_circle</mat-icon>
+        Autor: {{page.creator.firstName + " " + page.creator.lastName}}
+      </span>
+    </div>
+
+    <div>
+      <mat-icon>date_range</mat-icon>
+      {{page.createdOn}}
+    </div>
+  </mat-card-subtitle>
+
+  <mat-divider inset></mat-divider>
+
+  <mat-card-content>{{page.description}}</mat-card-content>
+
+  <mat-card-actions>
+    <button *ngIf="goToBtn" mat-button [routerLink]="['/page', page.id]">
+      <mat-icon>launch</mat-icon>
+      Przejdź do strony
+    </button>
+
+    <ng-content></ng-content>
+  </mat-card-actions>
+
+</mat-card>

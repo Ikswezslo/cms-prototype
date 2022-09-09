@@ -20,17 +20,7 @@
     align-items: flex-start
 }
 
-.pageView {
-  position: absolute;
-  right: 0px;
-  width: 300px;
-  margin: 10px;
-  width: 595px;
-  height: 842px;
-  background-color: white;
-}
-
-mat-card {
+mat-card, app-page-card {
   width: 100%;
   max-width: 1000px;
 }

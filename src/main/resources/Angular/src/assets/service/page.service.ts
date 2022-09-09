@@ -18,6 +18,8 @@ export class PageService {
   constructor(private http: HttpClient) {
   }
 
+  public tempPage?: Page;
+
   getPage(id: Number, defaultErrorHandling: boolean = true): Observable<Page> {
     return this.http.get<Page>(`${this.pageUrl}/${id}`, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
