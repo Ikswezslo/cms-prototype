@@ -1,6 +1,7 @@
 package com.example.cms.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -41,7 +42,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(
+    @Profile("secured")
+    public SecurityFilterChain securedFilterChain(
             UsernamePasswordAuthenticationFilter authenticationFilter, HttpSecurity http,
             AuthenticationEntryPoint authenticationEntryPoint,
             AccessDeniedHandler accessDeniedHandler) throws Exception {
@@ -61,6 +63,20 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler)
                 .authenticationEntryPoint(authenticationEntryPoint);
+
+        return http.build();
+    }
+
+    @Bean
+    @Profile("not-secured")
+    public SecurityFilterChain notSecuredFilterChain(HttpSecurity http) throws Exception {
+
+        http.csrf().disable();
+
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .and()
+                .anonymous().authorities("ROLE_ADMIN", "ROLE_MODERATOR", "ROLE_USER");
 
         return http.build();
     }

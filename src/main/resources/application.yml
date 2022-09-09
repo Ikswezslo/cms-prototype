@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: secured
   h2:
     console:
       enabled: true
