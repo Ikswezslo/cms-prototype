@@ -18,10 +18,10 @@ button {
     border: none;
 }
 
-.mainButton {
+.mainButton{
     border-radius: 2px;
     font-size: 20px;
-    background-color: #9ec6f7;
+    background-color: var(--base-light-blue);
 
 }
 
@@ -30,16 +30,16 @@ button {
 }
 
 
-.button:hover,
-button:hover {
-    opacity: 0.9;
-    font-weight: normal;
-}
+// .button:hover,
+// button:hover {
+//     opacity: 0.9;
+//     font-weight: normal;
+// }
 
-.button:disabled,
-button:disabled {
-    opacity: 0.5;
-    cursor: auto;
-}
+// .button:disabled,
+// button:disabled {
+//     opacity: 0.5;
+//     cursor: auto;
+// }
 
 

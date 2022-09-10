@@ -11,6 +11,8 @@ export class UserService {
 
   private userUrl = 'http://localhost:8080/users';
 
+  public loggedUser!: User;
+
   httpOptions = {
     withCredentials: true
   };
@@ -40,6 +42,16 @@ export class UserService {
 
   login(user: { username: string, password: string }, defaultErrorHandling: boolean = true): Observable<any> {
     return this.http.post<any>('http://localhost:8080/login', user, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  logout(defaultErrorHandling: boolean = true): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/logout', this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  getLoggedUser(defaultErrorHandling: boolean = true): Observable<any> {
+    return this.http.get<any>(this.userUrl + '/logged', this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

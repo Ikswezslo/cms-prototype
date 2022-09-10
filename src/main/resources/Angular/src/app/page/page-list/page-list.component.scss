@@ -14,30 +14,26 @@
     color: black;
 
 }
-.flex-container {
-    justify-content: space-around;
-}
 
-.flex-item {
-    padding: 2px 10px;
-    margin: 0.5px;
-    background-color: rgb(184, 223, 255);
-    color: black;
-    min-width: 200px;
-    min-height: 100px;
-}
+::ng-deep{
+    .ag-cell{
+        border-bottom: #328eff 1px solid;
+        background-color:  #d8eaff;
+    }
+    .ag-row:hover{
+        .ag-cell{
+            border-bottom: #328eff 1px solid;
+            background-color:  var(--base-button-blue);
+        }
+    }
 
-.options {
-    display:flex;
-    flex-flow: row wrap;
-    align-items: center;
-}
-
-.option {
-    padding: 0px 5px;
-    margin: 0px;
-}
-
-.selectButton {
-    max-height: 30px;
+    .ag-header-cell{
+        background-color: var(--base-button-blue);
+        font:bold 25px
+    }
+    
+    .ag-header-cell:hover{
+        --ag-header-cell-hover-background-color: var(--base-button-blue) !important;
+        font:bold 25px
+    }
 }

@@ -13,8 +13,8 @@ body {
 }
 
 .container {
-  background-color: #9ec6f7;
-  padding: 0;
+  background-color: var(--base-light-blue);
+  padding: 0px 5px;
   margin: 0;
   width: 100%;
   min-height: 100%;
@@ -61,7 +61,7 @@ p {
 
 a {
     cursor: pointer;
-    color: #1976d2;
+    color: var(--base-blue);
     text-decoration: none;
 }
 
@@ -92,9 +92,9 @@ label {
 button {
     display: inline-flex;
     align-items: center;
-    padding: 8px 16px;
+    padding: 8px 8px;
     cursor: pointer;
-    background-color: #9ec6f7;
+    background-color:  var(--base-light-blue);
     color: rgb(0, 0, 0);
     border: none;
 }
@@ -111,19 +111,21 @@ button {
 button:hover {
     opacity: 0.8;
     font-weight: normal;
+    background-color: var(--base-hover-button);
 }
 
 .button:disabled,
 button:disabled {
     opacity: 0.5;
     cursor: auto;
+    background-color: var(--base-disable-button);
 }
 
 /* Fancy Button */
 
 .fancy-button {
     background-color: white;
-    color: #1976d2;
+    color: var(--base-button-blue)
 }
 
 .fancy-button i.material-icons {
@@ -136,7 +138,7 @@ button:disabled {
 app-top-bar {
   width: 100%;
   height: 68px;
-  background-color: #006da3;
+  background-color: var(--base-blue);
   padding: 16px;
   display: flex;
   flex-direction: row;
