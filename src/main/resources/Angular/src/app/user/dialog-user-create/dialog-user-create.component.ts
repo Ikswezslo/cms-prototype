@@ -1,9 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RestErrorHandler } from 'src/assets/models/restError';
-import { User, UserForm } from 'src/assets/models/user';
-import { UserService } from 'src/assets/service/user.service';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {User, UserForm} from 'src/assets/models/user';
+import {UserService} from 'src/assets/service/user.service';
 
 @Component({
   selector: 'app-dialog-user-create',
@@ -19,6 +18,7 @@ export class DialogUserCreateComponent implements OnInit {
   emailValid = new FormControl('', [Validators.required, Validators.email]);
   hide = true;
   edit = false;
+  createdUser!: User;
 
   constructor(
     public dialog: MatDialog,
@@ -38,8 +38,8 @@ export class DialogUserCreateComponent implements OnInit {
     console.log(this.user);
     if (this.usernameValid.status == "VALID" && this.passwordValid.status == "VALID" &&
         this.emailValid.status == "VALID" && this.accountTypeValid.status == "VALID") {
-      this.userService.createUser(this.user).subscribe({
-        next: user => console.log(user)
+      this.userService.createUser(this.user).subscribe(res => {
+        this.createdUser = res;
       });
       this.close();
     }
@@ -48,7 +48,7 @@ export class DialogUserCreateComponent implements OnInit {
   editUser() {
     if (this.usernameValid.status == "VALID" && this.passwordValid.status == "VALID" &&
         this.emailValid.status == "VALID" && this.accountTypeValid.status == "VALID") {
-      this.userService.editUser(this.user).subscribe({
+      this.userService.editUser(this.createdUser.id, this.user).subscribe({
         next: user => console.log(user)
       });
       this.close();

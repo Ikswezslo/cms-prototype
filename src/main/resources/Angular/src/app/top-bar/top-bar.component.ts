@@ -22,7 +22,7 @@ export class TopBarComponent implements OnInit {
     password: '',
     email: '',
     phoneNumber: '',
-    isAccountDisabled: false
+    enabled: false
   };
   imageSrc = 'assets/images/pp.png'
   universities: University[]= [];

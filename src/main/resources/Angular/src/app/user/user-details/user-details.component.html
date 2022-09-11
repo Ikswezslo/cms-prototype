@@ -1,9 +1,14 @@
-<div *ngIf="user">
+<div *ngIf="user != null">
   <h3>{{ user.firstName + ' ' + user.lastName }}</h3>
   <p>Username: {{ user.username }}</p>
   <p>AccountType: {{ user.accountType }}</p>
   <p>ID: {{ user.id }}</p>
   <p>Email: {{ user.email }}</p>
-  <p>Is disabled: {{ user.isAccountDisabled }}</p>
-  <p *ngIf="user.accountType == 'ADMIN'">AAAAA</p>
+  <p>Is disabled: {{ user.enabled }}</p>
+  <!-- <p *ngIf="user.accountType == 'ADMIN'">AAAAA</p> -->
 </div>
+<div *ngIf="loggedUser != null && loggedUser.accountType != 'USER'  && user != null">
+  <button mat-button class="button-option" *ngIf="user.enabled" (click)="activeUser()">Activate</button>
+  <button mat-button class="button-option" *ngIf="!user.enabled" (click)="activeUser()">Deactivate</button>
+</div>
+
