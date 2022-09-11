@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ColDef, RowSelectedEvent } from 'ag-grid-community';
+import { ColDef, GridApi, RowSelectedEvent } from 'ag-grid-community';
 import { User } from 'src/assets/models/user';
 import { UserService } from 'src/assets/service/user.service';
 import { DialogUserCreateComponent } from '../dialog-user-create/dialog-user-create.component';
@@ -17,27 +17,15 @@ export class UsersListComponent implements OnInit {
   users: User[] = [];
   public selected = true;
 
-  public columnDefs: ColDef[] = [
-    { field: 'id' },
-    { field: 'username' },
-    { field: 'firstName' },
-    { field: 'lastName' },
-    { field: 'universityID' },
-    { field: 'email' },
-    { field: 'accountType' },
-  ];
+  public columnDefs: ColDef[] = [];
 
-  public defaultColDef: ColDef = {
-    width: 300,
-    editable: false,
-    filter: 'agTextColumnFilter',
-    suppressMovable: true,
-    type: 'textColumn'
-};
+  public defaultColDef: ColDef = {};
+
+  gridApi!: GridApi;
+
 
   constructor(
     private router: Router,
-    private http: HttpClient,
     private userService: UserService,
     public dialog: MatDialog) { }
 
@@ -53,28 +41,32 @@ export class UsersListComponent implements OnInit {
         this.users = res;
     });
   }
+
   loadColumn() {
     this.columnDefs = [
-      { field: 'id' },
-      { field: 'username' },
-      { field: 'firstName' },
-      { field: 'lastName' },
-      { field: 'universityID' },
-      { field: 'email' },
-      { field: 'accountType' },
+      { field: 'id', minWidth: 100, width:100},
+      { field: 'username', minWidth: 150 },
+      { field: 'firstName', minWidth: 150 },
+      { field: 'lastName', minWidth: 150 }
     ];
-    
-  }
-  
-  xxx() {
-    
+    this.defaultColDef = {
+      width: 300,
+      editable: false,
+      filter: 'agTextColumnFilter',
+      suppressMovable: true,
+      type: 'textColumn'
+    };
   }
 
   addUser() {
     const dialogRef = this.dialog.open(DialogUserCreateComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
       this.loadUsers();
+      this.gridApi.sizeColumnsToFit();
     });
   }
   
@@ -82,7 +74,8 @@ export class UsersListComponent implements OnInit {
     this.router.navigateByUrl('/account/' + event.data.id);
   }
   onGridReady(params: any) {
-    params.columnApi.autoSizeAllColumns();
+    this.gridApi = params.api;
+    this.gridApi.sizeColumnsToFit();
   }
 
 }

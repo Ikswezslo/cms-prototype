@@ -21,21 +21,9 @@ mat-form-field {
   display: inline-flex;
   align-items: center;
   margin: 10px;
-  padding: 8px 16px;
   cursor: pointer;
-  background-color: #328eff;
+  background-color: var(--base-button-blue);
   color: rgb(0, 0, 0);
   border: none;
 }
-button:hover.button-option {
-  background-color: #99eeff;
-  color: #ffffff;
-  padding: 8px 16px;
-}
 
-button:disabled,
-button[disabled].button-option{
-  padding: 8px 16px;
-  background-color: #cccccc;
-  color: #666666;
-}

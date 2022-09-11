@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ColDef, GridApi, RowSelectedEvent} from 'ag-grid-community';
+import {ColDef, ColumnApi, GridApi, RowSelectedEvent} from 'ag-grid-community';
 import {Page} from 'src/assets/models/page';
 import {PageService} from '../../../assets/service/page.service';
 
@@ -15,20 +15,11 @@ export class PageListComponent implements OnInit {
 
   pages: Page[] = [];
   public selected = false;
-  gridApi = GridApi;
-
-  public columnDefs: ColDef[] = [
-    { field: 'id', type: 'numericColumn', filter: 'agNumberColumnFilter' },
-    { field: 'title'},
-    { field: 'creatorID', type: 'numericColumn', filter: 'agNumberColumnFilter' },
-  ];
-
-  public defaultColDef: ColDef = {
-    width: 300,
-    editable: false,
-    filter: 'agTextColumnFilter',
-    suppressMovable: true,
-  };
+  gridApi!: GridApi;
+  columnApi!: ColumnApi;
+  public dataTable!: [{ id?: Number, title?: String, date?: String, university?: String, creator?: String }];
+  public columnDefs: ColDef[] = [];
+  public defaultColDef: ColDef = {}
 
   constructor(
     private http: HttpClient,
@@ -36,6 +27,7 @@ export class PageListComponent implements OnInit {
     private pageService: PageService) {}
 
   ngOnInit(): void {
+    this.loadColumn()
     this.loadPages();
   }
 
@@ -43,13 +35,61 @@ export class PageListComponent implements OnInit {
     this.pageService.getPages()
       .subscribe(res => {
         this.pages = showHidden ? res : res.filter(element => !element.hidden);
-    });
+        res.forEach(el => {
+          if (!this.dataTable)
+            this.dataTable = [{
+              id: el.id,
+              title: el.title,
+              date: el.createdOn,
+              university: el.university.name,
+              creator: el.creator.firstName +" "+ el.creator.lastName
+            }];
+          else
+            this.dataTable.push({
+              id: el.id,
+              title: el.title,
+              date: el.createdOn,
+              university: el.university.name,
+              creator: el.creator.firstName +" "+el.creator.lastName
+            })
+        });
+      });
+      this.gridApi.sizeColumnsToFit();
   }
 
+  loadColumn() {
+    this.columnDefs=[
+      { field: 'id', maxWidth:100, filter: 'agNumberColumnFilter' },
+      { field: 'title', minWidth: 300},
+      { field: 'date' },
+      { field: 'university', minWidth: 300 },
+      { field: 'creator' },
+      
+    ];
+
+    this.defaultColDef = {
+      minWidth:200,
+      editable: false,
+      filter: 'agTextColumnFilter',
+      suppressMovable: true,
+    };
+
+  }
+
+  onResize() {
+    this.gridApi.sizeColumnsToFit();
+    // this.columnApi.autoSizeAllColumns(false);
+
+  }
+  
   onRowSelected(event: RowSelectedEvent) {
     this.router.navigateByUrl('/page/' + event.data.id);
   }
   onGridReady(params: any) {
-    params.columnApi.autoSizeAllColumns(false);
+    this.gridApi = params.api;
+    this.columnApi = params.columnApi;
+    // this.columnApi.autoSizeAllColumns(false);
+    this.gridApi.sizeColumnsToFit();
   }
 }
+

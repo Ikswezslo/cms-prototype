@@ -8,6 +8,7 @@ export interface User {
   phoneNumber: string;
   accountType: string;
   enabled: boolean;
+  enrolledUniversities?: [];
 }
 
 export interface UserForm {

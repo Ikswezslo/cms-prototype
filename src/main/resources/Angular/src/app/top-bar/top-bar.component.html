@@ -1,16 +1,22 @@
 <span class="begining">
     <button style="text-align: center " mat-menu-item [routerLink]="['/']" class="subButton">Logo</button>
-    <button mat-button #isopen="matMenuTrigger" [matMenuTriggerFor]="aboveMenu" class="mainButton">
-        <mat-icon fontIcon="menu" [ngClass]="isopen.menuOpen ? 'menu':'close'"></mat-icon>
+    <button  #isopen="matMenuTrigger" [matMenuTriggerFor]="aboveMenu" class="mainButton">
+        <mat-icon fontIcon="menu" ></mat-icon>
         CMS
     </button>
+
 </span>
 <mat-menu #aboveMenu="matMenu" yPosition="above">
     <button mat-menu-item [routerLink]="['/']" class="subButton" >Strona główna</button>
-    <button mat-menu-item [routerLink]="['/universities']" class="subButton" [matMenuTriggerFor]="universitiesMenu">{{'UNIVERSITYS' | translate}}</button>
-    <button mat-menu-item [routerLink]="['/accounts']" class="subButton" [matMenuTriggerFor]="usersMenu">{{'USERS' | translate}}</button>
-    <button mat-menu-item [routerLink]="['/pages']" class="subButton" [matMenuTriggerFor]="pagesMenu">Pages</button>
+    <button mat-menu-item [routerLink]="['/universities']" class="subButton" >{{'UNIVERSITYS' | translate}}</button>
+    <button mat-menu-item [routerLink]="['/accounts']" class="subButton" >{{'USERS' | translate}}</button>
+    <button mat-menu-item [routerLink]="['/pages']" class="subButton" >Pages</button>
 </mat-menu>
+
+<!-- [matMenuTriggerFor]="usersMenu"
+    [matMenuTriggerFor]="universitiesMenu"
+    [matMenuTriggerFor]="pagesMenu"
+ -->
 
 <mat-menu #universitiesMenu="matMenu" >
     <div *ngFor="let university of universities">
@@ -36,12 +42,14 @@
     </div>
 </mat-menu>
 
-<button *ngIf="userLogged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
+<button *ngIf="logged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
         class="material-icons">person</i>{{userLogged.firstName}}</button>
 <mat-menu #userMenu="matMenu" yPosition="above">
     <button mat-menu-item class="subButton" [routerLink]="['/account/1']">Profil</button>
     <button mat-menu-item class="subButton" [routerLink]="['/pages/1']">Strony</button>
     <button mat-menu-item class="subButton" [routerLink]="['/accounts/settings']">Ustawienia</button>
-    <button mat-menu-item class="subButton">Wyloguj</button>
+    <button mat-menu-item class="subButton" [routerLink]="['']" (click)="logout()">Wyloguj</button>
 </mat-menu>
 
+<button *ngIf="!logged" class="mainButton" [routerLink]="['/login']">Zaloguj<i
+    class="material-icons">person</i></button>

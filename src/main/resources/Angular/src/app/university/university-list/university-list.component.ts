@@ -20,12 +20,7 @@ export class UniversityListComponent implements OnInit {
   gridApi!: GridApi;
   columnApi!: ColumnApi;
 
-  public columnDefs: ColDef[] = [
-    { field: 'id', type: 'numericColumn', width: 100, filter: 'agNumberColumnFilter' },
-    { field: 'name', width: 500},
-    { field: 'shortName' },
-
-  ];
+  public columnDefs: ColDef[] = [];
   public defaultColDef: ColDef = {
     width: 300,
     editable: false,
@@ -38,6 +33,7 @@ export class UniversityListComponent implements OnInit {
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.loadColumn();
     this.loadUniversities();
   }
 
@@ -46,15 +42,34 @@ export class UniversityListComponent implements OnInit {
       .subscribe(res => {
         this.universities = showHidden ? res : res.filter(element => !element.hidden);
       });
-    this.columnApi.autoSizeAllColumns();
+    this.gridApi.sizeColumnsToFit();
   }
+
+  loadColumn() {
+    this.columnDefs=[
+      { field: 'id', width: 100, minWidth: 100,filter: 'agNumberColumnFilter' },
+      { field: 'name', minWidth: 300},
+      { field: 'shortName', minWidth:150 },
+    ];
+  }
+
   addUniversity(){
     const dialogRef = this.dialog.open(DialogUniversityCreateComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
+      if (!result)
+        return;
       this.loadUniversities();
+      this.gridApi.sizeColumnsToFit();
     });
   }
+
+  onResize() {
+    this.gridApi.sizeColumnsToFit();
+    //this.columnApi.autoSizeAllColumns(false);
+    
+  }
+
   onRowSelected(event: RowSelectedEvent) {
     this.router.navigateByUrl('/university/' + event.data.id);
   }
@@ -62,6 +77,6 @@ export class UniversityListComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;
-    this.columnApi.autoSizeAllColumns();
+    this.gridApi.sizeColumnsToFit();
   }
 }
