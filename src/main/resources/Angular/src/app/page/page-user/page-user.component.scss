@@ -1,0 +1,9 @@
+@import 'src/cms-styles';
+
+mat-card, app-page-card {
+  @extend .cms-fixed-width
+}
+
+mat-card-title {
+  margin-bottom: 20px;
+}

@@ -1,13 +1,6 @@
 <div>
   <span style="align-items: center; margin: 10px">
-        <h1>Ostatnio dodane strony:</h1>
-    </span>
-
-  <div *ngFor="let page of pages">
-    <mat-card style="margin:10px; " [routerLink]="['/page/'+page.id]">
-      <mat-card-title>{{page.title}}</mat-card-title>
-      <mat-card-subtitle>{{page.university.name}}</mat-card-subtitle>
-      <mat-card-subtitle>{{page.createdOn}}</mat-card-subtitle>
-    </mat-card>
-  </div>
+    <h1>Ostatnio dodane strony:</h1>
+  </span>
+  <app-page-card-list [pages]="pages" [description]="false"></app-page-card-list>
 </div>

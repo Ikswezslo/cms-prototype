@@ -1,14 +1,3 @@
-<h1>Ustawienia</h1>
-
-<h2>Dane użytkownika</h2>
-<div class="form-input">
-    <div>
-        <p>Username:</p> <p class="userProperties"> {{user.username}}</p>
-        <p>First name: </p> <p class="userProperties">{{user.firstName}}</p> 
-        <p>Last name:</p> <p class="userProperties">{{user.lastName}}</p>
-        <p>Email: </p> <p class="userProperties">{{user.email}}</p>
-        <p>Phone number: </p> <p class="userProperties">{{user.phoneNumber}}</p>
-        <p>Account type: </p> <p class="userProperties">{{user.accountType}}</p>
-        <button mat-button class="button-option" (click)="startEdit()">Edytuj</button>
-    </div>
+<div fxFlex>
+    <app-user-details *ngIf="user" [settings]="true" [settingsId]="user.id"></app-user-details>
 </div>
