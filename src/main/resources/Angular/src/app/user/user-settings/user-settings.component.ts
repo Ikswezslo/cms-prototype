@@ -14,7 +14,6 @@ export class UserSettingsComponent implements OnInit {
 
  
   public user!: User;
-  public id: Number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,16 +22,11 @@ export class UserSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("tutaj");
-    const routeParams = this.route.snapshot.paramMap;
-    //this.id = Number(routeParams.get('userId'));
-    this.id = 1;
     this.loadUser();
   }
 
   loadUser() {
-    console.log(this.id)
-    this.userService.getUser(1)
+    this.userService.getLoggedUser()
       .subscribe(res => {
         this.user = res;
       });
@@ -46,7 +40,6 @@ export class UserSettingsComponent implements OnInit {
       }
     }
 
-    const dialogRef = this.dialog.open(DialogUserCreateComponent, dialogData);
 
     // dialogRef.afterClosed().subscribe(result => {
     //   this.loadUsers();

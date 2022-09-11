@@ -10,7 +10,8 @@
     </mat-form-field>
 </div>
 <ag-grid-angular
-    style="width: 600px; height: 100%; max-width: 100%;"
+    (window:resize)="onResize()"
+    style="width: 100%; height: 100%;"
     domLayout='autoHeight'
     class="ag-theme-alpine"
     [rowData]="universities"

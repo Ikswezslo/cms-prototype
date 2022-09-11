@@ -34,8 +34,15 @@ $Angular-theme: mat.define-light-theme((
 @include mat.all-component-themes($Angular-theme);
 @import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 @import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
-
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --base-light-blue:#9ec6f7;
+  --base-blue: #006da3;
+  --base-button-blue: #4999fa;
+  --base-hover-button: #99eeff;
+  --base-disable-button: #666666;
+}
 
 html, body {
   height: 100%;

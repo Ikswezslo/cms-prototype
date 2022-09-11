@@ -21,7 +21,6 @@ export class DialogUserCreateComponent implements OnInit {
   edit = false;
 
   constructor(
-    public dialog: MatDialog,
     private userService: UserService,
     public dialogRef: MatDialogRef<DialogUserCreateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -41,7 +40,7 @@ export class DialogUserCreateComponent implements OnInit {
       this.userService.createUser(this.user).subscribe({
         next: user => console.log(user)
       });
-      this.close();
+      this.close(true);
     }
   }
 
@@ -55,8 +54,12 @@ export class DialogUserCreateComponent implements OnInit {
     }
   }
 
-  close() {
-    this.dialog.closeAll()
+  close(add: Boolean = false) {
+    if (add)
+      this.dialogRef.close(add);
+    else
+      this.dialogRef.close();
+    
   }
 
   getErrorMessage() {
