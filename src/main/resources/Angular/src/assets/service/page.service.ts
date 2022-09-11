@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Page} from 'src/assets/models/page';
 import {RestErrorHandler} from "../models/restError";
@@ -14,6 +14,7 @@ export class PageService {
   httpOptions = {
     withCredentials: true
   };
+
 
   constructor(private http: HttpClient) {
   }
@@ -40,4 +41,9 @@ export class PageService {
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
+  pageSetHidden(id: Number, hide: boolean, defaultErrorHandling: boolean = true): Observable<any> {
+    let params = new HttpParams().set('hidden', hide);
+    return this.http.patch<any>(`${this.pageUrl}/${id}/hide`, params)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }
