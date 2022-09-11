@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { University } from 'src/assets/models/university';
-import { UniversityService } from 'src/assets/service/university.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {University} from 'src/assets/models/university';
+import {UniversityService} from 'src/assets/service/university.service';
 
 @Component({
   selector: 'app-university-details',
@@ -16,24 +16,30 @@ export class UniversityDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private universitieService: UniversityService) {
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    private universityService: UniversityService) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     this.id = Number(routeParams.get('universityId'));
-    this.loadUniversitie();
+    this.loadUniversity();
   }
 
-  loadUniversitie() {
-    this.universitieService.getUniversity(this.id)
-    .subscribe(res => {
-      this.university = res;
-      console.log(res);
-    });
+  loadUniversity() {
+    this.universityService.getUniversity(this.id)
+      .subscribe(res => {
+        this.university = res;
+        console.log(res);
+      });
   }
 
+  hiddenUniversity() {
+    this.universityService.hideUniversity(this.university.id, !this.university.hidden).subscribe(() => {
+      this.loadUniversity();
+    })
+
+  }
 }
 
 
