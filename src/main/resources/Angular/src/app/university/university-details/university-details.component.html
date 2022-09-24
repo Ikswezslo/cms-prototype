@@ -1,5 +1,8 @@
 <div *ngIf="university">
-    <h3>{{ university.name }}</h3>
-    <!-- <p>{{ university.description }}</p> -->
-  </div>
-  
+  <h3>University name: {{ university.name }}</h3>
+  <p>Hidden: {{ university.hidden }}</p>
+</div>
+<div *ngIf="university && loggedUser!=null  && loggedUser.accountType !='USER'">
+  <button mat-button class="button-option" *ngIf="university.hidden" (click)="hiddenUniversity()">Unhide</button>
+  <button mat-button class="button-option" *ngIf="!university.hidden" (click)="hiddenUniversity()">Hide</button>
+</div>

@@ -81,9 +81,21 @@
     <mat-icon>settings</mat-icon>
     <span>Ustawienia wyświetlania</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="page!=null
+          && !page.hidden
+          && loggedUser!=null
+          && loggedUser.accountType !='USER'" (click)="hiddenPage()">
     <mat-icon>visibility_off</mat-icon>
     <span>Ukryj stronę</span>
+  </button>
+  <button mat-menu-item
+          *ngIf="page!=null
+          && page.hidden
+          && loggedUser!=null
+          && loggedUser.accountType !='USER'" (click)="hiddenPage()">
+    <mat-icon>visibility_on</mat-icon>
+    <span>Pokaż stronę</span>
   </button>
   <button mat-menu-item>
     <mat-icon>delete</mat-icon>

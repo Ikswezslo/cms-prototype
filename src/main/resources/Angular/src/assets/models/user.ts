@@ -1,14 +1,14 @@
 export interface User {
-    id: number;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phoneNumber: string;
-    accountType: string;
-    isAccountDisabled: boolean;
-    enrolledUniversities?: [];
+  id: number;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  accountType: string;
+  enabled: boolean;
+  enrolledUniversities?: [];
 }
 
 export interface UserForm {

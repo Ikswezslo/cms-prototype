@@ -14,11 +14,14 @@ import { DialogUserCreateComponent } from '../dialog-user-create/dialog-user-cre
 })
 export class UserDetailsComponent implements OnInit {
 
+
   @Input() settings: boolean = false;
   @Input() settingsId!: Number;
   public pages!: Page[];
+  public loggedUser!: User;
   public user!: User;
   public id!: Number;
+
 
   constructor(
     private router: Router,
@@ -35,14 +38,34 @@ export class UserDetailsComponent implements OnInit {
     this.id = this.settingsId ??  Number(routeParams.get('userId'));
     this.loadUser();
     this.loadPages(this.id);
+    this.getLoggedUser();
   }
 
   loadUser() {
     this.userService.getUser(this.id)
-    .subscribe(res => {
-      this.user = res;
-      this.user.accountType === "ADMIN"
-    });
+      .subscribe(res => {
+
+        this.user = res;
+        //this.user.accountType === "ADMIN"
+      });
+  }
+
+  getLoggedUser() {
+    this.userService.getLoggedUser()
+      .subscribe(res => {
+        this.loggedUser = res;
+      })
+  }
+
+  activeUser() {
+    if (this.user != null) {
+      let editUser = this.user;
+      editUser.enabled = !this.user.enabled;
+      console.log(editUser);
+      this.userService.editUser(editUser.id, editUser).subscribe(() => {
+        this.loadUser();
+      });
+    }
   }
   
   loadPages(userId: Number) {

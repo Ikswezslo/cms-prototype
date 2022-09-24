@@ -12,5 +12,6 @@ public class UserDtoForm {
     String email;
     String address;
     String phoneNumber;
+    boolean enabled;
     Role accountType;
 }

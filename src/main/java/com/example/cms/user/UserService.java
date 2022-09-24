@@ -77,7 +77,7 @@ public class UserService {
         user.setPhoneNumber(form.getPhoneNumber());
         user.setEmail(form.getEmail());
         user.setAccountType(form.getAccountType());
-        user.setEnabled(true);
+        user.setEnabled(form.isEnabled());
         return user;
     }
 

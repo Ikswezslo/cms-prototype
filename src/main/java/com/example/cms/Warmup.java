@@ -39,6 +39,7 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
                 "bob123@gmail.com",
                 "Piotrowo 1",
                 "123456789",
+                true,
                 Role.ADMIN
         );
         userService.createUser(admin);
@@ -51,6 +52,7 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
                 "riker123@gmail.com",
                 "Piotrowo 2",
                 "727456789",
+                true,
                 Role.MODERATOR
         );
         userService.createUser(moderator);
@@ -63,6 +65,7 @@ class Warmup implements ApplicationListener<ContextRefreshedEvent> {
                 "adam123@gmail.com",
                 "Piotrowo 3",
                 "722351974",
+                true,
                 Role.USER
         );
         userService.createUser(user);

@@ -55,4 +55,13 @@
     <mat-icon>create</mat-icon>
     <span>Edytuj zawartość</span>
   </button>
+  <button *ngIf="loggedUser != null && loggedUser.accountType != 'USER'  && user != null && user.enabled" mat-menu-item  (click)="activeUser()">
+    <mat-icon>visibility-off</mat-icon>
+    <span>Activate</span>
+  </button>
+  <button *ngIf="loggedUser != null && loggedUser.accountType != 'USER'  && user != null && !user.enabled" mat-menu-item  (click)="activeUser()">
+    <mat-icon>visibility-off</mat-icon>
+    <span>Deactivate</span>
+  </button>
 </mat-menu>
+

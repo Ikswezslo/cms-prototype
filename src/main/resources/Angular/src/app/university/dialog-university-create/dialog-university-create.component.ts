@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
 import {UniversityService} from "../../../assets/service/university.service";
 import {FormControl, Validators} from "@angular/forms";
-import { UniversityForm } from 'src/assets/models/university';
+import {UniversityForm} from 'src/assets/models/university';
 
 @Component({
   selector: 'app-dialog-university-create',
@@ -29,7 +29,7 @@ export class DialogUniversityCreateComponent implements OnInit {
   }
   createUniversity(){
     if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID'){
-      this.universityService.addNewUniveristy(this.university).subscribe({next: university => console.log(university)});
+      this.universityService.addNewUniversity(this.university).subscribe({next: university => console.log(university)});
     }
     this.close();
   }

@@ -35,8 +35,8 @@ export class UserService {
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  editUser(user: UserForm, defaultErrorHandling: boolean = true): Observable<User> {
-    return this.http.put<User>(this.userUrl, user, this.httpOptions)
+  editUser(id: Number, user: UserForm, defaultErrorHandling: boolean = true): Observable<User> {
+    return this.http.put<User>(`${this.userUrl}/${id}`, user, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
@@ -44,6 +44,7 @@ export class UserService {
     return this.http.post<any>('http://localhost:8080/login', user, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
+
 
   logout(defaultErrorHandling: boolean = true): Observable<any> {
     return this.http.get<any>('http://localhost:8080/logout', this.httpOptions)
