@@ -1,6 +1,5 @@
 package com.example.cms.security.authentication;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -12,9 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class RestAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    @Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
+    private final HandlerExceptionResolver resolver;
+
+    public RestAuthenticationFailureHandler(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+        this.resolver = resolver;
+    }
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
