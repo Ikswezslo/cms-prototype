@@ -40,18 +40,17 @@ public class UserService {
             throw new BadRequestException("Username taken");
         }
 
-        User result = repository.save(formToUser(form));
-        return new UserDtoDetailed(result);
+        return new UserDtoDetailed(repository.save(formToUser(form)));
     }
 
-    public void updateUser(Long id, UserDtoForm form) {
+    public UserDtoDetailed updateUser(Long id, UserDtoForm form) {
         if (repository.existsByUsernameAndIdNot(form.getUsername(), id)) {
             throw new BadRequestException("Username taken");
         }
 
         User user = repository.findById(id).orElseThrow(NotFoundException::new);
         user.updateUser(formToUser(form));
-        repository.save(user);
+        return new UserDtoDetailed(repository.save(user));
     }
 
     public void deleteUser(Long id) {
@@ -84,5 +83,11 @@ public class UserService {
                         }
                 );
         return new UserDtoDetailed(user);
+    }
+
+    public void modifyEnabledField(long id, boolean enabled) {
+        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        user.setEnabled(enabled);
+        repository.save(user);
     }
 }

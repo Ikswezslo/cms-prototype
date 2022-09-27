@@ -47,14 +47,19 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody UserDtoForm form) {
-        service.updateUser(id, form);
-        return ResponseEntity.noContent().build();
+    UserDtoDetailed updateUser(@PathVariable long id, @RequestBody UserDtoForm form) {
+        return service.updateUser(id, form);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteUser(@PathVariable long id) {
         service.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/enabled")
+    ResponseEntity<Void> modifyUserEnabledField(@PathVariable long id, @RequestBody boolean enabled) {
+        service.modifyEnabledField(id, enabled);
         return ResponseEntity.noContent().build();
     }
 }

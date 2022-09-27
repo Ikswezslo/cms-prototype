@@ -68,11 +68,8 @@ export class UserDetailsComponent implements OnInit {
 
   activeUser() {
     if (this.user != null) {
-      let editUser = this.user;
-      editUser.enabled = !this.user.enabled;
-      console.log(editUser);
-      this.userService.editUser(editUser.id, editUser).subscribe(() => {
-        this.loadUser();
+      this.userService.modifyUserEnabledField(this.id, !this.user.enabled).subscribe(() => {
+        this.user.enabled = !this.user.enabled;
       });
     }
   }
