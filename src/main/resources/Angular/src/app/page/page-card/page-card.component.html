@@ -1,25 +1,25 @@
-<mat-card *ngIf="page" fxFlex [ngClass]="{'gray': gray, 'cms-fixed-width': true}">
+<mat-card *ngIf="page" fxFlex [ngClass]="{'secondaryColor': config.useSecondaryColor, 'cms-fixed-width': true}">
   <mat-card-title>
     <span>{{page.title}}</span>
     <mat-icon *ngIf="page.hidden">visibility_off</mat-icon>
   </mat-card-title>
 
   <mat-card-subtitle>
-    <div>
+    <div *ngIf="config.showUniversity">
       <span class="link" [routerLink]="['/university', page.university.id]">
         <mat-icon>business</mat-icon>
         <span>{{page.university.name}}</span>
       </span>
     </div>
 
-    <div>
+    <div *ngIf="config.showAuthor">
       <span class="link" [routerLink]="['/account', page.creator.id]">
         <mat-icon>account_circle</mat-icon>
         <span>Autor: {{page.creator.firstName + " " + page.creator.lastName}}</span>
       </span>
     </div>
 
-    <div>
+    <div *ngIf="config.showCreatedOn">
       <mat-icon>date_range</mat-icon>
       <span>{{page.createdOn}}</span>
     </div>
@@ -27,12 +27,12 @@
 
   <mat-divider inset></mat-divider>
 
-  <mat-card-content>
+  <mat-card-content *ngIf="config.showDescription">
     <p>{{page.description}}</p>
   </mat-card-content>
 
   <mat-card-actions>
-    <button *ngIf="goToBtn" mat-button [routerLink]="['/page', page.id]">
+    <button *ngIf="config.showGoToButton" mat-button [routerLink]="['/page', page.id]">
       <mat-icon>launch</mat-icon>
       <span>Przejdź do strony</span>
     </button>
