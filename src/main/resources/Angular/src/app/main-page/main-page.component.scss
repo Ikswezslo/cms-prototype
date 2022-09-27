@@ -1,9 +1,3 @@
-@import 'src/cms-styles';
-
-mat-card, app-page-card {
-  @extend .cms-fixed-width
-}
-
 h1 {
   font-size: 40px;
   color: darkblue;

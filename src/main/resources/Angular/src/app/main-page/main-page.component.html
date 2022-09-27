@@ -1,10 +1,7 @@
-<div>
+<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
+  <span style="align-items: center; margin: 10px">
+    <h1>Ostatnio dodane strony:</h1>
+  </span>
 
-  <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
-    <span style="align-items: center; margin: 10px">
-      <h1>Ostatnio dodane strony:</h1>
-    </span>
-
-    <app-page-card *ngFor="let page of pages" [page]="page" [config]="cardConfig"></app-page-card>
-  </div>
+  <app-page-card *ngFor="let page of pages" [page]="page" [config]="cardConfig" class="cms-fixed-width"></app-page-card>
 </div>
