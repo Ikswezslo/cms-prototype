@@ -1,4 +1,4 @@
-package com.example.cms;
+package com.example.cms.development;
 
 import com.example.cms.page.PageService;
 import com.example.cms.page.projections.PageDtoForm;
@@ -14,15 +14,15 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-class Warmup implements ApplicationListener<ContextRefreshedEvent> {
+class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
     private final PageService pageService;
     private final UserService userService;
     private final UniversityService universityService;
 
-    Warmup(final PageService pageService,
-           final UserService userService,
-           final UniversityService universityService) {
+    DummyDataCreator(final PageService pageService,
+                     final UserService userService,
+                     final UniversityService universityService) {
         this.pageService = pageService;
         this.userService = userService;
         this.universityService = universityService;
