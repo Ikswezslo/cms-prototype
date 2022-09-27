@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -41,16 +42,19 @@ public class UserController {
     @Secured("ROLE_USER")
     @PostMapping
     public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoForm form) {
-        return service.createUser(form);
+        UserDtoDetailed result = service.createUser(form);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @PutMapping("/{id}")
     ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody UserDtoForm form) {
-        return service.updateUser(id, form);
+        service.updateUser(id, form);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteUser(@PathVariable long id) {
-        return service.deleteUser(id);
+        service.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

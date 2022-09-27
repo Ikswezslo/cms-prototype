@@ -7,11 +7,9 @@ import com.example.cms.user.projections.UserDtoForm;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,16 +35,16 @@ public class UserService {
         return repository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
-    public ResponseEntity<UserDtoDetailed> createUser(UserDtoForm form) {
+    public UserDtoDetailed createUser(UserDtoForm form) {
         if (repository.existsByUsername(form.getUsername())) {
             throw new BadRequestException("Username taken");
         }
 
         User result = repository.save(formToUser(form));
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new UserDtoDetailed(result));
+        return new UserDtoDetailed(result);
     }
 
-    public ResponseEntity<Void> updateUser(Long id, UserDtoForm form) {
+    public void updateUser(Long id, UserDtoForm form) {
         if (repository.existsByUsernameAndIdNot(form.getUsername(), id)) {
             throw new BadRequestException("Username taken");
         }
@@ -54,14 +52,11 @@ public class UserService {
         User user = repository.findById(id).orElseThrow(NotFoundException::new);
         user.updateUser(formToUser(form));
         repository.save(user);
-
-        return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Void> deleteUser(Long id) {
+    public void deleteUser(Long id) {
         User user = repository.findById(id).orElseThrow(NotFoundException::new);
         repository.delete(user);
-        return ResponseEntity.noContent().build();
     }
 
     public User formToUser(UserDtoForm form) {
