@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Page } from 'src/assets/models/page';
-import { User } from 'src/assets/models/user';
-import { PageService } from 'src/assets/service/page.service';
-import { UserService } from 'src/assets/service/user.service';
-import { DialogUserCreateComponent } from '../dialog-user-create/dialog-user-create.component';
+import {Component, Input, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Page} from 'src/assets/models/page';
+import {User} from 'src/assets/models/user';
+import {PageService} from 'src/assets/service/page.service';
+import {UserService} from 'src/assets/service/user.service';
+import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
+import {PageCardConfig} from "../../page/page-card/page-card.component";
 
 @Component({
   selector: 'app-user-details',
@@ -22,6 +23,14 @@ export class UserDetailsComponent implements OnInit {
   public user!: User;
   public id!: Number;
 
+  cardConfig: PageCardConfig = {
+    useSecondaryColor: true,
+    showGoToButton: true,
+    showDescription: true,
+    showUniversity: true,
+    showCreatedOn: true,
+    showAuthor: false
+  };
 
   constructor(
     private router: Router,
@@ -29,7 +38,7 @@ export class UserDetailsComponent implements OnInit {
     private userService: UserService,
     public dialog: MatDialog,
     private pageService: PageService) {
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void{
@@ -67,7 +76,7 @@ export class UserDetailsComponent implements OnInit {
       });
     }
   }
-  
+
   loadPages(userId: Number) {
     this.pageService.getPages()
       .subscribe(res => {

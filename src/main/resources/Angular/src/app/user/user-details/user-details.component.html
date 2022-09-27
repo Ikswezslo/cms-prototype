@@ -37,7 +37,7 @@
     </div>
   </mat-card>
 
-  <mat-accordion *ngIf="!settings" fxFlex [ngClass]="{'cms-fixed-width': true}">
+  <mat-accordion *ngIf="!settings" fxFlex class="cms-fixed-width">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -45,7 +45,9 @@
           <span>Strony użytkonika</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <app-page-card-list [pages]="pages"></app-page-card-list>
+      <div fxLayout='column' class="cms-layout-gap">
+        <app-page-card *ngFor="let page of pages" [page]="page" [config]="cardConfig"></app-page-card>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
