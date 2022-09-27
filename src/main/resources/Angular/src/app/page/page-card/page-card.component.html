@@ -1,19 +1,20 @@
-<mat-card *ngIf="page" fxFlex [ngClass]="{'secondaryColor': config.useSecondaryColor, 'cms-fixed-width': true}">
-  <mat-card-title>
+<mat-card *ngIf="page" fxFlex
+          [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor}">
+  <mat-card-title class="cms-card-title-margin">
     <span>{{page.title}}</span>
     <mat-icon *ngIf="page.hidden">visibility_off</mat-icon>
   </mat-card-title>
 
   <mat-card-subtitle>
     <div *ngIf="config.showUniversity">
-      <span class="link" [routerLink]="['/university', page.university.id]">
+      <span class="cms-link" [routerLink]="['/university', page.university.id]">
         <mat-icon>business</mat-icon>
         <span>{{page.university.name}}</span>
       </span>
     </div>
 
     <div *ngIf="config.showAuthor">
-      <span class="link" [routerLink]="['/account', page.creator.id]">
+      <span class="cms-link" [routerLink]="['/account', page.creator.id]">
         <mat-icon>account_circle</mat-icon>
         <span>Autor: {{page.creator.firstName + " " + page.creator.lastName}}</span>
       </span>
@@ -27,7 +28,7 @@
 
   <mat-divider inset></mat-divider>
 
-  <mat-card-content *ngIf="config.showDescription">
+  <mat-card-content *ngIf="config.showDescription" class="cms-card-content-margin">
     <p>{{page.description}}</p>
   </mat-card-content>
 

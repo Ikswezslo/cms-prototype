@@ -17,3 +17,25 @@ $base-container-width: 1000px;
 .cms-layout-gap {
   row-gap: $base-content-gap;
 }
+
+.cms-card-title-margin {
+  margin-bottom: 15px !important;
+}
+
+.cms-card-content-margin {
+  margin-top: 15px !important;
+}
+
+.cms-card-secondary-color {
+  background-color: #EFEFEF !important;
+}
+
+.cms-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #444;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
