@@ -54,12 +54,12 @@ export class QuillEditorComponent implements OnInit {
   save() {
     console.log(this.content)
     if (this.content != undefined && this.page) {
-      this.pageService.updatePageContent(this.page.id, this.content as string).subscribe(
-        () => {
-          this.snackBar.open("Zapisano stronę", "Zamknij", {
-            duration: 2000
-          });
-        }
+      this.pageService.modifyPageContentField(this.page.id, this.content as string).subscribe(
+          () => {
+            this.snackBar.open("Zapisano stronę", "Zamknij", {
+              duration: 2000
+            });
+          }
       );
     }
   }

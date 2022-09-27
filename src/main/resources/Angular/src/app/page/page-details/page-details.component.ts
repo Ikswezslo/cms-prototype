@@ -74,8 +74,8 @@ export class PageDetailsComponent implements OnInit {
   }
 
   hiddenPage() {
-    this.pageService.pageSetHidden(this.id, !this.page.hidden).subscribe(() => {
-      this.loadPage();
+    this.pageService.modifyPageHiddenField(this.id, !this.page.hidden).subscribe(() => {
+      this.page.hidden = !this.page.hidden;
     });
   }
 }

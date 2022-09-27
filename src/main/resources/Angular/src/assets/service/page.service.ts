@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Page} from 'src/assets/models/page';
 import {RestErrorHandler} from "../models/restError";
@@ -28,22 +28,21 @@ export class PageService {
 
   getPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
     return this.http.get<Page[]>(this.pageUrl + "/all", this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
   getNewPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
     return this.http.get<Page[]>(`${this.pageUrl}/all?sort=createdOn,desc`, this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  updatePageContent(id: Number, content: string, defaultErrorHandling: boolean = true): Observable<any> {
-    return this.http.patch<any>(`${this.pageUrl}/${id}/content`, content, this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  modifyPageContentField(id: Number, content: string, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.pageUrl}/${id}/content`, content, this.httpOptions)
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  pageSetHidden(id: Number, hide: boolean, defaultErrorHandling: boolean = true): Observable<any> {
-    let params = new HttpParams().set('hidden', hide);
-    return this.http.patch<any>(`${this.pageUrl}/${id}/hide`, params)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  modifyPageHiddenField(id: Number, hidden: boolean, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.pageUrl}/${id}/hidden`, hidden, this.httpOptions)
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

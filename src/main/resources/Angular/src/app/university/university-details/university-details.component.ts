@@ -40,8 +40,8 @@ export class UniversityDetailsComponent implements OnInit {
   }
 
   hiddenUniversity() {
-    this.universityService.hideUniversity(this.university.id, !this.university.hidden).subscribe(() => {
-      this.loadUniversity();
+    this.universityService.modifyUniversityHiddenField(this.university.id, !this.university.hidden).subscribe(() => {
+      this.university.hidden = !this.university.hidden;
     });
 
   }

@@ -12,11 +12,9 @@ import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,14 +37,14 @@ public class UniversityService {
     }
 
     @Transactional
-    public ResponseEntity<UniversityDtoDetailed> enrollUsersToUniversity(Long universityId, Long userId) {
+    public UniversityDtoDetailed enrollUsersToUniversity(Long universityId, Long userId) {
 
         University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
 
         university.enrollUsers(user);
         University result = universityRepository.save(university);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new UniversityDtoDetailed(result));
+        return new UniversityDtoDetailed(result);
     }
 
     public University connectMainPageToUniversity(Long universityId, Long pageId) {
@@ -64,9 +62,8 @@ public class UniversityService {
 
     }
 
-    public ResponseEntity<UniversityDtoDetailed> addNewUniversity(UniversityDtoForm form) {
-        University result = universityRepository.save(formToUniversity(form));
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new UniversityDtoDetailed(result));
+    public UniversityDtoDetailed addNewUniversity(UniversityDtoForm form) {
+        return new UniversityDtoDetailed(universityRepository.save(formToUniversity(form)));
     }
 
     public University formToUniversity(UniversityDtoForm form) {
@@ -99,18 +96,16 @@ public class UniversityService {
         return university;
     }
 
-    public ResponseEntity<UniversityDtoSimple> setUn_Hide(Long id, boolean un_hide) {
+    public void modifyHiddenField(Long id, boolean hidden) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
-        university.setHidden(un_hide);
-        University result = universityRepository.save(university);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(new UniversityDtoSimple(result));
+        university.setHidden(hidden);
+        universityRepository.save(university);
     }
 
-    public ResponseEntity<Void> deleteUniversity(Long id) {
+    public void deleteUniversity(Long id) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
         validateForDelete(university);
         universityRepository.delete(university);
-        return ResponseEntity.noContent().build();
     }
 
     private void validateForDelete(University university) {
