@@ -1,21 +1,10 @@
-.item {
-    padding: 2px 5px;
-    margin: 0.5px;
-    background-color: rgb(184, 223, 255);
-    color: black;
-}
+@import 'src/cms-styles';
 
-:link {
-    color: black;
-    font-style: normal;
-    text-decoration: none;
-}
-
-:link::after {
-    color: black;
+mat-card, app-page-card {
+  @extend .cms-fixed-width
 }
 
 h1 {
-    font-size: 40px;
-    color: darkblue;
+  font-size: 40px;
+  color: darkblue;
 }
