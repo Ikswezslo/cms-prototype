@@ -19,9 +19,12 @@ $base-container-width: 1000px;
 }
 
 .cms-link:hover {
-  text-decoration: underline;
   cursor: pointer;
   color: #444;
+
+  span {
+    text-decoration: underline;
+  }
 }
 
 .mb-20 {
@@ -47,6 +50,7 @@ $base-container-width: 1000px;
       font-size: 22px;
       display: inline;
       vertical-align: text-bottom;
+      padding-right: 5px;
     }
   }
 
