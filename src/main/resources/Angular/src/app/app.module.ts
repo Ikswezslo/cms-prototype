@@ -45,6 +45,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {PageCardComponent} from './page/page-card/page-card.component';
+import {UserCardComponent} from './user/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import {PageCardComponent} from './page/page-card/page-card.component';
     PageUserComponent,
     QuillEditorComponent,
     PageCardComponent,
+    UserCardComponent,
   ],
   imports: [
     BrowserModule,

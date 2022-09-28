@@ -7,6 +7,7 @@ import {PageService} from 'src/assets/service/page.service';
 import {UserService} from 'src/assets/service/user.service';
 import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
+import {UserCardConfig} from "../user-card/user-card.component";
 
 @Component({
   selector: 'app-user-details',
@@ -23,7 +24,13 @@ export class UserDetailsComponent implements OnInit {
   public user!: User;
   public id!: Number;
 
-  cardConfig: PageCardConfig = {
+  userCardConfig: UserCardConfig = {
+    useSecondaryColor: false,
+    showGoToButton: false,
+    showSettings: false
+  };
+
+  pageCardConfig: PageCardConfig = {
     useSecondaryColor: true,
     showGoToButton: true,
     showDescription: true,
@@ -33,7 +40,7 @@ export class UserDetailsComponent implements OnInit {
   };
 
   constructor(
-    private router: Router,
+      private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
     public dialog: MatDialog,
@@ -41,13 +48,15 @@ export class UserDetailsComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     console.log("tutaj");
     const routeParams = this.route.snapshot.paramMap;
-    this.id = this.settingsId ??  Number(routeParams.get('userId'));
+    this.id = this.settingsId ?? Number(routeParams.get('userId'));
     this.loadUser();
     this.loadPages(this.id);
     this.getLoggedUser();
+
+    this.userCardConfig.showSettings = this.settings;
   }
 
   loadUser() {

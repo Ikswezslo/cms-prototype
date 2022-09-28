@@ -1,33 +1,5 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="user">
-  <mat-card *ngIf="user" fxFlex [ngClass]="{'cms-fixed-width': true}">
-    <mat-card-subtitle *ngIf="settings">
-      <span>Ustawienia <br></span>
-    </mat-card-subtitle>
-    <mat-card-title>
-      <span>{{user.firstName}} {{user.lastName}}</span>
-    </mat-card-title>
-    <mat-card-subtitle>
-      <div>
-        <mat-icon>person</mat-icon>
-        <span>{{user.username}}</span>
-      </div>
-      <div>
-        <mat-icon>alternate_email</mat-icon>
-        <span>{{user.email}}</span>
-      </div>
-      <div>
-        <mat-icon> phone</mat-icon>
-        <span>{{user.phoneNumber}}</span>
-      </div>
-      <div>
-        <mat-icon>perm_identity</mat-icon>
-        <span>{{user.accountType}}</span>
-      </div>
-      <div *ngFor="let university of user.enrolledUniversities">
-        <mat-icon>business</mat-icon>
-        <span>{{university['name']}}</span>
-      </div>
-    </mat-card-subtitle>
+  <app-user-card *ngIf="user" [user]="user" [config]="userCardConfig" class="cms-fixed-width">
     <div *ngIf="settings">
       <hr>
       <button mat-button [matMenuTriggerFor]="actions">
@@ -35,7 +7,7 @@
         <span>Opcje</span>
       </button>
     </div>
-  </mat-card>
+  </app-user-card>
 
   <mat-accordion *ngIf="!settings" fxFlex class="cms-fixed-width">
     <mat-expansion-panel>
@@ -46,7 +18,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div fxLayout='column' class="cms-layout-gap">
-        <app-page-card *ngFor="let page of pages" [page]="page" [config]="cardConfig"></app-page-card>
+        <app-page-card *ngFor="let page of pages" [page]="page" [config]="pageCardConfig"></app-page-card>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
