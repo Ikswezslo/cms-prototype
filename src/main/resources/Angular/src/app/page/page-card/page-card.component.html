@@ -1,6 +1,6 @@
 <mat-card *ngIf="page" fxFlex
-          [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor}">
-  <mat-card-title class="cms-card-title-margin">
+          [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
+  <mat-card-title>
     <span>{{page.title}}</span>
     <mat-icon *ngIf="page.hidden">visibility_off</mat-icon>
   </mat-card-title>
@@ -28,7 +28,7 @@
 
   <mat-divider inset></mat-divider>
 
-  <mat-card-content *ngIf="config.showDescription" class="cms-card-content-margin">
+  <mat-card-content *ngIf="config.showDescription">
     <p>{{page.description}}</p>
   </mat-card-content>
 
