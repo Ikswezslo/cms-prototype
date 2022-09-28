@@ -19,11 +19,22 @@ export class PageService {
   constructor(private http: HttpClient) {
   }
 
-  public tempPage?: Page;
+  private cachedPage?: Page;
+
+  cachePage(page: Page): void {
+    this.cachedPage = page;
+  }
+
+  getCachedPage(id: Number) {
+    if (id !== this.cachedPage?.id) {
+      this.cachedPage = undefined;
+    }
+    return this.cachedPage;
+  }
 
   getPage(id: Number, defaultErrorHandling: boolean = true): Observable<Page> {
     return this.http.get<Page>(`${this.pageUrl}/${id}`, this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
   getPages(defaultErrorHandling: boolean = true): Observable<Page[]> {

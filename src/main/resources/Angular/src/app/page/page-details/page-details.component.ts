@@ -54,14 +54,11 @@ export class PageDetailsComponent implements OnInit {
     this.loadPage();
   }
 
-  ngOnDestroy(): void {
-    this.pageService.tempPage = this.page;
-  }
-
   loadPage() {
     this.pageService.getPage(this.id)
       .subscribe(res => {
         this.page = res;
+        this.pageService.cachePage(res);
         this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
       });
   }

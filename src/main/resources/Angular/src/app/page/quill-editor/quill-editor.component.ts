@@ -29,8 +29,7 @@ export class QuillEditorComponent implements OnInit {
     const routeParams = this.route.snapshot.paramMap;
     this.id = Number(routeParams.get('pageId'));
 
-    this.page = this.pageService.tempPage;
-    this.pageService.tempPage = undefined;
+    this.page = this.pageService.getCachedPage(this.id);
 
     if (this.id && !this.page) {
       this.loadPage(this.id.valueOf());
