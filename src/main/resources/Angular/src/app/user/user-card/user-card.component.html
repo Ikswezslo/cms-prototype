@@ -1,0 +1,49 @@
+<mat-card *ngIf="user" fxFlex
+          [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
+    <mat-card-subtitle *ngIf="config.showSettings">
+        <span>Ustawienia <br></span>
+    </mat-card-subtitle>
+    <mat-card-title>
+        <span>{{user.firstName}} {{user.lastName}}</span>
+        <mat-icon *ngIf="user.enabled">visibility_off</mat-icon>
+    </mat-card-title>
+    <mat-card-subtitle>
+        <div>
+            <mat-icon>person</mat-icon>
+            <span>{{user.username}}</span>
+        </div>
+        <div>
+            <mat-icon>alternate_email</mat-icon>
+            <span>{{user.email}}</span>
+        </div>
+        <div>
+            <mat-icon> phone</mat-icon>
+            <span>{{user.phoneNumber}}</span>
+        </div>
+        <div>
+            <mat-icon>perm_identity</mat-icon>
+            <span>{{user.accountType}}</span>
+        </div>
+        <div *ngFor="let university of user.enrolledUniversities">
+            <span class="cms-link" [routerLink]="['/university', university.id]">
+                <mat-icon>business</mat-icon>
+                <span>{{university.name}}</span>
+            </span>
+        </div>
+    </mat-card-subtitle>
+
+    <mat-divider inset></mat-divider>
+
+    <mat-card-content>
+        <p>TODO: Dodać pole "about me"?</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button *ngIf="config.showGoToButton" mat-button [routerLink]="['/account', user.id]">
+            <mat-icon>launch</mat-icon>
+            <span>Przejdź do użytkownika</span>
+        </button>
+
+        <ng-content></ng-content>
+    </mat-card-actions>
+</mat-card>

@@ -122,9 +122,9 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         );
         pageService.save(p4);
 
-        pageService.setHidden(1L, false);
-        pageService.setHidden(2L, false);
-        pageService.setHidden(3L, false);
+        pageService.modifyHiddenField(1L, false);
+        pageService.modifyHiddenField(2L, false);
+        pageService.modifyHiddenField(3L, false);
 
         log.info("Created dummy data");
     }

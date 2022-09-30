@@ -1,19 +1,19 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="page">
-  <app-page-card [page]="page" [goToBtn]="false">
+  <app-page-card [page]="page" [config]="primaryCardConfig" class="cms-fixed-width">
     <button mat-button [matMenuTriggerFor]="actions">
       <mat-icon>label_important</mat-icon>
       <span>Akcje</span>
     </button>
   </app-page-card>
 
-  <mat-card fxFlex>
+  <mat-card fxFlex class="cms-fixed-width">
     <div class="ql-container ql-snow" style="border-width: 0;">
       <div class="ql-editor" [innerHtml]="pageHtml"></div>
     </div>
   </mat-card>
 
-  <mat-card fxFlex>
-    <mat-card-title>Zasoby strony</mat-card-title>
+  <mat-card fxFlex class="cms-fixed-width">
+    <mat-card-title class="mb-20">Zasoby strony</mat-card-title>
     <mat-card-content>
       <mat-accordion>
 
@@ -41,17 +41,17 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="page.parent" fxFlex>
-    <mat-card-title>Nadstrona<br></mat-card-title>
-    <mat-card-content fxLayout='column' fxLayoutAlign="center start" class="cms-layout-gap">
-      <app-page-card [page]="page.parent" [gray]="true"></app-page-card>
+  <mat-card *ngIf="page.parent" fxFlex class="cms-fixed-width">
+    <mat-card-title class="mb-20">Nadstrona<br></mat-card-title>
+    <mat-card-content fxLayout='column' class="cms-layout-gap">
+      <app-page-card [page]="page.parent" [config]="secondaryCardConfig"></app-page-card>
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="page.children.length" fxFlex>
-    <mat-card-title>Podstrony<br></mat-card-title>
-    <mat-card-content fxLayout='column' fxLayoutAlign="center start" class="cms-layout-gap">
-      <app-page-card *ngFor="let child of page.children" [page]="child" [gray]="true"></app-page-card>
+  <mat-card *ngIf="page.children.length" fxFlex class="cms-fixed-width">
+    <mat-card-title class="mb-20">Podstrony<br></mat-card-title>
+    <mat-card-content fxLayout='column' class="cms-layout-gap">
+      <app-page-card *ngFor="let child of page.children" [page]="child" [config]="secondaryCardConfig"></app-page-card>
     </mat-card-content>
   </mat-card>
 </div>

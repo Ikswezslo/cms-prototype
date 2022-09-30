@@ -17,3 +17,48 @@ $base-container-width: 1000px;
 .cms-layout-gap {
   row-gap: $base-content-gap;
 }
+
+.cms-link:hover {
+  cursor: pointer;
+  color: #444;
+
+  span {
+    text-decoration: underline;
+  }
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.cms-card {
+  mat-card-title {
+    margin-bottom: 10px;
+
+    mat-icon {
+      margin-left: 10px;
+      font-size: 30px;
+      display: inline;
+      vertical-align: text-bottom;
+    }
+  }
+
+  mat-card-subtitle {
+    margin-bottom: 10px;
+
+    mat-icon {
+      font-size: 22px;
+      display: inline;
+      vertical-align: text-bottom;
+      padding-right: 5px;
+    }
+  }
+
+  mat-card-content {
+    margin-top: 10px;
+  }
+}
+
+.cms-card-secondary-color {
+  background-color: #EFEFEF !important;
+}
