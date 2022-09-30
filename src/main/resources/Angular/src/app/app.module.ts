@@ -44,8 +44,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatExpansionModule} from "@angular/material/expansion";
-import { PageCardComponent } from './page/page-card/page-card.component';
-import { PageCardListComponent } from './page/page-card-list/page-card-list.component';
+import {PageCardComponent} from './page/page-card/page-card.component';
+import {UserCardComponent} from './user/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +65,7 @@ import { PageCardListComponent } from './page/page-card-list/page-card-list.comp
     PageUserComponent,
     QuillEditorComponent,
     PageCardComponent,
-    PageCardListComponent
+    UserCardComponent,
   ],
   imports: [
     BrowserModule,

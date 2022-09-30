@@ -48,11 +48,16 @@ export class UserService {
 
   logout(defaultErrorHandling: boolean = true): Observable<any> {
     return this.http.get<any>('http://localhost:8080/logout', this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
   getLoggedUser(defaultErrorHandling: boolean = true): Observable<any> {
     return this.http.get<any>(this.userUrl + '/logged', this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  modifyUserEnabledField(id: Number, enabled: boolean, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.userUrl}/${id}/enabled`, enabled, this.httpOptions)
+        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

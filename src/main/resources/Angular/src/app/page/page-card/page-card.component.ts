@@ -9,8 +9,7 @@ import {Page} from "../../../assets/models/page";
 export class PageCardComponent implements OnInit {
 
   @Input() page?: Page;
-  @Input() gray: boolean = false;
-  @Input() goToBtn: boolean = true;
+  @Input() config: PageCardConfig = {} as PageCardConfig
 
   constructor() {
   }
@@ -18,4 +17,13 @@ export class PageCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+}
+
+export interface PageCardConfig {
+  useSecondaryColor: boolean;
+  showGoToButton: boolean;
+  showDescription: boolean;
+  showUniversity: boolean;
+  showCreatedOn: boolean;
+  showAuthor: boolean;
 }

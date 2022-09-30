@@ -1,8 +1,0 @@
-<div *ngFor="let page of pages">
-    <mat-card style="margin:10px; " [routerLink]="['/page/'+page.id]">
-        <mat-card-title>{{page.title}}</mat-card-title>
-        <mat-card-subtitle><b>{{page.university.name}}</b></mat-card-subtitle>
-        <mat-card-subtitle *ngIf="description" >{{page.description}}</mat-card-subtitle>
-        <mat-card-subtitle>Data utworzenia: {{page.createdOn}}</mat-card-subtitle>
-    </mat-card>
-</div>

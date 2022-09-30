@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { ColDef, ColumnApi, GridApi, RowSelectedEvent } from 'ag-grid-community';
+import {Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ColDef, ColumnApi, GridApi, RowSelectedEvent} from 'ag-grid-community';
 
-import { University } from 'src/assets/models/university';
-import { UniversityService } from 'src/assets/service/university.service';
+import {University} from 'src/assets/models/university';
+import {UniversityService} from 'src/assets/service/university.service';
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -67,7 +66,7 @@ export class UniversityListComponent implements OnInit {
   onResize() {
     this.gridApi.sizeColumnsToFit();
     //this.columnApi.autoSizeAllColumns(false);
-    
+
   }
 
   onRowSelected(event: RowSelectedEvent) {

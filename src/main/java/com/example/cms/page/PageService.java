@@ -66,7 +66,7 @@ public class PageService {
         pageRepository.delete(page);
     }
 
-    public void setHidden(Long id, boolean hidden) {
+    public void modifyHiddenField(Long id, boolean hidden) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
         page.setHidden(hidden);
         pageRepository.save(page);
@@ -115,7 +115,7 @@ public class PageService {
                 .collect(Collectors.toList());
     }
 
-    public void updateContent(Long id, String content) {
+    public void modifyContentField(Long id, String content) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
         page.setContent(content);
 
