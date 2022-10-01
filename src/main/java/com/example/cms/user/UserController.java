@@ -62,4 +62,9 @@ public class UserController {
         service.modifyEnabledField(id, enabled);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{userId}/universities")
+    public UserDtoDetailed addUniversityToUser(@PathVariable long userId, @RequestBody long universityId) {
+        return service.addUniversity(userId, universityId);
+    }
 }
