@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ColDef, GridApi, RowSelectedEvent } from 'ag-grid-community';
-import { User } from 'src/assets/models/user';
-import { UserService } from 'src/assets/service/user.service';
-import { DialogUserCreateComponent } from '../dialog-user-create/dialog-user-create.component';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
+import {ColDef, GridApi, RowSelectedEvent} from 'ag-grid-community';
+import {User} from 'src/assets/models/user';
+import {UserService} from 'src/assets/service/user.service';
+import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
 
 @Component({
   selector: 'app-users-list',
@@ -15,7 +14,6 @@ import { DialogUserCreateComponent } from '../dialog-user-create/dialog-user-cre
 export class UsersListComponent implements OnInit {
 
   users: User[] = [];
-  public selected = true;
 
   public columnDefs: ColDef[] = [];
 
@@ -33,13 +31,13 @@ export class UsersListComponent implements OnInit {
     this.loadUsers();
     this.loadColumn();
   }
-  
 
-  loadUsers(showHidden: Boolean = true) {
+
+  loadUsers() {
     this.userService.getUsers()
       .subscribe(res => {
         this.users = res;
-    });
+      });
   }
 
   loadColumn() {
@@ -69,7 +67,7 @@ export class UsersListComponent implements OnInit {
       this.gridApi.sizeColumnsToFit();
     });
   }
-  
+
   onRowSelected(event: RowSelectedEvent) {
     this.router.navigateByUrl('/account/' + event.data.id);
   }

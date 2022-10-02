@@ -44,10 +44,10 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatExpansionModule} from "@angular/material/expansion";
-import { PageCardComponent } from './page/page-card/page-card.component';
-import { PageCardListComponent } from './page/page-card-list/page-card-list.component';
-import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confirmation-dialog.component';
-import { ErrorDialogComponent } from './dialog/error-dialog/error-dialog.component';
+import {PageCardComponent} from './page/page-card/page-card.component';
+import {UserCardComponent} from './user/user-card/user-card.component';
+import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
+import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +67,7 @@ import { ErrorDialogComponent } from './dialog/error-dialog/error-dialog.compone
     PageUserComponent,
     QuillEditorComponent,
     PageCardComponent,
-    PageCardListComponent,
+    UserCardComponent,
     ConfirmationDialogComponent,
     ErrorDialogComponent
   ],

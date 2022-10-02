@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { PageService} from "../../assets/service/page.service";
-import { Page } from "../../assets/models/page";
+import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {PageService} from "../../assets/service/page.service";
+import {Page} from "../../assets/models/page";
+import {PageCardConfig} from "../page/page-card/page-card.component";
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 
 @Component({
@@ -12,8 +13,19 @@ import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 export class MainPageComponent implements OnInit {
   pages: Page[] = [];
 
-  constructor(private errorHandleService: ErrorHandleService,
-              private pageService: PageService) { }
+  cardConfig: PageCardConfig = {
+    useSecondaryColor: false,
+    showGoToButton: true,
+    showDescription: false,
+    showUniversity: true,
+    showCreatedOn: false,
+    showAuthor: true
+  };
+
+  constructor(private http: HttpClient,
+              private errorHandleService: ErrorHandleService,
+              private pageService: PageService) {
+  }
 
   ngOnInit(): void {
     this.loadPages();

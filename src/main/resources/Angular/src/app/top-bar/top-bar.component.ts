@@ -41,11 +41,11 @@ export class TopBarComponent implements OnInit {
         },
         error: err => {
           if (err.status != "401")
-            this.errorHandleService.openErrorDialog();
+            RestErrorHandler.handleError(err);
         }
       })
     }
-     
+
   loadData() {
     this.pageService.getPages()
       .subscribe({
