@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PageService} from "../../../assets/service/page.service";
 import {Page} from "../../../assets/models/page";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class PageUserComponent implements OnInit {
   public id: Number = 0;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
+              private errorHandleService: ErrorHandleService,
               private pageService: PageService) { }
 
   ngOnInit(): void {
@@ -25,8 +26,13 @@ export class PageUserComponent implements OnInit {
 
   loadPages(userId: Number) {
     this.pageService.getPages()
-      .subscribe(res => {
-        this.pages = res.filter(element => element.creator.id == userId);
-      });
+      .subscribe({
+        next: res => {
+          this.pages = res.filter(element => element.creator.id == userId);
+        },
+        error: err => {
+          this.errorHandleService.openDataErrorDialog()
+        }
+      })
   }
 }

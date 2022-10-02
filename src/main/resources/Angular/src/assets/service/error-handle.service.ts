@@ -12,13 +12,16 @@ export class ErrorHandleService {
     public dialog: MatDialog) { }
 
 
-  openErrorDialog() {
+  openDataErrorDialog() {
+    let dialogData = {data: {}}
+    const dialogRef = this.dialog.open(ErrorDialogComponent, dialogData);
+  }
+
+  openLoggedUserErrorDialog() {
     let dialogData = {
       data: {
-        title: "Error",
-        description: "Wystąpił błąd przy pobieraniu danych"
-      }
-    }
+        description : "Nie udało się pobrać zalogowanego użytkownika."
+    }}
     const dialogRef = this.dialog.open(ErrorDialogComponent, dialogData);
   }
 }

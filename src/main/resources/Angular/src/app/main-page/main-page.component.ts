@@ -22,8 +22,7 @@ export class MainPageComponent implements OnInit {
     showAuthor: true
   };
 
-  constructor(private http: HttpClient,
-              private errorHandleService: ErrorHandleService,
+  constructor(private errorHandleService: ErrorHandleService,
               private pageService: PageService) {
   }
 
@@ -39,7 +38,7 @@ export class MainPageComponent implements OnInit {
         },
         error: err => {
           if (err.status != "401")
-            this.errorHandleService.openErrorDialog();
+            this.errorHandleService.openDataErrorDialog();
         }
       });
   }

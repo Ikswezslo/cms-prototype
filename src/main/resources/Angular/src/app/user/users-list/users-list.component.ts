@@ -3,6 +3,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {ColDef, GridApi, RowSelectedEvent} from 'ag-grid-community';
 import {User} from 'src/assets/models/user';
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 import {UserService} from 'src/assets/service/user.service';
 import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
 
@@ -24,6 +25,7 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private errorHandleService: ErrorHandleService,
     private userService: UserService,
     public dialog: MatDialog) { }
 
@@ -35,8 +37,13 @@ export class UsersListComponent implements OnInit {
 
   loadUsers() {
     this.userService.getUsers()
-      .subscribe(res => {
+      .subscribe({
+        next: res => {
         this.users = res;
+        },
+        error: err => {
+          this.errorHandleService.openDataErrorDialog();
+        }
       });
   }
 

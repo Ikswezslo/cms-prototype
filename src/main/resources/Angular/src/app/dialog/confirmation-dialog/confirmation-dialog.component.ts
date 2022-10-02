@@ -8,8 +8,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ConfirmationDialogComponent implements OnInit {
 
-  title!: String;
-  description!: String;
+  title: String = "Confirm";
+  description: String = "Are you sure?";
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
@@ -17,21 +17,30 @@ export class ConfirmationDialogComponent implements OnInit {
 
   
   ngOnInit(): void {
-    this.title = this.data.title;
-    this.description = this.data.description;
+    this.title = this.data.title ?? this.title;
+    this.description = this.data.description ?? this.description;
   }
 
   save() {
-    this.close("save")
+    this.close(true)
   }
-  close(data?: any) {
-    if (data)
-      this.dialogRef.close(data);
-    this.dialogRef.close();
+
+  close(data: any = false) {
+    this.dialogRef.close(data);
   }
 
 }
+
 export interface ConfirmationDialogData {
-  title: String;
-  description: String;
+  title?: String;
+  description?: String;
 }
+
+// 
+//   let dialogData = {data: {}}
+//   const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogData);
+//   dialogRef.afterClosed().pipe(take(1)).subscribe({
+//     next: res => {
+//       if(res)
+//     }
+//   });

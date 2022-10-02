@@ -9,14 +9,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ErrorDialogComponent implements OnInit {
 
 
-  title!: String;
-  description!: String;
+  title: String = "Error";
+  description: String = "Wystąpił błąd przy pobieraniu danych.";
 
   constructor(
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ErrorDialogData) {}
 
-  
   ngOnInit(): void {
     this.title = this.data.title;
     this.description = this.data.description;
@@ -27,6 +26,7 @@ export class ErrorDialogComponent implements OnInit {
   }
 
 }
+
 export interface ErrorDialogData {
   title: String;
   description: String;

@@ -1,9 +1,10 @@
-import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {ColDef, ColumnApi, GridApi, RowSelectedEvent} from 'ag-grid-community';
-import {Page} from 'src/assets/models/page';
-import {PageService} from '../../../assets/service/page.service';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ColDef, ColumnApi, GridApi, RowSelectedEvent } from 'ag-grid-community';
+import { Page } from 'src/assets/models/page';
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import { PageService } from '../../../assets/service/page.service';
 
 
 @Component({
@@ -22,9 +23,9 @@ export class PageListComponent implements OnInit {
   public defaultColDef: ColDef = {}
 
   constructor(
-    private http: HttpClient,
     private router: Router,
-    private pageService: PageService) {}
+    private errorHandleService: ErrorHandleService,
+    private pageService: PageService) { }
 
   ngOnInit(): void {
     this.loadColumn()
@@ -33,28 +34,33 @@ export class PageListComponent implements OnInit {
 
   loadPages(showHidden: Boolean = false) {
     this.pageService.getPages()
-      .subscribe(res => {
-        this.pages = showHidden ? res : res.filter(element => !element.hidden);
-        res.forEach(el => {
-          if (!this.dataTable)
-            this.dataTable = [{
-              id: el.id,
-              title: el.title,
-              date: el.createdOn,
-              university: el.university.name,
-              creator: el.creator.firstName +" "+ el.creator.lastName
-            }];
-          else
-            this.dataTable.push({
-              id: el.id,
-              title: el.title,
-              date: el.createdOn,
-              university: el.university.name,
-              creator: el.creator.firstName +" "+el.creator.lastName
-            })
-        });
+      .subscribe({
+        next: res => {
+          this.pages = showHidden ? res : res.filter(element => !element.hidden);
+          res.forEach(el => {
+            if (!this.dataTable)
+              this.dataTable = [{
+                id: el.id,
+                title: el.title,
+                date: el.createdOn,
+                university: el.university.name,
+                creator: el.creator.firstName + " " + el.creator.lastName
+              }];
+            else
+              this.dataTable.push({
+                id: el.id,
+                title: el.title,
+                date: el.createdOn,
+                university: el.university.name,
+                creator: el.creator.firstName + " " + el.creator.lastName
+              })
+          });
+        },
+        error: err => {
+          this.errorHandleService.openDataErrorDialog();
+        }
       });
-      this.gridApi.sizeColumnsToFit();
+    this.gridApi.sizeColumnsToFit();
   }
 
   loadColumn() {
@@ -81,7 +87,7 @@ export class PageListComponent implements OnInit {
     // this.columnApi.autoSizeAllColumns(false);
 
   }
-  
+
   onRowSelected(event: RowSelectedEvent) {
     this.router.navigateByUrl('/page/' + event.data.id);
   }
