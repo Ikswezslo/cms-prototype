@@ -4,6 +4,8 @@ import {University} from 'src/assets/models/university';
 import {UniversityService} from 'src/assets/service/university.service';
 import {User} from "../../../assets/models/user";
 import {UserService} from "../../../assets/service/user.service";
+import {PageCardConfig} from "../../page/page-card/page-card.component";
+import {UserCardConfig} from "../../user/user-card/user-card.component";
 
 @Component({
   selector: 'app-university-details',
@@ -15,6 +17,21 @@ export class UniversityDetailsComponent implements OnInit {
   public university!: University;
   public id: Number = 0;
   public loggedUser!: User;
+
+  userCardConfig: UserCardConfig = {
+    useSecondaryColor: true,
+    showGoToButton: true,
+    showSettings: false
+  };
+
+  secondaryCardConfig: PageCardConfig = {
+    useSecondaryColor: true,
+    showGoToButton: true,
+    showDescription: true,
+    showUniversity: false,
+    showCreatedOn: true,
+    showAuthor: true
+  };
 
   constructor(
     private router: Router,

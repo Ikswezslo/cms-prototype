@@ -1,8 +1,40 @@
-<div *ngIf="university">
-  <h3>University name: {{ university.name }}</h3>
-  <p>Hidden: {{ university.hidden }}</p>
+<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="university">
+  <app-university-card [university]="university" [loggedUser]="loggedUser" class="cms-fixed-width">
+    <button mat-button [matMenuTriggerFor]="actionsUniversity">
+      <mat-icon>label_important</mat-icon>
+      <span>Actions</span>
+    </button>
+  </app-university-card>
+  <mat-card fxFlex class="cms-fixed-width">
+    <mat-card-title class="mb-20">Main page of {{university.shortName}}<br></mat-card-title>
+    <mat-card-content fxLayout='column' class="cms-layout-gap">
+      <app-page-card [page]="university.mainPage" [config]="secondaryCardConfig"></app-page-card>
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxFlex class="cms-fixed-width">
+    <mat-card-title class="mb-20">Enrolled users<br></mat-card-title>
+    <mat-card-content fxLayout='column' class="cms-layout-gap">
+      <app-user-card *ngFor="let user of university.enrolledUsers" [user]="user"
+                     [config]="userCardConfig"></app-user-card>
+    </mat-card-content>
+  </mat-card>
 </div>
-<div *ngIf="university && loggedUser!=null  && loggedUser.accountType !='USER'">
-  <button mat-button class="button-option" *ngIf="university.hidden" (click)="hiddenUniversity()">Unhide</button>
-  <button mat-button class="button-option" *ngIf="!university.hidden" (click)="hiddenUniversity()">Hide</button>
-</div>
+
+<mat-menu #actionsUniversity="matMenu">
+  <button mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>Edit</span>
+  </button>
+  <button mat-menu-item *ngIf="university.hidden" (click)=hiddenUniversity()>
+    <mat-icon>visibility_on</mat-icon>
+    <span>Unhide</span>
+  </button>
+  <button mat-menu-item *ngIf="!university.hidden" (click)=hiddenUniversity()>
+    <mat-icon>visibility_off</mat-icon>
+    <span>Hide</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+</mat-menu>

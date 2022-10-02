@@ -1,0 +1,15 @@
+<mat-card *ngIf="university" fxFlex>
+  <mat-card-title>
+    <span> {{ university.name }} </span>
+    <mat-icon *ngIf="university.hidden">visibility_off</mat-icon>
+  </mat-card-title>
+  <mat-card-subtitle>
+    <div>
+      <mat-icon>business</mat-icon>
+      <span>{{university.shortName}}</span>
+    </div>
+  </mat-card-subtitle>
+  <ng-content></ng-content>
+</mat-card>
+
+
