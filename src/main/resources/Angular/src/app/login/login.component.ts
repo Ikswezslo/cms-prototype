@@ -24,9 +24,6 @@ export class LoginComponent implements OnInit {
             next: user => {
                 this.userService.loggedUser = user;
                 this.router.navigateByUrl('/');
-                // console.log(window);
-                // window.location.reload();
-                // window.location.href = '';
             },
             error: err => {
                 if (err.status == "401") {

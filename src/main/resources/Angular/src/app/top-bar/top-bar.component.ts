@@ -4,6 +4,7 @@ import {Page} from 'src/assets/models/page';
 import { RestErrorHandler } from 'src/assets/models/restError';
 import {University} from 'src/assets/models/university';
 import {User} from 'src/assets/models/user';
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 import {UniversityService} from 'src/assets/service/university.service';
 import {UserService} from 'src/assets/service/user.service';
 import {PageService} from '../../assets/service/page.service';
@@ -26,7 +27,8 @@ export class TopBarComponent implements OnInit {
     private router: Router,
     private pageService: PageService,
     private userService: UserService,
-    private universityService: UniversityService) { }
+    private universityService: UniversityService,
+    private errorHandleService: ErrorHandleService) { }
 
   ngOnInit(): void {
 
@@ -39,23 +41,38 @@ export class TopBarComponent implements OnInit {
         },
         error: err => {
           if (err.status != "401")
-            RestErrorHandler.handleError(err);
+            this.errorHandleService.openErrorDialog();
         }
       })
     }
-    
+     
   loadData() {
     this.pageService.getPages()
-      .subscribe(res => {
-        this.pages = res.filter(element => !element.hidden);
+      .subscribe({
+        next: res => {
+          this.pages = res.filter(element => !element.hidden);
+        },
+        error: err => {
+          this.errorHandleService.openErrorDialog()
+        }
       });
     this.universityService.getUniversities()
-      .subscribe(res => {
-        this.universities = res;
+      .subscribe({
+        next: res => {
+          this.universities = res;
+        },
+        error: err => {
+          this.errorHandleService.openErrorDialog()
+        }
       });
     this.userService.getUsers()
-      .subscribe(res => {
-        this.users = res;
+      .subscribe({
+        next: res => {
+          this.users = res;
+        },
+        error: err => {
+          this.errorHandleService.openErrorDialog()
+        }
       })
   }
 

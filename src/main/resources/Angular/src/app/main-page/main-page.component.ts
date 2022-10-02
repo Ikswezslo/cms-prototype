@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageService} from "../../assets/service/page.service";
 import { Page } from "../../assets/models/page";
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 
 @Component({
   selector: 'app-main-page',
@@ -11,7 +12,7 @@ import { Page } from "../../assets/models/page";
 export class MainPageComponent implements OnInit {
   pages: Page[] = [];
 
-  constructor(private http: HttpClient,
+  constructor(private errorHandleService: ErrorHandleService,
               private pageService: PageService) { }
 
   ngOnInit(): void {
@@ -20,8 +21,14 @@ export class MainPageComponent implements OnInit {
 
   loadPages() {
     this.pageService.getNewPages()
-      .subscribe(res => {
-        this.pages = res;
+      .subscribe({
+        next: res => {
+          this.pages = res;
+        },
+        error: err => {
+          if (err.status != "401")
+            this.errorHandleService.openErrorDialog();
+        }
       });
   }
 }
