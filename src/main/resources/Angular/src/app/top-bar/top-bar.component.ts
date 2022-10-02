@@ -43,7 +43,8 @@ export class TopBarComponent implements OnInit {
         },
         error: err => {
           if (err.status != "401")
-            this.errorHandleService.openLoggedUserErrorDialog();
+            RestErrorHandler.handleError(err);
+            //this.errorHandleService.openLoggedUserErrorDialog();
         }
       })
     }

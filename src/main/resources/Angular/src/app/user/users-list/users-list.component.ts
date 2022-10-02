@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {ColDef, GridApi, RowSelectedEvent} from 'ag-grid-community';
 import {User} from 'src/assets/models/user';
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import { SpinnerService } from 'src/assets/service/spinner.service';
 import {UserService} from 'src/assets/service/user.service';
 import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
 
@@ -27,6 +28,7 @@ export class UsersListComponent implements OnInit {
     private router: Router,
     private errorHandleService: ErrorHandleService,
     private userService: UserService,
+    private spinnerService: SpinnerService,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -36,12 +38,15 @@ export class UsersListComponent implements OnInit {
 
 
   loadUsers() {
+    this.spinnerService.show();
     this.userService.getUsers()
       .subscribe({
         next: res => {
+          this.spinnerService.hide();
         this.users = res;
         },
         error: err => {
+          this.spinnerService.hide();
           this.errorHandleService.openDataErrorDialog();
         }
       });

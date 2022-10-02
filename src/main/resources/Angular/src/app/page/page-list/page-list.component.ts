@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ColDef, ColumnApi, GridApi, RowSelectedEvent } from 'ag-grid-community';
 import { Page } from 'src/assets/models/page';
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import { SpinnerService } from 'src/assets/service/spinner.service';
 import { PageService } from '../../../assets/service/page.service';
 
 
@@ -25,6 +26,7 @@ export class PageListComponent implements OnInit {
   constructor(
     private router: Router,
     private errorHandleService: ErrorHandleService,
+    private spinnerService: SpinnerService,
     private pageService: PageService) { }
 
   ngOnInit(): void {
@@ -33,9 +35,11 @@ export class PageListComponent implements OnInit {
   }
 
   loadPages(showHidden: Boolean = false) {
+    this.spinnerService.show();
     this.pageService.getPages()
       .subscribe({
         next: res => {
+          this.spinnerService.hide();
           this.pages = showHidden ? res : res.filter(element => !element.hidden);
           res.forEach(el => {
             if (!this.dataTable)
@@ -57,6 +61,7 @@ export class PageListComponent implements OnInit {
           });
         },
         error: err => {
+          this.spinnerService.hide();
           this.errorHandleService.openDataErrorDialog();
         }
       });

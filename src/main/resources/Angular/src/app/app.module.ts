@@ -48,6 +48,7 @@ import {PageCardComponent} from './page/page-card/page-card.component';
 import {UserCardComponent} from './user/user-card/user-card.component';
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component
     PageCardComponent,
     UserCardComponent,
     ConfirmationDialogComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

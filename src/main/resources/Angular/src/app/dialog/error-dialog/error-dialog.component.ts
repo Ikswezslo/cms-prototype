@@ -17,8 +17,8 @@ export class ErrorDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: ErrorDialogData) {}
 
   ngOnInit(): void {
-    this.title = this.data.title;
-    this.description = this.data.description;
+    this.title = this.data.title ?? this.title;
+    this.description = this.data.description ?? this.description;
   }
 
   close() {
@@ -28,6 +28,6 @@ export class ErrorDialogComponent implements OnInit {
 }
 
 export interface ErrorDialogData {
-  title: String;
-  description: String;
+  title?: String;
+  description?: String;
 }

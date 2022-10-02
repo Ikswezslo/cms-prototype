@@ -7,6 +7,7 @@ import {UniversityService} from 'src/assets/service/university.service';
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
 import {MatDialog} from "@angular/material/dialog";
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import { SpinnerService } from 'src/assets/service/spinner.service';
 
 @Component({
   selector: 'app-university-list',
@@ -30,6 +31,7 @@ export class UniversityListComponent implements OnInit {
   constructor(
     private router: Router,
     private errorHandleService: ErrorHandleService,
+    private spinnerService: SpinnerService,
     private universityService: UniversityService,
     public dialog: MatDialog) {}
 
@@ -39,12 +41,15 @@ export class UniversityListComponent implements OnInit {
   }
 
   loadUniversities(showHidden: Boolean = false) {
+    this.spinnerService.show();
     this.universityService.getUniversities()
       .subscribe({
         next: res => {
+          this.spinnerService.hide();
         this.universities = showHidden ? res : res.filter(element => !element.hidden);
         },
         error: err => {
+          this.spinnerService.hide();
           this.errorHandleService.openDataErrorDialog();
       }});
     this.gridApi.sizeColumnsToFit();
