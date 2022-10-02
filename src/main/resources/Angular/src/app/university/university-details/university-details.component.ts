@@ -6,6 +6,7 @@ import {User} from "../../../assets/models/user";
 import {UserService} from "../../../assets/service/user.service";
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../../user/user-card/user-card.component";
+import {UniversityConfig} from "../university-card/university-card.component";
 
 @Component({
   selector: 'app-university-details',
@@ -32,6 +33,11 @@ export class UniversityDetailsComponent implements OnInit {
     showCreatedOn: true,
     showAuthor: true
   };
+  universityCardConfig: UniversityConfig = {
+    useSecondaryColor: false,
+    showGoToButton: true,
+    showDescription: true,
+  }
 
   constructor(
     private router: Router,

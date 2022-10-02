@@ -1,5 +1,6 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="university">
-  <app-university-card [university]="university" [loggedUser]="loggedUser" class="cms-fixed-width">
+  <app-university-card [university]="university" [loggedUser]="loggedUser" [config]="universityCardConfig"
+                       class="cms-fixed-width">
     <button mat-button [matMenuTriggerFor]="actionsUniversity">
       <mat-icon>label_important</mat-icon>
       <span>Actions</span>

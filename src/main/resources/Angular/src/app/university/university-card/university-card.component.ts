@@ -11,6 +11,7 @@ export class UniversityCardComponent implements OnInit {
 
   @Input() university?: University;
   @Input() loggedUser?: User;
+  @Input() config: UniversityConfig = {} as UniversityConfig
 
   constructor() {
   }
@@ -18,4 +19,10 @@ export class UniversityCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+}
+
+export interface UniversityConfig {
+  useSecondaryColor: boolean;
+  showDescription: boolean;
+  showGoToButton: boolean;
 }
