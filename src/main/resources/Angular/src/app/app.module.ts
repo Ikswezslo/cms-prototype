@@ -45,7 +45,6 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {PageCardComponent} from './page/page-card/page-card.component';
-import {PageCardListComponent} from './page/page-card-list/page-card-list.component';
 import {DialogPageCreateComponent} from './page/dialog-page-create/dialog-page-create.component';
 import {UserCardComponent} from './user/user-card/user-card.component';
 
@@ -67,7 +66,6 @@ import {UserCardComponent} from './user/user-card/user-card.component';
     PageUserComponent,
     QuillEditorComponent,
     PageCardComponent,
-    PageCardListComponent,
     DialogPageCreateComponent,
     UserCardComponent
   ],
