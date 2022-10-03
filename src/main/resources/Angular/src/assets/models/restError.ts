@@ -1,4 +1,7 @@
+import { MatDialog } from "@angular/material/dialog";
 import {catchError, OperatorFunction, throwError} from "rxjs";
+import { ErrorDialogComponent } from "src/app/dialog/error-dialog/error-dialog.component";
+import { ErrorHandleService } from "../service/error-handle.service";
 
 export interface RestError {
     message: string;
@@ -44,13 +47,13 @@ export class RestErrorHandler {
 
     static handleError(error: RestError) {
         console.error(error);
-        alert(`
-        ${error.status} - ${error.error}
-        Message: ${error.message}
-        Exception: ${error.exception}
+        // alert(`
+        // ${error.status} - ${error.error}
+        // Message: ${error.message}
+        // Exception: ${error.exception}
 
-        Request: ${error.method} ${error.url}
-        ${error.fieldViolations.map(value => `\n${value.field}: ${value.message}`).join('')}
-        `)
+        // Request: ${error.method} ${error.url}
+        // ${error.fieldViolations.map(value => `\n${value.field}: ${value.message}`).join('')}
+        // `)
     }
 }

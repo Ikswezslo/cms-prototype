@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {User} from 'src/assets/models/user';
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 import {UserService} from 'src/assets/service/user.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class UserSettingsComponent implements OnInit {
   public user!: User;
 
   constructor(
-    private route: ActivatedRoute,
+    private errorHandleService: ErrorHandleService,
     private userService: UserService) {
   }
 
@@ -24,9 +25,13 @@ export class UserSettingsComponent implements OnInit {
 
   loadUser() {
     this.userService.getLoggedUser()
-      .subscribe(res => {
+      .subscribe({
+        next: res => {
         this.user = res;
-      });
+        },
+        error: err => {
+          this.errorHandleService.openDataErrorDialog();
+      }});
   }
 
   // startEdit() {
