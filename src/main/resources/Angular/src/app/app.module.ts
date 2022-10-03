@@ -47,6 +47,9 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {PageCardComponent} from './page/page-card/page-card.component';
 import {DialogPageCreateComponent} from './page/dialog-page-create/dialog-page-create.component';
 import {UserCardComponent} from './user/user-card/user-card.component';
+import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
+import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,10 @@ import {UserCardComponent} from './user/user-card/user-card.component';
     QuillEditorComponent,
     PageCardComponent,
     DialogPageCreateComponent,
-    UserCardComponent
+    UserCardComponent,
+    ConfirmationDialogComponent,
+    ErrorDialogComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
