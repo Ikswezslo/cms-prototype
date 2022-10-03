@@ -69,7 +69,7 @@
     <mat-icon>dashboard</mat-icon>
     <span>Pokaż szczegóły</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="addPage()">
     <mat-icon>note_add</mat-icon>
     <span>Dodaj podstronę</span>
   </button>
@@ -97,7 +97,11 @@
     <mat-icon>visibility_on</mat-icon>
     <span>Pokaż stronę</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="page!=null
+          && page.children.length == 0
+          && page.parent != null"
+          (click)="deletePage()">
     <mat-icon>delete</mat-icon>
     <span>Usuń stronę</span>
   </button>
