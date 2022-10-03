@@ -68,8 +68,8 @@ import {UserCardComponent} from './user/user-card/user-card.component';
     QuillEditorComponent,
     PageCardComponent,
     PageCardListComponent,
-    DialogPageCreateComponent
-    UserCardComponent,
+    DialogPageCreateComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,
