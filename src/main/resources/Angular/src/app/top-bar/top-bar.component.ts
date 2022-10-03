@@ -1,12 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { zip } from 'rxjs';
 import {Page} from 'src/assets/models/page';
-import {RestErrorHandler} from 'src/assets/models/restError';
+import { RestErrorHandler } from 'src/assets/models/restError';
 import {University} from 'src/assets/models/university';
 import {User} from 'src/assets/models/user';
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 import {UniversityService} from 'src/assets/service/university.service';
 import {UserService} from 'src/assets/service/user.service';
 import {PageService} from '../../assets/service/page.service';
+import { ErrorDialogComponent } from '../dialog/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-top-bar',
@@ -26,6 +30,7 @@ export class TopBarComponent implements OnInit {
     private router: Router,
     private pageService: PageService,
     private userService: UserService,
+    private errorHandleService: ErrorHandleService,
     private universityService: UniversityService) { }
 
   ngOnInit(): void {
@@ -35,28 +40,30 @@ export class TopBarComponent implements OnInit {
         next: res => {
           this.userLogged = res;
           this.logged = true;
-          this.loadData();
         },
         error: err => {
           if (err.status != "401")
             RestErrorHandler.handleError(err);
+            //this.errorHandleService.openLoggedUserErrorDialog();
         }
       })
     }
 
   loadData() {
-    this.pageService.getPages()
-      .subscribe(res => {
-        this.pages = res.filter(element => !element.hidden);
-      });
-    this.universityService.getUniversities()
-      .subscribe(res => {
-        this.universities = res;
-      });
+    zip(
+    this.pageService.getPages(),      
+    this.universityService.getUniversities(),
     this.userService.getUsers()
-      .subscribe(res => {
-        this.users = res;
-      })
+      ).subscribe({
+          next: ([pagesRes, universitiesRes, usersRes]) => {
+          this.pages = pagesRes.filter(element => !element.hidden);
+          this.universities = universitiesRes;
+          this.users = usersRes;
+          },
+          error: err => {
+            this.errorHandleService.openDataErrorDialog()
+          }
+        });
   }
 
   logout() {
