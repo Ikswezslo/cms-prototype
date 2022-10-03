@@ -9,7 +9,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from 'src/app/dialog/error-dialog/error-dialog.component';
 
 @Component({
