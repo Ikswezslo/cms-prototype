@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {User, UserForm} from 'src/assets/models/user';
 import {UserService} from 'src/assets/service/user.service';
 
@@ -59,7 +59,7 @@ export class DialogUserCreateComponent implements OnInit {
       this.dialogRef.close(add);
     else
       this.dialogRef.close();
-    
+
   }
 
   getErrorMessage() {

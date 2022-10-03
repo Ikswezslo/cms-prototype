@@ -7,6 +7,7 @@ import {UserService} from "../../../assets/service/user.service";
 import {User} from "../../../assets/models/user";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
+import {PageCardConfig} from "../page-card/page-card.component";
 
 @Component({
   selector: 'app-page-details',
@@ -19,6 +20,25 @@ export class PageDetailsComponent implements OnInit {
   public id: Number = 0;
   public pageHtml: any;
   public loggedUser!: User;
+
+  primaryCardConfig: PageCardConfig = {
+    useSecondaryColor: false,
+    showGoToButton: false,
+    showDescription: true,
+    showUniversity: true,
+    showCreatedOn: true,
+    showAuthor: true
+  };
+
+  secondaryCardConfig: PageCardConfig = {
+    useSecondaryColor: true,
+    showGoToButton: true,
+    showDescription: true,
+    showUniversity: false,
+    showCreatedOn: true,
+    showAuthor: true
+  };
+
 
   constructor(
     private router: Router,
@@ -37,14 +57,11 @@ export class PageDetailsComponent implements OnInit {
     this.loadPage();
   }
 
-  ngOnDestroy(): void {
-    this.pageService.tempPage = this.page;
-  }
-
   loadPage() {
     this.pageService.getPage(this.id)
       .subscribe(res => {
         this.page = res;
+        this.pageService.cachePage(res);
         this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
       });
   }
@@ -57,8 +74,8 @@ export class PageDetailsComponent implements OnInit {
   }
 
   hiddenPage() {
-    this.pageService.pageSetHidden(this.id, !this.page.hidden).subscribe(() => {
-      this.loadPage();
+    this.pageService.modifyPageHiddenField(this.id, !this.page.hidden).subscribe(() => {
+      this.page.hidden = !this.page.hidden;
     });
   }
 

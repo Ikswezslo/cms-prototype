@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { Route, Router } from '@angular/router';
+import {Router} from '@angular/router';
 import {Page} from 'src/assets/models/page';
-import { RestErrorHandler } from 'src/assets/models/restError';
+import {RestErrorHandler} from 'src/assets/models/restError';
 import {University} from 'src/assets/models/university';
 import {User} from 'src/assets/models/user';
 import {UniversityService} from 'src/assets/service/university.service';
@@ -43,7 +43,7 @@ export class TopBarComponent implements OnInit {
         }
       })
     }
-    
+
   loadData() {
     this.pageService.getPages()
       .subscribe(res => {

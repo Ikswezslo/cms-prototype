@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    HttpServletRequest request;
-    HttpServletResponse response;
+    private final HttpServletRequest request;
+    private final HttpServletResponse response;
 
     public GlobalExceptionHandler(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;

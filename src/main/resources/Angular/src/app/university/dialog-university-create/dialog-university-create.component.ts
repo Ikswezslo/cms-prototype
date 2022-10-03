@@ -14,8 +14,6 @@ export class DialogUniversityCreateComponent implements OnInit {
   readonly university = {} as UniversityForm;
   nameValid = new FormControl('', Validators["required"]);
   shortNameValid = new FormControl('', Validators["required"]);
-  hide = true;
-
 
   constructor(
     public dialog: MatDialog,
