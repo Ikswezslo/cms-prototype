@@ -50,7 +50,9 @@ import {UserCardComponent} from './user/user-card/user-card.component';
 import {UniversityCardComponent} from './university/university-card/university-card.component';
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
-import { SpinnerComponent } from './spinner/spinner.component';
+import {SpinnerComponent} from './spinner/spinner.component';
+import {DialogUserAddUniversityComponent} from './user/dialog-user-add-university/dialog-user-add-university.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -75,7 +77,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     UniversityCardComponent,
     ConfirmationDialogComponent,
     ErrorDialogComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    DialogUserAddUniversityComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,12 +126,14 @@ import { SpinnerComponent } from './spinner/spinner.component';
       }
     }),
     MatDividerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);

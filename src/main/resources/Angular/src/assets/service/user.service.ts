@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {User, UserForm} from '../models/user';
 import {RestErrorHandler} from "../models/restError";
+import {University} from "../models/university";
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,10 @@ export class UserService {
   modifyUserEnabledField(id: Number, enabled: boolean, defaultErrorHandling: boolean = true): Observable<void> {
     return this.http.patch<void>(`${this.userUrl}/${id}/enabled`, enabled, this.httpOptions)
         .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  addUniversityToUser(id: Number, university: University, defaultErrorHandling: boolean = true): Observable<User> {
+    return this.http.post<User>(`${this.userUrl}/${id}/universities`, university.id, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

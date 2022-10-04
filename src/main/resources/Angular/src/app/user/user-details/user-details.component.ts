@@ -8,6 +8,7 @@ import {UserService} from 'src/assets/service/user.service';
 import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
+import {DialogUserAddUniversityComponent} from "../dialog-user-add-university/dialog-user-add-university.component";
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 
 @Component({
@@ -113,5 +114,19 @@ export class UserDetailsComponent implements OnInit {
     // dialogRef.afterClosed().subscribe(result => {
     //   this.loadUsers();
     // });
+  }
+
+  openAddUniversityDialog() {
+    const dialogRef = this.dialog.open(DialogUserAddUniversityComponent, {
+      data: {user: this.user},
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result) {
+        this.user = result;
+      }
+    });
   }
 }
