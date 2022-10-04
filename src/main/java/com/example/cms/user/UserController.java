@@ -70,4 +70,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}/username")
+    ResponseEntity<Void> modifyUserUsernameField(@PathVariable long id, @RequestBody String username) {
+        service.modifyUsernameField(id, username);
+        return ResponseEntity.noContent().build();
+    }
+
 }

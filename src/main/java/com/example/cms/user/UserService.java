@@ -110,4 +110,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         repository.save(user);
     }
+
+    public void modifyUsernameField(long id, String username) {
+        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+
+        if (repository.existsByUsername(username)) {
+            throw new BadRequestException("Username taken");
+        }
+
+        user.setUsername(username);
+        repository.save(user);
+    }
 }
