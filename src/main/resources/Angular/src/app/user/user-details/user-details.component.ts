@@ -9,6 +9,7 @@ import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-creat
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
 import {DialogUserAddUniversityComponent} from "../dialog-user-add-university/dialog-user-add-university.component";
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 
 @Component({
   selector: 'app-user-details',
@@ -41,10 +42,11 @@ export class UserDetailsComponent implements OnInit {
   };
 
   constructor(
-      private router: Router,
+    private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
     public dialog: MatDialog,
+    private errorHandleService: ErrorHandleService,
     private pageService: PageService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -62,18 +64,22 @@ export class UserDetailsComponent implements OnInit {
 
   loadUser() {
     this.userService.getUser(this.id)
-      .subscribe(res => {
-
+      .subscribe({
+        next: res => {
         this.user = res;
-        //this.user.accountType === "ADMIN"
-      });
+        },
+        error: err => {
+          this.errorHandleService.openDataErrorDialog();
+      }});
   }
 
   getLoggedUser() {
     this.userService.getLoggedUser()
-      .subscribe(res => {
+      .subscribe({
+        next: res => {
         this.loggedUser = res;
-      })
+        },
+        error: err => {}})
   }
 
   activeUser() {
@@ -86,9 +92,13 @@ export class UserDetailsComponent implements OnInit {
 
   loadPages(userId: Number) {
     this.pageService.getPages()
-      .subscribe(res => {
+      .subscribe({
+        next: res => {
         this.pages = res.filter(element => element.creator.id == userId);
-      });
+        },
+        error: err => {
+          this.errorHandleService.openDataErrorDialog();
+      }});
   }
 
   startEdit() {

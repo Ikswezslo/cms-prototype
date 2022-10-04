@@ -5,7 +5,11 @@ import {Page} from 'src/assets/models/page';
 import {PageService} from '../../../assets/service/page.service';
 import {UserService} from "../../../assets/service/user.service";
 import {User} from "../../../assets/models/user";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
+import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import { ErrorDialogComponent } from 'src/app/dialog/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-page-details',
@@ -43,7 +47,9 @@ export class PageDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private pageService: PageService,
     private userService: UserService,
-    private sanitizer: DomSanitizer) {
+    private sanitizer: DomSanitizer,
+    public dialog: MatDialog,
+    private errorHandleService: ErrorHandleService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -56,23 +62,43 @@ export class PageDetailsComponent implements OnInit {
 
   loadPage() {
     this.pageService.getPage(this.id)
-      .subscribe(res => {
+      .subscribe({
+        next: res => {
         this.page = res;
         this.pageService.cachePage(res);
         this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
-      });
+        },
+        error: err => {
+          this.errorHandleService.openDataErrorDialog();
+      }});
   }
 
   getLoggedUser() {
     this.userService.getLoggedUser()
-      .subscribe(res => {
+      .subscribe({
+        next: res => {
         this.loggedUser = res;
-      })
+        },
+        error: err => {}})
   }
 
   hiddenPage() {
     this.pageService.modifyPageHiddenField(this.id, !this.page.hidden).subscribe(() => {
       this.page.hidden = !this.page.hidden;
+    });
+  }
+
+  deletePage(){
+    this.pageService.deletePage(this.id).subscribe(() => {
+      this.router.navigateByUrl('');
+    })
+  }
+
+  addPage() {
+    const dialogRef = this.dialog.open(DialogPageCreateComponent, {data:{parentId: this.page.id}});
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
     });
   }
 }

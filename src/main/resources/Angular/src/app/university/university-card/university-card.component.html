@@ -1,0 +1,21 @@
+<mat-card *ngIf="university" fxFlex
+          [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
+  <mat-card-title>
+    <span> {{ university.name }} </span>
+    <mat-icon *ngIf="university.hidden">visibility_off</mat-icon>
+  </mat-card-title>
+  <mat-card-subtitle>
+    <div>
+      <mat-icon>business</mat-icon>
+      <span>{{university.shortName}}</span>
+    </div>
+  </mat-card-subtitle>
+  <mat-divider inset></mat-divider>
+
+  <mat-card-content *ngIf="config.showDescription">
+    <p>Description about University: TODO?</p>
+  </mat-card-content>
+  <ng-content></ng-content>
+</mat-card>
+
+

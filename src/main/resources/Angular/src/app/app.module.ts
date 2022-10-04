@@ -45,7 +45,12 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {PageCardComponent} from './page/page-card/page-card.component';
+import {DialogPageCreateComponent} from './page/dialog-page-create/dialog-page-create.component';
 import {UserCardComponent} from './user/user-card/user-card.component';
+import {UniversityCardComponent} from './university/university-card/university-card.component';
+import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
+import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 import {DialogUserAddUniversityComponent} from './user/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
@@ -67,7 +72,12 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
         PageUserComponent,
         QuillEditorComponent,
         PageCardComponent,
-        UserCardComponent,
+        DialogPageCreateComponent,
+    UserCardComponent,
+    UniversityCardComponent,
+    ConfirmationDialogComponent,
+    ErrorDialogComponent,
+    SpinnerComponent,
         DialogUserAddUniversityComponent,
     ],
     imports: [
