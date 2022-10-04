@@ -1,17 +1,12 @@
 package com.example.cms.user.projections;
 
-import com.example.cms.security.Role;
 import lombok.Value;
 
 @Value
-public class UserDtoForm {
-    String username;
-    String password;
+public class UserDtoFormUpdate {
     String firstName;
     String lastName;
     String email;
     String address;
     String phoneNumber;
-    boolean enabled;
-    Role accountType;
 }

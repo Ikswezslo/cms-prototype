@@ -1,7 +1,8 @@
 package com.example.cms.user;
 
 import com.example.cms.user.projections.UserDtoDetailed;
-import com.example.cms.user.projections.UserDtoForm;
+import com.example.cms.user.projections.UserDtoFormCreate;
+import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +43,13 @@ public class UserController {
 
     @Secured("ROLE_USER")
     @PostMapping
-    public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoForm form) {
+    public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoFormCreate form) {
         UserDtoDetailed result = service.createUser(form);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @PutMapping("/{id}")
-    UserDtoDetailed updateUser(@PathVariable long id, @RequestBody UserDtoForm form) {
+    UserDtoDetailed updateUser(@PathVariable long id, @RequestBody UserDtoFormUpdate form) {
         return service.updateUser(id, form);
     }
 
