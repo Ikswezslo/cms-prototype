@@ -65,6 +65,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{userId}/universities")
+    public UserDtoDetailed addUniversityToUser(@PathVariable long userId, @RequestBody long universityId) {
+        return service.addUniversity(userId, universityId);
+    }
+
     @PatchMapping("/{id}/password")
     ResponseEntity<Void> modifyUserPasswordField(@PathVariable long id, @RequestBody Map<String, String> passwordMap) {
         service.modifyPasswordField(id, passwordMap);

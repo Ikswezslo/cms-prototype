@@ -36,6 +36,7 @@ public class University {
             inverseJoinColumns = @JoinColumn(name = "university_id")
     )
     private Set<User> enrolledUsers = new HashSet<>();
+
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "main_page_id", referencedColumnName = "id")
     private Page mainPage;

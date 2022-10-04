@@ -2,6 +2,8 @@ package com.example.cms.user;
 
 import com.example.cms.security.LoggedUser;
 import com.example.cms.security.SecurityService;
+import com.example.cms.university.University;
+import com.example.cms.university.UniversityRepository;
 import com.example.cms.user.projections.UserDtoDetailed;
 import com.example.cms.user.projections.UserDtoFormCreate;
 import com.example.cms.user.projections.UserDtoFormUpdate;
@@ -17,36 +19,38 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final UniversityRepository universityRepository;
     private final PasswordEncoder passwordEncoder;
     private final SecurityService securityService;
 
-    UserService(final UserRepository repository,
-                PasswordEncoder passwordEncoder,
+    UserService(final UserRepository userRepository,
+                UniversityRepository universityRepository, PasswordEncoder passwordEncoder,
                 SecurityService securityService) {
-        this.repository = repository;
+        this.userRepository = userRepository;
+        this.universityRepository = universityRepository;
         this.passwordEncoder = passwordEncoder;
         this.securityService = securityService;
     }
 
     public List<UserDtoSimple> getUsers() {
-        return repository.findAll().stream().map(UserDtoSimple::new).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(UserDtoSimple::new).collect(Collectors.toList());
     }
 
     public UserDtoDetailed getUser(Long id) {
-        return repository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
+        return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
     public UserDtoDetailed createUser(UserDtoFormCreate form) {
-        if (repository.existsByUsername(form.getUsername())) {
+        if (userRepository.existsByUsername(form.getUsername())) {
             throw new BadRequestException("Username taken");
         }
 
-        return new UserDtoDetailed(repository.save(formToUser(form)));
+        return new UserDtoDetailed(userRepository.save(formToUser(form)));
     }
 
     public UserDtoDetailed updateUser(Long id, UserDtoFormUpdate form) {
-        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 
         user.setFirstName(form.getFirstName());
         user.setLastName(form.getLastName());
@@ -54,12 +58,12 @@ public class UserService {
         user.setAddress(form.getAddress());
         user.setPhoneNumber(form.getPhoneNumber());
 
-        return new UserDtoDetailed(repository.save(user));
+        return new UserDtoDetailed(userRepository.save(user));
     }
 
     public void deleteUser(Long id) {
-        User user = repository.findById(id).orElseThrow(NotFoundException::new);
-        repository.delete(user);
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        userRepository.delete(user);
     }
 
     public User formToUser(UserDtoFormCreate form) {
@@ -81,7 +85,7 @@ public class UserService {
 
     public UserDtoDetailed getLoggedUser() {
         LoggedUser loggedUser = securityService.getPrincipal();
-        User user = repository.findByUsername(loggedUser.getUsername())
+        User user = userRepository.findByUsername(loggedUser.getUsername())
                 .orElseThrow(() -> {
                             throw new BadRequestException("Not found logged user");
                         }
@@ -90,9 +94,17 @@ public class UserService {
     }
 
     public void modifyEnabledField(long id, boolean enabled) {
-        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
         user.setEnabled(enabled);
-        repository.save(user);
+        userRepository.save(user);
+    }
+
+    public UserDtoDetailed addUniversity(long userId, long universityId) {
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
+        university.getEnrolledUsers().add(user);
+
+        return new UserDtoDetailed(userRepository.save(user));
     }
 
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {
@@ -102,24 +114,24 @@ public class UserService {
         String oldPassword = passwordMap.get("oldPassword");
         String newPassword = passwordMap.get("newPassword");
 
-        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new BadRequestException("Wrong password");
         }
 
         user.setPassword(passwordEncoder.encode(newPassword));
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public void modifyUsernameField(long id, String username) {
-        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 
-        if (repository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(username)) {
             throw new BadRequestException("Username taken");
         }
 
         user.setUsername(username);
-        repository.save(user);
+        userRepository.save(user);
     }
 }
