@@ -63,7 +63,7 @@ export class UserService {
   }
 
   addUniversityToUser(id: Number, university: University, defaultErrorHandling: boolean = true): Observable<User> {
-    return this.http.put<User>(`${this.userUrl}/${id}/universities`, university.id, this.httpOptions)
-        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+    return this.http.post<User>(`${this.userUrl}/${id}/universities`, university.id, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 }
