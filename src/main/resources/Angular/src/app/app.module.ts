@@ -34,7 +34,7 @@ import {DialogUserCreateComponent} from './user/dialog-user-create/dialog-user-c
 import {LoginComponent} from './login/login.component';
 import {UserSettingsComponent} from './user/user-settings/user-settings.component';
 import {
-    DialogUniversityCreateComponent
+  DialogUniversityCreateComponent
 } from './university/dialog-university-create/dialog-university-create.component';
 import {PageUserComponent} from './page/page-user/page-user.component';
 import {MatButtonModule} from '@angular/material/button'
@@ -50,89 +50,90 @@ import {UserCardComponent} from './user/user-card/user-card.component';
 import {UniversityCardComponent} from './university/university-card/university-card.component';
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
-import { SpinnerComponent } from './spinner/spinner.component';
+import {SpinnerComponent} from './spinner/spinner.component';
 import {DialogUserAddUniversityComponent} from './user/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        MainPageComponent,
-        TopBarComponent,
-        UserDetailsComponent,
-        UsersListComponent,
-        PageDetailsComponent,
-        PageListComponent,
-        UniversityListComponent,
-        UniversityDetailsComponent,
-        DialogUserCreateComponent,
-        LoginComponent,
-        UserSettingsComponent,
-        DialogUniversityCreateComponent,
-        PageUserComponent,
-        QuillEditorComponent,
-        PageCardComponent,
-        DialogPageCreateComponent,
+  declarations: [
+    AppComponent,
+    MainPageComponent,
+    TopBarComponent,
+    UserDetailsComponent,
+    UsersListComponent,
+    PageDetailsComponent,
+    PageListComponent,
+    UniversityListComponent,
+    UniversityDetailsComponent,
+    DialogUserCreateComponent,
+    LoginComponent,
+    UserSettingsComponent,
+    DialogUniversityCreateComponent,
+    PageUserComponent,
+    QuillEditorComponent,
+    PageCardComponent,
+    DialogPageCreateComponent,
     UserCardComponent,
     UniversityCardComponent,
     ConfirmationDialogComponent,
     ErrorDialogComponent,
     SpinnerComponent,
-        DialogUserAddUniversityComponent,
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        MatMenuModule,
-        MatSidenavModule,
-        MatInputModule,
-        MatSelectModule,
-        MatIconModule,
-        MatToolbarModule,
-        AgGridModule,
-        MatDialogModule,
-        MatCardModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        MatCardModule,
-        MatSnackBarModule,
-        FlexLayoutModule,
-        QuillModule.forRoot(),
-        RouterModule.forRoot([
-            {path: '', component: MainPageComponent},
-            {path: 'universities', component: UniversityListComponent},
-            {path: 'university/:universityId', component: UniversityDetailsComponent},
-            {path: 'accounts', component: UsersListComponent},
-            {path: 'accounts/create', component: DialogUserCreateComponent},
-            {path: 'accounts/settings', component: UserSettingsComponent},
-            {path: 'account/:userId', component: UserDetailsComponent},
-            {path: 'pages', component: PageListComponent},
-            {path: 'page/:pageId', component: PageDetailsComponent},
-            {path: 'page/:pageId/edit', component: QuillEditorComponent},
-            {path: 'pages/:userId', component: PageUserComponent},
-            {path: 'login', component: LoginComponent}
-        ]),
-        BrowserAnimationsModule,
-        BrowserModule,
-        // ngx-translate and the loader module
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        MatDividerModule,
-        MatExpansionModule,
-        MatAutocompleteModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+    DialogUserAddUniversityComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatToolbarModule,
+    AgGridModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatSnackBarModule,
+    FlexLayoutModule,
+    QuillModule.forRoot(),
+    RouterModule.forRoot([
+      {path: '', component: MainPageComponent},
+      {path: 'universities', component: UniversityListComponent},
+      {path: 'university/:universityId', component: UniversityDetailsComponent},
+      {path: 'accounts', component: UsersListComponent},
+      {path: 'accounts/create', component: DialogUserCreateComponent},
+      {path: 'accounts/settings', component: UserSettingsComponent},
+      {path: 'account/:userId', component: UserDetailsComponent},
+      {path: 'pages', component: PageListComponent},
+      {path: 'page/:pageId', component: PageDetailsComponent},
+      {path: 'page/:pageId/edit', component: QuillEditorComponent},
+      {path: 'pages/:userId', component: PageUserComponent},
+      {path: 'login', component: LoginComponent}
+    ]),
+    BrowserAnimationsModule,
+    BrowserModule,
+    // ngx-translate and the loader module
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MatDividerModule,
+    MatExpansionModule,
+    MatAutocompleteModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
