@@ -7,13 +7,16 @@ import com.example.cms.user.projections.UserDtoForm;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class UserService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -88,6 +91,23 @@ public class UserService {
     public void modifyEnabledField(long id, boolean enabled) {
         User user = repository.findById(id).orElseThrow(NotFoundException::new);
         user.setEnabled(enabled);
+        repository.save(user);
+    }
+
+    public void modifyPasswordField(long id, Map<String, String> passwordMap) {
+        if (!passwordMap.containsKey("oldPassword") || !passwordMap.containsKey("newPassword")) {
+            throw new BadRequestException("Body does not contains correct fields");
+        }
+        String oldPassword = passwordMap.get("oldPassword");
+        String newPassword = passwordMap.get("newPassword");
+
+        User user = repository.findById(id).orElseThrow(NotFoundException::new);
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new BadRequestException("Wrong password");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
         repository.save(user);
     }
 }

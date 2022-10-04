@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -62,4 +63,11 @@ public class UserController {
         service.modifyEnabledField(id, enabled);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/password")
+    ResponseEntity<Void> modifyUserPasswordField(@PathVariable long id, @RequestBody Map<String, String> passwordMap) {
+        service.modifyPasswordField(id, passwordMap);
+        return ResponseEntity.noContent().build();
+    }
+
 }
