@@ -4,6 +4,8 @@ import com.example.cms.security.LoggedUser;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
 import com.example.cms.university.UniversityRepository;
+import com.example.cms.user.exceptions.UserException;
+import com.example.cms.user.exceptions.UserExceptionType;
 import com.example.cms.user.projections.UserDtoDetailed;
 import com.example.cms.user.projections.UserDtoFormCreate;
 import com.example.cms.user.projections.UserDtoFormUpdate;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
@@ -43,20 +47,26 @@ public class UserService {
 
     public UserDtoDetailed createUser(UserDtoFormCreate form) {
         if (userRepository.existsByUsername(form.getUsername())) {
-            throw new BadRequestException("Username taken");
+            throw new UserException(UserExceptionType.USERNAME_TAKEN);
         }
 
-        return new UserDtoDetailed(userRepository.save(formToUser(form)));
+        validatePassword(form.getPassword());
+
+        return new UserDtoDetailed(userRepository.save(form.toUser(passwordEncoder)));
+    }
+
+    private void validatePassword(String password) {
+        Pattern pattern = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        Matcher matcher = pattern.matcher(password);
+        if (!matcher.find()) {
+            throw new UserException(UserExceptionType.NOT_VALID_PASSWORD);
+        }
     }
 
     public UserDtoDetailed updateUser(Long id, UserDtoFormUpdate form) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 
-        user.setFirstName(form.getFirstName());
-        user.setLastName(form.getLastName());
-        user.setEmail(form.getEmail());
-        user.setAddress(form.getAddress());
-        user.setPhoneNumber(form.getPhoneNumber());
+        form.updateUser(user);
 
         return new UserDtoDetailed(userRepository.save(user));
     }
@@ -66,30 +76,10 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public User formToUser(UserDtoFormCreate form) {
-        User user = new User();
-
-        user.setUsername(form.getUsername());
-        if (form.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(form.getPassword()));
-        }
-        user.setFirstName(form.getFirstName());
-        user.setLastName(form.getLastName());
-        user.setAddress(form.getAddress());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setEmail(form.getEmail());
-        user.setAccountType(form.getAccountType());
-        user.setEnabled(form.isEnabled());
-        return user;
-    }
-
     public UserDtoDetailed getLoggedUser() {
         LoggedUser loggedUser = securityService.getPrincipal();
         User user = userRepository.findByUsername(loggedUser.getUsername())
-                .orElseThrow(() -> {
-                            throw new BadRequestException("Not found logged user");
-                        }
-                );
+                .orElseThrow(NotFoundException::new);
         return new UserDtoDetailed(user);
     }
 
@@ -101,7 +91,8 @@ public class UserService {
 
     public UserDtoDetailed addUniversity(long userId, long universityId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
+        University university = universityRepository.findById(universityId)
+                .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY));
         university.getEnrolledUsers().add(user);
 
         return new UserDtoDetailed(userRepository.save(user));
@@ -114,14 +105,16 @@ public class UserService {
         String oldPassword = passwordMap.get("oldPassword");
         String newPassword = passwordMap.get("newPassword");
 
+        validatePassword(newPassword);
+
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new BadRequestException("Wrong password");
+            throw new UserException(UserExceptionType.WRONG_PASSWORD);
         }
 
         if (passwordEncoder.matches(newPassword, user.getPassword())) {
-            throw new BadRequestException("New password is the same");
+            throw new UserException(UserExceptionType.SAME_PASSWORD);
         }
 
         user.setPassword(passwordEncoder.encode(newPassword));
@@ -132,7 +125,7 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 
         if (userRepository.existsByUsername(username)) {
-            throw new BadRequestException("Username taken");
+            throw new UserException(UserExceptionType.USERNAME_TAKEN);
         }
 
         user.setUsername(username);

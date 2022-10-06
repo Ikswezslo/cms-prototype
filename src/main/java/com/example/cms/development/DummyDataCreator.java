@@ -33,7 +33,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
         UserDtoFormCreate admin = new UserDtoFormCreate(
                 "admin",
-                "12345",
+                "Admin123",
                 "Bob",
                 "Kovalski",
                 "bob123@gmail.com",
@@ -46,7 +46,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
         UserDtoFormCreate moderator = new UserDtoFormCreate(
                 "moderator",
-                "1234",
+                "Moderator123",
                 "Riker",
                 "Bobowski",
                 "riker123@gmail.com",
@@ -59,7 +59,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
         UserDtoFormCreate user = new UserDtoFormCreate(
                 "user",
-                "123",
+                "User1234",
                 "Adam",
                 "Nowak",
                 "adam123@gmail.com",

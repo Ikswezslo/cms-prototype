@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -26,13 +27,13 @@ public class User {
     @Column(unique = true)
     @NotEmpty
     private String username;
-    @NotEmpty
     private String password;
     private String firstName;
     private String lastName;
     private String email;
     private String address;
     private String phoneNumber;
+    @NotNull(message = "Account type must not be null")
     private Role accountType;
     private boolean enabled;
 
