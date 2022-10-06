@@ -5,11 +5,16 @@ import {Page} from 'src/assets/models/page';
 import {User} from 'src/assets/models/user';
 import {PageService} from 'src/assets/service/page.service';
 import {UserService} from 'src/assets/service/user.service';
-import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
+import {DialogUserCreateComponent} from '../dialogs/dialog-user-create/dialog-user-create.component';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
-import {DialogUserAddUniversityComponent} from "../dialog-user-add-university/dialog-user-add-university.component";
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import {
+  DialogUserAddUniversityComponent
+} from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
+import {ErrorHandleService} from 'src/assets/service/error-handle.service';
+import {
+  DialogUserChangePasswordComponent
+} from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
 
 @Component({
   selector: 'app-user-details',
@@ -128,5 +133,19 @@ export class UserDetailsComponent implements OnInit {
         this.user = result;
       }
     });
+  }
+
+  openChangePasswordDialog() {
+    const dialogRef = this.dialog.open(DialogUserChangePasswordComponent, {
+      data: {user: this.user},
+      autoFocus: false
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    //   if (result) {
+    //     this.user = result;
+    //   }
+    // });
   }
 }

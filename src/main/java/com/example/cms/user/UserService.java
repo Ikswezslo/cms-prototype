@@ -120,6 +120,10 @@ public class UserService {
             throw new BadRequestException("Wrong password");
         }
 
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            throw new BadRequestException("New password is the same");
+        }
+
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
