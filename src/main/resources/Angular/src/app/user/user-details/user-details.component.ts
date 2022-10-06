@@ -15,6 +15,7 @@ import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 import {
   DialogUserChangePasswordComponent
 } from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
+import {SuccessDialogComponent} from "../../dialog/success-dialog/success-dialog.component";
 
 @Component({
   selector: 'app-user-details',
@@ -71,20 +72,23 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getUser(this.id)
       .subscribe({
         next: res => {
-        this.user = res;
+          this.user = res;
         },
         error: err => {
           this.errorHandleService.openDataErrorDialog();
-      }});
+        }
+      });
   }
 
   getLoggedUser() {
     this.userService.getLoggedUser()
       .subscribe({
         next: res => {
-        this.loggedUser = res;
+          this.loggedUser = res;
         },
-        error: err => {}})
+        error: err => {
+        }
+      })
   }
 
   activeUser() {
@@ -99,11 +103,12 @@ export class UserDetailsComponent implements OnInit {
     this.pageService.getPages()
       .subscribe({
         next: res => {
-        this.pages = res.filter(element => element.creator.id == userId);
+          this.pages = res.filter(element => element.creator.id == userId);
         },
         error: err => {
           this.errorHandleService.openDataErrorDialog();
-      }});
+        }
+      });
   }
 
   startEdit() {
@@ -137,15 +142,17 @@ export class UserDetailsComponent implements OnInit {
 
   openChangePasswordDialog() {
     const dialogRef = this.dialog.open(DialogUserChangePasswordComponent, {
-      data: {user: this.user},
-      autoFocus: false
+      data: {user: this.user}
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   if (result) {
-    //     this.user = result;
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            description: "Hasło zostało pomyślnie zmienione"
+          }
+        });
+      }
+    });
   }
 }

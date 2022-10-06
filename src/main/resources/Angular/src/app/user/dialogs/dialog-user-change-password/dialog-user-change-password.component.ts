@@ -67,8 +67,8 @@ export class DialogUserChangePasswordComponent implements OnInit {
         oldPassword: oldValue,
         newPassword: newValue
       }).subscribe({
-        next: user => {
-          this.dialogRef.close(user);
+        next: () => {
+          this.dialogRef.close(true);
         },
         error: err => {
           let restError = err as RestError
