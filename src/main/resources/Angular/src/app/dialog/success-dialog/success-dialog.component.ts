@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 })
 export class SuccessDialogComponent implements OnInit {
 
-  title: String = "Success";
+  title: String = "Sukces";
   description: String = "Operacja została zakończona pomyślnie.";
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: SuccessDialogData) {
