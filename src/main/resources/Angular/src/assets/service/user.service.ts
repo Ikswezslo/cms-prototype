@@ -59,11 +59,16 @@ export class UserService {
 
   modifyUserEnabledField(id: Number, enabled: boolean, defaultErrorHandling: boolean = true): Observable<void> {
     return this.http.patch<void>(`${this.userUrl}/${id}/enabled`, enabled, this.httpOptions)
-        .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 
   addUniversityToUser(id: Number, university: University, defaultErrorHandling: boolean = true): Observable<User> {
     return this.http.post<User>(`${this.userUrl}/${id}/universities`, university.id, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  deleteUser(id: Number, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.delete<void>(`${this.userUrl}/${id}`, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
 }
