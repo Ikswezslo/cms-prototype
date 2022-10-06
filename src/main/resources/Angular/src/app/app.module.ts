@@ -58,6 +58,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {
   DialogUserChangePasswordComponent
 } from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
+import {SuccessDialogComponent} from './dialog/success-dialog/success-dialog.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import {
     SpinnerComponent,
     DialogUserAddUniversityComponent,
     DialogUserChangePasswordComponent,
+    SuccessDialogComponent,
   ],
   imports: [
     BrowserModule,
