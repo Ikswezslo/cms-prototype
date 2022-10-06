@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {University} from 'src/assets/models/university';
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 import {UniversityService} from 'src/assets/service/university.service';
 import {User} from "../../../assets/models/user";
 import {UserService} from "../../../assets/service/user.service";
@@ -65,7 +65,8 @@ export class UniversityDetailsComponent implements OnInit {
         },
         error: err => {
           this.errorHandleService.openDataErrorDialog();
-      }});
+        }
+      });
   }
 
   hiddenUniversity() {
@@ -75,15 +76,29 @@ export class UniversityDetailsComponent implements OnInit {
 
   }
 
+  deleteUniversity() {
+    this.universityService.deleteUniversity(this.university.id).subscribe(
+      {
+        next: () => {
+          console.log('Deleting complete');
+        },
+        error: err => {
+          console.log('Error');
+        }
+      }
+    )
+  }
+
   getLoggedUser() {
     this.userService.getLoggedUser()
       .subscribe({
         next: res => {
-        this.loggedUser = res;
+          this.loggedUser = res;
         },
         error: err => {
           this.errorHandleService.openLoggedUserErrorDialog();
-      }})
+        }
+      })
   }
 
 }
