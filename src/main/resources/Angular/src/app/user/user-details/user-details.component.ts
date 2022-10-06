@@ -9,7 +9,7 @@ import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-creat
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
 import {DialogUserAddUniversityComponent} from "../dialog-user-add-university/dialog-user-add-university.component";
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 
 @Component({
   selector: 'app-user-details',
@@ -94,11 +94,24 @@ export class UserDetailsComponent implements OnInit {
     this.pageService.getPages()
       .subscribe({
         next: res => {
-        this.pages = res.filter(element => element.creator.id == userId);
+          this.pages = res.filter(element => element.creator.id == userId);
         },
         error: err => {
           this.errorHandleService.openDataErrorDialog();
-      }});
+        }
+      });
+  }
+
+  deleteUser() {
+    this.userService.deleteUser(this.user.id).subscribe({
+      next: () => {
+        console.log('This user was deleted');
+      },
+      error: err => {
+        console.log('Error for deleting user');
+      }
+    })
+
   }
 
   startEdit() {
