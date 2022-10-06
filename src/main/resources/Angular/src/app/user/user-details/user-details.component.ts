@@ -10,6 +10,8 @@ import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
 import {DialogUserAddUniversityComponent} from "../dialog-user-add-university/dialog-user-add-university.component";
 import {ErrorHandleService} from 'src/assets/service/error-handle.service';
+import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
+import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
 
 @Component({
   selector: 'app-user-details',
@@ -19,7 +21,7 @@ import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 export class UserDetailsComponent implements OnInit {
 
 
-  @Input() settings: boolean = false;
+  @Input() settings: boolean = true;
   @Input() settingsId!: Number;
   public pages!: Page[];
   public loggedUser!: User;
@@ -103,15 +105,37 @@ export class UserDetailsComponent implements OnInit {
   }
 
   deleteUser() {
-    this.userService.deleteUser(this.user.id).subscribe({
-      next: () => {
-        console.log('This user was deleted');
-      },
-      error: err => {
-        console.log('Error for deleting user');
+    const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Deleting ' + this.user.username,
+        description: 'Are you sure you want to delete this user?'
       }
-    })
+    });
 
+    deletingDialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.userService.deleteUser(this.user.id).subscribe({
+          next: () => {
+            //TODO: Dialog for success
+            this.router.navigateByUrl('/accounts');
+          },
+          error: err => {
+            const errorDialog = this.dialog.open(ErrorDialogComponent, {
+              data: {
+                description: 'Error has occurred during deleting user' //TODO: Get real error
+              }
+            });
+            errorDialog.afterClosed().subscribe({
+              next: () => {
+                this.router.navigateByUrl('/account/' + this.user.id);
+              }
+            });
+          }
+        })
+      } else {
+        this.router.navigateByUrl('/account/' + this.user.id);
+      }
+    });
   }
 
   startEdit() {
