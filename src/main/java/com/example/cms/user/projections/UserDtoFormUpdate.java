@@ -10,6 +10,7 @@ public class UserDtoFormUpdate {
     String email;
     String address;
     String phoneNumber;
+    String description;
 
     public void updateUser(User user) {
         user.setFirstName(firstName);
@@ -17,5 +18,6 @@ public class UserDtoFormUpdate {
         user.setEmail(email);
         user.setAddress(address);
         user.setPhoneNumber(phoneNumber);
+        user.setDescription(description);
     }
 }

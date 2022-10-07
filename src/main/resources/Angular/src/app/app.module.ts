@@ -62,6 +62,7 @@ import {SuccessDialogComponent} from './dialog/success-dialog/success-dialog.com
 import {
   DialogUserChangeUsernameComponent
 } from './user/dialogs/dialog-user-change-username/dialog-user-change-username.component';
+import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialog-user-update.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import {
     DialogUserChangePasswordComponent,
     SuccessDialogComponent,
     DialogUserChangeUsernameComponent,
+    DialogUserUpdateComponent,
   ],
   imports: [
     BrowserModule,

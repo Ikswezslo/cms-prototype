@@ -25,7 +25,7 @@
 </div>
 
 <mat-menu #actions="matMenu">
-  <button *ngIf="user" mat-menu-item  (click)="startEdit()">
+  <button *ngIf="user" mat-menu-item (click)="openUpdateDialog()">
     <mat-icon>create</mat-icon>
     <span>Edytuj zawartość</span>
   </button>

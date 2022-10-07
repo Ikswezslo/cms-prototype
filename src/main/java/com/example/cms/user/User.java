@@ -33,22 +33,10 @@ public class User {
     private String email;
     private String address;
     private String phoneNumber;
+    private String description;
     @NotNull(message = "Account type must not be null")
     private Role accountType;
     private boolean enabled;
-
-    public void updateUser(final User user) {
-        this.username = user.username;
-        this.password = user.password;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
-        this.address = user.address;
-        this.phoneNumber = user.phoneNumber;
-        this.accountType = user.accountType;
-        this.enabled = user.enabled;
-    }
-
     @Override
     public String toString() {
         return "User{" +

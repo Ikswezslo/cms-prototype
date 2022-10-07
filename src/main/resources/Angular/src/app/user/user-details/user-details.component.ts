@@ -19,6 +19,7 @@ import {SuccessDialogComponent} from "../../dialog/success-dialog/success-dialog
 import {
   DialogUserChangeUsernameComponent
 } from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
+import {DialogUserUpdateComponent} from "../dialogs/dialog-user-update/dialog-user-update.component";
 
 @Component({
   selector: 'app-user-details',
@@ -170,6 +171,18 @@ export class UserDetailsComponent implements OnInit {
             description: "Nazwa użytkownika została pomyślnie zmieniona"
           }
         });
+      }
+    });
+  }
+
+  openUpdateDialog() {
+    const dialogRef = this.dialog.open(DialogUserUpdateComponent, {
+      data: {user: this.user},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.user = result;
       }
     });
   }
