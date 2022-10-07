@@ -16,6 +16,9 @@ import {
   DialogUserChangePasswordComponent
 } from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
 import {SuccessDialogComponent} from "../../dialog/success-dialog/success-dialog.component";
+import {
+  DialogUserChangeUsernameComponent
+} from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
 
 @Component({
   selector: 'app-user-details',
@@ -133,7 +136,6 @@ export class UserDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       if (result) {
         this.user = result;
       }
@@ -150,6 +152,22 @@ export class UserDetailsComponent implements OnInit {
         this.dialog.open(SuccessDialogComponent, {
           data: {
             description: "Hasło zostało pomyślnie zmienione"
+          }
+        });
+      }
+    });
+  }
+
+  openChangeUsernameDialog() {
+    const dialogRef = this.dialog.open(DialogUserChangeUsernameComponent, {
+      data: {user: this.user},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            description: "Nazwa użytkownika została pomyślnie zmieniona"
           }
         });
       }

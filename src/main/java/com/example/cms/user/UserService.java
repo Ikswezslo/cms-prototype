@@ -129,6 +129,8 @@ public class UserService {
         }
 
         user.setUsername(username);
+        securityService.getPrincipal().update(user);
+
         userRepository.save(user);
     }
 }

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class LoggedUser implements UserDetails {
 
-    private final transient User user;
+    private transient User user;
 
     public LoggedUser(User user) {
         this.user = user;
@@ -48,6 +48,10 @@ public class LoggedUser implements UserDetails {
                 break;
         }
         return names.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
+
+    public void update(User user) {
+        this.user = user;
     }
 
     @Override

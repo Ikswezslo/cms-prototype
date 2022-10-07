@@ -72,4 +72,9 @@ export class UserService {
     return this.http.patch<void>(`${this.userUrl}/${id}/password`, passwords, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  modifyUserUsernameField(id: Number, username: string, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.userUrl}/${id}/username`, username, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }

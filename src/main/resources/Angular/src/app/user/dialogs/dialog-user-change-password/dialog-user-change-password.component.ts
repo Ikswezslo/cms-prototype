@@ -72,6 +72,7 @@ export class DialogUserChangePasswordComponent implements OnInit {
         },
         error: err => {
           let restError = err as RestError
+          this.exiting = false;
           if (restError.error === "Bad Request") {
             this.errorHandleService.openDataErrorDialog(restError.message);
           }

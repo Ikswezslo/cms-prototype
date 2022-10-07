@@ -39,7 +39,7 @@
     <mat-icon>visibility-off</mat-icon>
     <span>Deactivate</span>
   </button>
-  <button *ngIf="user" mat-menu-item>
+  <button *ngIf="user" mat-menu-item (click)="openChangeUsernameDialog()">
     <mat-icon>create</mat-icon>
     <span>Zmień nazwę użytkownika</span>
   </button>

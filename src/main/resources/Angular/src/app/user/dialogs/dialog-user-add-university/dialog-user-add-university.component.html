@@ -1,17 +1,18 @@
-<h2 mat-dialog-title>Przypisz nowy uniwersytet do użytkownika</h2>
-<mat-form-field appearance="fill">
+<form>
+  <h2 mat-dialog-title>Dodawanie uniwersytetu do użytkownika</h2>
+  <mat-form-field appearance="fill">
     <mat-label>Nazwa uniwersytetu</mat-label>
     <input type="text" matInput [formControl]="universityControl" [matAutocomplete]="auto" spellcheck="false">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option.name}}
-        </mat-option>
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option.name}}
+      </mat-option>
     </mat-autocomplete>
-</mat-form-field>
-<mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="undefined" [disabled]="exiting">Anuluj</button>
-    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-    <button mat-button (click)="addUniversity(this.universityControl.value)"
-            [disabled]="!this.universityControl.valid||exiting">Dodaj
+  </mat-form-field>
+  <mat-dialog-actions>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">Anuluj</button>
+    <button mat-button color="primary" (click)="addUniversity(this.universityControl.value)"
+            [disabled]="!universityControl.valid||exiting">Potwierdź
     </button>
-</mat-dialog-actions>
+  </mat-dialog-actions>
+</form>
