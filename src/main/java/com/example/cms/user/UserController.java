@@ -1,5 +1,6 @@
 package com.example.cms.user;
 
+import com.example.cms.security.Role;
 import com.example.cms.user.projections.UserDtoDetailed;
 import com.example.cms.user.projections.UserDtoFormCreate;
 import com.example.cms.user.projections.UserDtoFormUpdate;
@@ -79,6 +80,12 @@ public class UserController {
     @PatchMapping("/{id}/username")
     ResponseEntity<Void> modifyUserUsernameField(@PathVariable long id, @RequestBody String username) {
         service.modifyUsernameField(id, username);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/accountType")
+    ResponseEntity<Void> modifyUserAccountTypeField(@PathVariable long id, @RequestBody Role accountType) {
+        service.modifyAccountTypeField(id, accountType);
         return ResponseEntity.noContent().build();
     }
 

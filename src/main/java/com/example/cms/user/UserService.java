@@ -1,6 +1,7 @@
 package com.example.cms.user;
 
 import com.example.cms.security.LoggedUser;
+import com.example.cms.security.Role;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
 import com.example.cms.university.UniversityRepository;
@@ -130,6 +131,15 @@ public class UserService {
 
         user.setUsername(username);
         securityService.getPrincipal().update(user);
+
+        userRepository.save(user);
+    }
+
+    public void modifyAccountTypeField(long id, Role accountType) {
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        user.setAccountType(accountType);
+
+        //securityService.getPrincipal().update(user); // TODO: update accountType in session?
 
         userRepository.save(user);
     }
