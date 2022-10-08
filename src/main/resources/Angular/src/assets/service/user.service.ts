@@ -77,4 +77,9 @@ export class UserService {
     return this.http.patch<void>(`${this.userUrl}/${id}/username`, username, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  modifyUserAccountTypeField(id: Number, accountType: string, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.userUrl}/${id}/accountType`, {accountType: accountType}, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }

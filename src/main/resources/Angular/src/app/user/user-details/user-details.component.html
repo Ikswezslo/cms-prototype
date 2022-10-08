@@ -29,6 +29,22 @@
     <mat-icon>create</mat-icon>
     <span>Edytuj zawartość</span>
   </button>
+  <button *ngIf="user" mat-menu-item (click)="openChangeUsernameDialog()">
+    <mat-icon>person</mat-icon>
+    <span>Zmień nazwę użytkownika</span>
+  </button>
+  <button *ngIf="user" mat-menu-item (click)="openChangePasswordDialog()">
+    <mat-icon>lock</mat-icon>
+    <span>Zmień hasło</span>
+  </button>
+  <button *ngIf="user" mat-menu-item (click)="openChangeAccountTypeDialog()">
+    <mat-icon>security</mat-icon>
+    <span>Zmień rolę</span>
+  </button>
+  <button *ngIf="user" mat-menu-item (click)="openAddUniversityDialog()">
+    <mat-icon>business</mat-icon>
+    <span>Przypisz uniwersytet</span>
+  </button>
   <button *ngIf="loggedUser != null && loggedUser.accountType != 'USER'  && user != null && user.enabled" mat-menu-item
           (click)="activeUser()">
     <mat-icon>visibility-off</mat-icon>
@@ -39,24 +55,8 @@
     <mat-icon>visibility-off</mat-icon>
     <span>Deactivate</span>
   </button>
-  <button *ngIf="user" mat-menu-item (click)="openChangeUsernameDialog()">
-    <mat-icon>create</mat-icon>
-    <span>Zmień nazwę użytkownika</span>
-  </button>
-  <button *ngIf="user" mat-menu-item (click)="openChangePasswordDialog()">
-    <mat-icon>create</mat-icon>
-    <span>Zmień hasło</span>
-  </button>
   <button *ngIf="user" mat-menu-item>
-    <mat-icon>create</mat-icon>
-    <span>Zmień rolę</span>
-  </button>
-  <button *ngIf="user" mat-menu-item (click)="openAddUniversityDialog()">
-    <mat-icon>create</mat-icon>
-    <span>Przypisz uniwersytet</span>
-  </button>
-  <button *ngIf="user" mat-menu-item>
-    <mat-icon>create</mat-icon>
+    <mat-icon>delete</mat-icon>
     <span>Usuń użytkownika</span>
   </button>
 </mat-menu>

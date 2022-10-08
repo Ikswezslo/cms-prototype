@@ -10,11 +10,12 @@ import {
   Validators
 } from "@angular/forms";
 import {UserService} from "../../../../assets/service/user.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DialogData} from "../dialog-user-create/dialog-user-create.component";
 import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
 import {RestError} from "../../../../assets/models/restError";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {SuccessDialogComponent} from "../../../dialog/success-dialog/success-dialog.component";
 
 export class PasswordErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -44,9 +45,19 @@ export class DialogUserChangePasswordComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogUserChangePasswordComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              private dialog: MatDialog,
               private userService: UserService,
               private errorHandleService: ErrorHandleService) {
     dialogRef.disableClose = true;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            description: "Hasło zostało pomyślnie zmienione"
+          }
+        });
+      }
+    });
   }
 
   ngOnInit(): void {

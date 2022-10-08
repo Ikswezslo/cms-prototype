@@ -5,7 +5,6 @@ import {Page} from 'src/assets/models/page';
 import {User} from 'src/assets/models/user';
 import {PageService} from 'src/assets/service/page.service';
 import {UserService} from 'src/assets/service/user.service';
-import {DialogUserCreateComponent} from '../dialogs/dialog-user-create/dialog-user-create.component';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
 import {
@@ -15,11 +14,13 @@ import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 import {
   DialogUserChangePasswordComponent
 } from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
-import {SuccessDialogComponent} from "../../dialog/success-dialog/success-dialog.component";
 import {
   DialogUserChangeUsernameComponent
 } from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
 import {DialogUserUpdateComponent} from "../dialogs/dialog-user-update/dialog-user-update.component";
+import {
+  DialogUserChangeAccountTypeComponent
+} from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
 
 @Component({
   selector: 'app-user-details',
@@ -62,7 +63,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("tutaj");
     const routeParams = this.route.snapshot.paramMap;
     this.id = this.settingsId ?? Number(routeParams.get('userId'));
     this.loadUser();
@@ -115,21 +115,6 @@ export class UserDetailsComponent implements OnInit {
       });
   }
 
-  startEdit() {
-    let dialogData = {
-      data: {
-        edit: true,
-        user: this.user
-      }
-    }
-
-    const dialogRef = this.dialog.open(DialogUserCreateComponent, dialogData);
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.loadUsers();
-    // });
-  }
-
   openAddUniversityDialog() {
     const dialogRef = this.dialog.open(DialogUserAddUniversityComponent, {
       data: {user: this.user},
@@ -144,34 +129,14 @@ export class UserDetailsComponent implements OnInit {
   }
 
   openChangePasswordDialog() {
-    const dialogRef = this.dialog.open(DialogUserChangePasswordComponent, {
+    this.dialog.open(DialogUserChangePasswordComponent, {
       data: {user: this.user}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.dialog.open(SuccessDialogComponent, {
-          data: {
-            description: "Hasło zostało pomyślnie zmienione"
-          }
-        });
-      }
     });
   }
 
   openChangeUsernameDialog() {
-    const dialogRef = this.dialog.open(DialogUserChangeUsernameComponent, {
+    this.dialog.open(DialogUserChangeUsernameComponent, {
       data: {user: this.user},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.dialog.open(SuccessDialogComponent, {
-          data: {
-            description: "Nazwa użytkownika została pomyślnie zmieniona"
-          }
-        });
-      }
     });
   }
 
@@ -184,6 +149,12 @@ export class UserDetailsComponent implements OnInit {
       if (result) {
         this.user = result;
       }
+    });
+  }
+
+  openChangeAccountTypeDialog() {
+    this.dialog.open(DialogUserChangeAccountTypeComponent, {
+      data: {user: this.user},
     });
   }
 }

@@ -101,7 +101,7 @@ public class UserService {
 
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {
         if (!passwordMap.containsKey("oldPassword") || !passwordMap.containsKey("newPassword")) {
-            throw new BadRequestException("Body does not contains correct fields");
+            throw new BadRequestException("Wrong body structure");
         }
         String oldPassword = passwordMap.get("oldPassword");
         String newPassword = passwordMap.get("newPassword");
@@ -135,9 +135,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void modifyAccountTypeField(long id, Role accountType) {
+    public void modifyAccountTypeField(long id, Map<String, Role> accountType) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-        user.setAccountType(accountType);
+        if (!accountType.containsKey("accountType")) {
+            throw new BadRequestException("Wrong body structure");
+        }
+        user.setAccountType(accountType.get("accountType"));
 
         //securityService.getPrincipal().update(user); // TODO: update accountType in session?
 

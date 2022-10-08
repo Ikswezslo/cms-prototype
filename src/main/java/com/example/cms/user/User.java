@@ -25,8 +25,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    @NotEmpty
+    @NotEmpty(message = "Username must not be empty")
     private String username;
+    @NotEmpty(message = "Password must not be empty")
     private String password;
     private String firstName;
     private String lastName;

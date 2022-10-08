@@ -84,7 +84,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/accountType")
-    ResponseEntity<Void> modifyUserAccountTypeField(@PathVariable long id, @RequestBody Role accountType) {
+    ResponseEntity<Void> modifyUserAccountTypeField(@PathVariable long id, @RequestBody Map<String, Role> accountType) {
         service.modifyAccountTypeField(id, accountType);
         return ResponseEntity.noContent().build();
     }

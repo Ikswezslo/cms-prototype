@@ -1,31 +1,27 @@
 <form [formGroup]="form">
   <h2 mat-dialog-title>Edycja zawartości</h2>
-  <mat-dialog-content>
-    <mat-form-field appearance="fill" class="input">
+  <mat-dialog-content fxLayout='row wrap'>
+    <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
       <mat-label>Imię</mat-label>
       <input matInput type="text" required formControlName="firstName">
       <mat-error *ngIf="form.controls.firstName.hasError('required')">To pole jest wymagane</mat-error>
     </mat-form-field>
-
-    <mat-form-field appearance="fill" class="input">
+    <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
       <mat-label>Nazwisko</mat-label>
       <input matInput type="text" required formControlName="lastName">
       <mat-error *ngIf="form.controls.lastName.hasError('required')">To pole jest wymagane</mat-error>
     </mat-form-field>
-
-    <mat-form-field appearance="fill" class="input">
+    <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
       <mat-label>Email</mat-label>
       <input matInput type="text" formControlName="email">
     </mat-form-field>
-
-    <mat-form-field appearance="fill" class="input">
+    <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
       <mat-label>Nr telefonu</mat-label>
       <input matInput type="text" formControlName="phoneNumber">
     </mat-form-field>
-
-    <mat-form-field appearance="fill" class="textarea">
+    <mat-form-field fxFlex="100" appearance="fill" class="textarea">
       <mat-label>Opis</mat-label>
-      <textarea matInput formControlName="description"></textarea>
+      <textarea matInput formControlName="description" cdkTextareaAutosize></textarea>
     </mat-form-field>
   </mat-dialog-content>
 

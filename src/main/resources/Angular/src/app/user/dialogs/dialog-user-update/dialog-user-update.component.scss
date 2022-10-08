@@ -1,20 +1,12 @@
 form {
-  width: 600px;
-
+  max-width: 600px;
 }
 
-mat-dialog-content {
-  text-align: center;
+mat-form-field {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.input {
-  width: 200px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.textarea {
-  width: 420px;
-}
 
 

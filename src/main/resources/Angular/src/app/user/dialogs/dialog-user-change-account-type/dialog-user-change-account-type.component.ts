@@ -1,24 +1,24 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import {SuccessDialogComponent} from "../../../dialog/success-dialog/success-dialog.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DialogData} from "../dialog-user-create/dialog-user-create.component";
 import {UserService} from "../../../../assets/service/user.service";
 import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
+import {FormControl, Validators} from "@angular/forms";
 import {RestError} from "../../../../assets/models/restError";
-import {SuccessDialogComponent} from "../../../dialog/success-dialog/success-dialog.component";
 
 @Component({
-  selector: 'app-dialog-user-change-username',
-  templateUrl: './dialog-user-change-username.component.html',
-  styleUrls: ['./dialog-user-change-username.component.scss']
+  selector: 'app-dialog-user-change-account-type',
+  templateUrl: './dialog-user-change-account-type.component.html',
+  styleUrls: ['./dialog-user-change-account-type.component.scss']
 })
-export class DialogUserChangeUsernameComponent implements OnInit {
+export class DialogUserChangeAccountTypeComponent implements OnInit {
 
-  usernameControl = new FormControl('', [Validators.required]);
+  accountTypeControl = new FormControl(this.data.user?.accountType ?? "", [Validators.required]);
 
   exiting: boolean = false;
 
-  constructor(public dialogRef: MatDialogRef<DialogUserChangeUsernameComponent>,
+  constructor(public dialogRef: MatDialogRef<DialogUserChangeAccountTypeComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
               private dialog: MatDialog,
               private userService: UserService,
@@ -28,7 +28,7 @@ export class DialogUserChangeUsernameComponent implements OnInit {
       if (result) {
         this.dialog.open(SuccessDialogComponent, {
           data: {
-            description: "Nazwa użytkownika została pomyślnie zmieniona"
+            description: "Rola została pomyślnie zmieniona"
           }
         });
       }
@@ -38,13 +38,13 @@ export class DialogUserChangeUsernameComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  changeUsername(username: string | null) {
-    if (this.data.user && username) {
+  changeAccountType(accountType: string | null) {
+    if (this.data.user && accountType) {
       this.exiting = true;
-      this.userService.modifyUserUsernameField(this.data.user.id, username).subscribe({
+      this.userService.modifyUserAccountTypeField(this.data.user.id, accountType).subscribe({
         next: () => {
           if (this.data.user) {
-            this.data.user.username = username;
+            this.data.user.accountType = accountType;
           }
           this.dialogRef.close(true);
         },

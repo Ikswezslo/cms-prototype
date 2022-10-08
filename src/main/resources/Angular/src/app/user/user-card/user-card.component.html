@@ -8,34 +8,34 @@
         <mat-icon *ngIf="user.enabled">visibility_off</mat-icon>
     </mat-card-title>
     <mat-card-subtitle>
-        <div>
-            <mat-icon>person</mat-icon>
-            <span>{{user.username}}</span>
-        </div>
-        <div>
-            <mat-icon>alternate_email</mat-icon>
-            <span>{{user.email}}</span>
-        </div>
-        <div>
-            <mat-icon> phone</mat-icon>
-            <span>{{user.phoneNumber}}</span>
-        </div>
-        <div>
-            <mat-icon>perm_identity</mat-icon>
-            <span>{{user.accountType}}</span>
-        </div>
-        <div *ngFor="let university of user.enrolledUniversities">
+      <div>
+        <mat-icon>person</mat-icon>
+        <span>{{user.username}}</span>
+      </div>
+      <div *ngIf="user.email">
+        <mat-icon>alternate_email</mat-icon>
+        <span>{{user.email}}</span>
+      </div>
+      <div *ngIf="user.phoneNumber">
+        <mat-icon> phone</mat-icon>
+        <span>{{user.phoneNumber}}</span>
+      </div>
+      <div *ngIf="user.accountType">
+        <mat-icon>perm_identity</mat-icon>
+        <span>{{user.accountType}}</span>
+      </div>
+      <div *ngFor="let university of user.enrolledUniversities">
             <span class="cms-link" [routerLink]="['/university', university.id]">
                 <mat-icon>business</mat-icon>
                 <span>{{university.name}}</span>
             </span>
-        </div>
+      </div>
     </mat-card-subtitle>
 
-    <mat-divider inset></mat-divider>
+  <mat-divider *ngIf="user.description" inset></mat-divider>
 
     <mat-card-content>
-        <p>TODO: Dodać pole "about me"?</p>
+      <span>{{user.description}}</span>
     </mat-card-content>
 
     <mat-card-actions>
