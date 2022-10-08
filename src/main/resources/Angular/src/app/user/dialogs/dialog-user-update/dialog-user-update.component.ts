@@ -17,8 +17,8 @@ export class DialogUserUpdateComponent implements OnInit {
   form = new FormGroup({
     firstName: new FormControl(this.data.user?.firstName ?? "", [Validators.required]),
     lastName: new FormControl(this.data.user?.lastName ?? "", [Validators.required]),
-    email: new FormControl(this.data.user?.email ?? "", []),
-    phoneNumber: new FormControl(this.data.user?.phoneNumber ?? "", []),
+    email: new FormControl(this.data.user?.email ?? "", [Validators.email]),
+    phoneNumber: new FormControl(this.data.user?.phoneNumber ?? "", [Validators.pattern("^\\+?\\d{3,12}$")]),
     description: new FormControl(this.data.user?.description ?? "", []),
   });
 

@@ -57,7 +57,7 @@ public class UserService {
     }
 
     private void validatePassword(String password) {
-        Pattern pattern = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        Pattern pattern = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}");
         Matcher matcher = pattern.matcher(password);
         if (!matcher.find()) {
             throw new UserException(UserExceptionType.NOT_VALID_PASSWORD);

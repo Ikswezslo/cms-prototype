@@ -7,8 +7,10 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -31,8 +33,10 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    @Email(message = "Email must be valid")
     private String email;
     private String address;
+    @Pattern(message = "PhoneNumber must be valid", regexp = "^\\+?\\d{3,12}$")
     private String phoneNumber;
     private String description;
     @NotNull(message = "Account type must not be null")
