@@ -4,6 +4,7 @@ import com.example.cms.university.projections.UniversityDtoDetailed;
 import com.example.cms.university.projections.UniversityDtoForm;
 import com.example.cms.university.projections.UniversityDtoSimple;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -60,6 +61,15 @@ public class UniversityController {
     public ResponseEntity<Void> deleteUniversity(
             @PathVariable Long id) {
         service.deleteUniversity(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{universityId}")
+    @Secured("ROLE_ADMIN")
+    ResponseEntity<Void> updateUniversity(
+            @PathVariable long universityId,
+            @RequestBody UniversityDtoForm form) {
+        service.update(universityId, form);
         return ResponseEntity.noContent().build();
     }
 }

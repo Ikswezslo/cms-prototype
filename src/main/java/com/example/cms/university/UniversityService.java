@@ -122,4 +122,13 @@ public class UniversityService {
             }
         }
     }
+
+    public UniversityDtoDetailed save(UniversityDtoForm form){
+        return new UniversityDtoDetailed(universityRepository.save(formToUniversity(form)));
+    }
+    public void update(Long id, UniversityDtoForm form) {
+        University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
+        university.updateFromEditedForm(form);
+        universityRepository.save(university);
+    }
 }

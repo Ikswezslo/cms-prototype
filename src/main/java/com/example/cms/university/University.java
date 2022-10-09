@@ -1,6 +1,7 @@
 package com.example.cms.university;
 
 import com.example.cms.page.Page;
+import com.example.cms.university.projections.UniversityDtoForm;
 import com.example.cms.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -74,5 +75,18 @@ public class University {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public void updateFrom(final University source){
+        name = source.getName();
+        shortName = source.getShortName();
+        hidden = source.isHidden();
+        mainPage = source.getMainPage();
+        enrolledUsers = source.getEnrolledUsers();
+    }
+
+    void updateFromEditedForm(UniversityDtoForm form){
+        name = form.getName();
+        shortName = form.getShortName();
     }
 }
