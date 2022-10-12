@@ -37,4 +37,9 @@ export class UniversityService {
     return this.http.patch<void>(`${this.universityUrl}/${id}/hidden`, hidden, this.httpOptions)
         .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  editUniversity(University: UniversityForm, defaultErrorHandling: boolean = true): Observable<University> {
+    return this.http.put<University>(`${this.universityUrl}/${University.id}`, University, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }

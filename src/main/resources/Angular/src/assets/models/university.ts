@@ -11,6 +11,7 @@ export interface University {
 }
 
 export interface UniversityForm {
+  id: number;
   name: string;
   shortName: string;
   creatorUsername: string;

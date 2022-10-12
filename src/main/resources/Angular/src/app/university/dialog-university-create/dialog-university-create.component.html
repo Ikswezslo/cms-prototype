@@ -16,5 +16,6 @@
 </div>
 <span>
     <button mat-stroked-button class="button-option" (click)="close()">Close</button>
-    <button mat-stroked-button class="button-option" (click)="createUniversity()">Add university</button>
+    <button mat-stroked-button class="button-option" *ngIf="!edit" (click)="createUniversity()">Add university</button>
+    <button mat-stroked-button class="button-option" *ngIf="edit" (click)="editUser()">Save</button>
 </span>
