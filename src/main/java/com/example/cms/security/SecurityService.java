@@ -5,13 +5,24 @@ import com.example.cms.validation.exceptions.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 public class SecurityService {
+    private final SessionRegistry sessionRegistry;
+
+    public SecurityService(SessionRegistry sessionRegistry) {
+        this.sessionRegistry = sessionRegistry;
+    }
+
     public boolean hasRole(Role role) {
-        LoggedUser principal = getPrincipal();
+        LoggedUser principal = getPrincipal().orElseThrow(UnauthorizedException::new);
         String authority = String.format("ROLE_%s", role);
         return principal.getAuthorities().contains(new SimpleGrantedAuthority(authority));
     }
@@ -23,12 +34,11 @@ public class SecurityService {
     }
 
     public boolean hasUniversity(Long id) {
-        if(hasRole(Role.ADMIN)) {
+        if (hasRole(Role.ADMIN)) {
             return true;
         }
-        LoggedUser principal = getPrincipal();
-        String authority = String.format("UNIVERSITY_%s", id);
-        return principal.getAuthorities().contains(new SimpleGrantedAuthority(authority));
+        LoggedUser principal = getPrincipal().orElseThrow(UnauthorizedException::new);
+        return principal.getUniversities().contains(id);
     }
 
     public void checkUniversity(Long id) {
@@ -37,14 +47,31 @@ public class SecurityService {
         }
     }
 
-    public LoggedUser getPrincipal() {
+    public Optional<LoggedUser> getPrincipal() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof LoggedUser) {
-            return (LoggedUser) principal;
+            return Optional.of((LoggedUser) principal);
         } else {
-            log.warn("Wrong principal object type");
-            throw new UnauthorizedException();
+            return Optional.empty();
+        }
+    }
+
+    public void invalidateUserSession(Long id) {
+        List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
+        for (Object principal : loggedUsers) {
+            if (principal instanceof LoggedUser) {
+                final LoggedUser loggedUser = (LoggedUser) principal;
+                if (loggedUser.getId().equals(id)) {
+                    List<SessionInformation> sessionsInfo = sessionRegistry.getAllSessions(principal, false);
+                    if (sessionsInfo != null) {
+                        for (SessionInformation sessionInformation : sessionsInfo) {
+                            sessionInformation.expireNow();
+                            log.info(String.format("User %d: session invalidated", id));
+                        }
+                    }
+                }
+            }
         }
     }
 }

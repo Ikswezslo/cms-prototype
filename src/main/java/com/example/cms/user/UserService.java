@@ -1,6 +1,5 @@
 package com.example.cms.user;
 
-import com.example.cms.security.LoggedUser;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
 import com.example.cms.university.UniversityRepository;
@@ -9,6 +8,7 @@ import com.example.cms.user.projections.UserDtoForm;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import com.example.cms.validation.exceptions.UnauthorizedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -80,13 +80,8 @@ public class UserService {
     }
 
     public UserDtoDetailed getLoggedUser() {
-        LoggedUser loggedUser = securityService.getPrincipal();
-        User user = userRepository.findByUsername(loggedUser.getUsername())
-                .orElseThrow(() -> {
-                            throw new BadRequestException("Not found logged user");
-                        }
-                );
-        return new UserDtoDetailed(user);
+        Long id = securityService.getPrincipal().orElseThrow(UnauthorizedException::new).getId();
+        return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
     public void modifyEnabledField(long id, boolean enabled) {
@@ -100,6 +95,7 @@ public class UserService {
         University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
         university.getEnrolledUsers().add(user);
 
+        securityService.invalidateUserSession(userId);
         return new UserDtoDetailed(userRepository.save(user));
     }
 }
