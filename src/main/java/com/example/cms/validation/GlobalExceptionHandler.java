@@ -1,10 +1,7 @@
 package com.example.cms.validation;
 
 import com.example.cms.security.LoggedUser;
-import com.example.cms.validation.exceptions.BadRequestException;
-import com.example.cms.validation.exceptions.ForbiddenException;
-import com.example.cms.validation.exceptions.NotFoundException;
-import com.example.cms.validation.exceptions.UnauthorizedException;
+import com.example.cms.validation.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -80,6 +77,12 @@ public class GlobalExceptionHandler {
         }
         RestErrorBody errorBody = createRestError(request, ex.getMessage(), status, ex);
         return ResponseEntity.status(status).body(errorBody);
+    }
+
+    @ExceptionHandler(SessionExpiredException.class)
+    public ResponseEntity<RestErrorBody> handleHttpSessionRequiredException(SessionExpiredException ex) {
+        RestErrorBody errorBody = createRestError(request, ex.getMessage(), HttpStatus.UNAUTHORIZED, ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody);
     }
 
     public static RestErrorBody createRestError(HttpServletRequest request, String message, HttpStatus status,
