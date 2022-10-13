@@ -17,8 +17,12 @@
   </mat-card>
 
   <div fxFlex class="editor">
-    <quill-editor [(ngModel)]="content" [sanitize]="true" [styles]="{height: '600px'}"
-                  (onEditorCreated)="created($event)"></quill-editor>
+    <quill-editor [(ngModel)]="content"
+                  [sanitize]="true"
+                  [styles]="{height: '600px'}"
+                  (onEditorCreated)="created($event)"
+                  [modules]="modules">
+    </quill-editor>
   </div>
 
 </div>

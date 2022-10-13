@@ -4,6 +4,9 @@ import {Page} from "../../../assets/models/page";
 import {PageService} from "../../../assets/service/page.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from '@angular/material/snack-bar';
+import ImageResize from 'quill-image-resize-module'
+
+Quill.register('modules/imageResize', ImageResize)
 
 @Component({
   selector: 'app-quill-editor',
@@ -17,12 +20,17 @@ export class QuillEditorComponent implements OnInit {
   public page?: Page;
   public id?: Number;
 
+  modules = {}
+
   constructor(
     private pageService: PageService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {
+    this.modules = {
+      imageResize: {},
+    }
   }
 
   ngOnInit(): void {
