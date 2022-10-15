@@ -2,9 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {SuccessDialogComponent} from "../../../dialog/success-dialog/success-dialog.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../../../assets/service/user.service";
-import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
+import {DialogService} from "../../../../assets/service/dialog.service";
 import {FormControl, Validators} from "@angular/forms";
-import {RestError} from "../../../../assets/models/restError";
 
 @Component({
   selector: 'app-dialog-user-change-account-type',
@@ -21,7 +20,7 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data,
               private dialog: MatDialog,
               private userService: UserService,
-              private errorHandleService: ErrorHandleService) {
+              private errorHandleService: DialogService) {
     dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -48,10 +47,9 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
           this.dialogRef.close(true);
         },
         error: err => {
-          let restError = err as RestError
           this.exiting = false;
-          if (restError.error === "Bad Request") {
-            this.errorHandleService.openDataErrorDialog(restError.message);
+          if (err.status === 400) {
+            this.errorHandleService.openDataErrorDialog(err.message);
           }
         }
       })

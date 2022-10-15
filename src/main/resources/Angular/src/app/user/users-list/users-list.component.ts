@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {ColDef, GridApi, RowSelectedEvent} from 'ag-grid-community';
 import {User} from 'src/assets/models/user';
-import {ErrorHandleService} from 'src/assets/service/error-handle.service';
+import {DialogService} from 'src/assets/service/dialog.service';
 import {SpinnerService} from 'src/assets/service/spinner.service';
 import {UserService} from 'src/assets/service/user.service';
 import {DialogUserCreateComponent} from '../dialogs/dialog-user-create/dialog-user-create.component';
@@ -26,7 +26,7 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private errorHandleService: ErrorHandleService,
+    private errorHandleService: DialogService,
     private userService: UserService,
     private spinnerService: SpinnerService,
     public dialog: MatDialog) { }

@@ -2,8 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../../../assets/service/user.service";
-import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
-import {RestError} from "../../../../assets/models/restError";
+import {DialogService} from "../../../../assets/service/dialog.service";
 import {UserForm} from "../../../../assets/models/user";
 
 @Component({
@@ -26,7 +25,7 @@ export class DialogUserUpdateComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<DialogUserUpdateComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               private userService: UserService,
-              private errorHandleService: ErrorHandleService) {
+              private errorHandleService: DialogService) {
     dialogRef.disableClose = true;
   }
 
@@ -50,10 +49,9 @@ export class DialogUserUpdateComponent implements OnInit {
           this.dialogRef.close(result);
         },
         error: err => {
-          let restError = err as RestError
           this.exiting = false;
-          if (restError.error === "Bad Request") {
-            this.errorHandleService.openDataErrorDialog(restError.message);
+          if (err.status === 400) {
+            this.errorHandleService.openDataErrorDialog(err.message);
           }
         }
       })

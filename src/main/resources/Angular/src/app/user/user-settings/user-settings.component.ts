@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
 import {User} from 'src/assets/models/user';
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import {DialogService} from 'src/assets/service/dialog.service';
 import {UserService} from 'src/assets/service/user.service';
 
 @Component({
@@ -15,7 +14,7 @@ export class UserSettingsComponent implements OnInit {
   public user!: User;
 
   constructor(
-    private errorHandleService: ErrorHandleService,
+    private errorHandleService: DialogService,
     private userService: UserService) {
   }
 

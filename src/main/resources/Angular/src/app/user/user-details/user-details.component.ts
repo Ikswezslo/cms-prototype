@@ -10,7 +10,7 @@ import {UserCardConfig} from "../user-card/user-card.component";
 import {
   DialogUserAddUniversityComponent
 } from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
-import {ErrorHandleService} from 'src/assets/service/error-handle.service';
+import {DialogService} from 'src/assets/service/dialog.service';
 import {
   DialogUserChangePasswordComponent
 } from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
@@ -57,7 +57,7 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     public dialog: MatDialog,
-    private errorHandleService: ErrorHandleService,
+    private errorHandleService: DialogService,
     private pageService: PageService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
