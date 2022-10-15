@@ -1,8 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {User, UserForm} from 'src/assets/models/user';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material/dialog';
+import {UserForm} from 'src/assets/models/user';
 import {UserService} from 'src/assets/service/user.service';
+import {RestError} from "../../../../assets/models/restError";
+import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
 
 @Component({
   selector: 'app-dialog-user-create',
@@ -11,65 +13,54 @@ import {UserService} from 'src/assets/service/user.service';
 })
 export class DialogUserCreateComponent implements OnInit {
 
-  user = {} as UserForm;
-  usernameValid = new FormControl('', [Validators.required]);
-  passwordValid = new FormControl('', [Validators.required]);
-  accountTypeValid = new FormControl('', [Validators.required]);
-  emailValid = new FormControl('', [Validators.required, Validators.email]);
+  form = new FormGroup({
+    username: new FormControl("", [Validators.required]),
+    password: new FormControl("", [Validators.required, Validators.pattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}")]),
+    firstName: new FormControl("", [Validators.required]),
+    lastName: new FormControl("", [Validators.required]),
+    email: new FormControl("", [Validators.email]),
+    phoneNumber: new FormControl("", [Validators.pattern("^\\+?\\d{3,12}$")]),
+    accountType: new FormControl("", [Validators.required]),
+  });
   hide = true;
-  edit = false;
-  createdUser!: User;
+
+  exiting: boolean = false;
 
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<DialogUserCreateComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-  ) {}
+    private errorHandleService: ErrorHandleService
+  ) {
+    dialogRef.disableClose = true;
+  }
 
   ngOnInit(): void {
-
-    this.edit = this.data.edit ?? this.edit;
-    this.user = this.data.user ?? this.user;
-    this.user.password = '';
   }
 
   createUser(): void {
-    console.log(this.user);
-    if (this.usernameValid.status == "VALID" && this.passwordValid.status == "VALID" &&
-        this.emailValid.status == "VALID" && this.accountTypeValid.status == "VALID") {
-      this.userService.createUser(this.user).subscribe(res => {
-        this.createdUser = res;
-      });
-      this.close(true);
-    }
+    this.exiting = true;
+
+    let userData: UserForm = {
+      username: this.form.controls.username.value,
+      password: this.form.controls.password.value,
+      firstName: this.form.controls.firstName.value,
+      lastName: this.form.controls.lastName.value,
+      email: this.form.controls.email.value,
+      phoneNumber: this.form.controls.phoneNumber.value,
+      accountType: this.form.controls.accountType.value
+    } as UserForm;
+
+    this.userService.createUser(userData).subscribe({
+      next: result => {
+        this.dialogRef.close(result);
+      },
+      error: err => {
+        let restError = err as RestError
+        this.exiting = false;
+        if (restError.error === "Bad Request") {
+          this.errorHandleService.openDataErrorDialog(restError.message);
+        }
+      }
+    });
   }
-
-  editUser() {
-    if (this.usernameValid.status == "VALID" && this.passwordValid.status == "VALID" &&
-        this.emailValid.status == "VALID" && this.accountTypeValid.status == "VALID") {
-      this.userService.editUser(this.createdUser.id, this.user).subscribe({
-        next: user => console.log(user)
-      });
-      this.close();
-    }
-  }
-
-  close(add: Boolean = false) {
-    if (add)
-      this.dialogRef.close(add);
-    else
-      this.dialogRef.close();
-
-  }
-
-  getErrorMessage() {
-    if (this.emailValid.hasError('required')) return 'You must enter a value';
-    else if (this.emailValid.hasError('email')) return 'Not a valid email';
-    return '';
-  }
-}
-
-export interface DialogData {
-  edit?: boolean;
-  user?: User;
 }
