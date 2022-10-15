@@ -18,6 +18,8 @@ spring:
       ddl-auto: create
 
 server:
-  servlet.session.cookie:
-    http-only: true
-    secure: false
+  servlet.session:
+    cookie:
+      http-only: true
+      secure: false
+    timeout: 30m

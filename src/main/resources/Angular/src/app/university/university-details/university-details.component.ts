@@ -8,6 +8,8 @@ import {UserService} from "../../../assets/service/user.service";
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../../user/user-card/user-card.component";
 import {UniversityCardConfig} from "../university-card/university-card.component";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
 
 @Component({
   selector: 'app-university-details',
@@ -45,7 +47,8 @@ export class UniversityDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private universityService: UniversityService,
     private errorHandleService: ErrorHandleService,
-    private userService: UserService) {
+    private userService: UserService,
+    public dialog: MatDialog) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -86,6 +89,18 @@ export class UniversityDetailsComponent implements OnInit {
       }})
   }
 
+  startEdit() {
+    let dialogData = {
+      data: {
+        edit: true,
+        university: this.university
+      }
+    }
+    const dialogRef = this.dialog.open(DialogUniversityCreateComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadUniversity();
+    });
+  }
 }
 
 

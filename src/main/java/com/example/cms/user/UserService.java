@@ -13,6 +13,7 @@ import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import com.example.cms.validation.exceptions.UnauthorizedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -78,10 +79,8 @@ public class UserService {
     }
 
     public UserDtoDetailed getLoggedUser() {
-        LoggedUser loggedUser = securityService.getPrincipal();
-        User user = userRepository.findByUsername(loggedUser.getUsername())
-                .orElseThrow(NotFoundException::new);
-        return new UserDtoDetailed(user);
+        Long id = securityService.getPrincipal().orElseThrow(UnauthorizedException::new).getId();
+        return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
     public void modifyEnabledField(long id, boolean enabled) {
@@ -96,6 +95,7 @@ public class UserService {
                 .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY));
         university.getEnrolledUsers().add(user);
 
+        securityService.invalidateUserSession(userId);
         return new UserDtoDetailed(userRepository.save(user));
     }
 

@@ -66,7 +66,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{userId}/universities")
+    @PostMapping("/{userId}/universities")
     public UserDtoDetailed addUniversityToUser(@PathVariable long userId, @RequestBody long universityId) {
         return service.addUniversity(userId, universityId);
     }
