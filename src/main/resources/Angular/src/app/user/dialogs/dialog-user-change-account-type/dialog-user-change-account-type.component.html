@@ -3,7 +3,7 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Account type</mat-label>
-    <mat-select required [formControl]="accountTypeControl">
+    <mat-select [formControl]="accountTypeControl">
       <mat-option [value]="'USER'">User</mat-option>
       <mat-option [value]="'MODERATOR'">University admin</mat-option>
       <mat-option [value]="'ADMIN'">Main admin</mat-option>
@@ -12,7 +12,7 @@
   </mat-form-field>
 
   <mat-dialog-actions>
-    <button mat-button color="warn" [mat-dialog-close]="undefined">Anuluj</button>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">Anuluj</button>
     <button mat-button color="primary"
             (click)="changeAccountType(accountTypeControl.value)"
             [disabled]="!accountTypeControl.valid||exiting">Zatwierdź

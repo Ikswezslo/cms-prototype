@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {DialogData} from "../dialog-user-create/dialog-user-create.component";
 import {AbstractControl, FormControl, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {University} from "../../../../assets/models/university";
 import {map, Observable, startWith} from "rxjs";
@@ -15,9 +14,9 @@ import {UserService} from "../../../../assets/service/user.service";
 export class DialogUserAddUniversityComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogUserAddUniversityComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
-                private universityService: UniversityService,
-                private userService: UserService) {
+              @Inject(MAT_DIALOG_DATA) public data,
+              private universityService: UniversityService,
+              private userService: UserService) {
         dialogRef.disableClose = true;
     }
 

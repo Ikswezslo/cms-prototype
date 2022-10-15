@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {SuccessDialogComponent} from "../../../dialog/success-dialog/success-dialog.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {DialogData} from "../dialog-user-create/dialog-user-create.component";
 import {UserService} from "../../../../assets/service/user.service";
 import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
 import {FormControl, Validators} from "@angular/forms";
@@ -19,7 +18,7 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
   exiting: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogUserChangeAccountTypeComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              @Inject(MAT_DIALOG_DATA) public data,
               private dialog: MatDialog,
               private userService: UserService,
               private errorHandleService: ErrorHandleService) {

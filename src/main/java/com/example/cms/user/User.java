@@ -36,7 +36,7 @@ public class User {
     @Email(message = "Email must be valid")
     private String email;
     private String address;
-    @Pattern(message = "PhoneNumber must be valid", regexp = "^\\+?\\d{3,12}$")
+    @Pattern(message = "PhoneNumber must be valid", regexp = "^(\\+?\\d{3,12})?$")
     private String phoneNumber;
     private String description;
     @NotNull(message = "Account type must not be null")

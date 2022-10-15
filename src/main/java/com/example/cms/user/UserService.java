@@ -1,6 +1,5 @@
 package com.example.cms.user;
 
-import com.example.cms.security.LoggedUser;
 import com.example.cms.security.Role;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
@@ -13,7 +12,6 @@ import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
-import com.example.cms.validation.exceptions.UnauthorizedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +56,9 @@ public class UserService {
     }
 
     private void validatePassword(String password) {
+        if (password == null) {
+            password = "";
+        }
         Pattern pattern = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}");
         Matcher matcher = pattern.matcher(password);
         if (!matcher.find()) {
@@ -79,7 +80,7 @@ public class UserService {
     }
 
     public UserDtoDetailed getLoggedUser() {
-        Long id = securityService.getPrincipal().orElseThrow(UnauthorizedException::new).getId();
+        Long id = securityService.getPrincipal().orElseThrow(NotFoundException::new).getId();
         return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
@@ -128,9 +129,7 @@ public class UserService {
         if (userRepository.existsByUsername(username)) {
             throw new UserException(UserExceptionType.USERNAME_TAKEN);
         }
-
         user.setUsername(username);
-        securityService.getPrincipal().update(user);
 
         userRepository.save(user);
     }
@@ -142,8 +141,7 @@ public class UserService {
         }
         user.setAccountType(accountType.get("accountType"));
 
-        //securityService.getPrincipal().update(user); // TODO: update accountType in session?
-
+        securityService.invalidateUserSession(id);
         userRepository.save(user);
     }
 }

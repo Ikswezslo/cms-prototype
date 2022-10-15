@@ -11,7 +11,6 @@ import {
 } from "@angular/forms";
 import {UserService} from "../../../../assets/service/user.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {DialogData} from "../dialog-user-create/dialog-user-create.component";
 import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
 import {RestError} from "../../../../assets/models/restError";
 import {ErrorStateMatcher} from "@angular/material/core";
@@ -37,14 +36,14 @@ export class DialogUserChangePasswordComponent implements OnInit {
 
   form = new FormGroup({
     oldPassword: new FormControl('', [Validators.required]),
-    newPassword: new FormControl('', [Validators.required]),
+    newPassword: new FormControl('', [Validators.required, Validators.pattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}")]),
     confirmPassword: new FormControl('', [Validators.required]),
   }, {validators: this.checkPasswordsValidator()});
 
   exiting: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogUserChangePasswordComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              @Inject(MAT_DIALOG_DATA) public data,
               private dialog: MatDialog,
               private userService: UserService,
               private errorHandleService: ErrorHandleService) {

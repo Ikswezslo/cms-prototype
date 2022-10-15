@@ -31,7 +31,6 @@ public class UserController {
     }
 
     @GetMapping("/logged")
-    @Secured("ROLE_USER")
     public UserDtoDetailed getLoggedUser() {
         return service.getLoggedUser();
     }
