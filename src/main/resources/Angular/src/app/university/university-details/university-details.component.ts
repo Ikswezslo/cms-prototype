@@ -8,6 +8,10 @@ import {UserService} from "../../../assets/service/user.service";
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../../user/user-card/user-card.component";
 import {UniversityCardConfig} from "../university-card/university-card.component";
+import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
+import {PageService} from "../../../assets/service/page.service";
 
 @Component({
   selector: 'app-university-details',
@@ -43,7 +47,9 @@ export class UniversityDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
     private universityService: UniversityService,
+    private pageService: PageService,
     private errorHandleService: ErrorHandleService,
     private userService: UserService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -77,16 +83,42 @@ export class UniversityDetailsComponent implements OnInit {
   }
 
   deleteUniversity() {
-    this.universityService.deleteUniversity(this.university.id).subscribe(
-      {
-        next: () => {
-          console.log('Deleting complete');
-        },
-        error: err => {
-          console.log('Error');
-        }
+    const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Deleting ' + this.university.name,
+        description: 'Are you sure you want to delete this university? It might induce other changes.'
       }
-    )
+    });
+    deletingDialog.afterClosed().subscribe(res => {
+      if (res) {
+
+        this.universityService.deleteUniversity(this.university.id).subscribe(
+          {
+            next: () => {
+              //TODO: Dialog for success
+              this.router.navigateByUrl('/universities');
+            },
+            error: err => {
+              const errorDialog = this.dialog.open(ErrorDialogComponent, {
+                data: {
+                  description: err.message || 'Error has occurred during deleting user'
+                }
+              });
+              errorDialog.afterClosed().subscribe({
+                next: () => {
+                  this.router.navigateByUrl('/university/' + this.university.id);
+                }
+              });
+            }
+          }
+        );
+
+
+      } else {
+        this.router.navigateByUrl('/university/' + this.university.id);
+      }
+    });
+
   }
 
   getLoggedUser() {

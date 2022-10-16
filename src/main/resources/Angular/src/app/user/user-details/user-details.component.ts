@@ -122,7 +122,7 @@ export class UserDetailsComponent implements OnInit {
           error: err => {
             const errorDialog = this.dialog.open(ErrorDialogComponent, {
               data: {
-                description: 'Error has occurred during deleting user' //TODO: Get real error
+                description: err.message || 'Error has occurred during deleting user'
               }
             });
             errorDialog.afterClosed().subscribe({
