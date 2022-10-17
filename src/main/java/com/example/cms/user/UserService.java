@@ -1,18 +1,24 @@
 package com.example.cms.user;
 
+import com.example.cms.security.Role;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
 import com.example.cms.university.UniversityRepository;
+import com.example.cms.user.exceptions.UserException;
+import com.example.cms.user.exceptions.UserExceptionType;
 import com.example.cms.user.projections.UserDtoDetailed;
-import com.example.cms.user.projections.UserDtoForm;
+import com.example.cms.user.projections.UserDtoFormCreate;
+import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
-import com.example.cms.validation.exceptions.UnauthorizedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
@@ -39,21 +45,32 @@ public class UserService {
         return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
-    public UserDtoDetailed createUser(UserDtoForm form) {
+    public UserDtoDetailed createUser(UserDtoFormCreate form) {
         if (userRepository.existsByUsername(form.getUsername())) {
-            throw new BadRequestException("Username taken");
+            throw new UserException(UserExceptionType.USERNAME_TAKEN);
         }
 
-        return new UserDtoDetailed(userRepository.save(formToUser(form)));
+        validatePassword(form.getPassword());
+
+        return new UserDtoDetailed(userRepository.save(form.toUser(passwordEncoder)));
     }
 
-    public UserDtoDetailed updateUser(Long id, UserDtoForm form) {
-        if (userRepository.existsByUsernameAndIdNot(form.getUsername(), id)) {
-            throw new BadRequestException("Username taken");
+    private void validatePassword(String password) {
+        if (password == null) {
+            password = "";
         }
+        Pattern pattern = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}");
+        Matcher matcher = pattern.matcher(password);
+        if (!matcher.find()) {
+            throw new UserException(UserExceptionType.NOT_VALID_PASSWORD);
+        }
+    }
 
+    public UserDtoDetailed updateUser(Long id, UserDtoFormUpdate form) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-        user.updateUser(formToUser(form));
+
+        form.updateUser(user);
+
         return new UserDtoDetailed(userRepository.save(user));
     }
 
@@ -62,25 +79,8 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public User formToUser(UserDtoForm form) {
-        User user = new User();
-
-        user.setUsername(form.getUsername());
-        if (form.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(form.getPassword()));
-        }
-        user.setFirstName(form.getFirstName());
-        user.setLastName(form.getLastName());
-        user.setAddress(form.getAddress());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setEmail(form.getEmail());
-        user.setAccountType(form.getAccountType());
-        user.setEnabled(form.isEnabled());
-        return user;
-    }
-
     public UserDtoDetailed getLoggedUser() {
-        Long id = securityService.getPrincipal().orElseThrow(UnauthorizedException::new).getId();
+        Long id = securityService.getPrincipal().orElseThrow(NotFoundException::new).getId();
         return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 
@@ -92,10 +92,56 @@ public class UserService {
 
     public UserDtoDetailed addUniversity(long userId, long universityId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
+        University university = universityRepository.findById(universityId)
+                .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY));
         university.getEnrolledUsers().add(user);
 
         securityService.invalidateUserSession(userId);
         return new UserDtoDetailed(userRepository.save(user));
+    }
+
+    public void modifyPasswordField(long id, Map<String, String> passwordMap) {
+        if (!passwordMap.containsKey("oldPassword") || !passwordMap.containsKey("newPassword")) {
+            throw new BadRequestException("Wrong body structure");
+        }
+        String oldPassword = passwordMap.get("oldPassword");
+        String newPassword = passwordMap.get("newPassword");
+
+        validatePassword(newPassword);
+
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new UserException(UserExceptionType.WRONG_PASSWORD);
+        }
+
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            throw new UserException(UserExceptionType.SAME_PASSWORD);
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    public void modifyUsernameField(long id, String username) {
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+
+        if (userRepository.existsByUsername(username)) {
+            throw new UserException(UserExceptionType.USERNAME_TAKEN);
+        }
+        user.setUsername(username);
+
+        userRepository.save(user);
+    }
+
+    public void modifyAccountTypeField(long id, Map<String, Role> accountType) {
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (!accountType.containsKey("accountType")) {
+            throw new BadRequestException("Wrong body structure");
+        }
+        user.setAccountType(accountType.get("accountType"));
+
+        securityService.invalidateUserSession(id);
+        userRepository.save(user);
     }
 }

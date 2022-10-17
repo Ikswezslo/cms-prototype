@@ -6,7 +6,7 @@ import com.example.cms.security.Role;
 import com.example.cms.university.UniversityService;
 import com.example.cms.university.projections.UniversityDtoForm;
 import com.example.cms.user.UserService;
-import com.example.cms.user.projections.UserDtoForm;
+import com.example.cms.user.projections.UserDtoFormCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -31,9 +31,9 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
 
-        UserDtoForm admin = new UserDtoForm(
+        UserDtoFormCreate admin = new UserDtoFormCreate(
                 "admin",
-                "12345",
+                "Admin123",
                 "Bob",
                 "Kovalski",
                 "bob123@gmail.com",
@@ -44,9 +44,9 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         );
         userService.createUser(admin);
 
-        UserDtoForm moderator = new UserDtoForm(
+        UserDtoFormCreate moderator = new UserDtoFormCreate(
                 "moderator",
-                "1234",
+                "Moderator123",
                 "Riker",
                 "Bobowski",
                 "riker123@gmail.com",
@@ -57,9 +57,9 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         );
         userService.createUser(moderator);
 
-        UserDtoForm user = new UserDtoForm(
+        UserDtoFormCreate user = new UserDtoFormCreate(
                 "user",
-                "123",
+                "User1234",
                 "Adam",
                 "Nowak",
                 "adam123@gmail.com",

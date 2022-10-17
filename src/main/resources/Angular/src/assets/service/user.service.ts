@@ -66,4 +66,20 @@ export class UserService {
     return this.http.post<User>(`${this.userUrl}/${id}/universities`, university.id, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  modifyUserPasswordField(id: Number, passwords: { oldPassword: string, newPassword: string },
+                          defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.userUrl}/${id}/password`, passwords, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  modifyUserUsernameField(id: Number, username: string, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.userUrl}/${id}/username`, username, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  modifyUserAccountTypeField(id: Number, accountType: string, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.patch<void>(`${this.userUrl}/${id}/accountType`, {accountType: accountType}, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }
