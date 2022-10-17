@@ -9,7 +9,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { ErrorDialogComponent } from 'src/app/dialog/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-page-details',
@@ -97,8 +96,12 @@ export class PageDetailsComponent implements OnInit {
   addPage() {
     const dialogRef = this.dialog.open(DialogPageCreateComponent, {data:{parentId: this.page.id}});
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.loadPage();
-    });
+    dialogRef.afterClosed().subscribe({
+      next: res => {
+        if (res) {
+          this.loadPage();
+          this.router.navigateByUrl(`page/${res}`);
+      }
+    }});
   }
 }
