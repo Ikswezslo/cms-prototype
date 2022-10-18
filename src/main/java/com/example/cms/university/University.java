@@ -38,7 +38,7 @@ public class University {
     )
     private Set<User> enrolledUsers = new HashSet<>();
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "main_page_id", referencedColumnName = "id")
     private Page mainPage;
 
