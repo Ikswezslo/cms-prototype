@@ -15,8 +15,8 @@ export class DialogPageCreateComponent implements OnInit {
   descriptionValid = new FormControl('', Validators["required"]);
 
   constructor(public dialogRef: MatDialogRef<DialogPageCreateComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {parentId: number},
-              private pageService: PageService) { }
+    @Inject(MAT_DIALOG_DATA) public data: { parentId: number },
+    private pageService: PageService) { }
 
   ngOnInit(): void {
     this.page.creatorUsername = "admin";  //TODO: Pobrać aktualnego użytkownika skądś
@@ -24,17 +24,24 @@ export class DialogPageCreateComponent implements OnInit {
   }
 
   createPage(): void {
-    if(this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID"){
+    if (this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID") {
       this.page.parentId = this.data.parentId;
       console.log(this.page);
-      this.pageService.addNewPage(this.page).subscribe({next: page => console.log(page)});
-      this.close();
+      this.pageService.addNewPage(this.page).subscribe({
+        next: page => {
+          console.log(page);
+          this.close(page.id);
+        },
+        error: err => {
+          this.close();
+        }
+      });
     }
   }
 
-  close(add: Boolean = false) {
-    if (add)
-      this.dialogRef.close(add);
+  close(id?: number) {
+    if (id)
+      this.dialogRef.close(id);
     else
       this.dialogRef.close();
   }
