@@ -99,8 +99,12 @@ export class PageDetailsComponent implements OnInit {
   addPage() {
     const dialogRef = this.dialog.open(DialogPageCreateComponent, {data: {parentId: this.page.id}});
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.loadPage();
-    });
+    dialogRef.afterClosed().subscribe({
+      next: res => {
+        if (res) {
+          this.loadPage();
+          this.router.navigateByUrl(`page/${res}`);
+      }
+    }});
   }
 }
