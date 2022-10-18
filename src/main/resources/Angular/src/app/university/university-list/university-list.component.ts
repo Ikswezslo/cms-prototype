@@ -30,7 +30,7 @@ export class UniversityListComponent implements OnInit {
 };
   constructor(
     private router: Router,
-    private errorHandleService: DialogService,
+    private dialogService: DialogService,
     private spinnerService: SpinnerService,
     private universityService: UniversityService,
     public dialog: MatDialog) {}
@@ -50,7 +50,7 @@ export class UniversityListComponent implements OnInit {
         },
         error: err => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
       }});
     this.gridApi.sizeColumnsToFit();
   }

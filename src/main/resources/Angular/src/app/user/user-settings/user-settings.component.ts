@@ -14,7 +14,7 @@ export class UserSettingsComponent implements OnInit {
   public user!: User;
 
   constructor(
-    private errorHandleService: DialogService,
+    private dialogService: DialogService,
     private userService: UserService) {
   }
 
@@ -29,7 +29,7 @@ export class UserSettingsComponent implements OnInit {
         this.user = res;
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
       }});
   }
 

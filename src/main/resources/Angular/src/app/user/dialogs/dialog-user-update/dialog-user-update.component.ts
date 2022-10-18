@@ -25,7 +25,7 @@ export class DialogUserUpdateComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<DialogUserUpdateComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               private userService: UserService,
-              private errorHandleService: DialogService) {
+              private dialogService: DialogService) {
     dialogRef.disableClose = true;
   }
 
@@ -51,7 +51,7 @@ export class DialogUserUpdateComponent implements OnInit {
         error: err => {
           this.exiting = false;
           if (err.status === 400) {
-            this.errorHandleService.openDataErrorDialog(err.message);
+            this.dialogService.openDataErrorDialog(err.message);
           }
         }
       })

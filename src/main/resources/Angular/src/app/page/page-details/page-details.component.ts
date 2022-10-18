@@ -48,7 +48,7 @@ export class PageDetailsComponent implements OnInit {
     private userService: UserService,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
-    private errorHandleService: DialogService) {
+    private dialogService: DialogService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -68,7 +68,7 @@ export class PageDetailsComponent implements OnInit {
           this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
         }
       });
   }

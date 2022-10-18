@@ -26,7 +26,7 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private errorHandleService: DialogService,
+    private dialogService: DialogService,
     private userService: UserService,
     private spinnerService: SpinnerService,
     public dialog: MatDialog) { }
@@ -47,7 +47,7 @@ export class UsersListComponent implements OnInit {
         },
         error: err => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
         }
       });
   }

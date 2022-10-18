@@ -46,7 +46,7 @@ export class UniversityDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private universityService: UniversityService,
-    private errorHandleService: DialogService,
+    private dialogService: DialogService,
     private userService: UserService,
     public dialog: MatDialog) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -67,7 +67,7 @@ export class UniversityDetailsComponent implements OnInit {
         console.log(res);
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
       }});
   }
 
@@ -85,7 +85,7 @@ export class UniversityDetailsComponent implements OnInit {
         this.loggedUser = res;
         },
         error: err => {
-          this.errorHandleService.openLoggedUserErrorDialog();
+          this.dialogService.openLoggedUserErrorDialog();
       }})
   }
 

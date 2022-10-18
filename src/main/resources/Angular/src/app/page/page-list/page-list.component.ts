@@ -24,7 +24,7 @@ export class PageListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private errorHandleService: DialogService,
+    private dialogService: DialogService,
     private spinnerService: SpinnerService,
     private pageService: PageService) {
   }
@@ -62,7 +62,7 @@ export class PageListComponent implements OnInit {
         },
         error: err => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
         }
       });
     this.gridApi.sizeColumnsToFit();

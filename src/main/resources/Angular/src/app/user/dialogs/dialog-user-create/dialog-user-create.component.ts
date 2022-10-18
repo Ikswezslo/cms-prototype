@@ -28,7 +28,7 @@ export class DialogUserCreateComponent implements OnInit {
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<DialogUserCreateComponent>,
-    private errorHandleService: DialogService
+    private dialogService: DialogService
   ) {
     dialogRef.disableClose = true;
   }
@@ -56,7 +56,7 @@ export class DialogUserCreateComponent implements OnInit {
       error: err => {
         this.exiting = false;
         if (err.status === 400) {
-          this.errorHandleService.openDataErrorDialog(err.message);
+          this.dialogService.openDataErrorDialog(err.message);
         }
       }
     });

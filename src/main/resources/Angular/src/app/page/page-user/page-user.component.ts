@@ -17,7 +17,7 @@ export class PageUserComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private spinnerService: SpinnerService,
-              private errorHandleService: DialogService,
+              private dialogService: DialogService,
               private pageService: PageService) {
   }
 
@@ -37,7 +37,7 @@ export class PageUserComponent implements OnInit {
         },
         error: () => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog()
+          this.dialogService.openDataErrorDialog()
         }
       })
   }

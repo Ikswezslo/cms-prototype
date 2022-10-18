@@ -28,7 +28,7 @@ export class TopBarComponent implements OnInit {
     private router: Router,
     private pageService: PageService,
     private userService: UserService,
-    private errorHandleService: DialogService,
+    private dialogService: DialogService,
     private universityService: UniversityService,
     private errorHandler: ErrorHandlerService) {
   }
@@ -44,7 +44,7 @@ export class TopBarComponent implements OnInit {
         error: err => {
           if (err.status != "401")
             this.errorHandler.handleError(err);
-          //this.errorHandleService.openLoggedUserErrorDialog();
+          //this.dialogService.openLoggedUserErrorDialog();
         }
       })
   }
@@ -61,7 +61,7 @@ export class TopBarComponent implements OnInit {
         this.users = usersRes;
       },
       error: err => {
-        this.errorHandleService.openDataErrorDialog()
+        this.dialogService.openDataErrorDialog()
       }
     });
   }
