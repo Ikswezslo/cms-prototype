@@ -102,11 +102,9 @@ public class UniversityService {
         universityRepository.save(university);
     }
 
-    @Transactional
     public void deleteUniversity(Long id) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
         validateForDelete(university);
-        pageRepository.delete(university.getMainPage());
         universityRepository.delete(university);
     }
 
