@@ -10,8 +10,8 @@ import com.example.cms.user.projections.UserDtoDetailed;
 import com.example.cms.user.projections.UserDtoFormCreate;
 import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
-import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import com.example.cms.validation.exceptions.WrongDataStructureException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -102,7 +102,7 @@ public class UserService {
 
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {
         if (!passwordMap.containsKey("oldPassword") || !passwordMap.containsKey("newPassword")) {
-            throw new BadRequestException("Wrong body structure");
+            throw new WrongDataStructureException();
         }
         String oldPassword = passwordMap.get("oldPassword");
         String newPassword = passwordMap.get("newPassword");
@@ -137,7 +137,7 @@ public class UserService {
     public void modifyAccountTypeField(long id, Map<String, Role> accountType) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
         if (!accountType.containsKey("accountType")) {
-            throw new BadRequestException("Wrong body structure");
+            throw new WrongDataStructureException();
         }
         user.setAccountType(accountType.get("accountType"));
 

@@ -18,7 +18,7 @@ public class PageDtoSimple {
     String createdOn;
     String updatedOn;
 
-    public PageDtoSimple(Page page) {
+    private PageDtoSimple(Page page) {
         id = page.getId();
         title = page.getTitle();
         description = page.getDescription();
@@ -28,5 +28,12 @@ public class PageDtoSimple {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);
         updatedOn = page.getUpdatedOn().toLocalDateTime().format(formatter);
+    }
+
+    public static PageDtoSimple of(Page page) {
+        if(page == null) {
+            return null;
+        }
+        return new PageDtoSimple(page);
     }
 }

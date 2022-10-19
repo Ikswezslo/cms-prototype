@@ -23,7 +23,7 @@ public class UniversityDtoDetailed {
         shortName = university.getShortName();
         hidden = university.isHidden();
         enrolledUsers = university.getEnrolledUsers().stream().map(UserDtoSimple::new).collect(Collectors.toSet());
-        mainPage = new PageDtoSimple(university.getMainPage());
+        mainPage = PageDtoSimple.of(university.getMainPage());
     }
 
 }

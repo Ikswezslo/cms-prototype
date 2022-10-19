@@ -1,7 +1,8 @@
 package com.example.cms.page;
 
 import com.example.cms.page.projections.PageDtoDetailed;
-import com.example.cms.page.projections.PageDtoForm;
+import com.example.cms.page.projections.PageDtoFormCreate;
+import com.example.cms.page.projections.PageDtoFormUpdate;
 import com.example.cms.page.projections.PageDtoSimple;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class PageController {
     }
 
     @GetMapping("/children")
-    List<PageDtoSimple> readChildrenPages(@RequestParam(defaultValue = "") Long parent) {
-        return service.getAllChildren(parent);
+    List<PageDtoSimple> getSubpages(@RequestParam(defaultValue = "") Long parent) {
+        return service.getChildren(parent);
     }
 
     @GetMapping("/{id}")
@@ -41,13 +42,13 @@ public class PageController {
     }
 
     @PostMapping
-    ResponseEntity<PageDtoDetailed> createPage(@RequestBody PageDtoForm form) {
+    ResponseEntity<PageDtoDetailed> createPage(@RequestBody PageDtoFormCreate form) {
         PageDtoDetailed result = service.save(form);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Void> updatePage(@PathVariable long id, @RequestBody PageDtoForm form) {
+    ResponseEntity<Void> updatePage(@PathVariable long id, @RequestBody PageDtoFormUpdate form) {
         service.update(id, form);
         return ResponseEntity.noContent().build();
     }

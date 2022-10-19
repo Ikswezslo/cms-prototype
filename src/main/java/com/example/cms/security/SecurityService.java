@@ -1,14 +1,18 @@
 package com.example.cms.security;
 
+import com.example.cms.page.Page;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,5 +77,20 @@ public class SecurityService {
                 }
             }
         }
+    }
+
+    public boolean hasPermissionsToPage(Page page) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+        if (loggedUser.getAccountType() == Role.USER || loggedUser.getAccountType() == Role.MODERATOR) {
+            if (!loggedUser.getUniversities().contains(page.getUniversity().getId())) {
+                return false;
+            }
+        }
+        if (loggedUser.getAccountType() == Role.USER) {
+            if (!page.getCreator().getId().equals(loggedUser.getId())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

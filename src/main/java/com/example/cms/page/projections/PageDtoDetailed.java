@@ -23,7 +23,18 @@ public class PageDtoDetailed {
     String createdOn;
     String updatedOn;
 
-    public PageDtoDetailed(Page page, Set<Page> children) {
+    public static PageDtoDetailed of(Page page) {
+        return of(page, Set.of());
+    }
+
+    public static PageDtoDetailed of(Page page, Set<Page> children) {
+        if(page == null) {
+            return null;
+        }
+        return new PageDtoDetailed(page, children);
+    }
+
+    private PageDtoDetailed(Page page, Set<Page> children) {
         id = page.getId();
         title = page.getTitle();
         description = page.getDescription();
@@ -31,11 +42,9 @@ public class PageDtoDetailed {
         hidden = page.isHidden();
         content = page.getContent();
         university = new UniversityDtoSimple(page.getUniversity());
+        parent = PageDtoSimple.of(page.getParent());
 
-        parent = (page.getParent() == null) ? null :
-                new PageDtoSimple(page.getParent());
-
-        this.children = children.stream().map(PageDtoSimple::new).collect(Collectors.toSet());
+        this.children = children.stream().map(PageDtoSimple::of).collect(Collectors.toSet());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);

@@ -1,7 +1,7 @@
 package com.example.cms.development;
 
 import com.example.cms.page.PageService;
-import com.example.cms.page.projections.PageDtoForm;
+import com.example.cms.page.projections.PageDtoFormCreate;
 import com.example.cms.security.Role;
 import com.example.cms.university.UniversityService;
 import com.example.cms.university.projections.UniversityDtoForm;
@@ -10,7 +10,11 @@ import com.example.cms.user.projections.UserDtoFormCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -30,7 +34,19 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
+        try {
+            SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+            SecurityContextHolder.setContext(ctx);
+            ctx.setAuthentication(CustomAuthenticationToken.create(Role.ADMIN, Set.of()));
 
+            createData();
+            log.info("Created dummy data");
+        } finally {
+            SecurityContextHolder.clearContext();
+        }
+    }
+
+    private void createData() {
         UserDtoFormCreate admin = new UserDtoFormCreate(
                 "admin",
                 "Admin123",
@@ -86,37 +102,33 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
         universityService.enrollUsersToUniversity(1L, 1L);
 
-        var p1 = new PageDtoForm(
+        var p1 = new PageDtoFormCreate(
                 "Title 1",
                 "Description 1",
-                "Other content",
                 "moderator",
                 1L
         );
         pageService.save(p1);
 
-        var p2 = new PageDtoForm(
+        var p2 = new PageDtoFormCreate(
                 "Title 2",
                 "Description 2",
-                "Other content",
                 "admin",
                 1L
         );
         pageService.save(p2);
 
-        var p3 = new PageDtoForm(
+        var p3 = new PageDtoFormCreate(
                 "Title 3",
                 "Description 3",
-                "Nice content",
                 "admin",
                 1L
         );
         pageService.save(p3);
 
-        var p4 = new PageDtoForm(
+        var p4 = new PageDtoFormCreate(
                 "Title 4",
                 "Description 4",
-                "Very nice content",
                 "admin",
                 1L
         );
@@ -126,6 +138,5 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         pageService.modifyHiddenField(2L, false);
         pageService.modifyHiddenField(3L, false);
 
-        log.info("Created dummy data");
     }
 }

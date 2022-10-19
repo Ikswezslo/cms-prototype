@@ -3,14 +3,18 @@ package com.example.cms.page;
 import com.example.cms.page.exceptions.PageException;
 import com.example.cms.page.exceptions.PageExceptionType;
 import com.example.cms.page.projections.PageDtoDetailed;
-import com.example.cms.page.projections.PageDtoForm;
+import com.example.cms.page.projections.PageDtoFormCreate;
+import com.example.cms.page.projections.PageDtoFormUpdate;
 import com.example.cms.page.projections.PageDtoSimple;
 import com.example.cms.security.LoggedUser;
 import com.example.cms.security.SecurityService;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
+import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import com.example.cms.validation.exceptions.WrongDataStructureException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,9 +36,22 @@ public class PageService {
         this.securityService = securityService;
     }
 
+    public PageDtoDetailed get(Long id) {
+        return pageRepository.findById(id).map(page -> {
+            if (page.isHidden() && !securityService.hasPermissionsToPage(page)) {
+                throw new ForbiddenException();
+            }
+            if (page.getParent().isHidden() && !securityService.hasPermissionsToPage(page.getParent())) {
+                page.setParent(null);
+            }
+            return PageDtoDetailed.of(page, findVisibleSubpages(id));
+        }).orElseThrow(NotFoundException::new);
+    }
+
+    @Secured("ROLE_ADMIN")
     public List<PageDtoSimple> getAll(Pageable pageable) {
         return pageRepository.findAll(pageable).stream()
-                .map(PageDtoSimple::new)
+                .map(PageDtoSimple::of)
                 .collect(Collectors.toList());
     }
 
@@ -52,101 +69,104 @@ public class PageService {
                     loggedUser.getId());
         }
         return pages.stream()
-                .map(PageDtoSimple::new)
+                .map(PageDtoSimple::of)
                 .collect(Collectors.toList());
     }
 
-    public PageDtoDetailed get(Long id) {
+    public List<PageDtoSimple> getChildren(Long parentId) {
+        return findVisibleSubpages(parentId).stream()
+                .map(PageDtoSimple::of)
+                .collect(Collectors.toList());
+    }
+
+    private Set<Page> findVisibleSubpages(Long parentId) {
         Optional<LoggedUser> optionalLoggedUser = securityService.getPrincipal();
         Set<Page> children;
         if (optionalLoggedUser.isEmpty()) {
-            children = pageRepository.findChildren(id);
+            children = pageRepository.findChildren(parentId);
         } else {
             LoggedUser loggedUser = optionalLoggedUser.get();
             children = pageRepository.findChildren(
-                    id,
+                    parentId,
                     String.valueOf(loggedUser.getAccountType()),
                     loggedUser.getUniversities(),
                     loggedUser.getId());
         }
-
-        return pageRepository.findById(id).map(page -> new PageDtoDetailed(page, children))
-                .orElseThrow(NotFoundException::new);
+        return children;
     }
 
-    public PageDtoDetailed save(PageDtoForm form) {
-        return new PageDtoDetailed(pageRepository.save(formToPage(form)), Set.of());
-    }
-
-    public void update(Long id, PageDtoForm form) {
-        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-        page.updateFrom(formToPage(form));
-        pageRepository.save(page);
-    }
-
-    public void delete(Long id) {
-        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-
-        if (pageRepository.existsByParent(page)) {
-            throw new PageException(PageExceptionType.DELETING_WITH_CHILD);
-        }
-
-        pageRepository.delete(page);
-    }
-
-    public void modifyHiddenField(Long id, boolean hidden) {
-        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-        page.setHidden(hidden);
-        pageRepository.save(page);
-    }
-
-    public Page formToPage(PageDtoForm form) {
-        Page page = new Page();
-        page.setTitle(form.getTitle());
-        page.setDescription(form.getDescription());
-        page.setContent(form.getContent());
-        page.setHidden(true);
-
+    @Secured("ROLE_USER")
+    public PageDtoDetailed save(PageDtoFormCreate form) {
         if (form.getParentId() == null) {
-            throw new PageException(PageExceptionType.PARENT_IS_NULL);
+            throw new WrongDataStructureException();
         }
 
         Page parent = pageRepository.findById(form.getParentId())
                 .orElseThrow(() -> {
                     throw new PageException(PageExceptionType.NOT_FOUND_PARENT);
                 });
-
-        page.setParent(parent);
-        page.setUniversity(parent.getUniversity());
-
         User creator = userRepository.findByUsername(form.getCreatorUsername())
                 .orElseThrow(() -> {
                     throw new PageException(PageExceptionType.NOT_FOUND_USER);
                 });
 
-        page.setCreator(creator);
-
-        return page;
-    }
-
-    public List<PageDtoSimple> getAllChildren(Long parentId) {
-        Page parent = null;
-
-        if (parentId != null) {
-            parent = pageRepository.findById(parentId).orElseThrow(() -> {
-                throw new PageException(PageExceptionType.NOT_FOUND_PARENT);
-            });
+        if (parent.isHidden() && !securityService.hasPermissionsToPage(parent)) {
+            throw new ForbiddenException();
         }
 
-        return pageRepository.findByParent(parent).stream()
-                .map(PageDtoSimple::new)
-                .collect(Collectors.toList());
+        Page newPage = form.toPage(parent, creator);
+        if (!securityService.hasPermissionsToPage(newPage)) {
+            throw new ForbiddenException();
+        }
+
+        return PageDtoDetailed.of(pageRepository.save(newPage));
     }
 
+    @Secured("ROLE_USER")
+    public void update(Long id, PageDtoFormUpdate form) {
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (!securityService.hasPermissionsToPage(page)) {
+            throw new ForbiddenException();
+        }
+
+        form.updatePage(page);
+        pageRepository.save(page);
+    }
+
+    @Secured("ROLE_USER")
+    public void modifyHiddenField(Long id, boolean hidden) {
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (!securityService.hasPermissionsToPage(page)) {
+            throw new ForbiddenException();
+        }
+
+        page.setHidden(hidden);
+        pageRepository.save(page);
+    }
+
+    @Secured("ROLE_USER")
     public void modifyContentField(Long id, String content) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-        page.setContent(content);
 
+        if (!securityService.hasPermissionsToPage(page)) {
+            throw new ForbiddenException();
+        }
+
+        page.setContent(content);
         pageRepository.save(page);
+    }
+
+    @Secured("ROLE_USER")
+    public void delete(Long id) {
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (!securityService.hasPermissionsToPage(page)) {
+            throw new ForbiddenException();
+        }
+
+        if (pageRepository.existsByParent(page)) {
+            throw new PageException(PageExceptionType.DELETING_WITH_CHILD);
+        }
+
+        pageRepository.delete(page);
     }
 }
