@@ -12,6 +12,7 @@ import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import com.example.cms.validation.exceptions.UnauthorizedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -80,7 +81,7 @@ public class UserService {
     }
 
     public UserDtoDetailed getLoggedUser() {
-        Long id = securityService.getPrincipal().orElseThrow(NotFoundException::new).getId();
+        Long id = securityService.getPrincipal().orElseThrow(UnauthorizedException::new).getId();
         return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
     }
 

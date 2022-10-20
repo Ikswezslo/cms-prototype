@@ -5,7 +5,7 @@ import {ErrorDialogComponent} from 'src/app/dialog/error-dialog/error-dialog.com
 @Injectable({
   providedIn: 'root'
 })
-export class ErrorHandleService {
+export class DialogService {
 
   constructor(
     public dialog: MatDialog) {

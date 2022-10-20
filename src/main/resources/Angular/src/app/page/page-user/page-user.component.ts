@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {PageService} from "../../../assets/service/page.service";
 import {Page} from "../../../assets/models/page";
 import {ActivatedRoute} from "@angular/router";
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { SpinnerService } from 'src/assets/service/spinner.service';
+import {DialogService} from 'src/assets/service/dialog.service';
+import {SpinnerService} from 'src/assets/service/spinner.service';
 
 
 @Component({
@@ -17,8 +17,9 @@ export class PageUserComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private spinnerService: SpinnerService,
-              private errorHandleService: ErrorHandleService,
-              private pageService: PageService) { }
+              private dialogService: DialogService,
+              private pageService: PageService) {
+  }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
@@ -34,9 +35,9 @@ export class PageUserComponent implements OnInit {
           this.spinnerService.hide();
           this.pages = res.filter(element => element.creator.id == userId);
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog()
+          this.dialogService.openDataErrorDialog()
         }
       })
   }
