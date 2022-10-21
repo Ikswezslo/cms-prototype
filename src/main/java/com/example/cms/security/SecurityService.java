@@ -1,20 +1,20 @@
 package com.example.cms.security;
 
 import com.example.cms.page.Page;
+import com.example.cms.university.University;
+import com.example.cms.user.User;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -92,5 +92,48 @@ public class SecurityService {
             }
         }
         return true;
+    }
+
+    public boolean hasPermissionsToUniversity(University university) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+        if (loggedUser.getAccountType() == Role.USER) {
+            return false;
+        } else if (loggedUser.getAccountType() == Role.MODERATOR) {
+            if (!loggedUser.getUniversities().contains(university.getId())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean hasPermissionsToUser(User user, boolean onlyDifferentUser) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        if(onlyDifferentUser) {
+            if (loggedUser.getId().equals(user.getId())) {
+                return false;
+            }
+        }
+
+        if (loggedUser.getAccountType() == Role.USER) {
+            if (!loggedUser.getId().equals(user.getId())) {
+                return false;
+            }
+        } else if (loggedUser.getAccountType() == Role.MODERATOR) {
+            boolean sameUniversity = false;
+            for(long universityId : user.getEnrolledUniversities().stream().map(University::getId).collect(Collectors.toList())) {
+                if (loggedUser.getUniversities().contains(universityId)) {
+                    sameUniversity = true;
+                }
+            }
+            if(!sameUniversity) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean hasPermissionsToUser(User user) {
+        return hasPermissionsToUser(user, false);
     }
 }
