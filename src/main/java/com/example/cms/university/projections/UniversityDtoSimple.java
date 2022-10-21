@@ -1,16 +1,20 @@
 package com.example.cms.university.projections;
 
 import com.example.cms.university.University;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Value
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UniversityDtoSimple implements Serializable {
-    Long id;
-    String name;
-    String shortName;
-    boolean hidden;
+    private Long id;
+    private String name;
+    private String shortName;
+    private boolean hidden;
 
     public UniversityDtoSimple(University university) {
         id = university.getId();

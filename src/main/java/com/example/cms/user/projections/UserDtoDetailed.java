@@ -3,25 +3,29 @@ package com.example.cms.user.projections;
 import com.example.cms.security.Role;
 import com.example.cms.university.projections.UniversityDtoSimple;
 import com.example.cms.user.User;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Value
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDtoDetailed {
-    Long id;
-    String username;
-    String password;
-    String firstName;
-    String lastName;
-    String email;
-    String address;
-    String phoneNumber;
-    String description;
-    Role accountType;
-    boolean enabled;
-    Set<UniversityDtoSimple> enrolledUniversities;
+    private Long id;
+    private String username;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String address;
+    private String phoneNumber;
+    private String description;
+    private Role accountType;
+    private boolean enabled;
+    private Set<UniversityDtoSimple> enrolledUniversities;
 
     public UserDtoDetailed(User user) {
         id = user.getId();
