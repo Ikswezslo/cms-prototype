@@ -4,7 +4,7 @@ import com.example.cms.page.PageService;
 import com.example.cms.page.projections.PageDtoFormCreate;
 import com.example.cms.security.Role;
 import com.example.cms.university.UniversityService;
-import com.example.cms.university.projections.UniversityDtoForm;
+import com.example.cms.university.projections.UniversityDtoFormCreate;
 import com.example.cms.user.UserService;
 import com.example.cms.user.projections.UserDtoFormCreate;
 import lombok.extern.slf4j.Slf4j;
@@ -86,14 +86,14 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         );
         userService.createUser(user);
 
-        UniversityDtoForm zut = new UniversityDtoForm(
+        UniversityDtoFormCreate zut = new UniversityDtoFormCreate(
                 "West Pomeranian University of Technology",
                 "ZUT",
                 "user"
         );
         universityService.addNewUniversity(zut);
 
-        UniversityDtoForm put = new UniversityDtoForm(
+        UniversityDtoFormCreate put = new UniversityDtoFormCreate(
                 "Poznan University of Technology",
                 "PUT",
                 "admin"

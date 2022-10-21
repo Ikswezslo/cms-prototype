@@ -19,7 +19,7 @@ public class UniversityDtoDetailed {
     private String shortName;
     private boolean hidden;
     private PageDtoSimple mainPage;
-    private Set<UserDtoSimple> enrolledUsers;
+    private Set<UserDtoSimple> enrolledUsers; // TODO: remove?
 
     public UniversityDtoDetailed(University university) {
         id = university.getId();

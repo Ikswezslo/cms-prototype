@@ -44,6 +44,7 @@ public class PageService {
             if (page.getParent().isHidden() && !securityService.hasPermissionsToPage(page.getParent())) {
                 page.setParent(null);
             }
+            // TODO: check user and university
             return PageDtoDetailed.of(page, findVisibleSubpages(id));
         }).orElseThrow(NotFoundException::new);
     }

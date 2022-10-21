@@ -21,24 +21,24 @@ public class PageController {
         this.service = service;
     }
 
-    @GetMapping("/all")
-    List<PageDtoSimple> readAllPages(Pageable pageable) {
-        return service.getAll(pageable);
-    }
-
-    @GetMapping("/children")
-    List<PageDtoSimple> getSubpages(@RequestParam(defaultValue = "") Long parent) {
-        return service.getChildren(parent);
-    }
-
     @GetMapping("/{id}")
     PageDtoDetailed readSinglePage(@PathVariable long id) {
         return service.get(id);
     }
 
+    @GetMapping("/all")
+    List<PageDtoSimple> readAllPages(Pageable pageable) {
+        return service.getAll(pageable);
+    }
+
     @GetMapping
     List<PageDtoSimple> readVisiblePages(Pageable pageable) {
         return service.getAllVisible(pageable);
+    }
+
+    @GetMapping("/children")
+    List<PageDtoSimple> getSubpages(@RequestParam(defaultValue = "") Long parent) {
+        return service.getChildren(parent);
     }
 
     @PostMapping
