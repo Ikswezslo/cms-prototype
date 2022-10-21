@@ -42,10 +42,10 @@ public class PageDtoDetailed {
         id = page.getId();
         title = page.getTitle();
         description = page.getDescription();
-        creator = new UserDtoSimple(page.getCreator());
+        creator = UserDtoSimple.of(page.getCreator());
         hidden = page.isHidden();
         content = page.getContent();
-        university = new UniversityDtoSimple(page.getUniversity());
+        university = UniversityDtoSimple.of(page.getUniversity());
         parent = PageDtoSimple.of(page.getParent());
 
         this.children = children.stream().map(PageDtoSimple::of).collect(Collectors.toSet());

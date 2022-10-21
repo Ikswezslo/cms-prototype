@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class UserDtoDetailed {
     private Long id;
     private String username;
-    private String password;
+    private String password; // TODO: remove?
     private String firstName;
     private String lastName;
     private String email;
@@ -27,7 +27,14 @@ public class UserDtoDetailed {
     private boolean enabled;
     private Set<UniversityDtoSimple> enrolledUniversities;
 
-    public UserDtoDetailed(User user) {
+    public static UserDtoDetailed of(User user) {
+        if (user == null) {
+            return null;
+        }
+        return new UserDtoDetailed(user);
+    }
+
+    private UserDtoDetailed(User user) {
         id = user.getId();
         username = user.getUsername();
         password = user.getPassword();
@@ -39,6 +46,6 @@ public class UserDtoDetailed {
         accountType = user.getAccountType();
         description = user.getDescription();
         enabled = user.isEnabled();
-        enrolledUniversities = user.getEnrolledUniversities().stream().map(UniversityDtoSimple::new).collect(Collectors.toSet());
+        enrolledUniversities = user.getEnrolledUniversities().stream().map(UniversityDtoSimple::of).collect(Collectors.toSet());
     }
 }

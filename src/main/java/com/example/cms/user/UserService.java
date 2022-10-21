@@ -38,11 +38,11 @@ public class UserService {
     }
 
     public List<UserDtoSimple> getUsers() {
-        return userRepository.findAll().stream().map(UserDtoSimple::new).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(UserDtoSimple::of).collect(Collectors.toList());
     }
 
     public UserDtoDetailed getUser(Long id) {
-        return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
+        return userRepository.findById(id).map(UserDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 
     public UserDtoDetailed createUser(UserDtoFormCreate form) {
@@ -52,7 +52,7 @@ public class UserService {
 
         validatePassword(form.getPassword());
 
-        return new UserDtoDetailed(userRepository.save(form.toUser(passwordEncoder)));
+        return UserDtoDetailed.of(userRepository.save(form.toUser(passwordEncoder)));
     }
 
     private void validatePassword(String password) {
@@ -71,7 +71,7 @@ public class UserService {
 
         form.updateUser(user);
 
-        return new UserDtoDetailed(userRepository.save(user));
+        return UserDtoDetailed.of(userRepository.save(user));
     }
 
     public void deleteUser(Long id) {
@@ -81,7 +81,7 @@ public class UserService {
 
     public UserDtoDetailed getLoggedUser() {
         Long id = securityService.getPrincipal().orElseThrow(NotFoundException::new).getId();
-        return userRepository.findById(id).map(UserDtoDetailed::new).orElseThrow(NotFoundException::new);
+        return userRepository.findById(id).map(UserDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 
     public void modifyEnabledField(long id, boolean enabled) {
@@ -97,7 +97,7 @@ public class UserService {
         university.getEnrolledUsers().add(user);
 
         securityService.invalidateUserSession(userId);
-        return new UserDtoDetailed(userRepository.save(user));
+        return UserDtoDetailed.of(userRepository.save(user));
     }
 
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {

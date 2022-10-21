@@ -22,22 +22,22 @@ public class PageDtoSimple {
     private String createdOn;
     private String updatedOn;
 
-    private PageDtoSimple(Page page) {
-        id = page.getId();
-        title = page.getTitle();
-        description = page.getDescription();
-        creator = new UserDtoSimple(page.getCreator());
-        university = new UniversityDtoSimple(page.getUniversity());
-        hidden = page.isHidden();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);
-        updatedOn = page.getUpdatedOn().toLocalDateTime().format(formatter);
-    }
-
     public static PageDtoSimple of(Page page) {
         if (page == null) {
             return null;
         }
         return new PageDtoSimple(page);
+    }
+
+    private PageDtoSimple(Page page) {
+        id = page.getId();
+        title = page.getTitle();
+        description = page.getDescription();
+        creator = UserDtoSimple.of(page.getCreator());
+        university = UniversityDtoSimple.of(page.getUniversity());
+        hidden = page.isHidden();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);
+        updatedOn = page.getUpdatedOn().toLocalDateTime().format(formatter);
     }
 }

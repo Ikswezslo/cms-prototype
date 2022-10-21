@@ -35,7 +35,7 @@ public class User {
     private String lastName;
     @Email(message = "Email must be valid")
     private String email;
-    private String address;
+    private String address; // TODO: remove?
     @Pattern(message = "PhoneNumber must be valid", regexp = "^(\\+?\\d{3,12})?$")
     private String phoneNumber;
     private String description;

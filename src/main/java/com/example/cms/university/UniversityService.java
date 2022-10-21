@@ -41,12 +41,12 @@ public class UniversityService {
 
     public UniversityDtoDetailed getUniversity(Long id) {
         // TODO: return only if visible
-        return universityRepository.findById(id).map(UniversityDtoDetailed::new).orElseThrow(NotFoundException::new);
+        return universityRepository.findById(id).map(UniversityDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 
     public List<UniversityDtoSimple> getUniversities() {
         // TODO: return only visible universities
-        return universityRepository.findAll().stream().map(UniversityDtoSimple::new).collect(Collectors.toList());
+        return universityRepository.findAll().stream().map(UniversityDtoSimple::of).collect(Collectors.toList());
     }
 
     @Secured("ROLE_MODERATOR")
@@ -69,7 +69,7 @@ public class UniversityService {
             throw new ForbiddenException();
         }
 
-        return new UniversityDtoDetailed(universityRepository.save(newUniversity));
+        return UniversityDtoDetailed.of(universityRepository.save(newUniversity));
     }
 
     @Secured("ROLE_MODERATOR")
@@ -92,7 +92,7 @@ public class UniversityService {
 
         university.enrollUsers(user);
         University result = universityRepository.save(university);
-        return new UniversityDtoDetailed(result);
+        return UniversityDtoDetailed.of(result);
     }
 
     @Secured("ROLE_ADMIN") // TODO: Remove method?

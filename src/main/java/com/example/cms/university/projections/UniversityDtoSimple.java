@@ -16,7 +16,14 @@ public class UniversityDtoSimple implements Serializable {
     private String shortName;
     private boolean hidden;
 
-    public UniversityDtoSimple(University university) {
+    public static UniversityDtoSimple of(University university) {
+        if (university == null) {
+            return null;
+        }
+        return new UniversityDtoSimple(university);
+    }
+
+    private UniversityDtoSimple(University university) {
         id = university.getId();
         name = university.getName();
         shortName = university.getShortName();

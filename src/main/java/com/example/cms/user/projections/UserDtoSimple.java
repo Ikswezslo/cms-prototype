@@ -14,7 +14,14 @@ public class UserDtoSimple {
     private String firstName;
     private String lastName;
 
-    public UserDtoSimple(User user) {
+    public static UserDtoSimple of(User user) {
+        if (user == null) {
+            return null;
+        }
+        return new UserDtoSimple(user);
+    }
+
+    private UserDtoSimple(User user) {
         id = user.getId();
         username = user.getUsername();
         firstName = user.getFirstName();
