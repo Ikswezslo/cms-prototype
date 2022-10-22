@@ -12,6 +12,7 @@ import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import com.example.cms.validation.exceptions.UnauthorizedException;
 import com.example.cms.validation.exceptions.WrongDataStructureException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,7 +46,7 @@ public class UserService {
     }
 
     public UserDtoDetailed getLoggedUser() {
-        Long id = securityService.getPrincipal().orElseThrow(NotFoundException::new).getId();
+        Long id = securityService.getPrincipal().orElseThrow(UnauthorizedException::new).getId();
         return userRepository.findById(id).map(UserDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 

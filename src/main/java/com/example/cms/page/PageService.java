@@ -41,7 +41,8 @@ public class PageService {
             if (page.isHidden() && securityService.isForbiddenPage(page)) {
                 throw new ForbiddenException();
             }
-            if (page.getParent().isHidden() && securityService.isForbiddenPage(page.getParent())) {
+            if (page.getParent() != null && page.getParent().isHidden() &&
+                    securityService.isForbiddenPage(page.getParent())) {
                 page.setParent(null);
             }
             // TODO: set user and university to null if not visible (same as parent)
