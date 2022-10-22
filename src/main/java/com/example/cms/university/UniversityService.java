@@ -40,7 +40,7 @@ public class UniversityService {
     }
 
     public UniversityDtoDetailed getUniversity(Long id) {
-        // TODO: return only if visible
+        // TODO: return university only if visible
         return universityRepository.findById(id).map(UniversityDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 
@@ -59,13 +59,12 @@ public class UniversityService {
                 .orElseThrow(() -> {
                     throw new BadRequestException("Not found user");
                 });
-
-        if (!securityService.hasPermissionsToUser(creator)) {
+        if (securityService.isForbiddenUser(creator)) {
             throw new ForbiddenException();
         }
 
         University newUniversity = form.toUniversity(creator);
-        if (!securityService.hasPermissionsToUniversity(newUniversity)) {
+        if (securityService.isForbiddenUniversity(newUniversity)) {
             throw new ForbiddenException();
         }
 
@@ -75,7 +74,7 @@ public class UniversityService {
     @Secured("ROLE_MODERATOR")
     public void update(Long id, UniversityDtoFormUpdate form) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (!securityService.hasPermissionsToUniversity(university)) {
+        if (securityService.isForbiddenUniversity(university)) {
             throw new ForbiddenException();
         }
 
@@ -84,7 +83,7 @@ public class UniversityService {
     }
 
     @Transactional
-    @Secured("ROLE_ADMIN") // TODO: Remove method?
+    @Secured("ROLE_ADMIN") // TODO: remove UniversityService#enrollUsersToUniversity
     public UniversityDtoDetailed enrollUsersToUniversity(Long universityId, Long userId) {
 
         University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
@@ -95,7 +94,7 @@ public class UniversityService {
         return UniversityDtoDetailed.of(result);
     }
 
-    @Secured("ROLE_ADMIN") // TODO: Remove method?
+    @Secured("ROLE_ADMIN") // TODO: remove UniversityService#connectMainPageToUniversity
     public University connectMainPageToUniversity(Long universityId, Long pageId) {
 
         University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
@@ -108,7 +107,7 @@ public class UniversityService {
     @Secured("ROLE_MODERATOR")
     public void modifyHiddenField(Long id, boolean hidden) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (!securityService.hasPermissionsToUniversity(university)) {
+        if (securityService.isForbiddenUniversity(university)) {
             throw new ForbiddenException();
         }
 
@@ -119,7 +118,7 @@ public class UniversityService {
     @Secured("ROLE_MODERATOR")
     public void deleteUniversity(Long id) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (!securityService.hasPermissionsToUniversity(university)) {
+        if (securityService.isForbiddenUniversity(university)) {
             throw new ForbiddenException();
         }
 

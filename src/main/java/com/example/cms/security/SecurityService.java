@@ -3,10 +3,8 @@ package com.example.cms.security;
 import com.example.cms.page.Page;
 import com.example.cms.university.University;
 import com.example.cms.user.User;
-import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -23,32 +21,6 @@ public class SecurityService {
 
     public SecurityService(SessionRegistry sessionRegistry) {
         this.sessionRegistry = sessionRegistry;
-    }
-
-    public boolean hasRole(Role role) {
-        LoggedUser principal = getPrincipal().orElseThrow(UnauthorizedException::new);
-        String authority = String.format("ROLE_%s", role);
-        return principal.getAuthorities().contains(new SimpleGrantedAuthority(authority));
-    }
-
-    public void checkRole(Role role) {
-        if (!hasRole(role)) {
-            throw new ForbiddenException();
-        }
-    }
-
-    public boolean hasUniversity(Long id) {
-        if (hasRole(Role.ADMIN)) {
-            return true;
-        }
-        LoggedUser principal = getPrincipal().orElseThrow(UnauthorizedException::new);
-        return principal.getUniversities().contains(id);
-    }
-
-    public void checkUniversity(Long id) {
-        if (!hasUniversity(id)) {
-            throw new ForbiddenException();
-        }
     }
 
     public Optional<LoggedUser> getPrincipal() {
@@ -79,61 +51,61 @@ public class SecurityService {
         }
     }
 
-    public boolean hasPermissionsToPage(Page page) {
+    public boolean isForbiddenPage(Page page) {
         LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
         if (loggedUser.getAccountType() == Role.USER || loggedUser.getAccountType() == Role.MODERATOR) {
             if (!loggedUser.getUniversities().contains(page.getUniversity().getId())) {
-                return false;
+                return true;
             }
         }
         if (loggedUser.getAccountType() == Role.USER) {
             if (!page.getCreator().getId().equals(loggedUser.getId())) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public boolean hasPermissionsToUniversity(University university) {
+    public boolean isForbiddenUniversity(University university) {
         LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
         if (loggedUser.getAccountType() == Role.USER) {
-            return false;
+            return true;
         } else if (loggedUser.getAccountType() == Role.MODERATOR) {
             if (!loggedUser.getUniversities().contains(university.getId())) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public boolean hasPermissionsToUser(User user, boolean onlyDifferentUser) {
+    public boolean isForbiddenUser(User user, boolean onlyDifferentUser) {
         LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
 
-        if(onlyDifferentUser) {
+        if (onlyDifferentUser) {
             if (loggedUser.getId().equals(user.getId())) {
-                return false;
+                return true;
             }
         }
 
         if (loggedUser.getAccountType() == Role.USER) {
             if (!loggedUser.getId().equals(user.getId())) {
-                return false;
+                return true;
             }
         } else if (loggedUser.getAccountType() == Role.MODERATOR) {
             boolean sameUniversity = false;
-            for(long universityId : user.getEnrolledUniversities().stream().map(University::getId).collect(Collectors.toList())) {
+            for (long universityId : user.getEnrolledUniversities().stream().map(University::getId).collect(Collectors.toList())) {
                 if (loggedUser.getUniversities().contains(universityId)) {
                     sameUniversity = true;
                 }
             }
-            if(!sameUniversity) {
-                return false;
+            if (!sameUniversity) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public boolean hasPermissionsToUser(User user) {
-        return hasPermissionsToUser(user, false);
+    public boolean isForbiddenUser(User user) {
+        return isForbiddenUser(user, false);
     }
 }

@@ -38,18 +38,18 @@ public class PageService {
 
     public PageDtoDetailed get(Long id) {
         return pageRepository.findById(id).map(page -> {
-            if (page.isHidden() && !securityService.hasPermissionsToPage(page)) {
+            if (page.isHidden() && securityService.isForbiddenPage(page)) {
                 throw new ForbiddenException();
             }
-            if (page.getParent().isHidden() && !securityService.hasPermissionsToPage(page.getParent())) {
+            if (page.getParent().isHidden() && securityService.isForbiddenPage(page.getParent())) {
                 page.setParent(null);
             }
-            // TODO: check user and university
+            // TODO: set user and university to null if not visible (same as parent)
             return PageDtoDetailed.of(page, findVisibleSubpages(id));
         }).orElseThrow(NotFoundException::new);
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN") // TODO: remove PageService#getAll
     public List<PageDtoSimple> getAll(Pageable pageable) {
         return pageRepository.findAll(pageable).stream()
                 .map(PageDtoSimple::of)
@@ -106,17 +106,20 @@ public class PageService {
                 .orElseThrow(() -> {
                     throw new PageException(PageExceptionType.NOT_FOUND_PARENT);
                 });
+        if (parent.isHidden() && securityService.isForbiddenPage(parent)) {
+            throw new ForbiddenException();
+        }
+
         User creator = userRepository.findByUsername(form.getCreatorUsername())
                 .orElseThrow(() -> {
                     throw new PageException(PageExceptionType.NOT_FOUND_USER);
                 });
-
-        if (parent.isHidden() && !securityService.hasPermissionsToPage(parent)) {
+        if (securityService.isForbiddenUser(creator)) {
             throw new ForbiddenException();
         }
 
         Page newPage = form.toPage(parent, creator);
-        if (!securityService.hasPermissionsToPage(newPage)) {
+        if (securityService.isForbiddenPage(newPage)) {
             throw new ForbiddenException();
         }
 
@@ -126,7 +129,7 @@ public class PageService {
     @Secured("ROLE_USER")
     public void update(Long id, PageDtoFormUpdate form) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (!securityService.hasPermissionsToPage(page)) {
+        if (securityService.isForbiddenPage(page)) {
             throw new ForbiddenException();
         }
 
@@ -137,7 +140,7 @@ public class PageService {
     @Secured("ROLE_USER")
     public void modifyHiddenField(Long id, boolean hidden) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (!securityService.hasPermissionsToPage(page)) {
+        if (securityService.isForbiddenPage(page)) {
             throw new ForbiddenException();
         }
 
@@ -148,8 +151,7 @@ public class PageService {
     @Secured("ROLE_USER")
     public void modifyContentField(Long id, String content) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-
-        if (!securityService.hasPermissionsToPage(page)) {
+        if (securityService.isForbiddenPage(page)) {
             throw new ForbiddenException();
         }
 
@@ -160,7 +162,7 @@ public class PageService {
     @Secured("ROLE_USER")
     public void delete(Long id) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (!securityService.hasPermissionsToPage(page)) {
+        if (securityService.isForbiddenPage(page)) {
             throw new ForbiddenException();
         }
 

@@ -19,7 +19,7 @@ public class UniversityDtoDetailed {
     private String shortName;
     private boolean hidden;
     private PageDtoSimple mainPage;
-    private Set<UserDtoSimple> enrolledUsers; // TODO: remove?
+    private Set<UserDtoSimple> enrolledUsers; // TODO: remove enrolledUsers field
 
     public static UniversityDtoDetailed of(University university) {
         if (university == null) {

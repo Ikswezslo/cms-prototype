@@ -25,9 +25,9 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<UserDtoSimple> getUsers() {
-        return service.getUsers();
+    @GetMapping(path = "/{id}")
+    public UserDtoDetailed getUser(@PathVariable long id) {
+        return service.getUser(id);
     }
 
     @GetMapping("/logged")
@@ -35,13 +35,11 @@ public class UserController {
         return service.getLoggedUser();
     }
 
-    @Secured("ROLE_MODERATOR")
-    @GetMapping(path = "/{id}")
-    public UserDtoDetailed getUser(@PathVariable long id) {
-        return service.getUser(id);
+    @GetMapping
+    public List<UserDtoSimple> getUsers() {
+        return service.getUsers();
     }
 
-    @Secured("ROLE_USER")
     @PostMapping
     public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoFormCreate form) {
         UserDtoDetailed result = service.createUser(form);
@@ -53,21 +51,15 @@ public class UserController {
         return service.updateUser(id, form);
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteUser(@PathVariable long id) {
-        service.deleteUser(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/{userId}/universities")
+    public UserDtoDetailed addUniversityToUser(@PathVariable long userId, @RequestBody long universityId) {
+        return service.addUniversity(userId, universityId);
     }
 
     @PatchMapping("/{id}/enabled")
     ResponseEntity<Void> modifyUserEnabledField(@PathVariable long id, @RequestBody boolean enabled) {
         service.modifyEnabledField(id, enabled);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{userId}/universities")
-    public UserDtoDetailed addUniversityToUser(@PathVariable long userId, @RequestBody long universityId) {
-        return service.addUniversity(userId, universityId);
     }
 
     @PatchMapping("/{id}/password")
@@ -88,4 +80,9 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteUser(@PathVariable long id) {
+        service.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }

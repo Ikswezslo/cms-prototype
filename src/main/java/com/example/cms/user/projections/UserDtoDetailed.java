@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class UserDtoDetailed {
     private Long id;
     private String username;
-    private String password; // TODO: remove?
+    private String password; // TODO: remove password field
     private String firstName;
     private String lastName;
     private String email;
