@@ -3,8 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
 import {UserForm} from 'src/assets/models/user';
 import {UserService} from 'src/assets/service/user.service';
-import {RestError} from "../../../../assets/models/restError";
-import {ErrorHandleService} from "../../../../assets/service/error-handle.service";
+import {DialogService} from "../../../../assets/service/dialog.service";
 
 @Component({
   selector: 'app-dialog-user-create',
@@ -29,7 +28,7 @@ export class DialogUserCreateComponent implements OnInit {
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<DialogUserCreateComponent>,
-    private errorHandleService: ErrorHandleService
+    private dialogService: DialogService
   ) {
     dialogRef.disableClose = true;
   }
@@ -55,10 +54,9 @@ export class DialogUserCreateComponent implements OnInit {
         this.dialogRef.close(result);
       },
       error: err => {
-        let restError = err as RestError
         this.exiting = false;
-        if (restError.error === "Bad Request") {
-          this.errorHandleService.openDataErrorDialog(restError.message);
+        if (err.status === 400) {
+          this.dialogService.openDataErrorDialog(err.message);
         }
       }
     });

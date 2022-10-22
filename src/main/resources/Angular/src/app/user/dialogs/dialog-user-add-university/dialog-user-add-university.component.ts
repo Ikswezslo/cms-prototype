@@ -17,57 +17,62 @@ export class DialogUserAddUniversityComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data,
               private universityService: UniversityService,
               private userService: UserService) {
-        dialogRef.disableClose = true;
-    }
+    dialogRef.disableClose = true;
+  }
 
-    universityControl = new FormControl<string | University>('', [this.objectTypeValidator()]);
-    options: University[] = [];
-    filteredOptions!: Observable<University[]>;
-    exiting: boolean = false;
+  universityControl = new FormControl<string | University>('', [this.objectTypeValidator()]);
+  options: University[] = [];
+  filteredOptions!: Observable<University[]>;
+  exiting: boolean = false;
 
-    ngOnInit(): void {
-        this.loadUniversities();
+  ngOnInit(): void {
+    this.loadUniversities();
 
-        this.filteredOptions = this.universityControl.valueChanges.pipe(
-            startWith(''),
-            map(value => {
-                const name = typeof value === 'string' ? value : value?.name;
-                return name ? this._filter(name as string) : this.options.slice();
-            }),
-        );
-    }
+    this.filteredOptions = this.universityControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.name;
+        return name ? this._filter(name as string) : this.options.slice();
+      }),
+    );
+  }
 
-    private objectTypeValidator(): ValidatorFn {
-        return (control: AbstractControl): ValidationErrors | null => {
-            const valid = typeof control.value === "object";
-            return valid ? null : {forbiddenType: {value: control.value}};
-        };
-    }
+  private objectTypeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const valid = typeof control.value === "object";
+      return valid ? null : {forbiddenType: {value: control.value}};
+    };
+  }
 
-    loadUniversities() {
-        this.universityService.getUniversities()
-            .subscribe(res => {
-                this.options = res;
-                this.universityControl.setValue("");
-            });
-    }
+  loadUniversities() {
+    this.universityService.getUniversities()
+      .subscribe(res => {
+        this.options = res;
+        this.universityControl.setValue("");
+      });
+  }
 
-    displayFn(university: University): string {
-        return university && university.name ? university.name : '';
-    }
+  displayFn(university: University): string {
+    return university && university.name ? university.name : '';
+  }
 
-    private _filter(name: string): University[] {
-        const filterValue = name.toLowerCase();
+  private _filter(name: string): University[] {
+    const filterValue = name.toLowerCase();
 
-        return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
-    }
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
 
-    addUniversity(university: any) {
-        if (this.data.user) {
-            this.exiting = true;
-            this.userService.addUniversityToUser(this.data.user.id, university).subscribe(user => {
-                this.dialogRef.close(user);
-            })
+  addUniversity(university: any) {
+    if (this.data.user) {
+      this.exiting = true;
+      this.userService.addUniversityToUser(this.data.user.id, university).subscribe({
+        next: user => {
+          this.dialogRef.close(user);
+        },
+        error: () => {
+          this.exiting = false;
         }
+      })
     }
+  }
 }

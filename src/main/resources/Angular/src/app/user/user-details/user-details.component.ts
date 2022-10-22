@@ -7,20 +7,12 @@ import {PageService} from 'src/assets/service/page.service';
 import {UserService} from 'src/assets/service/user.service';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
-import {
-  DialogUserAddUniversityComponent
-} from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
-import {ErrorHandleService} from 'src/assets/service/error-handle.service';
-import {
-  DialogUserChangePasswordComponent
-} from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
-import {
-  DialogUserChangeUsernameComponent
-} from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
+import {DialogUserAddUniversityComponent} from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
+import {DialogService} from 'src/assets/service/dialog.service';
+import {DialogUserChangePasswordComponent} from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
+import {DialogUserChangeUsernameComponent} from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
 import {DialogUserUpdateComponent} from "../dialogs/dialog-user-update/dialog-user-update.component";
-import {
-  DialogUserChangeAccountTypeComponent
-} from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
+import {DialogUserChangeAccountTypeComponent} from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
 
 @Component({
   selector: 'app-user-details',
@@ -57,7 +49,7 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     public dialog: MatDialog,
-    private errorHandleService: ErrorHandleService,
+    private dialogService: DialogService,
     private pageService: PageService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -79,7 +71,7 @@ export class UserDetailsComponent implements OnInit {
           this.user = res;
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
         }
       });
   }
@@ -110,7 +102,7 @@ export class UserDetailsComponent implements OnInit {
           this.pages = res.filter(element => element.creator.id == userId);
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
         }
       });
   }
