@@ -1,9 +1,12 @@
 package com.example.cms.user;
 
+import com.example.cms.page.PageRepository;
 import com.example.cms.security.LoggedUser;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
 import com.example.cms.university.UniversityRepository;
+import com.example.cms.user.exceptions.UserException;
+import com.example.cms.user.exceptions.UserExceptionType;
 import com.example.cms.user.projections.UserDtoDetailed;
 import com.example.cms.user.projections.UserDtoForm;
 import com.example.cms.user.projections.UserDtoSimple;
@@ -19,12 +22,16 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final UniversityRepository universityRepository;
+    private final PageRepository pageRepository;
     private final PasswordEncoder passwordEncoder;
     private final SecurityService securityService;
 
     UserService(final UserRepository userRepository,
-                UniversityRepository universityRepository, PasswordEncoder passwordEncoder,
+                final UniversityRepository universityRepository,
+                final PageRepository pageRepository,
+                PasswordEncoder passwordEncoder,
                 SecurityService securityService) {
+        this.pageRepository = pageRepository;
         this.userRepository = userRepository;
         this.universityRepository = universityRepository;
         this.passwordEncoder = passwordEncoder;
@@ -59,6 +66,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        validateForDelete(user);
         userRepository.delete(user);
     }
 
@@ -101,5 +109,11 @@ public class UserService {
         university.getEnrolledUsers().add(user);
 
         return new UserDtoDetailed(userRepository.save(user));
+    }
+
+    private void validateForDelete(User user) {
+        if (pageRepository.existsByCreator(user)) {
+            throw new UserException(UserExceptionType.PAGES_EXISTS);
+        }
     }
 }
