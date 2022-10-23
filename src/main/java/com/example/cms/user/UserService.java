@@ -112,7 +112,7 @@ public class UserService {
         if (pageRepository.existsByCreator(user)) {
             throw new UserException(UserExceptionType.PAGES_EXISTS);
         }
-        
+    }
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {
         if (!passwordMap.containsKey("oldPassword") || !passwordMap.containsKey("newPassword")) {
             throw new BadRequestException("Wrong body structure");
