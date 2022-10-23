@@ -30,7 +30,7 @@ import {PageDetailsComponent} from './page/page-details/page-details.component';
 import {PageListComponent} from './page/page-list/page-list.component';
 import {UniversityListComponent} from './university/university-list/university-list.component';
 import {UniversityDetailsComponent} from './university/university-details/university-details.component';
-import {DialogUserCreateComponent} from './user/dialog-user-create/dialog-user-create.component';
+import {DialogUserCreateComponent} from './user/dialogs/dialog-user-create/dialog-user-create.component';
 import {LoginComponent} from './login/login.component';
 import {UserSettingsComponent} from './user/user-settings/user-settings.component';
 import {
@@ -51,8 +51,21 @@ import {UniversityCardComponent} from './university/university-card/university-c
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 import {SpinnerComponent} from './spinner/spinner.component';
-import {DialogUserAddUniversityComponent} from './user/dialog-user-add-university/dialog-user-add-university.component';
+import {
+  DialogUserAddUniversityComponent
+} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {
+  DialogUserChangePasswordComponent
+} from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
+import {SuccessDialogComponent} from './dialog/success-dialog/success-dialog.component';
+import {
+  DialogUserChangeUsernameComponent
+} from './user/dialogs/dialog-user-change-username/dialog-user-change-username.component';
+import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialog-user-update.component';
+import {
+  DialogUserChangeAccountTypeComponent
+} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +92,11 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     ErrorDialogComponent,
     SpinnerComponent,
     DialogUserAddUniversityComponent,
+    DialogUserChangePasswordComponent,
+    SuccessDialogComponent,
+    DialogUserChangeUsernameComponent,
+    DialogUserUpdateComponent,
+    DialogUserChangeAccountTypeComponent,
   ],
   imports: [
     BrowserModule,

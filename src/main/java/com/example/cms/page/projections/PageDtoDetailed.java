@@ -23,7 +23,7 @@ public class PageDtoDetailed {
     String createdOn;
     String updatedOn;
 
-    public PageDtoDetailed(Page page) {
+    public PageDtoDetailed(Page page, Set<Page> children) {
         id = page.getId();
         title = page.getTitle();
         description = page.getDescription();
@@ -35,7 +35,7 @@ public class PageDtoDetailed {
         parent = (page.getParent() == null) ? null :
                 new PageDtoSimple(page.getParent());
 
-        children = page.getChildren().stream().map(PageDtoSimple::new).collect(Collectors.toSet());
+        this.children = children.stream().map(PageDtoSimple::new).collect(Collectors.toSet());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);

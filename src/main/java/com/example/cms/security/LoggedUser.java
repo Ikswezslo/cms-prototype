@@ -1,6 +1,8 @@
 package com.example.cms.security;
 
+import com.example.cms.university.University;
 import com.example.cms.user.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,19 +13,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LoggedUser implements UserDetails {
-
-    private final transient User user;
+    @Getter
+    private final Long id;
+    @Getter
+    private final Role accountType;
+    @Getter
+    private final List<Long> universities;
+    private final String username;
+    private final String password;
+    private final boolean enabled;
 
     public LoggedUser(User user) {
-        this.user = user;
+        id = user.getId();
+        username = user.getUsername();
+        password = user.getPassword();
+        accountType = user.getAccountType();
+        enabled = user.isEnabled();
+        universities = user.getEnrolledUniversities().stream().map(University::getId).collect(Collectors.toList());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.addAll(createRoleAuthorities(user.getAccountType()));
-        authorities.addAll(user.getEnrolledUniversities().stream().map((
-                        university -> new SimpleGrantedAuthority(String.format("UNIVERSITY_%d", university.getId()))))
+        authorities.addAll(createRoleAuthorities(accountType));
+        authorities.addAll(universities.stream()
+                .map((universityId -> new SimpleGrantedAuthority(String.format("UNIVERSITY_%d", universityId))))
                 .collect(Collectors.toList())
         );
         return authorities;
@@ -52,12 +66,12 @@ public class LoggedUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     @Override
@@ -77,6 +91,6 @@ public class LoggedUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+        return enabled;
     }
 }

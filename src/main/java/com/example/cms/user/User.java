@@ -7,7 +7,10 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,30 +27,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    @NotEmpty
+    @NotEmpty(message = "Username must not be empty")
     private String username;
-    @NotEmpty
+    @NotEmpty(message = "Password must not be empty")
     private String password;
     private String firstName;
     private String lastName;
+    @Email(message = "Email must be valid")
     private String email;
     private String address;
+    @Pattern(message = "PhoneNumber must be valid", regexp = "^(\\+?\\d{3,12})?$")
     private String phoneNumber;
+    private String description;
+    @NotNull(message = "Account type must not be null")
     private Role accountType;
     private boolean enabled;
-
-    public void updateUser(final User user) {
-        this.username = user.username;
-        this.password = user.password;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
-        this.address = user.address;
-        this.phoneNumber = user.phoneNumber;
-        this.accountType = user.accountType;
-        this.enabled = user.enabled;
-    }
-
     @Override
     public String toString() {
         return "User{" +

@@ -1,7 +1,9 @@
 package com.example.cms.user;
 
+import com.example.cms.security.Role;
 import com.example.cms.user.projections.UserDtoDetailed;
-import com.example.cms.user.projections.UserDtoForm;
+import com.example.cms.user.projections.UserDtoFormCreate;
+import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -28,7 +31,6 @@ public class UserController {
     }
 
     @GetMapping("/logged")
-    @Secured("ROLE_USER")
     public UserDtoDetailed getLoggedUser() {
         return service.getLoggedUser();
     }
@@ -41,13 +43,13 @@ public class UserController {
 
     @Secured("ROLE_USER")
     @PostMapping
-    public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoForm form) {
+    public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoFormCreate form) {
         UserDtoDetailed result = service.createUser(form);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @PutMapping("/{id}")
-    UserDtoDetailed updateUser(@PathVariable long id, @RequestBody UserDtoForm form) {
+    UserDtoDetailed updateUser(@PathVariable long id, @RequestBody UserDtoFormUpdate form) {
         return service.updateUser(id, form);
     }
 
@@ -67,4 +69,23 @@ public class UserController {
     public UserDtoDetailed addUniversityToUser(@PathVariable long userId, @RequestBody long universityId) {
         return service.addUniversity(userId, universityId);
     }
+
+    @PatchMapping("/{id}/password")
+    ResponseEntity<Void> modifyUserPasswordField(@PathVariable long id, @RequestBody Map<String, String> passwordMap) {
+        service.modifyPasswordField(id, passwordMap);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/username")
+    ResponseEntity<Void> modifyUserUsernameField(@PathVariable long id, @RequestBody String username) {
+        service.modifyUsernameField(id, username);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/accountType")
+    ResponseEntity<Void> modifyUserAccountTypeField(@PathVariable long id, @RequestBody Map<String, Role> accountType) {
+        service.modifyAccountTypeField(id, accountType);
+        return ResponseEntity.noContent().build();
+    }
+
 }

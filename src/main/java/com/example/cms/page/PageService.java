@@ -5,6 +5,7 @@ import com.example.cms.page.exceptions.PageExceptionType;
 import com.example.cms.page.projections.PageDtoDetailed;
 import com.example.cms.page.projections.PageDtoForm;
 import com.example.cms.page.projections.PageDtoSimple;
+import com.example.cms.security.LoggedUser;
 import com.example.cms.security.SecurityService;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,18 +39,43 @@ public class PageService {
     }
 
     public List<PageDtoSimple> getAllVisible(Pageable pageable) {
-        return pageRepository.findByHiddenFalse(pageable).stream()
+        Optional<LoggedUser> loggedUserOptional = securityService.getPrincipal();
+        List<Page> pages;
+        if (loggedUserOptional.isEmpty()) {
+            pages = pageRepository.findVisible(pageable);
+        } else {
+            LoggedUser loggedUser = loggedUserOptional.get();
+            pages = pageRepository.findVisible(
+                    pageable,
+                    String.valueOf(loggedUser.getAccountType()),
+                    loggedUser.getUniversities(),
+                    loggedUser.getId());
+        }
+        return pages.stream()
                 .map(PageDtoSimple::new)
                 .collect(Collectors.toList());
     }
 
     public PageDtoDetailed get(Long id) {
-        return pageRepository.findById(id).map(PageDtoDetailed::new)
+        Optional<LoggedUser> optionalLoggedUser = securityService.getPrincipal();
+        Set<Page> children;
+        if (optionalLoggedUser.isEmpty()) {
+            children = pageRepository.findChildren(id);
+        } else {
+            LoggedUser loggedUser = optionalLoggedUser.get();
+            children = pageRepository.findChildren(
+                    id,
+                    String.valueOf(loggedUser.getAccountType()),
+                    loggedUser.getUniversities(),
+                    loggedUser.getId());
+        }
+
+        return pageRepository.findById(id).map(page -> new PageDtoDetailed(page, children))
                 .orElseThrow(NotFoundException::new);
     }
 
     public PageDtoDetailed save(PageDtoForm form) {
-        return new PageDtoDetailed(pageRepository.save(formToPage(form)));
+        return new PageDtoDetailed(pageRepository.save(formToPage(form)), Set.of());
     }
 
     public void update(Long id, PageDtoForm form) {

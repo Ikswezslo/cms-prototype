@@ -3,6 +3,7 @@ package com.example.cms.user.exceptions;
 import com.example.cms.validation.exceptions.BadRequestException;
 
 public class UserException extends BadRequestException {
+
     public UserException(UserExceptionType type) {
         super(getMessage(type));
     }
