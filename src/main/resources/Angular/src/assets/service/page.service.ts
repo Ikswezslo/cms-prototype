@@ -66,4 +66,9 @@ export class PageService {
     return this.http.post<Page>(this.pageUrl, Page, this.httpOptions)
       .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  getCreatorPages(userId: Number, defaultErrorHandling: boolean = true): Observable<Page[]> {
+    return this.http.get<Page[]>(`${this.pageUrl}/creator/${userId}`, this.httpOptions)
+      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }

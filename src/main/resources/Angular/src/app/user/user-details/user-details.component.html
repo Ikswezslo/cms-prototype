@@ -31,12 +31,12 @@
   </button>
   <button *ngIf="loggedUser != null && loggedUser.accountType != 'USER'  && user != null && user.enabled" mat-menu-item
           (click)="activeUser()">
-    <mat-icon>visibility-off</mat-icon>
+    <mat-icon>visibility_on</mat-icon>
     <span>Activate</span>
   </button>
   <button *ngIf="loggedUser != null && loggedUser.accountType != 'USER'  && user != null && !user.enabled" mat-menu-item
           (click)="activeUser()">
-    <mat-icon>visibility-on</mat-icon>
+    <mat-icon>visibility_off</mat-icon>
     <span>Deactivate</span>
   </button>
   <button *ngIf="user" mat-menu-item>

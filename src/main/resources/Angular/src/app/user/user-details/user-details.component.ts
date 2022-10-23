@@ -93,10 +93,10 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadPages(userId: Number) {
-    this.pageService.getPages()
+    this.pageService.getCreatorPages(userId)
       .subscribe({
         next: res => {
-          this.pages = res.filter(element => element.creator.id == userId);
+          this.pages = res;
         },
         error: err => {
           this.errorHandleService.openDataErrorDialog();
