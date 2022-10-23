@@ -6,8 +6,9 @@ import {University} from 'src/assets/models/university';
 import {UniversityService} from 'src/assets/service/university.service';
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
 import {MatDialog} from "@angular/material/dialog";
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { SpinnerService } from 'src/assets/service/spinner.service';
+import {ErrorHandleService} from 'src/assets/service/error-handle.service';
+import {SpinnerService} from 'src/assets/service/spinner.service';
+import {take} from 'rxjs';
 
 @Component({
   selector: 'app-university-list',
@@ -42,17 +43,19 @@ export class UniversityListComponent implements OnInit {
 
   loadUniversities(showHidden: Boolean = false) {
     this.spinnerService.show();
-    this.universityService.getUniversities()
+    this.universityService.getUniversities().pipe(take(1))
       .subscribe({
         next: res => {
           this.spinnerService.hide();
-        this.universities = showHidden ? res : res.filter(element => !element.hidden);
+          this.universities = showHidden ? res : res.filter(element => !element.hidden);
         },
         error: err => {
           this.spinnerService.hide();
           this.errorHandleService.openDataErrorDialog();
-      }});
-    this.gridApi.sizeColumnsToFit();
+        }
+      });
+    if (this.gridApi)
+      this.gridApi.sizeColumnsToFit();
   }
 
   loadColumn() {
@@ -66,7 +69,7 @@ export class UniversityListComponent implements OnInit {
   addUniversity(){
     const dialogRef = this.dialog.open(DialogUniversityCreateComponent, {});
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result)
         return;
       this.loadUniversities();
