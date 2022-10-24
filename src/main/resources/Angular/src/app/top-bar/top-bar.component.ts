@@ -4,10 +4,10 @@ import {zip} from 'rxjs';
 import {Page} from 'src/assets/models/page';
 import {University} from 'src/assets/models/university';
 import {User} from 'src/assets/models/user';
-import {DialogService} from 'src/assets/service/dialog.service';
 import {UniversityService} from 'src/assets/service/university.service';
-import {UserService} from 'src/assets/service/user.service';
 import {PageService} from '../../assets/service/page.service';
+import {DialogService} from 'src/assets/service/dialog.service';
+import {UserService} from 'src/assets/service/user.service';
 import {ErrorHandlerService} from "../../assets/service/error-handler.service";
 
 @Component({
@@ -18,7 +18,7 @@ import {ErrorHandlerService} from "../../assets/service/error-handler.service";
 export class TopBarComponent implements OnInit {
 
   logged = false;
-  userLogged!: User;
+  public userLogged!: User | null;
   imageSrc = 'src/assets/images/logo.jpg'
   universities: University[] = [];
   users: User[] = [];
@@ -35,9 +35,20 @@ export class TopBarComponent implements OnInit {
 
   ngOnInit(): void {
 
+    if (this.userService.loggedUser) {
+      this.userLogged = this.userService.loggedUser;
+      this.logged = true;
+    } else {
+      this.userLogged = null;
+      this.logged = false;
+    }
+  }
+
+  getLoggedUser() {
     this.userService.getLoggedUser(false)
       .subscribe({
         next: res => {
+          this.userService.loggedUser = res
           this.userLogged = res;
           this.logged = true;
         },
@@ -68,9 +79,11 @@ export class TopBarComponent implements OnInit {
 
   logout() {
     this.logged = false;
+    this.userLogged = null;
+    this.userService.loggedUser = null;
+    window.location.replace('');
     this.userService.logout(false).subscribe({
       next: user => {
-        this.router.navigateByUrl('');
       },
       error: err => {
       }

@@ -12,7 +12,7 @@ export class UserService {
 
   private userUrl = 'http://localhost:8080/users';
 
-  public loggedUser!: User;
+  public loggedUser!: User | null;
 
   httpOptions = {
     withCredentials: true

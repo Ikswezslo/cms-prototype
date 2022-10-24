@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {MatMenuModule} from '@angular/material/menu';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -66,6 +66,12 @@ import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialo
 import {
   DialogUserChangeAccountTypeComponent
 } from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
+import {SetupService} from 'src/assets/service/setup.service';
+
+
+export function SetupApp(setup: SetupService) {
+  return () => setup.initliaze();
+}
 
 @NgModule({
   declarations: [
@@ -119,18 +125,18 @@ import {
     FlexLayoutModule,
     QuillModule.forRoot(),
     RouterModule.forRoot([
-      {path: '', component: MainPageComponent},
-      {path: 'universities', component: UniversityListComponent},
-      {path: 'university/:universityId', component: UniversityDetailsComponent},
-      {path: 'accounts', component: UsersListComponent},
-      {path: 'accounts/create', component: DialogUserCreateComponent},
-      {path: 'accounts/settings', component: UserSettingsComponent},
-      {path: 'account/:userId', component: UserDetailsComponent},
-      {path: 'pages', component: PageListComponent},
-      {path: 'page/:pageId', component: PageDetailsComponent},
-      {path: 'page/:pageId/edit', component: QuillEditorComponent},
+      {path: '', component: MainPageComponent, title: 'Strona główna'},
+      {path: 'universities', component: UniversityListComponent, title: 'Uniwersytety'},
+      {path: 'university/:universityId', component: UniversityDetailsComponent, title: 'Szczegóły uniwersytetu'},
+      {path: 'accounts', component: UsersListComponent, title: 'Użytkownicy'},
+      {path: 'accounts/create', component: DialogUserCreateComponent, title: 'Stwórz użytkownika'},
+      {path: 'accounts/settings', component: UserSettingsComponent, title: 'Ustawienia'},
+      {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
+      {path: 'pages', component: PageListComponent, title: 'Strony'},
+      {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
+      {path: 'page/:pageId/edit', component: QuillEditorComponent, title: 'Edycja strony'},
       {path: 'pages/:userId', component: PageUserComponent},
-      {path: 'login', component: LoginComponent}
+      {path: 'login', component: LoginComponent, title: 'Logowanie'}
     ]),
     BrowserAnimationsModule,
     BrowserModule,
@@ -147,7 +153,14 @@ import {
     MatExpansionModule,
     MatAutocompleteModule
   ],
-  providers: [],
+  providers: [
+    SetupService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: SetupApp,
+      deps: [SetupService],
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
