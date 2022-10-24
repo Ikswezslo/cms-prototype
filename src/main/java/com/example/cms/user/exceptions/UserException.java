@@ -1,6 +1,5 @@
 package com.example.cms.user.exceptions;
 
-
 import com.example.cms.validation.exceptions.BadRequestException;
 
 public class UserException extends BadRequestException {
@@ -11,16 +10,8 @@ public class UserException extends BadRequestException {
 
     private static String getMessage(UserExceptionType type) {
         switch (type) {
-            case NOT_FOUND_UNIVERSITY:
-                return "University was not found";
-            case USERNAME_TAKEN:
-                return "Username already taken";
-            case WRONG_PASSWORD:
-                return "Password is wrong";
-            case SAME_PASSWORD:
-                return "New password cannot be the same";
-            case NOT_VALID_PASSWORD:
-                return "Password must be valid";
+            case PAGES_EXISTS:
+                return "You cannot delete user if pages which he created exist";
         }
         return "Unknown bad request";
     }

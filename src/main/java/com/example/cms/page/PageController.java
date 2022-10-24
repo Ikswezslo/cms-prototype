@@ -40,6 +40,11 @@ public class PageController {
         return service.getAllVisible(pageable);
     }
 
+    @GetMapping("/creator/{userId}")
+    List<PageDtoSimple> readCreatorPages(@PathVariable long userId, Pageable pageable) {
+        return service.getCreatorPages(pageable, userId);
+    }
+
     @PostMapping
     ResponseEntity<PageDtoDetailed> createPage(@RequestBody PageDtoForm form) {
         PageDtoDetailed result = service.save(form);

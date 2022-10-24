@@ -84,4 +84,9 @@ export class UserService {
     return this.http.patch<void>(`${this.userUrl}/${id}/accountType`, {accountType: accountType}, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  deleteUser(id: Number, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.delete<void>(`${this.userUrl}/${id}`, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }
