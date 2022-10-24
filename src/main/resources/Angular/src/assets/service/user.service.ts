@@ -87,6 +87,6 @@ export class UserService {
 
   deleteUser(id: Number, defaultErrorHandling: boolean = true): Observable<void> {
     return this.http.delete<void>(`${this.userUrl}/${id}`, this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

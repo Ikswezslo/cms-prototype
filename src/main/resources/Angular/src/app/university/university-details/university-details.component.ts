@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {University} from 'src/assets/models/university';
-import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 import {DialogService} from 'src/assets/service/dialog.service';
 import {UniversityService} from 'src/assets/service/university.service';
 import {User} from "../../../assets/models/user";
@@ -10,7 +9,6 @@ import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../../user/user-card/user-card.component";
 import {UniversityCardConfig} from "../university-card/university-card.component";
 import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
 import {PageService} from "../../../assets/service/page.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -45,7 +43,7 @@ export class UniversityDetailsComponent implements OnInit {
     useSecondaryColor: false,
     showGoToButton: true,
     showDescription: true,
-  }
+  };
 
   constructor(
     private router: Router,
@@ -53,11 +51,8 @@ export class UniversityDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private universityService: UniversityService,
     private pageService: PageService,
-    private errorHandleService: ErrorHandleService,
-    private userService: UserService) {
-    private dialogService: DialogService,
     private userService: UserService,
-    public dialog: MatDialog) {
+    private dialogService: DialogService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 

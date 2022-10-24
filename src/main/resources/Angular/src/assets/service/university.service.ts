@@ -44,7 +44,6 @@ export class UniversityService {
 
   deleteUniversity(id: Number, defaultErrorHandling: boolean = true): Observable<void> {
     return this.http.delete<void>(`${this.universityUrl}/${id}`, this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
