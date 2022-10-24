@@ -2,13 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {zip} from 'rxjs';
 import {Page} from 'src/assets/models/page';
-import {RestErrorHandler} from 'src/assets/models/restError';
 import {University} from 'src/assets/models/university';
 import {User} from 'src/assets/models/user';
-import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 import {UniversityService} from 'src/assets/service/university.service';
-import {UserService} from 'src/assets/service/user.service';
 import {PageService} from '../../assets/service/page.service';
+import {DialogService} from 'src/assets/service/dialog.service';
+import {UserService} from 'src/assets/service/user.service';
+import {ErrorHandlerService} from "../../assets/service/error-handler.service";
 
 @Component({
   selector: 'app-top-bar',
@@ -20,7 +20,7 @@ export class TopBarComponent implements OnInit {
   logged = false;
   public userLogged!: User | null;
   imageSrc = 'src/assets/images/logo.jpg'
-  universities: University[]= [];
+  universities: University[] = [];
   users: User[] = [];
   pages: Page[] = [];
 
@@ -28,8 +28,9 @@ export class TopBarComponent implements OnInit {
     private router: Router,
     private pageService: PageService,
     private userService: UserService,
-    private errorHandleService: ErrorHandleService,
-    private universityService: UniversityService) {
+    private dialogService: DialogService,
+    private universityService: UniversityService,
+    private errorHandler: ErrorHandlerService) {
   }
 
   ngOnInit(): void {
@@ -53,8 +54,8 @@ export class TopBarComponent implements OnInit {
         },
         error: err => {
           if (err.status != "401")
-            RestErrorHandler.handleError(err);
-          //this.errorHandleService.openLoggedUserErrorDialog();
+            this.errorHandler.handleError(err);
+          //this.dialogService.openLoggedUserErrorDialog();
         }
       })
   }
@@ -71,7 +72,7 @@ export class TopBarComponent implements OnInit {
         this.users = usersRes;
       },
       error: err => {
-        this.errorHandleService.openDataErrorDialog()
+        this.dialogService.openDataErrorDialog()
       }
     });
   }

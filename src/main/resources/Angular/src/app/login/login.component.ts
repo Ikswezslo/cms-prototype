@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {RestErrorHandler} from 'src/assets/models/restError';
 import {UserService} from 'src/assets/service/user.service';
+import {ErrorHandlerService} from "../../assets/service/error-handler.service";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
   showSpinner = false;
 
   constructor(private userService: UserService,
-              private router: Router) {
+    private router: Router,
+    private errorHandler: ErrorHandlerService) {
   }
 
   ngOnInit(): void {
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
         if (err.status == "401") {
           this.user = {username: '', password: ''};
         } else
-          RestErrorHandler.handleError(err);
+            this.errorHandler.handleError(err);
       }
     });
   }

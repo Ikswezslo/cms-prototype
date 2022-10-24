@@ -6,9 +6,9 @@ import {University} from 'src/assets/models/university';
 import {UniversityService} from 'src/assets/service/university.service';
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
 import {MatDialog} from "@angular/material/dialog";
-import {ErrorHandleService} from 'src/assets/service/error-handle.service';
 import {SpinnerService} from 'src/assets/service/spinner.service';
 import {take} from 'rxjs';
+import {DialogService} from 'src/assets/service/dialog.service';
 
 @Component({
   selector: 'app-university-list',
@@ -31,7 +31,7 @@ export class UniversityListComponent implements OnInit {
 };
   constructor(
     private router: Router,
-    private errorHandleService: ErrorHandleService,
+    private dialogService: DialogService,
     private spinnerService: SpinnerService,
     private universityService: UniversityService,
     public dialog: MatDialog) {}
@@ -51,11 +51,9 @@ export class UniversityListComponent implements OnInit {
         },
         error: err => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog();
-        }
-      });
-    if (this.gridApi)
-      this.gridApi.sizeColumnsToFit();
+          this.dialogService.openDataErrorDialog();
+      }});
+    this.gridApi.sizeColumnsToFit();
   }
 
   loadColumn() {
