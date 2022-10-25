@@ -48,6 +48,9 @@ public class University {
     @Column(unique = true)
     @NotBlank(message = "Short name must not be empty")
     private String shortName;
+
+    @NotBlank(message = "Description must not be empty")
+    private String description;
     private boolean hidden;
 
     @Override
@@ -80,6 +83,7 @@ public class University {
     public void updateFrom(final University source){
         name = source.getName();
         shortName = source.getShortName();
+        description = source.getDescription();
         hidden = source.isHidden();
         mainPage = source.getMainPage();
         enrolledUsers = source.getEnrolledUsers();
@@ -88,5 +92,6 @@ public class University {
     void updateFromEditedForm(UniversityDtoForm form){
         name = form.getName();
         shortName = form.getShortName();
+        description = form.getDescription();
     }
 }

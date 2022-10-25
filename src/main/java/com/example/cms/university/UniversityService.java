@@ -75,6 +75,7 @@ public class UniversityService {
 
         university.setName(form.getName());
         university.setShortName(form.getShortName());
+        university.setDescription(form.getDescription());
         university.setHidden(true);
 
         Page page = new Page();
@@ -84,7 +85,7 @@ public class UniversityService {
         page.setHidden(true);
         page.setUniversity(university);
 
-        User creator = userRepository.findByUsername(form.getCreatorUsername())
+        User creator = userRepository.findById(form.getCreatorId())
                 .orElseThrow(() -> {
                     throw new BadRequestException("Not found user");
                 });
@@ -123,9 +124,6 @@ public class UniversityService {
         }
     }
 
-    public UniversityDtoDetailed save(UniversityDtoForm form){
-        return new UniversityDtoDetailed(universityRepository.save(formToUniversity(form)));
-    }
     public void update(Long id, UniversityDtoForm form) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
         university.updateFromEditedForm(form);

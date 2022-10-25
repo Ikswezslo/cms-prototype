@@ -52,7 +52,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("tutaj");
     const routeParams = this.route.snapshot.paramMap;
     this.id = this.settingsId ?? Number(routeParams.get('userId'));
     this.loadUser();

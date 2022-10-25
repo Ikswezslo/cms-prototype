@@ -10,10 +10,10 @@ import {University, UniversityForm} from 'src/assets/models/university';
   styleUrls: ['./dialog-university-create.component.scss']
 })
 export class DialogUniversityCreateComponent implements OnInit {
-
-  university = {} as UniversityForm;
+  readonly university = {} as UniversityForm;
   nameValid = new FormControl('', Validators["required"]);
   shortNameValid = new FormControl('', Validators["required"]);
+  descriptionValid = new FormControl('', Validators["required"]);
   edit = false;
 
   constructor(
@@ -23,25 +23,30 @@ export class DialogUniversityCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.edit = this.data.edit ?? this.edit;
+    this.changeUniversityToForm();
+    this.university.creatorUsername = "admin";  //TODO: Pobrać aktualnego użytkownika skądś
+  }
+
+  changeUniversityToForm(){
     this.university.id = this.data.university?.id ?? this.university.id;
     this.university.name = this.data.university?.name ?? this.university.name;
     this.university.shortName = this.data.university?.shortName ?? this.university.shortName;
-    this.university.creatorUsername = "admin";  //TODO: Pobrać aktualnego użytkownika skądś
+    this.university.description = this.data.university?.description ?? this.university.description;
   }
   close() {
     this.dialog.closeAll()
   }
   createUniversity(){
-    if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID'){
+    if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
       this.universityService.addNewUniversity(this.university).subscribe({next: university => console.log(university)});
+      this.close();
     }
-    this.close();
   }
   editUser() {
-    if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID'){
+    if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
       this.universityService.editUniversity(this.university).subscribe({next: university => console.log(university)});
+      this.close();
     }
-    this.close();
   }
 }
 

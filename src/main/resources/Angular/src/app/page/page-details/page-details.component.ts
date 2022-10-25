@@ -9,7 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { ErrorDialogComponent } from 'src/app/dialog/error-dialog/error-dialog.component';
+import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
 
 @Component({
   selector: 'app-page-details',
@@ -17,7 +17,6 @@ import { ErrorDialogComponent } from 'src/app/dialog/error-dialog/error-dialog.c
   styleUrls: ['./page-details.component.scss']
 })
 export class PageDetailsComponent implements OnInit {
-
   public page!: Page;
   public id: Number = 0;
   public pageHtml: any;
@@ -95,8 +94,39 @@ export class PageDetailsComponent implements OnInit {
   }
 
   addPage() {
-    const dialogRef = this.dialog.open(DialogPageCreateComponent, {data:{parentId: this.page.id}});
+    let dialogData = {
+      data: {
+        edit: false,
+        page: this.page
+      }
+    }
+    const dialogRef = this.dialog.open(DialogPageCreateComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
+  }
 
+  editPage() {
+    let dialogData = {
+      data: {
+        edit: true,
+        page: this.page
+      }
+    }
+    const dialogRef = this.dialog.open(DialogPageCreateComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
+  }
+
+  changePageCreator(){
+    let dialogData = {
+      data: {
+        id: this.page.id,
+        username: this.page.creator.username
+      }
+    }
+    const dialogRef = this.dialog.open(DialogPageCreatorComponent, dialogData);
     dialogRef.afterClosed().subscribe(() => {
       this.loadPage();
     });

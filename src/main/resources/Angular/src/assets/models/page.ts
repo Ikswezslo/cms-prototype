@@ -15,6 +15,7 @@ export interface Page {
     updatedOn: string;
 }
 export interface PageForm{
+  id: number;
   title: string;
   description: string;
   content: string;

@@ -53,6 +53,7 @@ import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component
 import {SpinnerComponent} from './spinner/spinner.component';
 import {DialogUserAddUniversityComponent} from './user/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-page-creator.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     ErrorDialogComponent,
     SpinnerComponent,
     DialogUserAddUniversityComponent,
+    DialogPageCreatorComponent,
   ],
   imports: [
     BrowserModule,
