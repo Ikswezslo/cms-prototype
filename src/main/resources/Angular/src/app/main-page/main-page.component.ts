@@ -1,10 +1,9 @@
-import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {PageService} from "../../assets/service/page.service";
 import {Page} from "../../assets/models/page";
 import {PageCardConfig} from "../page/page-card/page-card.component";
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { SpinnerService } from 'src/assets/service/spinner.service';
+import {DialogService} from 'src/assets/service/dialog.service';
+import {SpinnerService} from 'src/assets/service/spinner.service';
 
 @Component({
   selector: 'app-main-page',
@@ -23,7 +22,7 @@ export class MainPageComponent implements OnInit {
     showAuthor: true
   };
 
-  constructor(private errorHandleService: ErrorHandleService,
+  constructor(private dialogService: DialogService,
               private spinnerService: SpinnerService,
               private pageService: PageService) {
   }
@@ -42,8 +41,8 @@ export class MainPageComponent implements OnInit {
         },
         error: err => {
           this.spinnerService.hide();
-          if (err.status != "401")
-            this.errorHandleService.openDataErrorDialog();
+          if (err.status !== 401)
+            this.dialogService.openDataErrorDialog();
         }
       });
   }

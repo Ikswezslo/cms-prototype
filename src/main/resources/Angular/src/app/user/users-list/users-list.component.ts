@@ -3,10 +3,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {ColDef, GridApi, RowSelectedEvent} from 'ag-grid-community';
 import {User} from 'src/assets/models/user';
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { SpinnerService } from 'src/assets/service/spinner.service';
+import {DialogService} from 'src/assets/service/dialog.service';
+import {SpinnerService} from 'src/assets/service/spinner.service';
 import {UserService} from 'src/assets/service/user.service';
-import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
+import {DialogUserCreateComponent} from '../dialogs/dialog-user-create/dialog-user-create.component';
 
 @Component({
   selector: 'app-users-list',
@@ -26,7 +26,7 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private errorHandleService: ErrorHandleService,
+    private dialogService: DialogService,
     private userService: UserService,
     private spinnerService: SpinnerService,
     public dialog: MatDialog) { }
@@ -47,7 +47,7 @@ export class UsersListComponent implements OnInit {
         },
         error: err => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
         }
       });
   }

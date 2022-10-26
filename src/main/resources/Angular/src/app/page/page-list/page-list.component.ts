@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ColDef, ColumnApi, GridApi, RowSelectedEvent } from 'ag-grid-community';
-import { Page } from 'src/assets/models/page';
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
-import { SpinnerService } from 'src/assets/service/spinner.service';
-import { PageService } from '../../../assets/service/page.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {ColDef, ColumnApi, GridApi, RowSelectedEvent} from 'ag-grid-community';
+import {Page} from 'src/assets/models/page';
+import {DialogService} from 'src/assets/service/dialog.service';
+import {SpinnerService} from 'src/assets/service/spinner.service';
+import {PageService} from '../../../assets/service/page.service';
 
 
 @Component({
@@ -25,9 +24,10 @@ export class PageListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private errorHandleService: ErrorHandleService,
+    private dialogService: DialogService,
     private spinnerService: SpinnerService,
-    private pageService: PageService) { }
+    private pageService: PageService) {
+  }
 
   ngOnInit(): void {
     this.loadColumn()
@@ -62,24 +62,24 @@ export class PageListComponent implements OnInit {
         },
         error: err => {
           this.spinnerService.hide();
-          this.errorHandleService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog();
         }
       });
     this.gridApi.sizeColumnsToFit();
   }
 
   loadColumn() {
-    this.columnDefs=[
-      { field: 'id', maxWidth:100, filter: 'agNumberColumnFilter' },
-      { field: 'title', minWidth: 300},
-      { field: 'date' },
-      { field: 'university', minWidth: 300 },
-      { field: 'creator' },
-      
+    this.columnDefs = [
+      {field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter'},
+      {field: 'title', minWidth: 300},
+      {field: 'date'},
+      {field: 'university', minWidth: 300},
+      {field: 'creator'},
+
     ];
 
     this.defaultColDef = {
-      minWidth:200,
+      minWidth: 200,
       editable: false,
       filter: 'agTextColumnFilter',
       suppressMovable: true,
@@ -96,6 +96,7 @@ export class PageListComponent implements OnInit {
   onRowSelected(event: RowSelectedEvent) {
     this.router.navigateByUrl('/page/' + event.data.id);
   }
+
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;

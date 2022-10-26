@@ -46,16 +46,30 @@ export class DialogPageCreateComponent implements OnInit {
   createPage(): void {
     if(this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID"){
       console.log(this.page);
-      this.pageService.addNewPage(this.page).subscribe({next: page => console.log(page)});
-      this.close();
+      this.pageService.addNewPage(this.page).subscribe({
+        next: page => {
+          console.log(page);
+          this.close();
+        },
+        error: err => {
+          this.close();
+        }
+      });
     }
   }
 
   editPage(): void {
     if(this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID"  && this.creatorUsernameValid.status == "VALID"){
       console.log(this.page);
-      this.pageService.editPage(this.page).subscribe({next: page => console.log(page)});
-      this.close();
+      this.pageService.editPage(this.page).subscribe({
+        next: page => {
+          console.log(page);
+          this.close();
+        },
+        error: err => {
+          this.close();
+        }
+      });
     }
   }
 

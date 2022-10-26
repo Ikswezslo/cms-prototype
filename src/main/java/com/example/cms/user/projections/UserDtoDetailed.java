@@ -18,6 +18,7 @@ public class UserDtoDetailed {
     String email;
     String address;
     String phoneNumber;
+    String description;
     Role accountType;
     boolean enabled;
     Set<UniversityDtoSimple> enrolledUniversities;
@@ -32,6 +33,7 @@ public class UserDtoDetailed {
         address = user.getAddress();
         phoneNumber = user.getPhoneNumber();
         accountType = user.getAccountType();
+        description = user.getDescription();
         enabled = user.isEnabled();
         enrolledUniversities = user.getEnrolledUniversities().stream().map(UniversityDtoSimple::new).collect(Collectors.toSet());
     }

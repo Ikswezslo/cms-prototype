@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +22,12 @@ import java.io.IOException;
 public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public RestAuthenticationFilter(AuthenticationManager authenticationManager,
                                     AuthenticationSuccessHandler authenticationSuccessHandler,
-                                    AuthenticationFailureHandler authenticationFailureHandler) {
+                                    AuthenticationFailureHandler authenticationFailureHandler,
+                                    CompositeSessionAuthenticationStrategy sessionAuthenticationStrategy) {
         setAuthenticationManager(authenticationManager);
         setAuthenticationSuccessHandler(authenticationSuccessHandler);
         setAuthenticationFailureHandler(authenticationFailureHandler);
+        setSessionAuthenticationStrategy(sessionAuthenticationStrategy);
     }
 
     @Override

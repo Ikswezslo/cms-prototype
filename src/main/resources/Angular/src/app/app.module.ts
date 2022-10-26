@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {MatMenuModule} from '@angular/material/menu';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -30,7 +30,7 @@ import {PageDetailsComponent} from './page/page-details/page-details.component';
 import {PageListComponent} from './page/page-list/page-list.component';
 import {UniversityListComponent} from './university/university-list/university-list.component';
 import {UniversityDetailsComponent} from './university/university-details/university-details.component';
-import {DialogUserCreateComponent} from './user/dialog-user-create/dialog-user-create.component';
+import {DialogUserCreateComponent} from './user/dialogs/dialog-user-create/dialog-user-create.component';
 import {LoginComponent} from './login/login.component';
 import {UserSettingsComponent} from './user/user-settings/user-settings.component';
 import {
@@ -51,9 +51,28 @@ import {UniversityCardComponent} from './university/university-card/university-c
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 import {SpinnerComponent} from './spinner/spinner.component';
-import {DialogUserAddUniversityComponent} from './user/dialog-user-add-university/dialog-user-add-university.component';
+import {
+  DialogUserAddUniversityComponent
+} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-page-creator.component';
+import {
+  DialogUserChangePasswordComponent
+} from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
+import {SuccessDialogComponent} from './dialog/success-dialog/success-dialog.component';
+import {
+  DialogUserChangeUsernameComponent
+} from './user/dialogs/dialog-user-change-username/dialog-user-change-username.component';
+import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialog-user-update.component';
+import {
+  DialogUserChangeAccountTypeComponent
+} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
+import {SetupService} from 'src/assets/service/setup.service';
+
+
+export function SetupApp(setup: SetupService) {
+  return () => setup.initliaze();
+}
 
 @NgModule({
   declarations: [
@@ -81,6 +100,11 @@ import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-pa
     SpinnerComponent,
     DialogUserAddUniversityComponent,
     DialogPageCreatorComponent,
+    DialogUserChangePasswordComponent,
+    SuccessDialogComponent,
+    DialogUserChangeUsernameComponent,
+    DialogUserUpdateComponent,
+    DialogUserChangeAccountTypeComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,18 +127,18 @@ import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-pa
     FlexLayoutModule,
     QuillModule.forRoot(),
     RouterModule.forRoot([
-      {path: '', component: MainPageComponent},
-      {path: 'universities', component: UniversityListComponent},
-      {path: 'university/:universityId', component: UniversityDetailsComponent},
-      {path: 'accounts', component: UsersListComponent},
-      {path: 'accounts/create', component: DialogUserCreateComponent},
-      {path: 'accounts/settings', component: UserSettingsComponent},
-      {path: 'account/:userId', component: UserDetailsComponent},
-      {path: 'pages', component: PageListComponent},
-      {path: 'page/:pageId', component: PageDetailsComponent},
-      {path: 'page/:pageId/edit', component: QuillEditorComponent},
+      {path: '', component: MainPageComponent, title: 'Strona główna'},
+      {path: 'universities', component: UniversityListComponent, title: 'Uniwersytety'},
+      {path: 'university/:universityId', component: UniversityDetailsComponent, title: 'Szczegóły uniwersytetu'},
+      {path: 'accounts', component: UsersListComponent, title: 'Użytkownicy'},
+      {path: 'accounts/create', component: DialogUserCreateComponent, title: 'Stwórz użytkownika'},
+      {path: 'accounts/settings', component: UserSettingsComponent, title: 'Ustawienia'},
+      {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
+      {path: 'pages', component: PageListComponent, title: 'Strony'},
+      {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
+      {path: 'page/:pageId/edit', component: QuillEditorComponent, title: 'Edycja strony'},
       {path: 'pages/:userId', component: PageUserComponent},
-      {path: 'login', component: LoginComponent}
+      {path: 'login', component: LoginComponent, title: 'Logowanie'}
     ]),
     BrowserAnimationsModule,
     BrowserModule,
@@ -131,7 +155,14 @@ import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-pa
     MatExpansionModule,
     MatAutocompleteModule
   ],
-  providers: [],
+  providers: [
+    SetupService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: SetupApp,
+      deps: [SetupService],
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

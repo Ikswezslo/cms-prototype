@@ -1,0 +1,21 @@
+<form>
+  <h2 mat-dialog-title>Zmiana roli użytkownika</h2>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Account type</mat-label>
+    <mat-select [formControl]="accountTypeControl">
+      <mat-option [value]="'USER'">User</mat-option>
+      <mat-option [value]="'MODERATOR'">University admin</mat-option>
+      <mat-option [value]="'ADMIN'">Main admin</mat-option>
+    </mat-select>
+    <mat-error *ngIf="accountTypeControl.hasError('required')">Account type is required</mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">Anuluj</button>
+    <button mat-button color="primary"
+            (click)="changeAccountType(accountTypeControl.value)"
+            [disabled]="!accountTypeControl.valid||exiting">Zatwierdź
+    </button>
+  </mat-dialog-actions>
+</form>

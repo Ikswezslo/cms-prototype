@@ -5,11 +5,25 @@ import {Page} from 'src/assets/models/page';
 import {User} from 'src/assets/models/user';
 import {PageService} from 'src/assets/service/page.service';
 import {UserService} from 'src/assets/service/user.service';
-import {DialogUserCreateComponent} from '../dialog-user-create/dialog-user-create.component';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
-import {DialogUserAddUniversityComponent} from "../dialog-user-add-university/dialog-user-add-university.component";
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
+import {
+  DialogUserAddUniversityComponent
+} from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
+import {DialogService} from 'src/assets/service/dialog.service';
+import {
+  DialogUserChangePasswordComponent
+} from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
+import {
+  DialogUserChangeUsernameComponent
+} from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
+import {DialogUserUpdateComponent} from "../dialogs/dialog-user-update/dialog-user-update.component";
+import {
+  DialogUserChangeAccountTypeComponent
+} from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
+import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
+import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
+
 
 @Component({
   selector: 'app-user-details',
@@ -19,7 +33,7 @@ import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 export class UserDetailsComponent implements OnInit {
 
 
-  @Input() settings: boolean = false;
+  @Input() settings: boolean = true;
   @Input() settingsId!: Number;
   public pages!: Page[];
   public loggedUser!: User;
@@ -46,7 +60,7 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     public dialog: MatDialog,
-    private errorHandleService: ErrorHandleService,
+    private dialogService: DialogService,
     private pageService: PageService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -65,20 +79,23 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getUser(this.id)
       .subscribe({
         next: res => {
-        this.user = res;
+          this.user = res;
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
-      }});
+          this.dialogService.openDataErrorDialog();
+        }
+      });
   }
 
   getLoggedUser() {
     this.userService.getLoggedUser()
       .subscribe({
         next: res => {
-        this.loggedUser = res;
+          this.loggedUser = res;
         },
-        error: err => {}})
+        error: err => {
+        }
+      })
   }
 
   activeUser() {
@@ -90,29 +107,55 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadPages(userId: Number) {
-    this.pageService.getPages()
+    this.pageService.getCreatorPages(userId)
       .subscribe({
         next: res => {
-        this.pages = res.filter(element => element.creator.id == userId);
+
+          this.pages = res;
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
-      }});
+          const errorDialog = this.dialog.open(ErrorDialogComponent, {
+            data: {
+              description: err.message
+            }
+          });
+
+        }
+      });
   }
 
-  startEdit() {
-    let dialogData = {
+  deleteUser() {
+    const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        edit: true,
-        user: this.user
+        title: 'Deleting ' + this.user.username,
+        description: 'Are you sure you want to delete this user?'
       }
-    }
+    });
 
-    const dialogRef = this.dialog.open(DialogUserCreateComponent, dialogData);
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.loadUsers();
-    // });
+    deletingDialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.userService.deleteUser(this.user.id).subscribe({
+          next: () => {
+            //TODO: Dialog for success
+            this.router.navigateByUrl('/accounts');
+          },
+          error: err => {
+            const errorDialog = this.dialog.open(ErrorDialogComponent, {
+              data: {
+                description: err.message || 'Error has occurred during deleting user'
+              }
+            });
+            errorDialog.afterClosed().subscribe({
+              next: () => {
+                this.router.navigateByUrl('/account/' + this.user.id);
+              }
+            });
+          }
+        })
+      } else {
+        this.router.navigateByUrl('/account/' + this.user.id);
+      }
+    });
   }
 
   openAddUniversityDialog() {
@@ -122,10 +165,39 @@ export class UserDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       if (result) {
         this.user = result;
       }
+    });
+  }
+
+  openChangePasswordDialog() {
+    this.dialog.open(DialogUserChangePasswordComponent, {
+      data: {user: this.user}
+    });
+  }
+
+  openChangeUsernameDialog() {
+    this.dialog.open(DialogUserChangeUsernameComponent, {
+      data: {user: this.user},
+    });
+  }
+
+  openUpdateDialog() {
+    const dialogRef = this.dialog.open(DialogUserUpdateComponent, {
+      data: {user: this.user},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.user = result;
+      }
+    });
+  }
+
+  openChangeAccountTypeDialog() {
+    this.dialog.open(DialogUserChangeAccountTypeComponent, {
+      data: {user: this.user},
     });
   }
 }

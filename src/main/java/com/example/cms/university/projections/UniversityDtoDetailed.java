@@ -1,6 +1,6 @@
 package com.example.cms.university.projections;
 
-import com.example.cms.page.projections.PageDtoDetailed;
+import com.example.cms.page.projections.PageDtoSimple;
 import com.example.cms.university.University;
 import com.example.cms.user.projections.UserDtoSimple;
 import lombok.Value;
@@ -15,7 +15,7 @@ public class UniversityDtoDetailed {
     String shortName;
     String description;
     boolean hidden;
-    PageDtoDetailed mainPage;
+    PageDtoSimple mainPage;
     Set<UserDtoSimple> enrolledUsers;
 
     public UniversityDtoDetailed(University university) {
@@ -25,7 +25,7 @@ public class UniversityDtoDetailed {
         description = university.getDescription();
         hidden = university.isHidden();
         enrolledUsers = university.getEnrolledUsers().stream().map(UserDtoSimple::new).collect(Collectors.toSet());
-        mainPage = new PageDtoDetailed(university.getMainPage());
+        mainPage = new PageDtoSimple(university.getMainPage());
     }
 
 }

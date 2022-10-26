@@ -10,6 +10,7 @@ import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-creat
 import {PageCardConfig} from "../page-card/page-card.component";
 import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
+import {DialogService} from 'src/assets/service/dialog.service';
 
 @Component({
   selector: 'app-page-details',
@@ -48,7 +49,7 @@ export class PageDetailsComponent implements OnInit {
     private userService: UserService,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
-    private errorHandleService: ErrorHandleService) {
+    private dialogService: DialogService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -63,22 +64,25 @@ export class PageDetailsComponent implements OnInit {
     this.pageService.getPage(this.id)
       .subscribe({
         next: res => {
-        this.page = res;
-        this.pageService.cachePage(res);
-        this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
+          this.page = res;
+          this.pageService.cachePage(res);
+          this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
         },
         error: err => {
-          this.errorHandleService.openDataErrorDialog();
-      }});
+          this.dialogService.openDataErrorDialog();
+        }
+      });
   }
 
   getLoggedUser() {
     this.userService.getLoggedUser()
       .subscribe({
         next: res => {
-        this.loggedUser = res;
+          this.loggedUser = res;
         },
-        error: err => {}})
+        error: err => {
+        }
+      })
   }
 
   hiddenPage() {
@@ -87,7 +91,7 @@ export class PageDetailsComponent implements OnInit {
     });
   }
 
-  deletePage(){
+  deletePage() {
     this.pageService.deletePage(this.id).subscribe(() => {
       this.router.navigateByUrl('');
     })
