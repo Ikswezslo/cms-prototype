@@ -8,7 +8,6 @@ import {User} from "../../../assets/models/user";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
-import { ErrorHandleService } from 'src/assets/service/error-handle.service';
 import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
 import {DialogService} from 'src/assets/service/dialog.service';
 

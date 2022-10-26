@@ -77,11 +77,11 @@ export class PageService {
 
   editPage(Page: PageForm, defaultErrorHandling: boolean = true): Observable<Page> {
     return this.http.patch<Page>(`${this.pageUrl}/${Page.id}/edit`, Page, this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
   changePageCreator(id: number, username: string, defaultErrorHandling: boolean = true): Observable<Page> {
     return this.http.patch<Page>(`${this.pageUrl}/${id}/creator`, username, this.httpOptions)
-      .pipe(RestErrorHandler.getErrorHandling(defaultErrorHandling));
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 }
