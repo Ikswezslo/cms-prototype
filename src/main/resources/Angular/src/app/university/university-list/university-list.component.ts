@@ -6,8 +6,9 @@ import {University} from 'src/assets/models/university';
 import {UniversityService} from 'src/assets/service/university.service';
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogService} from 'src/assets/service/dialog.service';
 import {SpinnerService} from 'src/assets/service/spinner.service';
+import {take} from 'rxjs';
+import {DialogService} from 'src/assets/service/dialog.service';
 
 @Component({
   selector: 'app-university-list',
@@ -42,11 +43,11 @@ export class UniversityListComponent implements OnInit {
 
   loadUniversities(showHidden: Boolean = false) {
     this.spinnerService.show();
-    this.universityService.getUniversities()
+    this.universityService.getUniversities().pipe(take(1))
       .subscribe({
         next: res => {
           this.spinnerService.hide();
-        this.universities = showHidden ? res : res.filter(element => !element.hidden);
+          this.universities = showHidden ? res : res.filter(element => !element.hidden);
         },
         error: err => {
           this.spinnerService.hide();
@@ -66,7 +67,7 @@ export class UniversityListComponent implements OnInit {
   addUniversity(){
     const dialogRef = this.dialog.open(DialogUniversityCreateComponent, {});
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result)
         return;
       this.loadUniversities();

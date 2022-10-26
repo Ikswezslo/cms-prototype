@@ -12,7 +12,7 @@ export class UserService {
 
   private userUrl = 'http://localhost:8080/users';
 
-  public loggedUser!: User;
+  public loggedUser!: User | null;
 
   httpOptions = {
     withCredentials: true
@@ -82,6 +82,11 @@ export class UserService {
 
   modifyUserAccountTypeField(id: Number, accountType: string, defaultErrorHandling: boolean = true): Observable<void> {
     return this.http.patch<void>(`${this.userUrl}/${id}/accountType`, {accountType: accountType}, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  deleteUser(id: Number, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.delete<void>(`${this.userUrl}/${id}`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

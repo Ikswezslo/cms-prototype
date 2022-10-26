@@ -1,5 +1,6 @@
 package com.example.cms.page;
 
+import com.example.cms.user.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,5 +39,9 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     Set<Page> findChildren(@Param("parent") Long parentId);
 
     List<Page> findByParent(Page parent);
+
+    boolean existsByCreator(User creator);
+
+    List<Page> findByCreator(Pageable pageable, User creator);
 
 }

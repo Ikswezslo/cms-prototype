@@ -116,6 +116,7 @@ public class UniversityService {
     }
 
     @Secured("ROLE_MODERATOR")
+    @Transactional
     public void deleteUniversity(Long id) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
         if (securityService.isForbiddenUniversity(university)) {
@@ -123,6 +124,7 @@ public class UniversityService {
         }
 
         validateForDelete(university);
+        pageRepository.delete(university.getMainPage());
         universityRepository.delete(university);
     }
     private void validateForDelete(University university) {

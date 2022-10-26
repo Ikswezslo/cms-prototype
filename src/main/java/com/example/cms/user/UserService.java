@@ -1,5 +1,7 @@
 package com.example.cms.user;
 
+import com.example.cms.page.PageRepository;
+import com.example.cms.security.LoggedUser;
 import com.example.cms.security.Role;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
@@ -28,12 +30,16 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final UniversityRepository universityRepository;
+    private final PageRepository pageRepository;
     private final PasswordEncoder passwordEncoder;
     private final SecurityService securityService;
 
     UserService(final UserRepository userRepository,
-                UniversityRepository universityRepository, PasswordEncoder passwordEncoder,
+                final UniversityRepository universityRepository,
+                final PageRepository pageRepository,
+                PasswordEncoder passwordEncoder,
                 SecurityService securityService) {
+        this.pageRepository = pageRepository;
         this.userRepository = userRepository;
         this.universityRepository = universityRepository;
         this.passwordEncoder = passwordEncoder;
@@ -180,7 +186,14 @@ public class UserService {
         if (securityService.isForbiddenUser(user)) {
             throw new ForbiddenException();
         }
+        validateForDelete(user);
 
         userRepository.delete(user);
+    }
+
+    private void validateForDelete(User user) {
+        if (pageRepository.existsByCreator(user)) {
+            throw new UserException(UserExceptionType.PAGES_EXISTS);
+        }
     }
 }

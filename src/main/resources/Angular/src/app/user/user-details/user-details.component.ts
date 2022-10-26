@@ -7,12 +7,23 @@ import {PageService} from 'src/assets/service/page.service';
 import {UserService} from 'src/assets/service/user.service';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
-import {DialogUserAddUniversityComponent} from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
+import {
+  DialogUserAddUniversityComponent
+} from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
 import {DialogService} from 'src/assets/service/dialog.service';
-import {DialogUserChangePasswordComponent} from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
-import {DialogUserChangeUsernameComponent} from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
+import {
+  DialogUserChangePasswordComponent
+} from "../dialogs/dialog-user-change-password/dialog-user-change-password.component";
+import {
+  DialogUserChangeUsernameComponent
+} from "../dialogs/dialog-user-change-username/dialog-user-change-username.component";
 import {DialogUserUpdateComponent} from "../dialogs/dialog-user-update/dialog-user-update.component";
-import {DialogUserChangeAccountTypeComponent} from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
+import {
+  DialogUserChangeAccountTypeComponent
+} from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
+import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
+import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
+
 
 @Component({
   selector: 'app-user-details',
@@ -22,7 +33,7 @@ import {DialogUserChangeAccountTypeComponent} from "../dialogs/dialog-user-chang
 export class UserDetailsComponent implements OnInit {
 
 
-  @Input() settings: boolean = false;
+  @Input() settings: boolean = true;
   @Input() settingsId!: Number;
   public pages!: Page[];
   public loggedUser!: User;
@@ -96,15 +107,55 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadPages(userId: Number) {
-    this.pageService.getPages()
+    this.pageService.getCreatorPages(userId)
       .subscribe({
         next: res => {
-          this.pages = res.filter(element => element.creator.id == userId);
+
+          this.pages = res;
         },
         error: err => {
-          this.dialogService.openDataErrorDialog();
+          const errorDialog = this.dialog.open(ErrorDialogComponent, {
+            data: {
+              description: err.message
+            }
+          });
+
         }
       });
+  }
+
+  deleteUser() {
+    const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Deleting ' + this.user.username,
+        description: 'Are you sure you want to delete this user?'
+      }
+    });
+
+    deletingDialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.userService.deleteUser(this.user.id).subscribe({
+          next: () => {
+            //TODO: Dialog for success
+            this.router.navigateByUrl('/accounts');
+          },
+          error: err => {
+            const errorDialog = this.dialog.open(ErrorDialogComponent, {
+              data: {
+                description: err.message || 'Error has occurred during deleting user'
+              }
+            });
+            errorDialog.afterClosed().subscribe({
+              next: () => {
+                this.router.navigateByUrl('/account/' + this.user.id);
+              }
+            });
+          }
+        })
+      } else {
+        this.router.navigateByUrl('/account/' + this.user.id);
+      }
+    });
   }
 
   openAddUniversityDialog() {

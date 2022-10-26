@@ -36,6 +36,11 @@ public class PageController {
         return service.getAllVisible(pageable);
     }
 
+    @GetMapping("/creator/{userId}")
+    List<PageDtoSimple> readCreatorPages(@PathVariable long userId, Pageable pageable) {
+        return service.getCreatorPages(pageable, userId);
+    }
+
     @GetMapping("/children")
     List<PageDtoSimple> getSubpages(@RequestParam(defaultValue = "") Long parent) {
         return service.getChildren(parent);

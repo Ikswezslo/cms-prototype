@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {UniversityService} from "../../../assets/service/university.service";
 import {FormControl, Validators} from "@angular/forms";
 import {University, UniversityForm} from 'src/assets/models/university';
+import {UserService} from 'src/assets/service/user.service';
 
 @Component({
   selector: 'app-dialog-university-create',
@@ -18,6 +19,7 @@ export class DialogUniversityCreateComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private userService: UserService,
     private universityService: UniversityService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
@@ -26,7 +28,7 @@ export class DialogUniversityCreateComponent implements OnInit {
     this.university.id = this.data.university?.id ?? this.university.id;
     this.university.name = this.data.university?.name ?? this.university.name;
     this.university.shortName = this.data.university?.shortName ?? this.university.shortName;
-    this.university.creatorUsername = "admin";  //TODO: Pobrać aktualnego użytkownika skądś
+    this.university.creatorUsername = this.userService.loggedUser?.username ?? '';
   }
   close() {
     this.dialog.closeAll()

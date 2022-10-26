@@ -173,4 +173,14 @@ public class PageService {
 
         pageRepository.delete(page);
     }
+
+    public List<PageDtoSimple> getCreatorPages(Pageable pageable, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> {
+            throw new PageException(PageExceptionType.NOT_FOUND_USER);
+        });
+
+        return pageRepository.findByCreator(pageable, user).stream()
+                .map(PageDtoSimple::new)
+                .collect(Collectors.toList());
+    }
 }

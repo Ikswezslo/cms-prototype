@@ -34,10 +34,16 @@ export class UniversityService {
   addNewUniversity(University: UniversityForm, defaultErrorHandling: boolean = true): Observable<University> {
     return this.http.post<University>(this.universityUrl, University, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+
   }
 
   modifyUniversityHiddenField(id: Number, hidden: boolean, defaultErrorHandling: boolean = true): Observable<void> {
     return this.http.patch<void>(`${this.universityUrl}/${id}/hidden`, hidden, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  deleteUniversity(id: Number, defaultErrorHandling: boolean = true): Observable<void> {
+    return this.http.delete<void>(`${this.universityUrl}/${id}`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
