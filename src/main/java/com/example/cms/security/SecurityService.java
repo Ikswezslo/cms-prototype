@@ -92,10 +92,15 @@ public class SecurityService {
                 return true;
             }
         } else if (loggedUser.getAccountType() == Role.MODERATOR) {
+            if (user.getAccountType() != Role.USER) { // TODO: or: user.getAccountType() == Role.ADMIN
+                return true;
+            }
+
             boolean sameUniversity = false;
             for (long universityId : user.getEnrolledUniversities().stream().map(University::getId).collect(Collectors.toList())) {
                 if (loggedUser.getUniversities().contains(universityId)) {
                     sameUniversity = true;
+                    break;
                 }
             }
             if (!sameUniversity) {
