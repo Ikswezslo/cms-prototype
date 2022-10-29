@@ -74,4 +74,14 @@ export class PageService {
     return this.http.get<Page[]>(`${this.pageUrl}/creator/${userId}`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  editPage(Page: PageForm, defaultErrorHandling: boolean = true): Observable<Page> {
+    return this.http.patch<Page>(`${this.pageUrl}/${Page.id}/edit`, Page, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  changePageCreator(id: number, username: string, defaultErrorHandling: boolean = true): Observable<Page> {
+    return this.http.patch<Page>(`${this.pageUrl}/${id}/creator`, username, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }

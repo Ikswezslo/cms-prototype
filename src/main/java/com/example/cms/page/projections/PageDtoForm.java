@@ -7,6 +7,6 @@ public class PageDtoForm {
     String title;
     String description;
     String content;
-    String creatorUsername;
+    Long creatorId;
     Long parentId;
 }

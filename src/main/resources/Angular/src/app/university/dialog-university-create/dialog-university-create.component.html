@@ -13,6 +13,13 @@
       <mat-error *ngIf="shortNameValid.hasError('required')">Short name of university is required</mat-error>
     </mat-form-field>
   </div>
+  <div class="row">
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput required [(ngModel)]="university.description" [formControl]="descriptionValid">
+      <mat-error *ngIf="descriptionValid.hasError('required')">Description of university is required</mat-error>
+    </mat-form-field>
+  </div>
 </div>
 <span>
     <button mat-stroked-button class="button-option" (click)="close()">Close</button>

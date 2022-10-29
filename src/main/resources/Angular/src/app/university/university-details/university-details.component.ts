@@ -68,7 +68,6 @@ export class UniversityDetailsComponent implements OnInit {
       .subscribe({
         next: res => {
         this.university = res;
-        console.log(res);
         },
         error: err => {
           this.dialogService.openDataErrorDialog();
@@ -80,7 +79,6 @@ export class UniversityDetailsComponent implements OnInit {
     this.universityService.modifyUniversityHiddenField(this.university.id, !this.university.hidden).subscribe(() => {
       this.university.hidden = !this.university.hidden;
     });
-
   }
 
   deleteUniversity() {

@@ -13,6 +13,7 @@ public class UniversityDtoDetailed {
     Long id;
     String name;
     String shortName;
+    String description;
     boolean hidden;
     PageDtoSimple mainPage;
     Set<UserDtoSimple> enrolledUsers;
@@ -21,6 +22,7 @@ public class UniversityDtoDetailed {
         id = university.getId();
         name = university.getName();
         shortName = university.getShortName();
+        description = university.getDescription();
         hidden = university.isHidden();
         enrolledUsers = university.getEnrolledUsers().stream().map(UserDtoSimple::new).collect(Collectors.toSet());
         mainPage = new PageDtoSimple(university.getMainPage());

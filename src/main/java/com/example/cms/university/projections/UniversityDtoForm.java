@@ -6,5 +6,6 @@ import lombok.Value;
 public class UniversityDtoForm {
     String name;
     String shortName;
-    String creatorUsername;
+    String description;
+    Long creatorId;
 }
