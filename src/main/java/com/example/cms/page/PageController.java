@@ -75,4 +75,16 @@ public class PageController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/edit")
+    ResponseEntity<Void> editPage(@PathVariable long id, @RequestBody PageDtoForm form) {
+        service.editPage(id, form);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/creator")
+    ResponseEntity<Void> modifyPageCreatorField(@PathVariable long id, @RequestBody String username) {
+        service.modifyCreatorField(id, username);
+        return ResponseEntity.noContent().build();
+    }
 }

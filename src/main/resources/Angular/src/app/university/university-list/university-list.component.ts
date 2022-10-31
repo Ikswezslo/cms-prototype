@@ -65,7 +65,12 @@ export class UniversityListComponent implements OnInit {
   }
 
   addUniversity(){
-    const dialogRef = this.dialog.open(DialogUniversityCreateComponent, {});
+    let dialogData = {
+      data: {
+        edit: false
+      }
+    }
+    const dialogRef = this.dialog.open(DialogUniversityCreateComponent, dialogData);
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result)
@@ -78,7 +83,6 @@ export class UniversityListComponent implements OnInit {
   onResize() {
     this.gridApi.sizeColumnsToFit();
     //this.columnApi.autoSizeAllColumns(false);
-
   }
 
   onRowSelected(event: RowSelectedEvent) {

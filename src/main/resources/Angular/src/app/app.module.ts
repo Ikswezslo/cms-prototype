@@ -55,6 +55,7 @@ import {
   DialogUserAddUniversityComponent
 } from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-page-creator.component';
 import {
   DialogUserChangePasswordComponent
 } from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
@@ -98,6 +99,7 @@ export function SetupApp(setup: SetupService) {
     ErrorDialogComponent,
     SpinnerComponent,
     DialogUserAddUniversityComponent,
+    DialogPageCreatorComponent,
     DialogUserChangePasswordComponent,
     SuccessDialogComponent,
     DialogUserChangeUsernameComponent,

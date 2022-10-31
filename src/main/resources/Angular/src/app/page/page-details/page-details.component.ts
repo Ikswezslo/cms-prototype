@@ -6,6 +6,7 @@ import {PageService} from '../../../assets/service/page.service';
 import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
+import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
 import {DialogService} from 'src/assets/service/dialog.service';
 import {SecurityService} from "../../../assets/service/security.service";
 
@@ -15,7 +16,6 @@ import {SecurityService} from "../../../assets/service/security.service";
   styleUrls: ['./page-details.component.scss']
 })
 export class PageDetailsComponent implements OnInit {
-
   public page!: Page;
   public id: Number = 0;
   public pageHtml: any;
@@ -82,14 +82,41 @@ export class PageDetailsComponent implements OnInit {
   }
 
   addPage() {
-    const dialogRef = this.dialog.open(DialogPageCreateComponent, {data: {parentId: this.page.id}});
-
-    dialogRef.afterClosed().subscribe({
-      next: res => {
-        if (res) {
-          this.loadPage();
-          this.router.navigateByUrl(`page/${res}`);
+    let dialogData = {
+      data: {
+        edit: false,
+        page: this.page
       }
-    }});
+    }
+    const dialogRef = this.dialog.open(DialogPageCreateComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
+  }
+
+  editPage() {
+    let dialogData = {
+      data: {
+        edit: true,
+        page: this.page
+      }
+    }
+    const dialogRef = this.dialog.open(DialogPageCreateComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
+  }
+
+  changePageCreator(){
+    let dialogData = {
+      data: {
+        id: this.page.id,
+        username: this.page.creator.username
+      }
+    }
+    const dialogRef = this.dialog.open(DialogPageCreatorComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
   }
 }

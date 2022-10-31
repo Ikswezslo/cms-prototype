@@ -17,6 +17,7 @@ public class UniversityDtoDetailed {
     private Long id;
     private String name;
     private String shortName;
+    private String description;
     private boolean hidden;
     private PageDtoSimple mainPage;
     private Set<UserDtoSimple> enrolledUsers; // TODO: remove enrolledUsers field
@@ -32,6 +33,7 @@ public class UniversityDtoDetailed {
         id = university.getId();
         name = university.getName();
         shortName = university.getShortName();
+        description = university.getDescription();
         hidden = university.isHidden();
         enrolledUsers = university.getEnrolledUsers().stream().map(UserDtoSimple::of).collect(Collectors.toSet());
         mainPage = PageDtoSimple.of(university.getMainPage());

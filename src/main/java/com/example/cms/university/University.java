@@ -50,6 +50,9 @@ public class University {
     @Column(unique = true)
     @NotBlank(message = "Short name must not be empty")
     private String shortName;
+
+    @NotBlank(message = "Description must not be empty")
+    private String description;
     private boolean hidden;
 
     @Override
