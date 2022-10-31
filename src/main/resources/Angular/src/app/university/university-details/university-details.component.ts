@@ -3,8 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {University} from 'src/assets/models/university';
 import {DialogService} from 'src/assets/service/dialog.service';
 import {UniversityService} from 'src/assets/service/university.service';
-import {User} from "../../../assets/models/user";
-import {UserService} from "../../../assets/service/user.service";
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../../user/user-card/user-card.component";
 import {UniversityCardConfig} from "../university-card/university-card.component";
@@ -13,6 +11,7 @@ import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.compo
 import {PageService} from "../../../assets/service/page.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
+import {SecurityService} from "../../../assets/service/security.service";
 
 @Component({
   selector: 'app-university-details',
@@ -23,7 +22,6 @@ export class UniversityDetailsComponent implements OnInit {
 
   public university!: University;
   public id: Number = 0;
-  public loggedUser!: User;
 
   userCardConfig: UserCardConfig = {
     useSecondaryColor: true,
@@ -51,7 +49,7 @@ export class UniversityDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private universityService: UniversityService,
     private pageService: PageService,
-    private userService: UserService,
+    public securityService: SecurityService,
     private dialogService: DialogService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -59,7 +57,6 @@ export class UniversityDetailsComponent implements OnInit {
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     this.id = Number(routeParams.get('universityId'));
-    this.getLoggedUser();
     this.loadUniversity();
   }
 
@@ -119,18 +116,6 @@ export class UniversityDetailsComponent implements OnInit {
         this.router.navigateByUrl('/university/' + this.university.id);
       }
     });
-
-  }
-
-  getLoggedUser() {
-    this.userService.getLoggedUser()
-      .subscribe({
-        next: res => {
-          this.loggedUser = res;
-        },
-        error: err => {
-          this.dialogService.openLoggedUserErrorDialog();
-      }})
 
   }
 

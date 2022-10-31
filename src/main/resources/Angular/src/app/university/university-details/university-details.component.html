@@ -1,7 +1,6 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="university">
-  <app-university-card [university]="university" [loggedUser]="loggedUser" [config]="universityCardConfig"
-                       class="cms-fixed-width">
-    <button mat-button [matMenuTriggerFor]="actionsUniversity">
+  <app-university-card [university]="university" [config]="universityCardConfig" class="cms-fixed-width">
+    <button *ngIf="!securityService.isForbiddenUniversity(university)" mat-button [matMenuTriggerFor]="actionsUniversity">
       <mat-icon>label_important</mat-icon>
       <span>Actions</span>
     </button>
@@ -22,27 +21,33 @@
 </div>
 
 <mat-menu #actionsUniversity="matMenu">
-  <button mat-menu-item  (click)="startEdit()">
+  <button mat-menu-item (click)="startEdit()"
+          *ngIf="!securityService.isForbiddenUniversity(university)">
     <mat-icon>edit</mat-icon>
     <span>Edit</span>
   </button>
-  <button mat-menu-item *ngIf="university.hidden" (click)=hiddenUniversity()>
+  <button mat-menu-item (click)=hiddenUniversity()
+          *ngIf="!securityService.isForbiddenUniversity(university)
+          && university.hidden">
     <mat-icon>visibility_on</mat-icon>
     <span>Unhide</span>
   </button>
-  <button mat-menu-item *ngIf="!university.hidden" (click)=hiddenUniversity()>
+  <button mat-menu-item (click)=hiddenUniversity()
+          *ngIf="!securityService.isForbiddenUniversity(university)
+          && !university.hidden">
     <mat-icon>visibility_off</mat-icon>
     <span>Hide</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item *ngIf="!securityService.isForbiddenUniversity(university)">
     <mat-icon>person</mat-icon>
     <span>Enroll user</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item *ngIf="!securityService.isForbiddenUniversity(university)">
     <mat-icon>note_edit</mat-icon>
     <span>Change main page</span>
   </button>
-  <button *ngIf="loggedUser != null && loggedUser.accountType != 'USER'" mat-menu-item (click)="deleteUniversity()">
+  <button mat-menu-item (click)="deleteUniversity()"
+          *ngIf="!securityService.isForbiddenUniversity(university)">
     <mat-icon>delete</mat-icon>
     <span>Delete</span>
   </button>

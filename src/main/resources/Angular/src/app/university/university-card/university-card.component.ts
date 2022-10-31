@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {User} from "../../../assets/models/user";
 import {University} from "../../../assets/models/university";
 
 @Component({
@@ -10,7 +9,6 @@ import {University} from "../../../assets/models/university";
 export class UniversityCardComponent implements OnInit {
 
   @Input() university?: University;
-  @Input() loggedUser?: User;
   @Input() config: UniversityCardConfig = {} as UniversityCardConfig
 
   constructor() {

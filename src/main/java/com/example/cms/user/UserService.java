@@ -52,7 +52,7 @@ public class UserService {
     }
 
     public UserDtoDetailed getLoggedUser() {
-        Long id = securityService.getPrincipal().orElseThrow(UnauthorizedException::new).getId();
+        Long id = securityService.getPrincipal().orElseThrow(NotFoundException::new).getId();
         return userRepository.findById(id).map(UserDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 

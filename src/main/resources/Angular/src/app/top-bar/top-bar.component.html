@@ -1,6 +1,6 @@
 <span class="beginning">
     <button style="text-align: center " mat-menu-item [routerLink]="['/']" class="subButton">Logo</button>
-    <button #isopen="matMenuTrigger" [matMenuTriggerFor]="aboveMenu" class="mainButton">
+    <button *ngIf="logged" [matMenuTriggerFor]="aboveMenu" class="mainButton">
         <mat-icon fontIcon="menu"></mat-icon>
         CMS
     </button>
@@ -8,39 +8,11 @@
 </span>
 <mat-menu #aboveMenu="matMenu" yPosition="above">
   <button mat-menu-item [routerLink]="['/']" class="subButton">Strona główna</button>
-  <button mat-menu-item [routerLink]="['/universities']" class="subButton">{{'UNIVERSITYS' | translate}}</button>
-  <button mat-menu-item [routerLink]="['/accounts']" class="subButton">{{'USERS' | translate}}</button>
+  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/universities']" class="subButton">{{'UNIVERSITYS' | translate}}</button>
+  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/accounts']" class="subButton">{{'USERS' | translate}}</button>
   <button mat-menu-item [routerLink]="['/pages']" class="subButton">Pages</button>
 </mat-menu>
 
-<!-- [matMenuTriggerFor]="usersMenu"
-    [matMenuTriggerFor]="universitiesMenu"
-    [matMenuTriggerFor]="pagesMenu"
- -->
-
-<mat-menu #universitiesMenu="matMenu" >
-    <div *ngFor="let university of universities">
-        <button mat-menu-item class="subButton" [routerLink]="['/university', university.id]">
-                {{ university.name }}
-        </button>
-    </div>
-</mat-menu>
-
-<mat-menu #usersMenu="matMenu" >
-    <div *ngFor="let user of users">
-        <button mat-menu-item class="subButton" [routerLink]="['/account', user.id]">
-                {{ user.username }}
-        </button>
-    </div>
-</mat-menu>
-
-<mat-menu #pagesMenu="matMenu" >
-    <div *ngFor="let page of pages">
-        <button mat-menu-item class="subButton" [routerLink]="['/page', page.id]">
-                {{ page.title }}
-        </button>
-    </div>
-</mat-menu>
 
 <button *ngIf="logged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
   class="material-icons">person</i>{{userLogged?.firstName}}</button>

@@ -1,6 +1,6 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="page">
   <app-page-card [page]="page" [config]="primaryCardConfig" class="cms-fixed-width">
-    <button mat-button [matMenuTriggerFor]="actions">
+    <button *ngIf="securityService.hasUniversity(page.university?.id)" mat-button [matMenuTriggerFor]="actions">
       <mat-icon>label_important</mat-icon>
       <span>Akcje</span>
     </button>
@@ -57,51 +57,52 @@
 </div>
 
 <mat-menu #actions="matMenu">
-  <button *ngIf="page" mat-menu-item [routerLink]="['/page/'+page.id+'/edit']">
+  <button mat-menu-item [routerLink]="['/page/'+page.id+'/edit']"
+          *ngIf="!securityService.isForbiddenPage(page)">
     <mat-icon>create</mat-icon>
     <span>Edytuj zawartość</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="!securityService.isForbiddenPage(page)">
     <mat-icon>app_registration</mat-icon>
     <span>Edytuj informacje</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="!securityService.isForbiddenPage(page)">
     <mat-icon>dashboard</mat-icon>
     <span>Pokaż szczegóły</span>
   </button>
-  <button mat-menu-item (click)="addPage()">
+  <button mat-menu-item (click)="addPage()"
+          *ngIf="securityService.hasUniversity(page?.university?.id)">
     <mat-icon>note_add</mat-icon>
     <span>Dodaj podstronę</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="!securityService.isForbiddenPage(page)">
     <mat-icon>file_copy</mat-icon>
     <span>Stwórz kopię strony</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="!securityService.isForbiddenPage(page)">
     <mat-icon>settings</mat-icon>
     <span>Ustawienia wyświetlania</span>
   </button>
-  <button mat-menu-item
-          *ngIf="page!=null
-          && !page.hidden
-          && loggedUser!=null
-          && loggedUser.accountType !='USER'" (click)="hiddenPage()">
+  <button mat-menu-item (click)="hiddenPage()"
+          *ngIf="!securityService.isForbiddenPage(page)
+          && !page.hidden">
     <mat-icon>visibility_off</mat-icon>
     <span>Ukryj stronę</span>
   </button>
-  <button mat-menu-item
-          *ngIf="page!=null
-          && page.hidden
-          && loggedUser!=null
-          && loggedUser.accountType !='USER'" (click)="hiddenPage()">
+  <button mat-menu-item (click)="hiddenPage()"
+          *ngIf="!securityService.isForbiddenPage(page)
+          && page.hidden">
     <mat-icon>visibility_on</mat-icon>
     <span>Pokaż stronę</span>
   </button>
-  <button mat-menu-item
-          *ngIf="page!=null
+  <button mat-menu-item (click)="deletePage()"
+          *ngIf="!securityService.isForbiddenPage(page)
           && page.children.length == 0
-          && page.parent != null"
-          (click)="deletePage()">
+          && page.parent != null">
     <mat-icon>delete</mat-icon>
     <span>Usuń stronę</span>
   </button>

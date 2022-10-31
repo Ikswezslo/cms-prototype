@@ -23,6 +23,7 @@ import {
 } from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
 import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
 import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
+import {SecurityService} from "../../../assets/service/security.service";
 
 
 @Component({
@@ -36,7 +37,6 @@ export class UserDetailsComponent implements OnInit {
   @Input() settings: boolean = true;
   @Input() settingsId!: Number;
   public pages!: Page[];
-  public loggedUser!: User;
   public user!: User;
   public id!: Number;
 
@@ -59,6 +59,7 @@ export class UserDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
+    public securityService: SecurityService,
     public dialog: MatDialog,
     private dialogService: DialogService,
     private pageService: PageService) {
@@ -70,7 +71,6 @@ export class UserDetailsComponent implements OnInit {
     this.id = this.settingsId ?? Number(routeParams.get('userId'));
     this.loadUser();
     this.loadPages(this.id);
-    this.getLoggedUser();
 
     this.userCardConfig.showSettings = this.settings;
   }
@@ -85,17 +85,6 @@ export class UserDetailsComponent implements OnInit {
           this.dialogService.openDataErrorDialog();
         }
       });
-  }
-
-  getLoggedUser() {
-    this.userService.getLoggedUser()
-      .subscribe({
-        next: res => {
-          this.loggedUser = res;
-        },
-        error: err => {
-        }
-      })
   }
 
   activeUser() {

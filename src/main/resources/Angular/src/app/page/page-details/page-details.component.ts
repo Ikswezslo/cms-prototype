@@ -3,12 +3,11 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Page} from 'src/assets/models/page';
 import {PageService} from '../../../assets/service/page.service';
-import {UserService} from "../../../assets/service/user.service";
-import {User} from "../../../assets/models/user";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
 import {DialogService} from 'src/assets/service/dialog.service';
+import {SecurityService} from "../../../assets/service/security.service";
 
 @Component({
   selector: 'app-page-details',
@@ -20,7 +19,6 @@ export class PageDetailsComponent implements OnInit {
   public page!: Page;
   public id: Number = 0;
   public pageHtml: any;
-  public loggedUser!: User;
 
   primaryCardConfig: PageCardConfig = {
     useSecondaryColor: false,
@@ -40,12 +38,11 @@ export class PageDetailsComponent implements OnInit {
     showAuthor: true
   };
 
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private pageService: PageService,
-    private userService: UserService,
+    public securityService: SecurityService,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private dialogService: DialogService) {
@@ -55,7 +52,6 @@ export class PageDetailsComponent implements OnInit {
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     this.id = Number(routeParams.get('pageId'));
-    this.getLoggedUser();
     this.loadPage();
   }
 
@@ -71,17 +67,6 @@ export class PageDetailsComponent implements OnInit {
           this.dialogService.openDataErrorDialog();
         }
       });
-  }
-
-  getLoggedUser() {
-    this.userService.getLoggedUser()
-      .subscribe({
-        next: res => {
-          this.loggedUser = res;
-        },
-        error: err => {
-        }
-      })
   }
 
   hiddenPage() {
