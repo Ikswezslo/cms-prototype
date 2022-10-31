@@ -76,7 +76,7 @@ export class PageService {
   }
 
   editPage(Page: PageForm, defaultErrorHandling: boolean = true): Observable<Page> {
-    return this.http.patch<Page>(`${this.pageUrl}/${Page.id}/edit`, Page, this.httpOptions)
+    return this.http.put<Page>(`${this.pageUrl}/${Page.id}`, Page, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 

@@ -55,7 +55,7 @@ public class UniversityService {
             throw new UniversityException(UniversityExceptionType.NAME_TAKEN);
         }
 
-        User creator = userRepository.findByUsername(form.getCreatorUsername())
+        User creator = userRepository.findById(form.getCreatorId())
                 .orElseThrow(() -> {
                     throw new BadRequestException("Not found user");
                 });

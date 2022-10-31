@@ -1,16 +1,20 @@
 package com.example.cms.development;
 
 import com.example.cms.page.PageService;
-import com.example.cms.page.projections.PageDtoForm;
+import com.example.cms.page.projections.PageDtoFormCreate;
 import com.example.cms.security.Role;
 import com.example.cms.university.UniversityService;
-import com.example.cms.university.projections.UniversityDtoForm;
+import com.example.cms.university.projections.UniversityDtoFormCreate;
 import com.example.cms.user.UserService;
 import com.example.cms.user.projections.UserDtoFormCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -40,7 +44,9 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         } finally {
             SecurityContextHolder.clearContext();
         }
+    }
 
+    private void createData() {
         userService.createUser(new UserDtoFormCreate(
                 "admin",
                 "Admin123",
@@ -482,61 +488,61 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 Role.USER
         ));
 
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Poznań University of Technology",
                 "PUT",
                 "blank",
                 1L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Adam Mickiewicz University in Poznań",
                 "UAM",
                 "blank",
                 1L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Poznań University of Medical Sciences",
                 "PUMS",
                 "blank",
                 1L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Poznań University of Economics and Business",
                 "PUEB",
                 "blank",
                 1L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "University of Fine Arts in Poznań",
                 "UFAP",
                 "blank",
                 2L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Wroclaw University of Technology",
                 "WUT",
                 "blank",
                 2L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Karol Lipiński Academy of Music in Wrocław",
                 "KLAMW",
                 "blank",
                 2L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Gdynia Maritime University",
                 "GMU",
                 "blank",
                 3L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "Chopin University of Music",
                 "CUM",
                 "blank",
                 3L
         ));
-        universityService.addNewUniversity(new UniversityDtoForm(
+        universityService.addNewUniversity(new UniversityDtoFormCreate(
                 "University of Szczecin",
                 "US",
                 "blank",
@@ -574,432 +580,372 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         universityService.enrollUsersToUniversity(10L, 35L);
         universityService.enrollUsersToUniversity(10L, 36L);
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 4L,
                 1L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 4L,
                 1L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 17L,
                 1L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 17L,
                 1L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 18L,
                 1L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 18L,
                 1L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 5L,
                 2L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 5L,
                 2L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 19L,
                 2L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 19L,
                 2L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 20L,
                 2L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 20L,
                 2L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 6L,
                 3L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 6L,
                 3L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 21L,
                 3L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 21L,
                 3L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 22L,
                 3L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 22L,
                 3L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 7L,
                 4L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 7L,
                 4L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 23L,
                 4L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 23L,
                 4L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 24L,
                 4L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 24L,
                 4L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 8L,
                 5L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 8L,
                 5L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 25L,
                 5L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 25L,
                 5L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 26L,
                 5L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 26L,
                 5L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 9L,
                 6L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 9L,
                 6L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 27L,
                 6L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 27L,
                 6L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 28L,
                 6L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 28L,
                 6L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 10L,
                 7L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 10L,
                 7L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 29L,
                 7L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 29L,
                 7L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 30L,
                 7L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 30L,
                 7L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 11L,
                 8L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 11L,
                 8L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 31L,
                 8L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 31L,
                 8L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 32L,
                 8L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 32L,
                 8L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 12L,
                 9L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 12L,
                 9L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 33L,
                 9L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 33L,
                 9L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 34L,
                 9L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 34L,
                 9L
         ));
 
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Education",
                 "The list of courses we offer.",
-                "",
                 13L,
                 10L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
-                "",
                 13L,
                 10L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
-                "",
                 35L,
                 10L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
-                "",
                 35L,
                 10L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
-                "",
                 36L,
                 10L
         ));
-        pageService.save(new PageDtoForm(
+        pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
-                "",
                 36L,
                 10L
         ));
@@ -1020,7 +966,5 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         pageService.modifyHiddenField(13L, false);
         pageService.modifyHiddenField(14L, false);
         pageService.modifyHiddenField(15L, false);
-
-        log.info("Created dummy data");
     }
 }

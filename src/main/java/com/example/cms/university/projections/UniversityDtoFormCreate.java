@@ -9,12 +9,14 @@ import lombok.Value;
 public class UniversityDtoFormCreate {
     String name;
     String shortName;
-    String creatorUsername;
+    String description;
+    Long creatorId;
 
     public University toUniversity(User creator) {
         University university = new University();
         university.setName(name);
         university.setShortName(shortName);
+        university.setDescription(description);
         university.setHidden(true);
 
         Page page = new Page();

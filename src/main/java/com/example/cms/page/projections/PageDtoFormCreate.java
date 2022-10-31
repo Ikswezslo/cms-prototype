@@ -8,7 +8,7 @@ import lombok.Value;
 public class PageDtoFormCreate {
     String title;
     String description;
-    String creatorUsername;
+    Long creatorId;
     Long parentId;
 
     public Page toPage(Page parent, User creator) {

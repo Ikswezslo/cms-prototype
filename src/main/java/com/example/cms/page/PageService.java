@@ -149,18 +149,6 @@ public class PageService {
         pageRepository.save(page);
     }
 
-    public void editPage(Long id, PageDtoForm form) {
-        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
-        page.setTitle(form.getTitle());
-        page.setDescription(form.getDescription());
-        User creator = userRepository.findById(form.getCreatorId())
-                .orElseThrow(() -> {
-                    throw new PageException(PageExceptionType.NOT_FOUND_USER);
-                });
-        page.setCreator(creator);
-        pageRepository.save(page);
-    }
-
     @Secured("ROLE_USER")
     public void modifyHiddenField(Long id, boolean hidden) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -182,14 +170,21 @@ public class PageService {
         page.setContent(content);
         pageRepository.save(page);
     }
-
+    @Secured("ROLE_MODERATOR")
     public void modifyCreatorField(Long id, String username) {
-        System.out.println("test");
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (securityService.isForbiddenPage(page)) {
+            throw new ForbiddenException();
+        }
+
         User creator = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
                     throw new PageException(PageExceptionType.NOT_FOUND_USER);
                 });
+        if (securityService.isForbiddenUser(creator)) {
+            throw new ForbiddenException();
+        }
+
         page.setCreator(creator);
         pageRepository.save(page);
     }
