@@ -1,6 +1,17 @@
+server:
+  servlet.session:
+    cookie:
+      http-only: true
+      secure: false
+    timeout: 30m
+
+# Here we define active profiles
 spring:
   profiles:
-    active: secured
+    active: secured, h2
+---
+
+spring:
   h2:
     console:
       enabled: true
@@ -16,10 +27,35 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+  config:
+    activate:
+      on-profile: h2
 
-server:
-  servlet.session:
-    cookie:
-      http-only: true
-      secure: false
-    timeout: 30m
+
+---
+
+spring:
+  datasource:
+    # If you want to use postgres you need to create
+    # database schema named cms and write here username and password
+    # for your postgres (or make your postgresql like this :)).
+    url: jdbc:postgresql://localhost:5432/cms
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      auto-commit: false
+
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  config:
+    activate:
+      on-profile: postgres
+
