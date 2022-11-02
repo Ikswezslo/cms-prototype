@@ -16,5 +16,5 @@ export interface UniversityForm {
   name: string;
   shortName: string;
   description: string;
-  creatorUsername: string;
+  creatorId: number;
 }
