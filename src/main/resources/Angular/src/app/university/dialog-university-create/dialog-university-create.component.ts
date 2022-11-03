@@ -26,7 +26,6 @@ export class DialogUniversityCreateComponent implements OnInit {
   ngOnInit(): void {
     this.edit = this.data.edit ?? this.edit;
     this.changeUniversityToForm();
-    this.university.creatorUsername = "admin";  //TODO: Pobrać aktualnego użytkownika skądś
   }
 
   changeUniversityToForm(){
@@ -34,7 +33,7 @@ export class DialogUniversityCreateComponent implements OnInit {
     this.university.name = this.data.university?.name ?? this.university.name;
     this.university.shortName = this.data.university?.shortName ?? this.university.shortName;
     this.university.description = this.data.university?.description ?? this.university.description;
-    this.university.creatorUsername = this.userService.loggedUser?.username ?? '';
+    this.university.creatorId = this.userService.loggedUser?.id ?? 0;
   }
   close() {
     this.dialog.closeAll()
