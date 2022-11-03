@@ -49,7 +49,7 @@ public class UniversityService {
         return universityRepository.findAll().stream().map(UniversityDtoSimple::of).collect(Collectors.toList());
     }
 
-    @Secured("ROLE_MODERATOR")
+    @Secured("ROLE_ADMIN")
     public UniversityDtoDetailed addNewUniversity(UniversityDtoFormCreate form) {
         if (universityRepository.existsByNameOrShortName(form.getName(), form.getShortName())) {
             throw new UniversityException(UniversityExceptionType.NAME_TAKEN);
@@ -115,7 +115,7 @@ public class UniversityService {
         universityRepository.save(university);
     }
 
-    @Secured("ROLE_MODERATOR")
+    @Secured("ROLE_ADMIN")
     @Transactional
     public void deleteUniversity(Long id) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);

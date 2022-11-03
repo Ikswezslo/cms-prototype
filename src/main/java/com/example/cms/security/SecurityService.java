@@ -53,64 +53,95 @@ public class SecurityService {
 
     public boolean isForbiddenPage(Page page) {
         LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
-        if (loggedUser.getAccountType() == Role.USER || loggedUser.getAccountType() == Role.MODERATOR) {
-            if (!loggedUser.getUniversities().contains(page.getUniversity().getId())) {
-                return true;
-            }
+
+        switch (loggedUser.getAccountType()) {
+            case ADMIN:
+                return false;
+            case MODERATOR:
+                return !hasUniversity(page.getUniversity().getId());
+            case USER:
+                return !page.getCreator().getId().equals(loggedUser.getId()) &&
+                        !hasUniversity(page.getUniversity().getId());
         }
-        if (loggedUser.getAccountType() == Role.USER) {
-            if (!page.getCreator().getId().equals(loggedUser.getId())) {
-                return true;
-            }
-        }
-        return false;
+
+        return true;
     }
 
     public boolean isForbiddenUniversity(University university) {
         LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
-        if (loggedUser.getAccountType() == Role.USER) {
-            return true;
-        } else if (loggedUser.getAccountType() == Role.MODERATOR) {
-            if (!loggedUser.getUniversities().contains(university.getId())) {
+
+        switch (loggedUser.getAccountType()) {
+            case ADMIN:
+                return false;
+            case MODERATOR:
+                return !hasUniversity(university.getId());
+            case USER:
                 return true;
-            }
         }
-        return false;
+
+        return true;
     }
 
     public boolean isForbiddenUser(User user, boolean onlyDifferentUser) {
         LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
 
-        if (onlyDifferentUser) {
-            if (loggedUser.getId().equals(user.getId())) {
-                return true;
-            }
+        if (onlyDifferentUser && loggedUser.getId().equals(user.getId())) {
+            return true;
+        } else {
+            return isForbiddenUser(user);
+        }
+    }
+
+    public boolean isForbiddenUser(User user) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        switch (loggedUser.getAccountType()) {
+            case ADMIN:
+                return false;
+            case MODERATOR:
+                return !loggedUser.getId().equals(user.getId()) &&
+                        (!hasHigherRoleThan(user.getAccountType()) ||
+                        !hasUniversity(user.getEnrolledUniversities().stream()
+                                .map(University::getId)
+                                .collect(Collectors.toList())));
+            case USER:
+                return !loggedUser.getId().equals(user.getId());
         }
 
-        if (loggedUser.getAccountType() == Role.USER) {
-            if (!loggedUser.getId().equals(user.getId())) {
-                return true;
-            }
-        } else if (loggedUser.getAccountType() == Role.MODERATOR) {
-            if (user.getAccountType() != Role.USER) { // TODO: or: user.getAccountType() == Role.ADMIN
-                return true;
-            }
+        return true;
+    }
 
-            boolean sameUniversity = false;
-            for (long universityId : user.getEnrolledUniversities().stream().map(University::getId).collect(Collectors.toList())) {
-                if (loggedUser.getUniversities().contains(universityId)) {
-                    sameUniversity = true;
-                    break;
-                }
+    public boolean hasUniversity(List<Long> universities) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        boolean sameUniversity = false;
+        for (long universityId : universities) {
+            if (loggedUser.getUniversities().contains(universityId)) {
+                sameUniversity = true;
+                break;
             }
-            if (!sameUniversity) {
-                return true;
-            }
+        }
+        return loggedUser.getAccountType().equals(Role.ADMIN) || sameUniversity;
+    }
+
+    public boolean hasUniversity(Long universityId) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+        return loggedUser.getAccountType().equals(Role.ADMIN) || loggedUser.getUniversities().contains(universityId);
+    }
+
+    public boolean hasHigherRoleThan(Role userRole, Role role) {
+        switch (role) {
+            case ADMIN:
+            case MODERATOR:
+                return userRole.equals(Role.ADMIN);
+            case USER:
+                return userRole.equals(Role.ADMIN) || userRole.equals(Role.MODERATOR);
         }
         return false;
     }
 
-    public boolean isForbiddenUser(User user) {
-        return isForbiddenUser(user, false);
+    public boolean hasHigherRoleThan(Role role) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+        return hasHigherRoleThan(loggedUser.getAccountType(), role);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.cms.user;
 
 import com.example.cms.page.PageRepository;
-import com.example.cms.security.LoggedUser;
 import com.example.cms.security.Role;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
@@ -14,7 +13,6 @@ import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
-import com.example.cms.validation.exceptions.UnauthorizedException;
 import com.example.cms.validation.exceptions.WrongDataStructureException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,6 +58,7 @@ public class UserService {
         // TODO: return only visible users
         return userRepository.findAll().stream().map(UserDtoSimple::of).collect(Collectors.toList());
     }
+
     @Secured("ROLE_MODERATOR")
     public UserDtoDetailed createUser(UserDtoFormCreate form) {
         if (userRepository.existsByUsername(form.getUsername())) {
@@ -69,7 +68,7 @@ public class UserService {
         validatePassword(form.getPassword());
 
         User newUser = form.toUser(passwordEncoder);
-        if (securityService.isForbiddenUser(newUser)) {
+        if (!securityService.hasHigherRoleThan(newUser.getAccountType())) {
             throw new ForbiddenException();
         }
 
@@ -86,6 +85,7 @@ public class UserService {
             throw new UserException(UserExceptionType.NOT_VALID_PASSWORD);
         }
     }
+
     @Secured("ROLE_USER")
     public UserDtoDetailed updateUser(Long id, UserDtoFormUpdate form) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -97,24 +97,29 @@ public class UserService {
 
         return UserDtoDetailed.of(userRepository.save(user));
     }
+
     @Secured("ROLE_MODERATOR")
     public UserDtoDetailed addUniversity(long userId, long universityId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        if (securityService.isForbiddenUser(user, true)) {
-            throw new ForbiddenException();
-        }
 
         University university = universityRepository.findById(universityId)
                 .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY));
         if (securityService.isForbiddenUniversity(university)) {
-            throw new ForbiddenException();
+            throw new ForbiddenException(University.class);
         }
 
         university.getEnrolledUsers().add(user);
+        user.getEnrolledUniversities().add(university);
+
+        // TODO: probably bad idea but addUniversity will be replaced by updateEnrolledUniversities in future
+        if (securityService.isForbiddenUser(user, true)) {
+            throw new ForbiddenException(User.class);
+        }
 
         securityService.invalidateUserSession(userId);
         return UserDtoDetailed.of(userRepository.save(user));
     }
+
     @Secured("ROLE_MODERATOR")
     public void modifyEnabledField(long id, boolean enabled) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -125,6 +130,7 @@ public class UserService {
         user.setEnabled(enabled);
         userRepository.save(user);
     }
+
     @Secured("ROLE_USER")
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {
         if (!passwordMap.containsKey("oldPassword") || !passwordMap.containsKey("newPassword")) {
@@ -151,6 +157,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
+
     @Secured("ROLE_USER")
     public void modifyUsernameField(long id, String username) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -165,7 +172,8 @@ public class UserService {
 
         userRepository.save(user);
     }
-    @Secured("ROLE_MODERATOR")
+
+    @Secured("ROLE_ADMIN")
     public void modifyAccountTypeField(long id, Map<String, Role> accountType) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
         if (securityService.isForbiddenUser(user, true)) {
@@ -180,6 +188,7 @@ public class UserService {
         securityService.invalidateUserSession(id);
         userRepository.save(user);
     }
+
     @Secured("ROLE_USER")
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);

@@ -22,32 +22,34 @@
 
 <mat-menu #actionsUniversity="matMenu">
   <button mat-menu-item (click)="startEdit()"
-          *ngIf="!securityService.isForbiddenUniversity(university)">
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>edit</mat-icon>
     <span>Edit</span>
   </button>
   <button mat-menu-item (click)=hiddenUniversity()
-          *ngIf="!securityService.isForbiddenUniversity(university)
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)
           && university.hidden">
     <mat-icon>visibility_on</mat-icon>
     <span>Unhide</span>
   </button>
   <button mat-menu-item (click)=hiddenUniversity()
-          *ngIf="!securityService.isForbiddenUniversity(university)
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)
           && !university.hidden">
     <mat-icon>visibility_off</mat-icon>
     <span>Hide</span>
   </button>
-  <button mat-menu-item *ngIf="!securityService.isForbiddenUniversity(university)">
+  <button mat-menu-item
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>person</mat-icon>
     <span>Enroll user</span>
   </button>
-  <button mat-menu-item *ngIf="!securityService.isForbiddenUniversity(university)">
+  <button mat-menu-item
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>note_edit</mat-icon>
     <span>Change main page</span>
   </button>
   <button mat-menu-item (click)="deleteUniversity()"
-          *ngIf="!securityService.isForbiddenUniversity(university)">
+          *ngIf="securityService.hasRole('ADMIN') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>delete</mat-icon>
     <span>Delete</span>
   </button>
