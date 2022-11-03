@@ -8,7 +8,7 @@ server:
 # Here we define active profiles
 spring:
   profiles:
-    active: secured, postgres
+    active: secured, h2
 ---
 
 spring:
