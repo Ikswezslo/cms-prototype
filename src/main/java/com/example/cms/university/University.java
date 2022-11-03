@@ -20,15 +20,7 @@ import java.util.Set;
 @Setter
 public class University {
     @Id
-    @SequenceGenerator(
-            name = "university_sequence",
-            sequenceName = "university_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            generator = "university_sequence",
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany
