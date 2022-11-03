@@ -8,7 +8,7 @@ server:
 # Here we define active profiles
 spring:
   profiles:
-    active: secured, h2
+    active: secured, postgres
 ---
 
 spring:
@@ -54,7 +54,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-    show-sql: true
   config:
     activate:
       on-profile: postgres
