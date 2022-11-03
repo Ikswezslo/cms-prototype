@@ -22,7 +22,7 @@ export class SecurityService {
         case "MODERATOR":
           return !this.hasUniversity(page.university.id);
         case "USER":
-          return page.creator.id !== loggedUser.id && !this.hasUniversity(page.university.id);
+          return page.creator.id !== loggedUser.id || !this.hasUniversity(page.university.id);
       }
     }
 
