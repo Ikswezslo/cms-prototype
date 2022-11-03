@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, Validators} from "@angular/forms";
 import {Page, PageForm} from "../../../assets/models/page";
 import {PageService} from "../../../assets/service/page.service";
+import {UserService} from "../../../assets/service/user.service";
 
 @Component({
   selector: 'app-dialog-page-create',
@@ -18,15 +19,16 @@ export class DialogPageCreateComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogPageCreateComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private pageService: PageService) { }
+              private pageService: PageService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
     this.page.content = "Insert content...";
     this.edit = this.data.edit ?? this.edit;
-    this.page.creatorUsername = "admin";  //TODO: Pobrać aktualnego użytkownika skądś
+    this.page.creatorId = this.userService.loggedUser?.id ?? 0;
     if(this.edit){
       this.page.id = this.data.page?.id ?? this.page.id;
-      this.page.creatorUsername = this.data.page?.creator.username ?? this.page.creatorUsername;
+      this.page.creatorId = this.data.page?.creator.id ?? this.page.creatorId;
       this.page.title = this.data.page?.title ?? this.page.title;
       this.page.description = this.data.page?.description ?? this.page.description;
       try{
@@ -58,7 +60,7 @@ export class DialogPageCreateComponent implements OnInit {
     }
   }
 
-  editPage(): void {
+  editPage(): void { //TODO: delete this method?
     if(this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID"  && this.creatorUsernameValid.status == "VALID"){
       console.log(this.page);
       this.pageService.editPage(this.page).subscribe({
