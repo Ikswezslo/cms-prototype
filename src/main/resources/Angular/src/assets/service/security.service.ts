@@ -125,9 +125,9 @@ export class SecurityService {
     return false;
   }
 
-  public hasLoggedUserHigherRole(role: string): boolean {
+  public hasLoggedUserHigherRole(role?: string): boolean {
     let loggedUser: User | null = this.userService.loggedUser;
-    if (loggedUser) {
+    if (loggedUser && role) {
       return this.hasUserHigherRole(loggedUser.accountType, role)
     }
     return false;

@@ -50,9 +50,12 @@
         <mat-form-field fxFlex="100" appearance="fill">
             <mat-label>Account type</mat-label>
             <mat-select formControlName="accountType">
-                <mat-option [value]="'USER'">User</mat-option>
-                <mat-option [value]="'MODERATOR'">University admin</mat-option>
-                <mat-option [value]="'ADMIN'">Main admin</mat-option>
+                <mat-option *ngIf="securityService.hasLoggedUserHigherRole('USER')"
+                            [value]="'USER'">User</mat-option>
+                <mat-option *ngIf="securityService.hasLoggedUserHigherRole('MODERATOR')"
+                            [value]="'MODERATOR'">University admin</mat-option>
+                <mat-option *ngIf="securityService.hasLoggedUserHigherRole('ADMIN')"
+                            [value]="'ADMIN'">Main admin</mat-option>
             </mat-select>
             <mat-error *ngIf="form.controls.accountType.hasError('required')">Account type is required</mat-error>
         </mat-form-field>

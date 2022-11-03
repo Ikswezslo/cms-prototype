@@ -47,7 +47,7 @@
     <span>Zmień rolę</span>
   </button>
   <button mat-menu-item (click)="openAddUniversityDialog()"
-          *ngIf="securityService.hasRole('MODERATOR') && securityService.hasLoggedUserHigherRole(user.accountType)">
+          *ngIf="securityService.hasRole('MODERATOR') && securityService.hasLoggedUserHigherRole(user?.accountType)">
     <mat-icon>business</mat-icon>
     <span>Przypisz uniwersytet</span>
   </button>
