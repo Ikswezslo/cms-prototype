@@ -90,7 +90,9 @@ export class PageDetailsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(DialogPageCreateComponent, dialogData);
     dialogRef.afterClosed().subscribe(res => {
-      this.router.navigateByUrl(`page/${res}`);
+      if (res) {
+        this.router.navigateByUrl(`page/${res}`);
+      }
     });
   }
 
@@ -107,7 +109,7 @@ export class PageDetailsComponent implements OnInit {
     });
   }
 
-  changePageCreator(){
+  changePageCreator() {
     let dialogData = {
       data: {
         id: this.page.id,
