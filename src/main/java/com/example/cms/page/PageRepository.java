@@ -43,7 +43,7 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     @Query("from Page where " +
             "LOWER(title) LIKE :text " +
             "OR LOWER(description) LIKE :text")
-    List<Page> searchPages(Pageable pageable, @Param("text") String text);
+    List<Page> searchPages(@Param("text") String text);
 
     List<Page> findByParent(Page parent);
 

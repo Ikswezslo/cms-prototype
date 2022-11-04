@@ -159,4 +159,10 @@ public class UserService {
         securityService.invalidateUserSession(id);
         userRepository.save(user);
     }
+
+    public List<UserDtoDetailed> searchUser(String text) {
+        return userRepository.searchUser(text).stream()
+                .map(UserDtoDetailed::new)
+                .collect(Collectors.toList());
+    }
 }

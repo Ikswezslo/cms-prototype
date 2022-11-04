@@ -46,8 +46,8 @@ public class PageController {
     }
 
     @GetMapping("/search/{text}")
-    List<PageDtoSimple> searchPages(@PathVariable String text, Pageable pageable) {
-        return service.searchPages(pageable, "%".concat(text.toLowerCase().concat("%")));
+    List<PageDtoSimple> searchPages(@PathVariable String text) {
+        return service.searchPages("%".concat(text.toLowerCase().concat("%")));
     }
 
     @PostMapping
