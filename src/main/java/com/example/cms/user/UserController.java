@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/search/{text}")
-    List<UserDtoDetailed> searchUser(@PathVariable String text) {
+    List<UserDtoSimple> searchUser(@PathVariable String text) {
         return service.searchUser("%".concat(text.toLowerCase().concat("%")));
     }
 

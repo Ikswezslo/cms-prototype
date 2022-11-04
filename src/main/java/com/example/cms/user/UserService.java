@@ -160,9 +160,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<UserDtoDetailed> searchUser(String text) {
+    public List<UserDtoSimple> searchUser(String text) {
         return userRepository.searchUser(text).stream()
-                .map(UserDtoDetailed::new)
+                .map(UserDtoSimple::new)
                 .collect(Collectors.toList());
     }
 }
