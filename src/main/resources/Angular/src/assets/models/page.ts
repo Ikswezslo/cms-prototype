@@ -19,6 +19,6 @@ export interface PageForm{
   title: string;
   description: string;
   content: string;
-  creatorUsername: string;
+  creatorId: number;
   parentId: number;
 }
