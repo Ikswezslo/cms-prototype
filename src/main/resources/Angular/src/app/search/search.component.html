@@ -1,0 +1,12 @@
+<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
+
+    <h2>Wyszukaj stronę</h2>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Szukaj</mat-label>
+        <input type="text" matInput [formControl]="searchControl" spellcheck="false" (change)="search()">
+    </mat-form-field>
+    
+    <app-page-card *ngFor="let page of pages" [page]="page" [config]="cardConfig" class="cms-fixed-width">
+    </app-page-card>
+</div>
