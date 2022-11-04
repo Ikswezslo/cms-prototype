@@ -6,7 +6,7 @@ export class SetupService {
   constructor(private userService: UserService) {
   }
 
-  public initliaze(): Promise<any> {
+  public initialize(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.userService.getLoggedUser().subscribe({
         next: user => {
