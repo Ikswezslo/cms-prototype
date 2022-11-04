@@ -41,6 +41,11 @@ public class UserController {
         return service.getUser(id);
     }
 
+    @GetMapping("/search/{text}")
+    List<UserDtoDetailed> searchUser(@PathVariable String text) {
+        return service.searchUser("%".concat(text.toLowerCase().concat("%")));
+    }
+
     @Secured("ROLE_USER")
     @PostMapping
     public ResponseEntity<UserDtoDetailed> createUser(@RequestBody UserDtoFormCreate form) {

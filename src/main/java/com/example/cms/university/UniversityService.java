@@ -131,4 +131,10 @@ public class UniversityService {
         university.updateFromEditedForm(form);
         universityRepository.save(university);
     }
+
+    public List<UniversityDtoSimple> searchUniversities(String text) {
+        return universityRepository.searchUniversities(text).stream()
+                .map(UniversityDtoSimple::new)
+                .collect(Collectors.toList());
+    }
 }
