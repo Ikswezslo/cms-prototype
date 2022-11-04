@@ -33,7 +33,7 @@ import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.compo
 export class UserDetailsComponent implements OnInit {
 
 
-  @Input() settings: boolean = true;
+  @Input() settings: boolean = false;
   @Input() settingsId!: Number;
   public pages!: Page[];
   public loggedUser!: User;
