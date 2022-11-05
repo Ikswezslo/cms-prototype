@@ -1,7 +1,6 @@
 package com.example.cms.user;
 
 import com.example.cms.page.PageRepository;
-import com.example.cms.security.LoggedUser;
 import com.example.cms.security.Role;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
@@ -111,6 +110,9 @@ public class UserService {
     private void validateForDelete(User user) {
         if (pageRepository.existsByCreator(user)) {
             throw new UserException(UserExceptionType.PAGES_EXISTS);
+        }
+        if (user.isEnabled()) {
+            throw new UserException(UserExceptionType.USER_IS_ENABLED);
         }
     }
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {

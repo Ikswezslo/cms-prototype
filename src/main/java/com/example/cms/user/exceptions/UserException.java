@@ -12,6 +12,18 @@ public class UserException extends BadRequestException {
         switch (type) {
             case PAGES_EXISTS:
                 return "You cannot delete user if pages which he created exist";
+            case SAME_PASSWORD:
+                return "The passwords are the same";
+            case NOT_FOUND_UNIVERSITY:
+                return "University is not found";
+            case USERNAME_TAKEN:
+                return "User with given username already exists";
+            case WRONG_PASSWORD:
+                return "The password is wrong";
+            case NOT_VALID_PASSWORD:
+                return "Password is not valid";
+            case USER_IS_ENABLED:
+                return "You cannot delete enabled users";
         }
         return "Unknown bad request";
     }
