@@ -46,6 +46,11 @@ public class PageController {
         return service.getChildren(parent);
     }
 
+    @GetMapping("/search/{text}")
+    List<PageDtoSimple> searchPages(@PathVariable String text) {
+        return service.searchPages("%".concat(text.toLowerCase().concat("%")));
+    }
+
     @PostMapping
     ResponseEntity<PageDtoDetailed> createPage(@RequestBody PageDtoFormCreate form) {
         PageDtoDetailed result = service.save(form);

@@ -141,4 +141,10 @@ public class UniversityService {
             }
         }
     }
+
+    public List<UniversityDtoSimple> searchUniversities(String text) {
+        return universityRepository.searchUniversities(text).stream()
+                .map(UniversityDtoSimple::new)
+                .collect(Collectors.toList());
+    }
 }

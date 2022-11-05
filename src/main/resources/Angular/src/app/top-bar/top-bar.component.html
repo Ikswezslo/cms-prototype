@@ -1,10 +1,13 @@
 <span class="beginning">
-    <button style="text-align: center " mat-menu-item [routerLink]="['/']" class="subButton">Logo</button>
+    <button mat-button style="text-align: center" [routerLink]="['/']">Logo</button>
     <button *ngIf="logged" [matMenuTriggerFor]="aboveMenu" class="mainButton">
         <mat-icon fontIcon="menu"></mat-icon>
         CMS
     </button>
-
+    <button mat-button [routerLink]="['/search']">
+        <mat-icon>search</mat-icon>
+        Wyszukaj
+    </button>
 </span>
 <mat-menu #aboveMenu="matMenu" yPosition="above">
   <button mat-menu-item [routerLink]="['/']" class="subButton">Strona główna</button>

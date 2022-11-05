@@ -205,4 +205,10 @@ public class UserService {
             throw new UserException(UserExceptionType.PAGES_EXISTS);
         }
     }
+
+    public List<UserDtoSimple> searchUser(String text) {
+        return userRepository.searchUser(text).stream()
+                .map(UserDtoSimple::new)
+                .collect(Collectors.toList());
+    }
 }

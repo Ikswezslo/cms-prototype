@@ -31,6 +31,11 @@ export class UniversityService {
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
+  searchUniversities(text: string, defaultErrorHandling: boolean = true): Observable<University[]> {
+    return this.http.get<University[]>(`${this.universityUrl}/search/${text}`, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
   addNewUniversity(University: UniversityForm, defaultErrorHandling: boolean = true): Observable<University> {
     return this.http.post<University>(this.universityUrl, University, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));

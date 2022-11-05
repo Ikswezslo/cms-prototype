@@ -31,6 +31,11 @@ public class UniversityController {
         return service.getUniversities();
     }
 
+    @GetMapping("/search/{text}")
+    List<UniversityDtoSimple> searchUniversities(@PathVariable String text) {
+        return service.searchUniversities("%".concat(text.toLowerCase().concat("%")));
+    }
+
     @PostMapping
     public ResponseEntity<UniversityDtoDetailed> registerNewUniversity(@RequestBody UniversityDtoFormCreate form) {
         UniversityDtoDetailed result = service.addNewUniversity(form);

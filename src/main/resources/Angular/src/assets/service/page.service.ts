@@ -50,6 +50,11 @@ export class PageService {
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
+  searchPages(text: string, defaultErrorHandling: boolean = true): Observable<Page[]> {
+    return this.http.get<Page[]>(`${this.pageUrl}/search/${text}`, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
   modifyPageContentField(id: Number, content: string, defaultErrorHandling: boolean = true): Observable<void> {
     return this.http.patch<void>(`${this.pageUrl}/${id}/content`, content, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
