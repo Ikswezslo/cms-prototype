@@ -181,4 +181,10 @@ public class PageService {
                 .map(PageDtoSimple::new)
                 .collect(Collectors.toList());
     }
+
+    public List<PageDtoSimple> searchPages(String text) {
+        return pageRepository.searchPages(text).stream()
+                .map(PageDtoSimple::new)
+                .collect(Collectors.toList());
+    }
 }

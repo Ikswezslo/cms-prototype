@@ -40,6 +40,11 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     @Query("from Page where parent.id = :parent and hidden = false")
     Set<Page> findChildren(@Param("parent") Long parentId);
 
+    @Query("from Page where " +
+            "LOWER(title) LIKE :text " +
+            "OR LOWER(description) LIKE :text")
+    List<Page> searchPages(@Param("text") String text);
+
     List<Page> findByParent(Page parent);
 
     boolean existsByCreator(User creator);

@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, Validators} from "@angular/forms";
 import {Page, PageForm} from "../../../assets/models/page";
 import {PageService} from "../../../assets/service/page.service";
+import {UserService} from "../../../assets/service/user.service";
 
 @Component({
   selector: 'app-dialog-page-create',
@@ -18,38 +19,35 @@ export class DialogPageCreateComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogPageCreateComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private pageService: PageService) { }
+              private pageService: PageService,
+              private userService: UserService) {
+  }
 
   ngOnInit(): void {
     this.page.content = "Insert content...";
     this.edit = this.data.edit ?? this.edit;
-    this.page.creatorUsername = "admin";  //TODO: Pobrać aktualnego użytkownika skądś
-    if(this.edit){
+    this.page.creatorId = this.userService.loggedUser?.id ?? 0;
+    if (this.edit) {
       this.page.id = this.data.page?.id ?? this.page.id;
-      this.page.creatorUsername = this.data.page?.creator.username ?? this.page.creatorUsername;
+      this.page.creatorId = this.data.page?.creator.id ?? this.page.creatorId;
       this.page.title = this.data.page?.title ?? this.page.title;
       this.page.description = this.data.page?.description ?? this.page.description;
-      try{
+      try {
         this.page.parentId = this.data.page?.parent.id ?? this.page.parentId;
-      }
-      catch (error){
+      } catch (error) {
         this.page.parentId = 0;
       }
-
-    }
-    else{
+    } else {
       this.page.parentId = this.data.page?.id ?? this.page.parentId;
     }
-    console.log("Id rodzica: " + this.page.parentId);
   }
 
   createPage(): void {
-    if(this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID"){
+    if (this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID") {
       console.log(this.page);
       this.pageService.addNewPage(this.page).subscribe({
         next: page => {
-          console.log(page);
-          this.close();
+          this.close(page.id);
         },
         error: err => {
           this.close();
@@ -58,8 +56,8 @@ export class DialogPageCreateComponent implements OnInit {
     }
   }
 
-  editPage(): void {
-    if(this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID"  && this.creatorUsernameValid.status == "VALID"){
+  editPage(): void { //TODO: delete this method?
+    if (this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID" && this.creatorUsernameValid.status == "VALID") {
       console.log(this.page);
       this.pageService.editPage(this.page).subscribe({
         next: page => {
@@ -73,9 +71,9 @@ export class DialogPageCreateComponent implements OnInit {
     }
   }
 
-  close(add: Boolean = false) {
-    if (add)
-      this.dialogRef.close(add);
+  close(id?: number) {
+    if (id)
+      this.dialogRef.close(id);
     else
       this.dialogRef.close();
   }
