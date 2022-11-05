@@ -111,6 +111,9 @@ public class UserService {
         if (pageRepository.existsByCreator(user)) {
             throw new UserException(UserExceptionType.PAGES_EXISTS);
         }
+        if (user.isEnabled()) {
+            throw new UserException(UserExceptionType.USER_IS_ENABLED);
+        }
     }
     public void modifyPasswordField(long id, Map<String, String> passwordMap) {
         if (!passwordMap.containsKey("oldPassword") || !passwordMap.containsKey("newPassword")) {

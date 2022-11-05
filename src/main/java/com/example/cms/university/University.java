@@ -24,11 +24,11 @@ public class University {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_enrolled",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "university_id")
+            joinColumns = @JoinColumn(name = "university_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> enrolledUsers = new HashSet<>();
 
