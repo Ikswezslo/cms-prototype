@@ -34,6 +34,11 @@ export class UserService {
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
+  searchUsers(text: string, defaultErrorHandling: boolean = true): Observable<User[]> {
+    return this.http.get<User[]>(`${this.userUrl}/search/${text}`, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
   createUser(user: UserForm, defaultErrorHandling: boolean = true): Observable<User> {
     return this.http.post<User>(this.userUrl, user, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));

@@ -1,7 +1,6 @@
 package com.example.cms.user;
 
 import com.example.cms.page.PageRepository;
-import com.example.cms.security.LoggedUser;
 import com.example.cms.security.Role;
 import com.example.cms.security.SecurityService;
 import com.example.cms.university.University;
@@ -156,5 +155,11 @@ public class UserService {
 
         securityService.invalidateUserSession(id);
         userRepository.save(user);
+    }
+
+    public List<UserDtoSimple> searchUser(String text) {
+        return userRepository.searchUser(text).stream()
+                .map(UserDtoSimple::new)
+                .collect(Collectors.toList());
     }
 }

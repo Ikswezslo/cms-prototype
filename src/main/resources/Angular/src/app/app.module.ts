@@ -33,9 +33,7 @@ import {UniversityDetailsComponent} from './university/university-details/univer
 import {DialogUserCreateComponent} from './user/dialogs/dialog-user-create/dialog-user-create.component';
 import {LoginComponent} from './login/login.component';
 import {UserSettingsComponent} from './user/user-settings/user-settings.component';
-import {
-  DialogUniversityCreateComponent
-} from './university/dialog-university-create/dialog-university-create.component';
+import {DialogUniversityCreateComponent} from './university/dialog-university-create/dialog-university-create.component';
 import {PageUserComponent} from './page/page-user/page-user.component';
 import {MatButtonModule} from '@angular/material/button'
 import {QuillModule} from 'ngx-quill';
@@ -51,27 +49,20 @@ import {UniversityCardComponent} from './university/university-card/university-c
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 import {SpinnerComponent} from './spinner/spinner.component';
-import {
-  DialogUserAddUniversityComponent
-} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
+import {DialogUserAddUniversityComponent} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-page-creator.component';
-import {
-  DialogUserChangePasswordComponent
-} from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
+import {DialogUserChangePasswordComponent} from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
 import {SuccessDialogComponent} from './dialog/success-dialog/success-dialog.component';
-import {
-  DialogUserChangeUsernameComponent
-} from './user/dialogs/dialog-user-change-username/dialog-user-change-username.component';
+import {DialogUserChangeUsernameComponent} from './user/dialogs/dialog-user-change-username/dialog-user-change-username.component';
 import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialog-user-update.component';
-import {
-  DialogUserChangeAccountTypeComponent
-} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
+import {DialogUserChangeAccountTypeComponent} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
 import {SetupService} from 'src/assets/service/setup.service';
+import { SearchComponent } from './search/search.component';
 
 
 export function SetupApp(setup: SetupService) {
-  return () => setup.initliaze();
+  return () => setup.initialize();
 }
 
 @NgModule({
@@ -105,6 +96,7 @@ export function SetupApp(setup: SetupService) {
     DialogUserChangeUsernameComponent,
     DialogUserUpdateComponent,
     DialogUserChangeAccountTypeComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,7 +130,8 @@ export function SetupApp(setup: SetupService) {
       {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
       {path: 'page/:pageId/edit', component: QuillEditorComponent, title: 'Edycja strony'},
       {path: 'pages/:userId', component: PageUserComponent},
-      {path: 'login', component: LoginComponent, title: 'Logowanie'}
+      {path: 'login', component: LoginComponent, title: 'Logowanie'},
+      {path: 'search', component: SearchComponent, title: 'Search'}
     ]),
     BrowserAnimationsModule,
     BrowserModule,

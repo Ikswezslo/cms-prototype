@@ -1,0 +1,17 @@
+<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
+
+  <h2>Wyszukaj</h2>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Szukaj</mat-label>
+    <input type="text" matInput [formControl]="searchControl" spellcheck="false" (change)="search()">
+  </mat-form-field>
+
+  <app-page-card *ngFor="let page of pages" [page]="page" [config]="pageCardConfig"
+                 class="cms-fixed-width"></app-page-card>
+  <app-university-card *ngFor="let university of universities" [university]="university" [config]="universityCardConfig"
+                       class="cms-fixed-width"></app-university-card>
+  <app-user-card *ngFor="let user of users" [user]="user" [config]="userCardConfig"
+                 class="cms-fixed-width"></app-user-card>
+
+</div>
