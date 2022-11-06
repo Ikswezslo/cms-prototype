@@ -1,11 +1,11 @@
-<h1>Uniwersytety</h1>
-<button mat-button (click)="addUniversity()">Dodaj</button>
+<h1>{{"UNIVERSITIES" | translate}}</h1>
+<button mat-button (click)="addUniversity()">{{"ADD_UNIVERSITY" | translate}}</button>
 <div class="options">
     <mat-form-field appearance="standard" class="option">
-        <mat-label>Show</mat-label>
+        <mat-label>{{"SHOW" | translate}}</mat-label>
         <mat-select [(value)]="selected" (selectionChange)="loadUniversities($event.value)">
-            <mat-option [value]=true>All</mat-option>
-            <mat-option [value]=false>Without hidden</mat-option>
+            <mat-option [value]=true>{{"ALL" | translate}}</mat-option>
+            <mat-option [value]=false>{{"WITHOUT_HIDDEN" | translate}}</mat-option>
         </mat-select>
     </mat-form-field>
 </div>

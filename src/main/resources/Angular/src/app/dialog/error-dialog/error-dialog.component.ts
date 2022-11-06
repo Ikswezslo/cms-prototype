@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-error-dialog',
@@ -9,12 +10,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ErrorDialogComponent implements OnInit {
 
 
-  title: String = "Error";
-  description: String = "Wystąpił błąd przy pobieraniu danych.";
+  title: String = this.translate.instant("ERROR");
+  description: String = this.translate.instant("LOADING_ERROR_DESCRIPTION");
 
   constructor(
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ErrorDialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: ErrorDialogData,
+    private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.title = this.data.title ?? this.title;

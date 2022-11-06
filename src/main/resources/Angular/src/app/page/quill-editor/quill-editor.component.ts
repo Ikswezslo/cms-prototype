@@ -5,6 +5,7 @@ import {PageService} from "../../../assets/service/page.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import ImageResize from 'quill-image-resize-module'
+import {TranslateService} from "@ngx-translate/core";
 
 Quill.register('modules/imageResize', ImageResize)
 
@@ -26,7 +27,8 @@ export class QuillEditorComponent implements OnInit {
     private pageService: PageService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translate: TranslateService
   ) {
     this.modules = {
       imageResize: {},
@@ -63,7 +65,7 @@ export class QuillEditorComponent implements OnInit {
     if (this.content != undefined && this.page) {
       this.pageService.modifyPageContentField(this.page.id, this.content as string).subscribe(
           () => {
-            this.snackBar.open("Zapisano stronę", "Zamknij", {
+            this.snackBar.open(this.translate.instant("PAGE_SAVED"), this.translate.instant("CLOSE"), {
               duration: 2000
             });
           }

@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {UserService} from "../../../../assets/service/user.service";
 import {DialogService} from "../../../../assets/service/dialog.service";
 import {FormControl, Validators} from "@angular/forms";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-dialog-user-change-account-type',
@@ -20,13 +21,14 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data,
               private dialog: MatDialog,
               private userService: UserService,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private translate: TranslateService) {
     dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.dialog.open(SuccessDialogComponent, {
           data: {
-            description: "Rola została pomyślnie zmieniona"
+            description: this.translate.instant("ACCOUNT_TYPE_CHANGED")
           }
         });
       }

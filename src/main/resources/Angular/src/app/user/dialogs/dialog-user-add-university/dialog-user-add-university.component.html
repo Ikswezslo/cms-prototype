@@ -1,7 +1,7 @@
 <form>
-  <h2 mat-dialog-title>Dodawanie uniwersytetu do użytkownika</h2>
+  <h2 mat-dialog-title>{{"ADDING_UNIVERSITY_TO_USER" | translate}}</h2>
   <mat-form-field appearance="fill">
-    <mat-label>Nazwa uniwersytetu</mat-label>
+    <mat-label>{{"UNIVERSITY_NAME" | translate}}</mat-label>
     <input type="text" matInput [formControl]="universityControl" [matAutocomplete]="auto" spellcheck="false">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -10,9 +10,9 @@
     </mat-autocomplete>
   </mat-form-field>
   <mat-dialog-actions>
-    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">Anuluj</button>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">{{"CANCEL" | translate}}</button>
     <button mat-button color="primary" (click)="addUniversity(this.universityControl.value)"
-            [disabled]="!universityControl.valid||exiting">Potwierdź
+            [disabled]="!universityControl.valid||exiting">{{"ACCEPT" | translate}}
     </button>
   </mat-dialog-actions>
 </form>

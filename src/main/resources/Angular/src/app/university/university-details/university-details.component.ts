@@ -13,6 +13,7 @@ import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.compo
 import {PageService} from "../../../assets/service/page.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-university-details',
@@ -52,7 +53,9 @@ export class UniversityDetailsComponent implements OnInit {
     private universityService: UniversityService,
     private pageService: PageService,
     private userService: UserService,
-    private dialogService: DialogService) {
+    private dialogService: DialogService,
+    private translate: TranslateService
+    ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -84,8 +87,8 @@ export class UniversityDetailsComponent implements OnInit {
   deleteUniversity() {
     const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        title: 'Deleting ' + this.university.name,
-        description: 'Are you sure you want to delete this university? It might induce other changes.'
+        title: this.translate.instant("DELETING") + " " + this.university.name,
+        description: this.translate.instant("UNIVERSITY_DELETE_DESCRIPTION")
       }
     });
     deletingDialog.afterClosed().subscribe(res => {
@@ -100,7 +103,7 @@ export class UniversityDetailsComponent implements OnInit {
             error: err => {
               const errorDialog = this.dialog.open(ErrorDialogComponent, {
                 data: {
-                  description: err.message || 'Error has occurred during deleting user'
+                  description: err.message || this.translate.instant("ERROR_DELETING_USER")
                 }
               });
               errorDialog.afterClosed().subscribe({

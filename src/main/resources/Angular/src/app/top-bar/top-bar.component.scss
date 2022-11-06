@@ -26,6 +26,14 @@ button {
 
 }
 
+.lanButton{
+  border-radius: 2px;
+  font-size: 20px;
+  margin-left: 10px;
+  white-space:nowrap;
+  background-color: var(--base-light-blue);
+}
+
 .subButton {
     font-size: 15px;
 }

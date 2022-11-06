@@ -1,41 +1,41 @@
 <form [formGroup]="form">
-  <h2 mat-dialog-title>Edycja zawartości</h2>
+  <h2 mat-dialog-title>{{"EDIT_CONTENT" | translate}}</h2>
   <mat-dialog-content fxLayout='row wrap'>
     <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
-      <mat-label>Imię</mat-label>
+      <mat-label>{{"FIRST_NAME" | translate}}</mat-label>
       <input matInput type="text" formControlName="firstName">
-      <mat-error *ngIf="form.controls.firstName.hasError('required')">To pole jest wymagane</mat-error>
+      <mat-error *ngIf="form.controls.firstName.hasError('required')">{{"FIELD_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
 
     <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
-      <mat-label>Nazwisko</mat-label>
+      <mat-label>{{"LAST_NAME" | translate}}</mat-label>
       <input matInput type="text" formControlName="lastName">
-      <mat-error *ngIf="form.controls.lastName.hasError('required')">To pole jest wymagane</mat-error>
+      <mat-error *ngIf="form.controls.lastName.hasError('required')">{{"FIELD_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
 
     <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
-      <mat-label>Email</mat-label>
+      <mat-label>{{"EMAIL" | translate}}</mat-label>
       <input matInput type="text" formControlName="email">
-      <mat-error *ngIf="form.controls.email.hasError('email')">Email musi być poprawny</mat-error>
+      <mat-error *ngIf="form.controls.email.hasError('email')">{{"EMAIL_INCORRECT" | translate}}</mat-error>
     </mat-form-field>
 
     <mat-form-field fxFlex="50" fxFlex.lt-sm="100" appearance="fill" class="input">
-      <mat-label>Nr telefonu</mat-label>
+      <mat-label>{{"PHONE_NUMBER" | translate}}</mat-label>
       <input matInput type="text" formControlName="phoneNumber">
-      <mat-error *ngIf="form.controls.phoneNumber.hasError('pattern')">Nr telefonu musi być poprawny</mat-error>
+      <mat-error *ngIf="form.controls.phoneNumber.hasError('pattern')">{{"PHONE_NUMBER_INCORRECT" | translate}}</mat-error>
     </mat-form-field>
 
     <mat-form-field fxFlex="100" appearance="fill" class="textarea">
-      <mat-label>Opis</mat-label>
+      <mat-label>{{"DESCRIPTION" | translate}}</mat-label>
       <textarea matInput formControlName="description" cdkTextareaAutosize></textarea>
     </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">Anuluj</button>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">{{"CANCEL" | translate}}</button>
     <button mat-button color="primary"
             (click)="updateUser()"
-            [disabled]="!form.valid||exiting">Zatwierdź
+            [disabled]="!form.valid||exiting">{{"CONFIRM" | translate}}
     </button>
   </mat-dialog-actions>
 </form>
