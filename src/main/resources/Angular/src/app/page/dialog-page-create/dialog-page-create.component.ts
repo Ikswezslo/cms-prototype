@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, Validators} from "@angular/forms";
 import {Page, PageForm} from "../../../assets/models/page";
 import {PageService} from "../../../assets/service/page.service";
+import {TranslateService} from "@ngx-translate/core";
 import {UserService} from "../../../assets/service/user.service";
 
 @Component({
@@ -20,11 +21,12 @@ export class DialogPageCreateComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<DialogPageCreateComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
               private pageService: PageService,
-              private userService: UserService) {
+              private userService: UserService,
+              private translate: TranslateService) {
   }
 
   ngOnInit(): void {
-    this.page.content = "Insert content...";
+    this.page.content = this.translate.instant("INSERT_CONTENT");
     this.edit = this.data.edit ?? this.edit;
     this.page.creatorId = this.userService.loggedUser?.id ?? 0;
     if (this.edit) {

@@ -1,14 +1,14 @@
 <div class="form-input">
   <div class="row">
     <mat-form-field appearance="fill">
-      <mat-label>Author</mat-label>
+      <mat-label>{{"AUTHOR" | translate}}</mat-label>
       <input matInput required [(ngModel)]="creatorUsername" [formControl]="creatorUsernameValid">
-      <mat-error *ngIf="creatorUsernameValid.hasError('required')">Username of page's creator is required</mat-error>
+      <mat-error *ngIf="creatorUsernameValid.hasError('required')">{{"USERNAME_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
   </div>
 </div>
 <span>
-    <button mat-stroked-button class="button-option" (click)="close()">Close</button>
-    <button mat-stroked-button class="button-option" (click)="changePageCreator()">Save</button>
+    <button mat-stroked-button class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
+    <button mat-stroked-button class="button-option" (click)="changePageCreator()">{{"SAVE" | translate}}</button>
 </span>
 

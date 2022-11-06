@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -8,14 +9,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ConfirmationDialogComponent implements OnInit {
 
-  title: String = "Confirm";
-  description: String = "Are you sure?";
+  title: String = this.translate.instant("CONFIRM");
+  description: String = this.translate.instant("ARE_YOU_SURE");
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData,
+    private translate: TranslateService) {
+  }
 
-  
+
   ngOnInit(): void {
     this.title = this.data.title ?? this.title;
     this.description = this.data.description ?? this.description;
@@ -36,7 +39,7 @@ export interface ConfirmationDialogData {
   description?: String;
 }
 
-// 
+//
 //   let dialogData = {data: {}}
 //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogData);
 //   dialogRef.afterClosed().pipe(take(1)).subscribe({

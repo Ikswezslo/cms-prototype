@@ -4,16 +4,26 @@
         <mat-icon fontIcon="menu"></mat-icon>
         CMS
     </button>
+    <button #isopen="matMenuTrigger" [matMenuTriggerFor]="lanMenu" class="lanButton">
+          <mat-icon fontIcon="menu"></mat-icon>
+          {{"CURRENT_LANGUAGE" | translate}}
+    </button>
+
     <button mat-button [routerLink]="['/search']">
         <mat-icon>search</mat-icon>
-        Wyszukaj
+        {{"SEARCH" | translate}}
     </button>
 </span>
 <mat-menu #aboveMenu="matMenu" yPosition="above">
-  <button mat-menu-item [routerLink]="['/']" class="subButton">Strona główna</button>
-  <button mat-menu-item [routerLink]="['/universities']" class="subButton">{{'UNIVERSITYS' | translate}}</button>
-  <button mat-menu-item [routerLink]="['/accounts']" class="subButton">{{'USERS' | translate}}</button>
-  <button mat-menu-item [routerLink]="['/pages']" class="subButton">Pages</button>
+  <button mat-menu-item [routerLink]="['/']" class="subButton">{{"MAIN_PAGE" | translate}}</button>
+  <button mat-menu-item [routerLink]="['/universities']" class="subButton">{{"UNIVERSITIES" | translate}}</button>
+  <button mat-menu-item [routerLink]="['/accounts']" class="subButton">{{"USERS" | translate}}</button>
+  <button mat-menu-item [routerLink]="['/pages']" class="subButton">{{"PAGES" | translate}}</button>
+</mat-menu>
+
+<mat-menu #lanMenu="matMenu" yPosition="above">
+  <button mat-menu-item class="subButton" (click)="translate_to_pl()">Polski (pl)</button>
+  <button mat-menu-item class="subButton" (click)="translate_to_en()">English (en)</button>
 </mat-menu>
 
 <!-- [matMenuTriggerFor]="usersMenu"
@@ -48,11 +58,11 @@
 <button *ngIf="logged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
   class="material-icons">person</i>{{userLogged?.firstName}}</button>
 <mat-menu #userMenu="matMenu" yPosition="above">
-  <button mat-menu-item class="subButton" [routerLink]="['/account/1']">Profil</button>
-  <button mat-menu-item class="subButton" [routerLink]="['/pages/1']">Strony</button>
-  <button mat-menu-item class="subButton" [routerLink]="['/accounts/settings']">Ustawienia</button>
-  <button mat-menu-item class="subButton" [routerLink]="['']" (click)="logout()">Wyloguj</button>
+  <button mat-menu-item class="subButton" [routerLink]="['/account/1']">{{"PROFILE" | translate}}</button>
+  <button mat-menu-item class="subButton" [routerLink]="['/pages/1']">{{"PAGES" | translate}}</button>
+  <button mat-menu-item class="subButton" [routerLink]="['/accounts/settings']">{{"SETTINGS" | translate}}</button>
+  <button mat-menu-item class="subButton" [routerLink]="['']" (click)="logout()">{{"LOGOUT" | translate}}</button>
 </mat-menu>
 
-<button *ngIf="!logged" class="mainButton" [routerLink]="['/login']">Zaloguj<i
+<button *ngIf="!logged" class="mainButton" [routerLink]="['/login']">{{"LOGIN" | translate}}<i
     class="material-icons">person</i></button>

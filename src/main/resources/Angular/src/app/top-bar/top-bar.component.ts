@@ -9,6 +9,7 @@ import {PageService} from '../../assets/service/page.service';
 import {DialogService} from 'src/assets/service/dialog.service';
 import {UserService} from 'src/assets/service/user.service';
 import {ErrorHandlerService} from "../../assets/service/error-handler.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-top-bar',
@@ -30,8 +31,8 @@ export class TopBarComponent implements OnInit {
     private userService: UserService,
     private dialogService: DialogService,
     private universityService: UniversityService,
-    private errorHandler: ErrorHandlerService) {
-  }
+    private errorHandler: ErrorHandlerService,
+    private translate: TranslateService) {}
 
   ngOnInit(): void {
 
@@ -75,6 +76,14 @@ export class TopBarComponent implements OnInit {
         this.dialogService.openDataErrorDialog()
       }
     });
+  }
+
+  translate_to_en(){
+    this.translate.use('en')
+  }
+
+  translate_to_pl(){
+    this.translate.use('pl')
   }
 
   logout() {

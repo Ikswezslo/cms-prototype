@@ -1,15 +1,15 @@
 <form>
-  <h2 mat-dialog-title>Zmiana nazwy użytkownika</h2>
+  <h2 mat-dialog-title>{{"USERNAME_CHANGE" | translate}}</h2>
   <mat-form-field appearance="fill">
-    <mat-label>Nazwa użytkownika</mat-label>
+    <mat-label>{{"USERNAME" | translate}}</mat-label>
     <input matInput type="text" [formControl]="usernameControl">
-    <mat-error *ngIf="usernameControl.hasError('required')">To pole jest wymagane</mat-error>
+    <mat-error *ngIf="usernameControl.hasError('required')">{{"FIELD_REQUIRED" | translate}}</mat-error>
   </mat-form-field>
   <mat-dialog-actions>
-    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">Anuluj</button>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">{{"CANCEL" | translate}}</button>
     <button mat-button color="primary"
             (click)="changeUsername(usernameControl.value)"
-            [disabled]="!usernameControl.valid||exiting">Zatwierdź
+            [disabled]="!usernameControl.valid||exiting">{{"CONFIRM" | translate}}
     </button>
   </mat-dialog-actions>
 </form>

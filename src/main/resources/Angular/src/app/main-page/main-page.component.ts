@@ -24,8 +24,7 @@ export class MainPageComponent implements OnInit {
 
   constructor(private dialogService: DialogService,
               private spinnerService: SpinnerService,
-              private pageService: PageService) {
-  }
+              private pageService: PageService) {}
 
   ngOnInit(): void {
     this.loadPages();

@@ -1,7 +1,7 @@
 <mat-card *ngIf="user" fxFlex
           [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
     <mat-card-subtitle *ngIf="config.showSettings">
-        <span>Ustawienia <br></span>
+        <span>{{"SETTINGS" | translate}}<br></span>
     </mat-card-subtitle>
     <mat-card-title>
         <span>{{user.firstName}} {{user.lastName}}</span>
@@ -41,7 +41,7 @@
     <mat-card-actions>
         <button *ngIf="config.showGoToButton" mat-button [routerLink]="['/account', user.id]">
             <mat-icon>launch</mat-icon>
-            <span>Przejdź do użytkownika</span>
+            <span>{{"GO_TO_USER" | translate}}</span>
         </button>
 
         <ng-content></ng-content>
