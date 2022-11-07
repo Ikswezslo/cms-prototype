@@ -208,7 +208,7 @@ public class UserService {
 
     public List<UserDtoSimple> searchUser(String text) {
         return userRepository.searchUser(text).stream()
-                .map(UserDtoSimple::new)
+                .map(UserDtoSimple::of)
                 .collect(Collectors.toList());
     }
 }

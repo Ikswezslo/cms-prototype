@@ -205,7 +205,7 @@ public class PageService {
 
     public List<PageDtoSimple> searchPages(String text) {
         return pageRepository.searchPages(text).stream()
-                .map(PageDtoSimple::new)
+                .map(PageDtoSimple::of)
                 .collect(Collectors.toList());
     }
 }
