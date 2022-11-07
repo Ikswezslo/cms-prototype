@@ -2,7 +2,7 @@
 
     <mat-card style="width:fit-content;">
         <mat-card-header>
-            <mat-card-title>Logowanie do systemu</mat-card-title>
+            <mat-card-title>{{"LOGIN_TO_SYSTEM" | translate}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <form>
@@ -10,7 +10,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-label>Username</mat-label>
+                                <mat-label>{{"USERNAME" | translate}}</mat-label>
                                 <input matInput placeholder="Username" [(ngModel)]="user.username" name="username" required>
                             </mat-form-field>
                         </td>
@@ -18,7 +18,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-label>Password</mat-label>
+                                <mat-label>{{"PASSWORD" | translate}}</mat-label>
                                 <input matInput placeholder="Password" [(ngModel)]="user.password" type="password"
                                 name="password" required>
                             </mat-form-field>
@@ -29,7 +29,7 @@
             <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button (click)="login()" class="loginButton">Login</button>
+            <button mat-raised-button (click)="login()" class="loginButton">{{"LOGIN" | translate}}</button>
         </mat-card-actions>
     </mat-card>
 </div>

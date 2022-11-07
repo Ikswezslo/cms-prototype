@@ -16,7 +16,7 @@
     <div *ngIf="config.showAuthor">
       <span class="cms-link" [routerLink]="['/account', page.creator.id]">
         <mat-icon>account_circle</mat-icon>
-        <span>Autor: {{page.creator.firstName + " " + page.creator.lastName}}</span>
+        <span>{{"AUTHOR" | translate}}: {{page.creator.firstName + " " + page.creator.lastName}}</span>
       </span>
     </div>
 
@@ -35,7 +35,7 @@
   <mat-card-actions>
     <button *ngIf="config.showGoToButton" mat-button [routerLink]="['/page', page.id]">
       <mat-icon>launch</mat-icon>
-      <span>Przejdź do strony</span>
+      <span>{{"GO_TO_PAGE" | translate}}</span>
     </button>
 
     <ng-content></ng-content>

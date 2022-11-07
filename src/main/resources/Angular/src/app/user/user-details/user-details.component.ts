@@ -24,6 +24,7 @@ import {
 import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
 import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
 import {SecurityService} from "../../../assets/service/security.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -62,7 +63,8 @@ export class UserDetailsComponent implements OnInit {
     public securityService: SecurityService,
     public dialog: MatDialog,
     private dialogService: DialogService,
-    private pageService: PageService) {
+    private pageService: PageService,
+    private translate: TranslateService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -116,8 +118,8 @@ export class UserDetailsComponent implements OnInit {
   deleteUser() {
     const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        title: 'Deleting ' + this.user.username,
-        description: 'Are you sure you want to delete this user?'
+        title: this.translate.instant("DELETING") + ' ' + this.user.username,
+        description: this.translate.instant("DELETE_USER_DESCRIPTION")
       }
     });
 
@@ -131,7 +133,7 @@ export class UserDetailsComponent implements OnInit {
           error: err => {
             const errorDialog = this.dialog.open(ErrorDialogComponent, {
               data: {
-                description: err.message || 'Error has occurred during deleting user'
+                description: err.message || this.translate.instant("DELETE_USER_ERROR")
               }
             });
             errorDialog.afterClosed().subscribe({

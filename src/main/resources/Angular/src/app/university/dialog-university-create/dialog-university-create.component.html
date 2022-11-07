@@ -1,28 +1,28 @@
 <div class="form-input">
   <div class="row">
     <mat-form-field appearance="fill">
-      <mat-label>Name</mat-label>
+      <mat-label>{{"NAME" | translate}}</mat-label>
       <input matInput required [(ngModel)]="university.name" [formControl]="nameValid">
-      <mat-error *ngIf="nameValid.hasError('required')">Name of university is required</mat-error>
+      <mat-error *ngIf="nameValid.hasError('required')">{{"UNIVERSITY_NAME_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
   </div>
   <div class="row">
     <mat-form-field appearance="fill">
-      <mat-label>Short Name</mat-label>
+      <mat-label>{{"SHORT_NAME" | translate}}</mat-label>
       <input matInput required [(ngModel)]="university.shortName" [formControl]="shortNameValid">
-      <mat-error *ngIf="shortNameValid.hasError('required')">Short name of university is required</mat-error>
+      <mat-error *ngIf="shortNameValid.hasError('required')">{{"UNIVERSITY_SHORT_NAME_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
   </div>
   <div class="row">
     <mat-form-field appearance="fill">
-      <mat-label>Description</mat-label>
+      <mat-label>{{"DESCRIPTION" | translate}}</mat-label>
       <input matInput required [(ngModel)]="university.description" [formControl]="descriptionValid">
-      <mat-error *ngIf="descriptionValid.hasError('required')">Description of university is required</mat-error>
+      <mat-error *ngIf="descriptionValid.hasError('required')">{{"UNIVERSITY_DESCRIPTION_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
   </div>
 </div>
 <span>
-    <button mat-stroked-button class="button-option" (click)="close()">Close</button>
-    <button mat-stroked-button class="button-option" *ngIf="!edit" (click)="createUniversity()">Add university</button>
-    <button mat-stroked-button class="button-option" *ngIf="edit" (click)="editUser()">Save</button>
+    <button mat-stroked-button class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
+    <button mat-stroked-button class="button-option" *ngIf="!edit" (click)="createUniversity()">{{"ADD_UNIVERSITY" | translate}}</button>
+    <button mat-stroked-button class="button-option" *ngIf="edit" (click)="editUser()">{{"SAVE" | translate}}</button>
 </span>

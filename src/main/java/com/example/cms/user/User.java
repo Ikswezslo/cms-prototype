@@ -21,7 +21,12 @@ import java.util.Set;
 @Setter
 public class User {
 
-    @ManyToMany(mappedBy = "enrolledUsers")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_enrolled",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "university_id")
+    )
     private Set<University> enrolledUniversities = new HashSet<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

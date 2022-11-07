@@ -1,20 +1,20 @@
 <div class="form-input">
   <div class="row">
     <mat-form-field appearance="fill">
-      <mat-label>Title</mat-label>
+      <mat-label>{{"TITLE" | translate}}</mat-label>
       <input matInput required [(ngModel)]="page.title" [formControl]="titleValid">
-      <mat-error *ngIf="titleValid.hasError('required')">Title of page is required</mat-error>
+      <mat-error *ngIf="titleValid.hasError('required')">{{"TITLE_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
   </div>
   <div class="row">
     <mat-form-field appearance="fill">
-      <mat-label>Description</mat-label>
+      <mat-label>{{"DESCRIPTION" | translate}}</mat-label>
       <input matInput required [(ngModel)]="page.description" [formControl]="descriptionValid">
-      <mat-error *ngIf="descriptionValid.hasError('required')">Description of page is required</mat-error>
+      <mat-error *ngIf="descriptionValid.hasError('required')">{{"DESCRIPTION_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
   </div>
 </div>
 <span>
-    <button mat-stroked-button class="button-option" (click)="close()">Close</button>
-    <button mat-stroked-button class="button-option" (click)="createPage()">Add page</button>
+    <button mat-stroked-button class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
+    <button mat-stroked-button class="button-option" (click)="createPage()">{{"ADD_PAGE" | translate}}</button>
 </span>

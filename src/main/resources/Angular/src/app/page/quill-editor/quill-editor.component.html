@@ -1,17 +1,17 @@
 <div *ngIf="page" fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
 
   <mat-card fxFlex>
-    <mat-card-title>Edytowanie strony</mat-card-title>
+    <mat-card-title>{{"EDITING_PAGE" | translate}}</mat-card-title>
     <mat-card-subtitle>{{page.title}}</mat-card-subtitle>
 
     <mat-card-actions>
       <button [disabled]="!content" mat-button (click)="save()">
         <mat-icon>save</mat-icon>
-        Zapisz
+        {{"SAVE" | translate}}
       </button>
       <button mat-button [routerLink]="['/page', page.id]">
         <mat-icon>exit_to_app</mat-icon>
-        Wyjdź
+        {{"CLOSE" | translate}}
       </button>
     </mat-card-actions>
   </mat-card>

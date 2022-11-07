@@ -1,9 +1,9 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
 
-  <h2>Wyszukaj</h2>
+  <h2>{{"SEARCH" | translate}}</h2>
 
   <mat-form-field appearance="fill">
-    <mat-label>Szukaj</mat-label>
+    <mat-label>{{"SEARCHING" | translate}}</mat-label>
     <input type="text" matInput [formControl]="searchControl" spellcheck="false" (change)="search()">
   </mat-form-field>
 

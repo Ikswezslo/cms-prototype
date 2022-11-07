@@ -204,6 +204,10 @@ public class UserService {
         if (pageRepository.existsByCreator(user)) {
             throw new UserException(UserExceptionType.PAGES_EXISTS);
         }
+
+        if (user.isEnabled()) {
+            throw new UserException(UserExceptionType.USER_IS_ENABLED);
+        }
     }
 
     public List<UserDtoSimple> searchUser(String text) {
