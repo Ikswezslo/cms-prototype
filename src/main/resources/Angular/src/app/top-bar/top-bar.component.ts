@@ -7,6 +7,8 @@ import {PageService} from '../../assets/service/page.service';
 import {UserService} from 'src/assets/service/user.service';
 import {ErrorHandlerService} from "../../assets/service/error-handler.service";
 import {TranslateService} from "@ngx-translate/core";
+import {DialogService} from "../../assets/service/dialog.service";
+import {UniversityService} from "../../assets/service/university.service";
 
 @Component({
   selector: 'app-top-bar',
@@ -40,39 +42,6 @@ export class TopBarComponent implements OnInit {
       this.userLogged = null;
       this.logged = false;
     }
-  }
-
-  getLoggedUser() {
-    this.userService.getLoggedUser(false)
-      .subscribe({
-        next: res => {
-          this.userService.loggedUser = res
-          this.userLogged = res;
-          this.logged = true;
-        },
-        error: err => {
-          if (err.status != "401")
-            this.errorHandler.handleError(err);
-          //this.dialogService.openLoggedUserErrorDialog();
-        }
-      })
-  }
-
-  loadData() {
-    zip(
-      this.pageService.getPages(),
-      this.universityService.getUniversities(),
-      this.userService.getUsers()
-    ).subscribe({
-      next: ([pagesRes, universitiesRes, usersRes]) => {
-        this.pages = pagesRes.filter(element => !element.hidden);
-        this.universities = universitiesRes;
-        this.users = usersRes;
-      },
-      error: err => {
-        this.dialogService.openDataErrorDialog()
-      }
-    });
   }
 
   translate_to_en(){
