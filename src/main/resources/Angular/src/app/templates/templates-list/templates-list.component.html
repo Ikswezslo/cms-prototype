@@ -1,0 +1,62 @@
+<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
+  <div fxFlex fxLayout='row wrap' class="row">
+    <div fxFlex="25" fxFlex.lt-md="100">
+      <mat-card class="template-list">
+        <mat-card-title>Dostępne szablony</mat-card-title>
+        <mat-card-subtitle *ngIf="isEditMode">Tryb edycji</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="!isEditMode">Tryb selekcji</mat-card-subtitle>
+        <mat-divider inset></mat-divider>
+        <mat-card-content>
+          <mat-action-list>
+              <button *ngFor="let template of templates" mat-list-item (click)="selectTemplate(template)" class="item"> {{template.name}} </button>
+          </mat-action-list>
+        </mat-card-content >
+        <mat-divider inset style="margin-bottom: 100px; margin-top: 0"></mat-divider>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <button *ngIf="isEditMode" mat-button (click)="toggleEditMode()">
+            <mat-icon >check_box</mat-icon>
+            <span>Tryb selekcji</span>
+          </button>
+          <button *ngIf="isEditMode" mat-button>
+            <mat-icon>add_box</mat-icon>
+            <span>Dodaj</span>
+          </button>
+          <button *ngIf="!isEditMode" mat-button (click)="toggleEditMode()">
+            <mat-icon>create</mat-icon>
+            <span>Tryb edycji</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div fxFlex>
+      <mat-card class="template-preview">
+        <mat-card-title>Podgląd</mat-card-title>
+        <mat-card-subtitle *ngIf="!selectedTemplate">Brak wybranego szablonu</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="selectedTemplate">{{selectedTemplate.name}}</mat-card-subtitle>
+        <mat-divider inset></mat-divider>
+        <mat-card-content>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </mat-card-content>
+        <mat-divider inset style="margin-bottom: 100px; margin-top: 0"></mat-divider>
+
+        <mat-divider ></mat-divider>
+        <mat-card-actions>
+          <button *ngIf="isEditMode" mat-button>
+            <mat-icon>create</mat-icon>
+            <span>Edytuj</span>
+          </button>
+          <button *ngIf="isEditMode" mat-button color="warn">
+            <mat-icon>delete</mat-icon>
+            <span>Usuń</span>
+          </button>
+          <button *ngIf="!isEditMode" mat-button>
+            <mat-icon>check_box</mat-icon>
+            <span>Dodaj do uniwersytetu</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

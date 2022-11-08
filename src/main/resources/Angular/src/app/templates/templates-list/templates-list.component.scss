@@ -1,0 +1,20 @@
+.row {
+  width: 100%;
+  max-width: 1200px;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+mat-card-content {
+  height: 60vh;
+  overflow: auto;
+  margin-bottom: 0;
+}
+
+mat-icon {
+  margin-right: 5px;
+}
+
+mat-card-subtitle {
+    margin-bottom: 36px;
+}

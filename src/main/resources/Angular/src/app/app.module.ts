@@ -59,6 +59,9 @@ import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialo
 import {DialogUserChangeAccountTypeComponent} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
 import {SetupService} from 'src/assets/service/setup.service';
 import { SearchComponent } from './search/search.component';
+import { TemplatesListComponent } from './templates/templates-list/templates-list.component';
+import { TemplatesEditorComponent } from './templates/templates-editor/templates-editor.component';
+import {MatListModule} from "@angular/material/list";
 
 
 export function SetupApp(setup: SetupService) {
@@ -97,6 +100,8 @@ export function SetupApp(setup: SetupService) {
     DialogUserUpdateComponent,
     DialogUserChangeAccountTypeComponent,
     SearchComponent,
+    TemplatesListComponent,
+    TemplatesEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -130,6 +135,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
       {path: 'page/:pageId/edit', component: QuillEditorComponent, title: 'Edycja strony'},
       {path: 'pages/:userId', component: PageUserComponent},
+      {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
       {path: 'search', component: SearchComponent, title: 'Search'}
     ]),
@@ -146,7 +152,8 @@ export function SetupApp(setup: SetupService) {
     }),
     MatDividerModule,
     MatExpansionModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatListModule
   ],
   providers: [
     SetupService,
