@@ -5,16 +5,31 @@
   row-gap: 20px;
 }
 
-mat-card-content {
-  height: 60vh;
-  overflow: auto;
-  margin-bottom: 0;
-}
-
 mat-icon {
   margin-right: 5px;
 }
 
-mat-card-subtitle {
-    margin-bottom: 36px;
+mat-card {
+  max-height: 85vh;
+
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  > mat-card-title-group {
+    display: block;
+  }
+
+  > mat-card-content {
+    overflow-y: auto;
+    margin-bottom: 0;
+  }
+
+  mat-card-subtitle {
+    margin-bottom: 30px;
+  }
+
+  mat-card-actions {
+    margin-top: 10px;
+  }
 }
