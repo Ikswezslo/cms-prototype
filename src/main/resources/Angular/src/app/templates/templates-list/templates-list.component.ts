@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Template} from "../../../assets/models/template";
+import {University} from "../../../assets/models/university";
+import {DialogService} from "../../../assets/service/dialog.service";
 
 @Component({
   selector: 'app-templates-list',
@@ -8,14 +10,13 @@ import {Template} from "../../../assets/models/template";
 })
 export class TemplatesListComponent implements OnInit {
 
-
   isEditMode: boolean = false;
-  selectedTemplate?: Template;
+  selectedTemplate?: TemplateItem;
 
-  constructor() { }
+  constructor(private dialogService: DialogService) { }
 
-  templates: Template[] = [
-    {id: 1, name: "Template A", universities: [], content: "Content A"},
+  templates: TemplateItem[] = [
+    {id: 1, name: "Template A", universities: [{id: 1} as University], content: "Content A"},
     {id: 2, name: "Template B", universities: [], content: "Content B"},
     {id: 3, name: "Template C", universities: [], content: "Content C"},
     {id: 4, name: "Template D", universities: [], content: "Content D"},
@@ -36,11 +37,33 @@ export class TemplatesListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectTemplate(template: Template) {
+  selectTemplate(template: TemplateItem) {
     this.selectedTemplate = template;
   }
 
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
   }
+
+  onUniversityChanged(university: University) {
+    console.log(university)
+    if(university) {
+      this.templates.forEach(template => {
+          template.assigned = template.universities.map(value => value.id).includes(university.id);
+      })
+    }
+    else {
+      this.templates.forEach(template => {
+        template.assigned = undefined;
+      })
+    }
+  }
+
+  onDelete() {
+    this.dialogService.openConfirmationDialog();
+  }
+}
+
+interface TemplateItem extends Template {
+  assigned?: boolean;
 }

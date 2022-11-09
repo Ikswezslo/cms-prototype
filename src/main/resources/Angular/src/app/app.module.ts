@@ -62,6 +62,7 @@ import { SearchComponent } from './search/search.component';
 import { TemplatesListComponent } from './templates/templates-list/templates-list.component';
 import { TemplatesEditorComponent } from './templates/templates-editor/templates-editor.component';
 import {MatListModule} from "@angular/material/list";
+import { UniversitySelectorComponent } from './university/university-selector/university-selector.component';
 
 
 export function SetupApp(setup: SetupService) {
@@ -102,6 +103,7 @@ export function SetupApp(setup: SetupService) {
     SearchComponent,
     TemplatesListComponent,
     TemplatesEditorComponent,
+    UniversitySelectorComponent,
   ],
   imports: [
     BrowserModule,
