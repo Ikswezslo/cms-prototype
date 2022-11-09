@@ -64,7 +64,6 @@ import { TemplatesEditorComponent } from './templates/templates-editor/templates
 import {MatListModule} from "@angular/material/list";
 import { UniversitySelectorComponent } from './university/university-selector/university-selector.component';
 
-
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
 }

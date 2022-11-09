@@ -1,6 +1,6 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
   <div fxFlex fxLayout='row wrap' class="row">
-      <mat-card fxFlex="30" fxFlex.lt-md="100" class="template-list">
+      <mat-card fxFlex="30" fxFlex.lt-md="100">
         <mat-card-title>Dostępne szablony</mat-card-title>
         <mat-card-subtitle *ngIf="isEditMode">Tryb edycji</mat-card-subtitle>
         <mat-card-subtitle *ngIf="!isEditMode">Tryb selekcji</mat-card-subtitle>
@@ -10,7 +10,8 @@
         <mat-divider inset></mat-divider>
         <mat-card-content>
           <mat-action-list>
-              <button *ngFor="let template of templates" mat-list-item (click)="selectTemplate(template)" class="item">
+              <button *ngFor="let template of templates" [ngClass]="{selected: template.id === selectedTemplate?.id}"
+                      mat-list-item (click)="onTemplateClicked(template.id)">
                 {{template.name}}
                 <mat-icon style="margin-left: auto" *ngIf="template.assigned==true">check_box</mat-icon>
                 <mat-icon style="margin-left: auto" *ngIf="template.assigned==false">check_box_outline_blank</mat-icon>
@@ -33,7 +34,7 @@
           </button>
         </mat-card-actions>
       </mat-card>
-      <mat-card fxFlex  class="template-preview">
+      <mat-card fxFlex>
         <mat-card-title>Podgląd</mat-card-title>
         <mat-card-subtitle *ngIf="!selectedTemplate">Brak wybranego szablonu</mat-card-subtitle>
         <mat-card-subtitle *ngIf="selectedTemplate">{{selectedTemplate.name}}</mat-card-subtitle>

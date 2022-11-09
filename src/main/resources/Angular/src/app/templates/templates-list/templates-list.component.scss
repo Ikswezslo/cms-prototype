@@ -5,6 +5,10 @@
   row-gap: 20px;
 }
 
+button.selected {
+  background-color: lightgray !important;
+}
+
 mat-icon {
   margin-right: 5px;
 }

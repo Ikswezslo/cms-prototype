@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Template} from "../../../assets/models/template";
 import {University} from "../../../assets/models/university";
 import {DialogService} from "../../../assets/service/dialog.service";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'app-templates-list',
@@ -13,7 +14,9 @@ export class TemplatesListComponent implements OnInit {
   isEditMode: boolean = false;
   selectedTemplate?: TemplateItem;
 
-  constructor(private dialogService: DialogService) { }
+  constructor(private dialogService: DialogService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,) { }
 
   templates: TemplateItem[] = [
     {id: 1, name: "Template A", universities: [{id: 1} as University], content: "Content A"},
@@ -35,10 +38,10 @@ export class TemplatesListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-  }
-
-  selectTemplate(template: TemplateItem) {
-    this.selectedTemplate = template;
+    this.activatedRoute.queryParams.subscribe(params => {
+      let id: number = Number(params['id']);
+      this.selectedTemplate = this.templates.filter(template => template.id === id)[0];
+    })
   }
 
   toggleEditMode() {
@@ -63,6 +66,17 @@ export class TemplatesListComponent implements OnInit {
 
   onDelete() {
     this.dialogService.openConfirmationDialog();
+  }
+
+  onTemplateClicked(id: number) {
+    const queryParams: Params = { id: id };
+
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: queryParams,
+      });
   }
 }
 
