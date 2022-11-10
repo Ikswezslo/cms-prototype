@@ -14,7 +14,6 @@ import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,6 @@ public class UniversityService {
     private final PageRepository pageRepository;
     private final SecurityService securityService;
 
-    @Autowired
     public UniversityService(UniversityRepository universityRepository, UserRepository userRepository,
                              PageRepository pageRepository, SecurityService securityService) {
         this.universityRepository = universityRepository;
@@ -127,6 +125,7 @@ public class UniversityService {
         pageRepository.delete(university.getMainPage());
         universityRepository.delete(university);
     }
+
     private void validateForDelete(University university) {
         if (!university.isHidden()) {
             throw new UniversityException(UniversityExceptionType.UNIVERSITY_IS_NOT_HIDDEN);
