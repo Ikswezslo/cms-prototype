@@ -64,12 +64,12 @@ public class TemplateService {
 
     @Secured("ROLE_MODERATOR")
     @Transactional
-    public void removeUniversity(Long templateID, Long universityID) {
+    public TemplateDtoDetailed removeUniversity(Long templateID, Long universityID) {
         Template template = templateRepository.findById(templateID).orElseThrow(NotFoundException::new);
         University university = universityRepository.findById(universityID).orElseThrow(NotFoundException::new);
 
         template.getUniversities().remove(university);
-        templateRepository.save(template);
+        return TemplateDtoDetailed.of(templateRepository.save(template));
     }
 
     @Secured("ROLE_MODERATOR")

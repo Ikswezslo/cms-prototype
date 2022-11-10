@@ -43,13 +43,13 @@ export class TemplateService {
 
   addUniversityToTemplate(templateID: number, universityID: number,
                           defaultErrorHandling: boolean = true): Observable<Template> {
-    return this.http.post<Template>(`${this.templateUrl}/${templateID}/universities/${universityID}`,
+    return this.http.post<Template>(`${this.templateUrl}/${templateID}/universities/${universityID}`, null,
       this.httpOptions).pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
   removeUniversityFromTemplate(templateID: number, universityID: number,
-                               defaultErrorHandling: boolean = true): Observable<void> {
-    return this.http.delete<void>(`${this.templateUrl}/${templateID}/universities/${universityID}`,
+                               defaultErrorHandling: boolean = true): Observable<Template> {
+    return this.http.delete<Template>(`${this.templateUrl}/${templateID}/universities/${universityID}`,
       this.httpOptions).pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 

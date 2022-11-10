@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Template} from "../../../assets/models/template";
 import {University} from "../../../assets/models/university";
 import {DialogService} from "../../../assets/service/dialog.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+import {TemplateService} from "../../../assets/service/template.service";
+import {SpinnerService} from "../../../assets/service/spinner.service";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-templates-list',
@@ -13,51 +16,60 @@ export class TemplatesListComponent implements OnInit {
 
   isEditMode: boolean = false;
   selectedTemplate?: TemplateItem;
+  selectedUniversity?: University;
 
   constructor(private dialogService: DialogService,
               private router: Router,
-              private activatedRoute: ActivatedRoute,) { }
+              private activatedRoute: ActivatedRoute,
+              private templateService: TemplateService,
+              private spinnerService: SpinnerService,
+              private sanitizer: DomSanitizer,) {
+  }
 
-  templates: TemplateItem[] = [
-    {id: 1, name: "Template A", universities: [{id: 1} as University], content: "Content A"},
-    {id: 2, name: "Template B", universities: [], content: "Content B"},
-    {id: 3, name: "Template C", universities: [], content: "Content C"},
-    {id: 4, name: "Template D", universities: [], content: "Content D"},
-    {id: 5, name: "Template E", universities: [], content: "Content E"},
-    {id: 6, name: "Template F", universities: [], content: "Content F"},
-    {id: 7, name: "Template G", universities: [], content: "Content G"},
-    {id: 8, name: "Template H", universities: [], content: "Content H"},
-    {id: 9, name: "Template I", universities: [], content: "Content I"},
-    {id: 10, name: "Template J", universities: [], content: "Content J"},
-    {id: 11, name: "Template K", universities: [], content: "Content K"},
-    {id: 12, name: "Template L", universities: [], content: "Content L"},
-    {id: 13, name: "Template M", universities: [], content: "Content M"},
-    {id: 14, name: "Template N", universities: [], content: "Content N"},
-    {id: 15, name: "Template O", universities: [], content: "Content O"},
-    {id: 16, name: "Template P", universities: [], content: "Content P"},
-  ];
+  templates: TemplateItem[] = [];
 
   ngOnInit(): void {
+    this.loadTemplates();
+
     this.activatedRoute.queryParams.subscribe(params => {
       let id: number = Number(params['id']);
       this.selectedTemplate = this.templates.filter(template => template.id === id)[0];
     })
   }
 
+  loadTemplates() {
+    this.spinnerService.show();
+    this.templateService.getAllTemplates()
+      .subscribe({
+        next: res => {
+          this.templates = res;
+          this.spinnerService.hide();
+          this.templates.forEach(template => {
+            template.safeContent = this.sanitizer.bypassSecurityTrustHtml(template.content);
+          })
+        },
+        error: err => {
+          this.spinnerService.hide();
+          if (err.status !== 401)
+            this.dialogService.openDataErrorDialog();
+        }
+      });
+  }
+
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
-    if(this.isEditMode) {
+    if (this.isEditMode) {
       this.onUniversityChanged(undefined);
     }
   }
 
   onUniversityChanged(university?: University) {
-    if(university) {
+    this.selectedUniversity = university;
+    if (university) {
       this.templates.forEach(template => {
-          template.assigned = template.universities.map(value => value.id).includes(university.id);
+        template.assigned = template.universities.map(value => value.id).includes(university.id);
       })
-    }
-    else {
+    } else {
       this.templates.forEach(template => {
         template.assigned = undefined;
       })
@@ -65,12 +77,26 @@ export class TemplatesListComponent implements OnInit {
   }
 
   onDelete() {
-    this.dialogService.openConfirmationDialog();
+    this.dialogService.openConfirmationDialog().afterClosed().subscribe(value => {
+      if(value && this.selectedTemplate) {
+        this.templates = this.templates.filter(template => {
+          return template.id !== this.selectedTemplate?.id;
+        })
+        this.templateService.deleteTemplate(this.selectedTemplate.id).subscribe({
+          next: () => {
+            this.router.navigate(
+              [],
+              {
+                relativeTo: this.activatedRoute,
+              });
+          }
+        });
+      }
+    });
   }
 
   onTemplateClicked(id: number) {
-    const queryParams: Params = { id: id };
-
+    const queryParams: Params = {id: id};
     this.router.navigate(
       [],
       {
@@ -78,8 +104,47 @@ export class TemplatesListComponent implements OnInit {
         queryParams: queryParams,
       });
   }
+
+  onAddUniversity() {
+    if(this.selectedTemplate && this.selectedUniversity) {
+      this.templateService.addUniversityToTemplate(this.selectedTemplate.id, this.selectedUniversity.id).subscribe({
+        next: res => {
+          this.templates = this.templates.map(template => {
+            if(template.id === res.id) {
+              template = res as TemplateItem;
+              template.assigned = true;
+              template.safeContent = this.sanitizer.bypassSecurityTrustHtml(template.content);
+              this.selectedTemplate = template;
+              return res;
+            }
+            return template;
+          })
+        }
+      });
+    }
+  }
+
+  onRemoveUniversity() {
+    if(this.selectedTemplate && this.selectedUniversity) {
+      this.templateService.removeUniversityFromTemplate(this.selectedTemplate.id, this.selectedUniversity.id).subscribe({
+        next: res => {
+          this.templates = this.templates.map(template => {
+            if(template.id === res.id) {
+              template = res as TemplateItem;
+              template.assigned = false;
+              template.safeContent = this.sanitizer.bypassSecurityTrustHtml(template.content);
+              this.selectedTemplate = template;
+              return res;
+            }
+            return template;
+          })
+        }
+      });
+    }
+  }
 }
 
 interface TemplateItem extends Template {
   assigned?: boolean;
+  safeContent?: SafeHtml;
 }

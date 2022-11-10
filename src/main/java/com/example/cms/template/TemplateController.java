@@ -45,10 +45,9 @@ public class TemplateController {
     }
 
     @DeleteMapping("/{templateID}/universities/{universityID}")
-    ResponseEntity<Void> removeUniversityFromTemplate(@PathVariable long templateID,
+    TemplateDtoDetailed removeUniversityFromTemplate(@PathVariable long templateID,
                                                       @PathVariable long universityID) {
-        service.removeUniversity(templateID, universityID);
-        return ResponseEntity.noContent().build();
+        return service.removeUniversity(templateID, universityID);
     }
 
     @PatchMapping("/{id}/name")
