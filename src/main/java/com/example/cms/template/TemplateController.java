@@ -38,15 +38,15 @@ public class TemplateController {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-    @PostMapping("/{templateID}/universities")
+    @PostMapping("/{templateID}/universities/{universityID}")
     TemplateDtoDetailed addUniversityToTemplate(@PathVariable long templateID,
-                                                                @RequestBody long universityID) {
+                                                @PathVariable long universityID) {
         return service.addUniversity(templateID, universityID);
     }
 
-    @DeleteMapping("/{templateID}/universities")
+    @DeleteMapping("/{templateID}/universities/{universityID}")
     ResponseEntity<Void> removeUniversityFromTemplate(@PathVariable long templateID,
-                                                      @RequestBody long universityID) {
+                                                      @PathVariable long universityID) {
         service.removeUniversity(templateID, universityID);
         return ResponseEntity.noContent().build();
     }
