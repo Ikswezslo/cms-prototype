@@ -14,19 +14,23 @@ mat-icon {
 }
 
 mat-card {
-  max-height: 85vh;
-
+  height: 85vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  mat-card-header {
+    flex-shrink: 0;
+  }
 
   > mat-card-title-group {
     display: block;
   }
 
   > mat-card-content {
-    overflow-y: auto;
     margin-bottom: 0;
+    flex-grow: 1;
+    overflow: auto;
   }
 
   mat-card-subtitle {
@@ -37,3 +41,4 @@ mat-card {
     margin-top: 10px;
   }
 }
+
