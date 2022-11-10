@@ -1,9 +1,10 @@
 package com.example.cms.security;
 
-import com.example.cms.validation.exceptions.ForbiddenException;
+import com.example.cms.page.Page;
+import com.example.cms.university.University;
+import com.example.cms.user.User;
 import com.example.cms.validation.exceptions.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,32 +21,6 @@ public class SecurityService {
 
     public SecurityService(SessionRegistry sessionRegistry) {
         this.sessionRegistry = sessionRegistry;
-    }
-
-    public boolean hasRole(Role role) {
-        LoggedUser principal = getPrincipal().orElseThrow(UnauthorizedException::new);
-        String authority = String.format("ROLE_%s", role);
-        return principal.getAuthorities().contains(new SimpleGrantedAuthority(authority));
-    }
-
-    public void checkRole(Role role) {
-        if (!hasRole(role)) {
-            throw new ForbiddenException();
-        }
-    }
-
-    public boolean hasUniversity(Long id) {
-        if (hasRole(Role.ADMIN)) {
-            return true;
-        }
-        LoggedUser principal = getPrincipal().orElseThrow(UnauthorizedException::new);
-        return principal.getUniversities().contains(id);
-    }
-
-    public void checkUniversity(Long id) {
-        if (!hasUniversity(id)) {
-            throw new ForbiddenException();
-        }
     }
 
     public Optional<LoggedUser> getPrincipal() {
@@ -73,5 +49,99 @@ public class SecurityService {
                 }
             }
         }
+    }
+
+    public boolean isForbiddenPage(Page page) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        switch (loggedUser.getAccountType()) {
+            case ADMIN:
+                return false;
+            case MODERATOR:
+                return !hasUniversity(page.getUniversity().getId());
+            case USER:
+                return !page.getCreator().getId().equals(loggedUser.getId()) ||
+                        !hasUniversity(page.getUniversity().getId());
+        }
+
+        return true;
+    }
+
+    public boolean isForbiddenUniversity(University university) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        switch (loggedUser.getAccountType()) {
+            case ADMIN:
+                return false;
+            case MODERATOR:
+                return !hasUniversity(university.getId());
+            case USER:
+                return true;
+        }
+
+        return true;
+    }
+
+    public boolean isForbiddenUser(User user, boolean onlyDifferentUser) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        if (onlyDifferentUser && loggedUser.getId().equals(user.getId())) {
+            return true;
+        } else {
+            return isForbiddenUser(user);
+        }
+    }
+
+    public boolean isForbiddenUser(User user) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        switch (loggedUser.getAccountType()) {
+            case ADMIN:
+                return false;
+            case MODERATOR:
+                return !loggedUser.getId().equals(user.getId()) &&
+                        (!hasHigherRoleThan(user.getAccountType()) ||
+                        !hasUniversity(user.getEnrolledUniversities().stream()
+                                .map(University::getId)
+                                .collect(Collectors.toList())));
+            case USER:
+                return !loggedUser.getId().equals(user.getId());
+        }
+
+        return true;
+    }
+
+    public boolean hasUniversity(List<Long> universities) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+
+        boolean sameUniversity = false;
+        for (long universityId : universities) {
+            if (loggedUser.getUniversities().contains(universityId)) {
+                sameUniversity = true;
+                break;
+            }
+        }
+        return loggedUser.getAccountType().equals(Role.ADMIN) || sameUniversity;
+    }
+
+    public boolean hasUniversity(Long universityId) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+        return loggedUser.getAccountType().equals(Role.ADMIN) || loggedUser.getUniversities().contains(universityId);
+    }
+
+    public boolean hasHigherRoleThan(Role userRole, Role role) {
+        switch (role) {
+            case ADMIN:
+            case MODERATOR:
+                return userRole.equals(Role.ADMIN);
+            case USER:
+                return userRole.equals(Role.ADMIN) || userRole.equals(Role.MODERATOR);
+        }
+        return false;
+    }
+
+    public boolean hasHigherRoleThan(Role role) {
+        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
+        return hasHigherRoleThan(loggedUser.getAccountType(), role);
     }
 }

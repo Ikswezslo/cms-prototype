@@ -1,7 +1,6 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="university">
-  <app-university-card [university]="university" [loggedUser]="loggedUser" [config]="universityCardConfig"
-                       class="cms-fixed-width">
-    <button mat-button [matMenuTriggerFor]="actionsUniversity">
+  <app-university-card [university]="university" [config]="universityCardConfig" class="cms-fixed-width">
+    <button *ngIf="!securityService.isForbiddenUniversity(university)" mat-button [matMenuTriggerFor]="actionsUniversity">
       <mat-icon>label_important</mat-icon>
       <span>{{"ACTIONS" | translate}}</span>
     </button>
@@ -22,27 +21,35 @@
 </div>
 
 <mat-menu #actionsUniversity="matMenu">
-  <button mat-menu-item  (click)="startEdit()">
+  <button mat-menu-item (click)="startEdit()"
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>edit</mat-icon>
     <span>{{"EDIT" | translate}}</span>
   </button>
-  <button mat-menu-item *ngIf="university.hidden" (click)=hiddenUniversity()>
+  <button mat-menu-item (click)=hiddenUniversity()
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)
+          && university.hidden">
     <mat-icon>visibility_on</mat-icon>
     <span>{{"SHOW_UNIVERSITY" | translate}}</span>
   </button>
-  <button mat-menu-item *ngIf="!university.hidden" (click)=hiddenUniversity()>
+  <button mat-menu-item (click)=hiddenUniversity()
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)
+          && !university.hidden">
     <mat-icon>visibility_off</mat-icon>
     <span>{{"HIDE_UNIVERSITY" | translate}}</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>person</mat-icon>
     <span>{{"ENROLL_USER" | translate}}</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>note_edit</mat-icon>
     <span>{{"CHANGE_MAIN_PAGE" | translate}}</span>
   </button>
-  <button *ngIf="loggedUser != null && loggedUser.accountType != 'USER'" mat-menu-item (click)="deleteUniversity()">
+  <button mat-menu-item (click)="deleteUniversity()"
+          *ngIf="securityService.hasRole('ADMIN') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>delete</mat-icon>
     <span>{{"DELETE_UNIVERSITY" | translate}}</span>
   </button>

@@ -4,6 +4,7 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {UserForm} from 'src/assets/models/user';
 import {UserService} from 'src/assets/service/user.service';
 import {DialogService} from "../../../../assets/service/dialog.service";
+import {SecurityService} from "../../../../assets/service/security.service";
 
 @Component({
   selector: 'app-dialog-user-create',
@@ -19,7 +20,7 @@ export class DialogUserCreateComponent implements OnInit {
     lastName: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.email]),
     phoneNumber: new FormControl("", [Validators.pattern("^\\+?\\d{3,12}$")]),
-    accountType: new FormControl("", [Validators.required]),
+    accountType: new FormControl("USER", [Validators.required]),
   });
   hide = true;
 
@@ -28,7 +29,8 @@ export class DialogUserCreateComponent implements OnInit {
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<DialogUserCreateComponent>,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    public securityService: SecurityService
   ) {
     dialogRef.disableClose = true;
   }

@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {zip} from 'rxjs';
 import {Page} from 'src/assets/models/page';
 import {University} from 'src/assets/models/university';
 import {User} from 'src/assets/models/user';
-import {UniversityService} from 'src/assets/service/university.service';
 import {PageService} from '../../assets/service/page.service';
-import {DialogService} from 'src/assets/service/dialog.service';
 import {UserService} from 'src/assets/service/user.service';
 import {ErrorHandlerService} from "../../assets/service/error-handler.service";
 import {TranslateService} from "@ngx-translate/core";
+import {DialogService} from "../../assets/service/dialog.service";
+import {UniversityService} from "../../assets/service/university.service";
 
 @Component({
   selector: 'app-top-bar',
@@ -45,39 +44,6 @@ export class TopBarComponent implements OnInit {
     }
   }
 
-  getLoggedUser() {
-    this.userService.getLoggedUser(false)
-      .subscribe({
-        next: res => {
-          this.userService.loggedUser = res
-          this.userLogged = res;
-          this.logged = true;
-        },
-        error: err => {
-          if (err.status != "401")
-            this.errorHandler.handleError(err);
-          //this.dialogService.openLoggedUserErrorDialog();
-        }
-      })
-  }
-
-  loadData() {
-    zip(
-      this.pageService.getPages(),
-      this.universityService.getUniversities(),
-      this.userService.getUsers()
-    ).subscribe({
-      next: ([pagesRes, universitiesRes, usersRes]) => {
-        this.pages = pagesRes.filter(element => !element.hidden);
-        this.universities = universitiesRes;
-        this.users = usersRes;
-      },
-      error: err => {
-        this.dialogService.openDataErrorDialog()
-      }
-    });
-  }
-
   translate_to_en(){
     this.translate.use('en')
   }
@@ -87,12 +53,12 @@ export class TopBarComponent implements OnInit {
   }
 
   logout() {
-    this.logged = false;
-    this.userLogged = null;
-    this.userService.loggedUser = null;
-    window.location.replace('');
     this.userService.logout(false).subscribe({
       next: user => {
+        this.logged = false;
+        this.userLogged = null;
+        this.userService.loggedUser = null;
+        window.location.replace('');
       },
       error: err => {
       }

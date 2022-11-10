@@ -1,7 +1,8 @@
 package com.example.cms.university;
 
 import com.example.cms.university.projections.UniversityDtoDetailed;
-import com.example.cms.university.projections.UniversityDtoForm;
+import com.example.cms.university.projections.UniversityDtoFormCreate;
+import com.example.cms.university.projections.UniversityDtoFormUpdate;
 import com.example.cms.university.projections.UniversityDtoSimple;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -20,14 +21,14 @@ public class UniversityController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<UniversityDtoSimple> getUniversities() {
-        return service.getUniversities();
-    }
-
     @GetMapping("/{id}")
     public UniversityDtoDetailed getUniversity(@PathVariable long id) {
         return service.getUniversity(id);
+    }
+
+    @GetMapping
+    public List<UniversityDtoSimple> getUniversities() {
+        return service.getUniversities();
     }
 
     @GetMapping("/search/{text}")
@@ -36,9 +37,17 @@ public class UniversityController {
     }
 
     @PostMapping
-    public ResponseEntity<UniversityDtoDetailed> registerNewUniversity(@RequestBody UniversityDtoForm form) {
+    public ResponseEntity<UniversityDtoDetailed> registerNewUniversity(@RequestBody UniversityDtoFormCreate form) {
         UniversityDtoDetailed result = service.addNewUniversity(form);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    }
+
+    @PutMapping("/{universityId}")
+    ResponseEntity<Void> updateUniversity(
+            @PathVariable long universityId,
+            @RequestBody UniversityDtoFormUpdate form) {
+        service.update(universityId, form);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{universityId}/users/{userId}")
@@ -66,15 +75,6 @@ public class UniversityController {
     public ResponseEntity<Void> deleteUniversity(
             @PathVariable Long id) {
         service.deleteUniversity(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{universityId}")
-    @Secured("ROLE_ADMIN")
-    ResponseEntity<Void> updateUniversity(
-            @PathVariable long universityId,
-            @RequestBody UniversityDtoForm form) {
-        service.update(universityId, form);
         return ResponseEntity.noContent().build();
     }
 }

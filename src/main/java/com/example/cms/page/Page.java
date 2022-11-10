@@ -58,16 +58,6 @@ public class Page {
         updatedOn = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public void updateFrom(final Page source) {
-        title = source.getTitle();
-        creator = source.getCreator();
-        content = source.getContent();
-        parent = source.getParent();
-        hidden = source.isHidden();
-        university = source.getUniversity();
-        description = source.getDescription();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

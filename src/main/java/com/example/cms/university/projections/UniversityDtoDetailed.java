@@ -3,29 +3,39 @@ package com.example.cms.university.projections;
 import com.example.cms.page.projections.PageDtoSimple;
 import com.example.cms.university.University;
 import com.example.cms.user.projections.UserDtoSimple;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Value
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UniversityDtoDetailed {
-    Long id;
-    String name;
-    String shortName;
-    String description;
-    boolean hidden;
-    PageDtoSimple mainPage;
-    Set<UserDtoSimple> enrolledUsers;
+    private Long id;
+    private String name;
+    private String shortName;
+    private String description;
+    private boolean hidden;
+    private PageDtoSimple mainPage;
+    private Set<UserDtoSimple> enrolledUsers; // TODO: remove enrolledUsers field
 
-    public UniversityDtoDetailed(University university) {
+    public static UniversityDtoDetailed of(University university) {
+        if (university == null) {
+            return null;
+        }
+        return new UniversityDtoDetailed(university);
+    }
+
+    private UniversityDtoDetailed(University university) {
         id = university.getId();
         name = university.getName();
         shortName = university.getShortName();
         description = university.getDescription();
         hidden = university.isHidden();
-        enrolledUsers = university.getEnrolledUsers().stream().map(UserDtoSimple::new).collect(Collectors.toSet());
-        mainPage = new PageDtoSimple(university.getMainPage());
+        enrolledUsers = university.getEnrolledUsers().stream().map(UserDtoSimple::of).collect(Collectors.toSet());
+        mainPage = PageDtoSimple.of(university.getMainPage());
     }
-
 }

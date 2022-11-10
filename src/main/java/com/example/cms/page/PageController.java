@@ -1,7 +1,8 @@
 package com.example.cms.page;
 
 import com.example.cms.page.projections.PageDtoDetailed;
-import com.example.cms.page.projections.PageDtoForm;
+import com.example.cms.page.projections.PageDtoFormCreate;
+import com.example.cms.page.projections.PageDtoFormUpdate;
 import com.example.cms.page.projections.PageDtoSimple;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +21,14 @@ public class PageController {
         this.service = service;
     }
 
-    @GetMapping("/all")
-    List<PageDtoSimple> readAllPages(Pageable pageable) {
-        return service.getAll(pageable);
-    }
-
-    @GetMapping("/children")
-    List<PageDtoSimple> readChildrenPages(@RequestParam(defaultValue = "") Long parent) {
-        return service.getAllChildren(parent);
-    }
-
     @GetMapping("/{id}")
     PageDtoDetailed readSinglePage(@PathVariable long id) {
         return service.get(id);
+    }
+
+    @GetMapping("/all")
+    List<PageDtoSimple> readAllPages(Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping
@@ -45,19 +41,24 @@ public class PageController {
         return service.getCreatorPages(pageable, userId);
     }
 
+    @GetMapping("/children")
+    List<PageDtoSimple> getSubpages(@RequestParam(defaultValue = "") Long parent) {
+        return service.getChildren(parent);
+    }
+
     @GetMapping("/search/{text}")
     List<PageDtoSimple> searchPages(@PathVariable String text) {
         return service.searchPages("%".concat(text.toLowerCase().concat("%")));
     }
 
     @PostMapping
-    ResponseEntity<PageDtoDetailed> createPage(@RequestBody PageDtoForm form) {
+    ResponseEntity<PageDtoDetailed> createPage(@RequestBody PageDtoFormCreate form) {
         PageDtoDetailed result = service.save(form);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Void> updatePage(@PathVariable long id, @RequestBody PageDtoForm form) {
+    ResponseEntity<Void> updatePage(@PathVariable long id, @RequestBody PageDtoFormUpdate form) {
         service.update(id, form);
         return ResponseEntity.noContent().build();
     }
@@ -77,12 +78,6 @@ public class PageController {
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deletePage(@PathVariable long id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PatchMapping("/{id}/edit")
-    ResponseEntity<Void> editPage(@PathVariable long id, @RequestBody PageDtoForm form) {
-        service.editPage(id, form);
         return ResponseEntity.noContent().build();
     }
 

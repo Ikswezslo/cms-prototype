@@ -1,16 +1,27 @@
 package com.example.cms.user.projections;
 
 import com.example.cms.user.User;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDtoSimple {
-    Long id;
-    String username;
-    String firstName;
-    String lastName;
+    private Long id;
+    private String username;
+    private String firstName;
+    private String lastName;
 
-    public UserDtoSimple(User user) {
+    public static UserDtoSimple of(User user) {
+        if (user == null) {
+            return null;
+        }
+        return new UserDtoSimple(user);
+    }
+
+    private UserDtoSimple(User user) {
         id = user.getId();
         username = user.getUsername();
         firstName = user.getFirstName();
