@@ -6,6 +6,11 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {TemplateService} from "../../../assets/service/template.service";
 import {SpinnerService} from "../../../assets/service/spinner.service";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  DialogUserAddUniversityComponent
+} from "../../user/dialogs/dialog-user-add-university/dialog-user-add-university.component";
+import {DialogTemplateCreateComponent} from "../dialog-template-create/dialog-template-create.component";
 
 @Component({
   selector: 'app-templates-list',
@@ -23,7 +28,8 @@ export class TemplatesListComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private templateService: TemplateService,
               private spinnerService: SpinnerService,
-              private sanitizer: DomSanitizer,) {
+              private sanitizer: DomSanitizer,
+              private dialog: MatDialog) {
   }
 
   templates: TemplateItem[] = [];
@@ -141,6 +147,18 @@ export class TemplatesListComponent implements OnInit {
         }
       });
     }
+  }
+
+  onAddTemplate() {
+    const dialogRef = this.dialog.open(DialogTemplateCreateComponent);
+
+    dialogRef.afterClosed().subscribe(next => {
+      if(next) {
+        this.templates.push(next);
+        this.onTemplateClicked(next.id);
+      }
+    })
+
   }
 }
 

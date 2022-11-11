@@ -63,6 +63,7 @@ import { TemplatesListComponent } from './templates/templates-list/templates-lis
 import { TemplatesEditorComponent } from './templates/templates-editor/templates-editor.component';
 import {MatListModule} from "@angular/material/list";
 import { UniversitySelectorComponent } from './university/university-selector/university-selector.component';
+import { DialogTemplateCreateComponent } from './templates/dialog-template-create/dialog-template-create.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -103,6 +104,7 @@ export function SetupApp(setup: SetupService) {
     TemplatesListComponent,
     TemplatesEditorComponent,
     UniversitySelectorComponent,
+    DialogTemplateCreateComponent,
   ],
   imports: [
     BrowserModule,
