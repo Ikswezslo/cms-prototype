@@ -65,6 +65,7 @@ import { UniversitySelectorComponent } from './university/university-selector/un
 import { DialogTemplateCreateComponent } from './templates/dialog-template-create/dialog-template-create.component';
 import { PageEditorComponent } from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
+import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -106,7 +107,8 @@ export function SetupApp(setup: SetupService) {
     UniversitySelectorComponent,
     DialogTemplateCreateComponent,
     PageEditorComponent,
-    TemplateEditorComponent
+    TemplateEditorComponent,
+    DialogTemplateChangeNameComponent
   ],
   imports: [
     BrowserModule,

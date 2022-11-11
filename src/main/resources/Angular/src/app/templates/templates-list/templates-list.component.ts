@@ -8,6 +8,7 @@ import {SpinnerService} from "../../../assets/service/spinner.service";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogTemplateCreateComponent} from "../dialog-template-create/dialog-template-create.component";
+import {DialogTemplateChangeNameComponent} from "../dialog-template-change-name/dialog-template-change-name.component";
 
 @Component({
   selector: 'app-templates-list',
@@ -161,6 +162,26 @@ export class TemplatesListComponent implements OnInit {
   onEdit() {
     if (this.selectedTemplate) {
       this.router.navigateByUrl(`/template/${this.selectedTemplate.id}/edit`);
+    }
+  }
+
+  onChangeName() {
+    if (this.selectedTemplate) {
+      const dialogRef = this.dialog.open(DialogTemplateChangeNameComponent, {
+          data: {id: this.selectedTemplate.id}
+        }
+      );
+
+      dialogRef.afterClosed().subscribe(next => {
+        if (next && this.selectedTemplate) {
+          this.selectedTemplate.name = next;
+          this.templates.forEach(template => {
+            if (template.id === this.selectedTemplate?.id) {
+              template.name = next;
+            }
+          });
+        }
+      })
     }
   }
 }
