@@ -64,6 +64,7 @@ import { TemplatesEditorComponent } from './templates/templates-editor/templates
 import {MatListModule} from "@angular/material/list";
 import { UniversitySelectorComponent } from './university/university-selector/university-selector.component';
 import { DialogTemplateCreateComponent } from './templates/dialog-template-create/dialog-template-create.component';
+import { PageEditorComponent } from './page/page-editor/page-editor.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -105,6 +106,7 @@ export function SetupApp(setup: SetupService) {
     TemplatesEditorComponent,
     UniversitySelectorComponent,
     DialogTemplateCreateComponent,
+    PageEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,7 +138,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
       {path: 'pages', component: PageListComponent, title: 'Strony'},
       {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
-      {path: 'page/:pageId/edit', component: QuillEditorComponent, title: 'Edycja strony'},
+      {path: 'page/:pageId/edit', component: PageEditorComponent, title: 'Edycja strony'},
       {path: 'pages/:userId', component: PageUserComponent},
       {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},

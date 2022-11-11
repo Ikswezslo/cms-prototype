@@ -60,7 +60,6 @@ export class PageDetailsComponent implements OnInit {
       .subscribe({
         next: res => {
           this.page = res;
-          this.pageService.cachePage(res);
           this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
         },
         error: err => {

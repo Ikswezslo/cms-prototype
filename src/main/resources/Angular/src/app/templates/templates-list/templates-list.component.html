@@ -50,6 +50,10 @@
             <mat-icon>create</mat-icon>
             <span>Edytuj</span>
           </button>
+          <button *ngIf="isEditMode" mat-button>
+            <mat-icon>create</mat-icon>
+            <span>Zmień nazwę</span>
+          </button>
           <button *ngIf="isEditMode" mat-button color="warn" (click)="onDelete()">
             <mat-icon>delete</mat-icon>
             <span>Usuń</span>

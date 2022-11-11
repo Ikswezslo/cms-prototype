@@ -1,0 +1,7 @@
+<app-quill-editor *ngIf="page"
+                  [title]="'EDITING_PAGE' | translate"
+                  [subtitle]="page.title"
+                  [content]="page.content"
+                  [onCloseLink]="['/page', page.id]"
+                  (saved)="onSaved($event)">
+</app-quill-editor>

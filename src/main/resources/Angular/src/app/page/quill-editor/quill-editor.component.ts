@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import Quill from "quill";
 import {Page} from "../../../assets/models/page";
 import {PageService} from "../../../assets/service/page.service";
@@ -16,60 +16,32 @@ Quill.register('modules/imageResize', ImageResize)
 })
 export class QuillEditorComponent implements OnInit {
 
-  content?: String;
-
-  public page?: Page;
-  public id?: Number;
+  @Input() title: string = "Editing";
+  @Input() subtitle?: string = "Title"
+  @Input() content?: string;
+  @Input() onCloseLink?: any[] = ['/'];
+  @Output() saved = new EventEmitter<any>;
 
   modules = {}
 
-  constructor(
-    private pageService: PageService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private translate: TranslateService
-  ) {
+  constructor() {
     this.modules = {
       imageResize: {},
     }
   }
 
   ngOnInit(): void {
-    const routeParams = this.route.snapshot.paramMap;
-    this.id = Number(routeParams.get('pageId'));
-
-    this.page = this.pageService.getCachedPage(this.id);
-
-    if (this.id && !this.page) {
-      this.loadPage(this.id.valueOf());
-    }
-  }
-
-  loadPage(id: number) {
-    this.pageService.getPage(id)
-      .subscribe(res => {
-        this.page = res;
-      });
   }
 
   created(quill: Quill) {
-    if (this.page?.content) {
-      quill.clipboard.dangerouslyPasteHTML(this.page.content);
+    if (this.content) {
+      quill.clipboard.dangerouslyPasteHTML(this.content);
     }
   }
 
-
   save() {
-    console.log(this.content)
-    if (this.content != undefined && this.page) {
-      this.pageService.modifyPageContentField(this.page.id, this.content as string).subscribe(
-          () => {
-            this.snackBar.open(this.translate.instant("PAGE_SAVED"), this.translate.instant("CLOSE"), {
-              duration: 2000
-            });
-          }
-      );
+    if (this.content) {
+      this.saved.emit(this.content);
     }
   }
 }
