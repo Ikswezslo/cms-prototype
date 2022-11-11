@@ -37,7 +37,6 @@ export class TemplatesListComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
       let id: number = Number(params['id']);
-      console.log(id);
       this.selectedTemplate = this.templates.filter(template => template.id === id)[0];
     })
   }
@@ -108,11 +107,12 @@ export class TemplatesListComponent implements OnInit {
   onTemplateClicked(id: number) {
     const queryParams: Params = {id: id};
     this.router.navigate(
-      [],
+      ['./'],
       {
         relativeTo: this.activatedRoute,
         queryParams: queryParams,
       });
+    return false;
   }
 
   onAddUniversity() {

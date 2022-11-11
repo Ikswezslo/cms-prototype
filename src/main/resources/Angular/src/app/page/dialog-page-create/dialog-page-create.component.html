@@ -1,20 +1,31 @@
-<div class="form-input">
-  <div class="row">
-    <mat-form-field appearance="fill">
+<form [formGroup]="form">
+  <h2 mat-dialog-title>Dodawanie strony</h2>
+  <mat-dialog-content fxLayout='row wrap'>
+    <mat-form-field fxFlex="100" appearance="fill">
       <mat-label>{{"TITLE" | translate}}</mat-label>
-      <input matInput required [(ngModel)]="page.title" [formControl]="titleValid">
-      <mat-error *ngIf="titleValid.hasError('required')">{{"TITLE_REQUIRED" | translate}}</mat-error>
+      <input matInput required formControlName="title">
+      <mat-error *ngIf="form.controls.title.hasError('required')">{{"TITLE_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
-  </div>
-  <div class="row">
-    <mat-form-field appearance="fill">
+
+    <mat-form-field fxFlex="100" appearance="fill">
       <mat-label>{{"DESCRIPTION" | translate}}</mat-label>
-      <input matInput required [(ngModel)]="page.description" [formControl]="descriptionValid">
-      <mat-error *ngIf="descriptionValid.hasError('required')">{{"DESCRIPTION_REQUIRED" | translate}}</mat-error>
+      <input matInput required formControlName="description">
+      <mat-error *ngIf="form.controls.description.hasError('required')">{{"DESCRIPTION_REQUIRED" | translate}}</mat-error>
     </mat-form-field>
-  </div>
-</div>
-<span>
-    <button mat-stroked-button class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
-    <button mat-stroked-button class="button-option" (click)="createPage()">{{"ADD_PAGE" | translate}}</button>
-</span>
+
+    <app-template-selector
+      [universityId]="parentPage?.university?.id"
+      [form]="form"
+      (templateChanged)="onTemplateChanged($event)">
+    </app-template-selector>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-stroked-button class="button-option" [disabled]="exiting"
+            [mat-dialog-close]="undefined">{{"CLOSE" | translate}}
+    </button>
+    <button mat-stroked-button class="button-option" [disabled]="!form.valid||exiting"
+            (click)="createPage()">{{"ADD_PAGE" | translate}}
+    </button>
+  </mat-dialog-actions>
+</form>
+

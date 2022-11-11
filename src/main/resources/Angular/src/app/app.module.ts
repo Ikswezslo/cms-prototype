@@ -66,6 +66,7 @@ import { DialogTemplateCreateComponent } from './templates/dialog-template-creat
 import { PageEditorComponent } from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
 import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -108,7 +109,8 @@ export function SetupApp(setup: SetupService) {
     DialogTemplateCreateComponent,
     PageEditorComponent,
     TemplateEditorComponent,
-    DialogTemplateChangeNameComponent
+    DialogTemplateChangeNameComponent,
+    TemplateSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -145,7 +147,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
       {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
-      {path: 'search', component: SearchComponent, title: 'Search'}
+      {path: 'search', component: SearchComponent, title: 'Search',}
     ]),
     BrowserAnimationsModule,
     BrowserModule,

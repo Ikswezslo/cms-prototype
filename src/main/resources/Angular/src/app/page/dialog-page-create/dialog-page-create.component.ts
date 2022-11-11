@@ -1,10 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Page, PageForm} from "../../../assets/models/page";
 import {PageService} from "../../../assets/service/page.service";
 import {TranslateService} from "@ngx-translate/core";
 import {UserService} from "../../../assets/service/user.service";
+import {DialogService} from "../../../assets/service/dialog.service";
+import {Template} from "../../../assets/models/template";
 
 @Component({
   selector: 'app-dialog-page-create',
@@ -12,76 +14,53 @@ import {UserService} from "../../../assets/service/user.service";
   styleUrls: ['./dialog-page-create.component.scss']
 })
 export class DialogPageCreateComponent implements OnInit {
-  readonly page = {} as PageForm;
-  titleValid = new FormControl('', Validators["required"]);
-  descriptionValid = new FormControl('', Validators["required"]);
-  creatorUsernameValid = new FormControl('', Validators["required"]);
-  edit = false;
+
+  form = new FormGroup({
+    title: new FormControl("", [Validators.required]),
+    description: new FormControl("", [Validators.required]),
+  });
+
+  parentPage?: Page;
+  template?: Template;
+  exiting: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogPageCreateComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              @Inject(MAT_DIALOG_DATA) public data,
               private pageService: PageService,
               private userService: UserService,
+              private dialogService: DialogService,
               private translate: TranslateService) {
   }
 
   ngOnInit(): void {
-    this.page.content = this.translate.instant("INSERT_CONTENT");
-    this.edit = this.data.edit ?? this.edit;
-    this.page.creatorId = this.userService.loggedUser?.id ?? 0;
-    if (this.edit) {
-      this.page.id = this.data.page?.id ?? this.page.id;
-      this.page.creatorId = this.data.page?.creator.id ?? this.page.creatorId;
-      this.page.title = this.data.page?.title ?? this.page.title;
-      this.page.description = this.data.page?.description ?? this.page.description;
-      try {
-        this.page.parentId = this.data.page?.parent.id ?? this.page.parentId;
-      } catch (error) {
-        this.page.parentId = 0;
-      }
-    } else {
-      this.page.parentId = this.data.page?.id ?? this.page.parentId;
-    }
+    this.parentPage = this.data.page;
   }
 
   createPage(): void {
-    if (this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID") {
-      console.log(this.page);
-      this.pageService.addNewPage(this.page).subscribe({
-        next: page => {
-          this.close(page.id);
-        },
-        error: err => {
-          this.close();
+    let pageData: PageForm = {
+      title: this.form.controls.title.value,
+      description: this.form.controls.description.value,
+      content: this.template?.content,
+      creatorId: this.userService.loggedUser?.id,
+      parentId: this.parentPage?.id
+    } as PageForm
+
+    this.exiting = true;
+
+    this.pageService.addNewPage(pageData).subscribe({
+      next: page => {
+        this.dialogRef.close(page.id);
+      },
+      error: err => {
+        this.exiting = false;
+        if (err.status === 400) {
+          this.dialogService.openDataErrorDialog(err.message);
         }
-      });
-    }
+      }
+    });
   }
 
-  editPage(): void { //TODO: delete this method?
-    if (this.titleValid.status == "VALID" && this.descriptionValid.status == "VALID" && this.creatorUsernameValid.status == "VALID") {
-      console.log(this.page);
-      this.pageService.editPage(this.page).subscribe({
-        next: page => {
-          console.log(page);
-          this.close();
-        },
-        error: err => {
-          this.close();
-        }
-      });
-    }
+  onTemplateChanged(template?: Template) {
+    this.template = template;
   }
-
-  close(id?: number) {
-    if (id)
-      this.dialogRef.close(id);
-    else
-      this.dialogRef.close();
-  }
-}
-
-export interface DialogData {
-  edit?: boolean;
-  page?: Page;
 }

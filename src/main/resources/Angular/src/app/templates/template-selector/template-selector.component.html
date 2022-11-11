@@ -1,0 +1,27 @@
+<div *ngIf="form" [formGroup]="form" class="container">
+  <mat-form-field appearance="fill">
+    <mat-label>Szablon</mat-label>
+    <input required type="text" matInput formControlName="template" [matAutocomplete]="auto" spellcheck="false">
+    <button *ngIf="templateControl.value" (click)="clearValue()" mat-icon-button matSuffix>
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <mat-error *ngIf="templateControl.hasError('required')">Szablon jest wymagany</mat-error>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-card class="cms-card-secondary-color">
+    <h2 mat-dialog-title>Podgląd</h2>
+
+    <mat-card-content>
+      <div class="ql-container ql-snow" style="border-width: 0;">
+        <div *ngIf="safeContent" class="ql-editor" [innerHtml]="safeContent"></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
