@@ -8,7 +8,7 @@
         <mat-icon>save</mat-icon>
         {{"SAVE" | translate}}
       </button>
-      <button mat-button [routerLink]="onCloseLink">
+      <button mat-button [routerLink]="onCloseLink" [queryParams]="onCloseLinkParams">
         <mat-icon>exit_to_app</mat-icon>
         {{"CLOSE" | translate}}
       </button>

@@ -7,9 +7,6 @@ import {TemplateService} from "../../../assets/service/template.service";
 import {SpinnerService} from "../../../assets/service/spinner.service";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
-import {
-  DialogUserAddUniversityComponent
-} from "../../user/dialogs/dialog-user-add-university/dialog-user-add-university.component";
 import {DialogTemplateCreateComponent} from "../dialog-template-create/dialog-template-create.component";
 
 @Component({
@@ -84,7 +81,7 @@ export class TemplatesListComponent implements OnInit {
 
   onDelete() {
     this.dialogService.openConfirmationDialog().afterClosed().subscribe(value => {
-      if(value && this.selectedTemplate) {
+      if (value && this.selectedTemplate) {
         this.templates = this.templates.filter(template => {
           return template.id !== this.selectedTemplate?.id;
         })
@@ -112,11 +109,11 @@ export class TemplatesListComponent implements OnInit {
   }
 
   onAddUniversity() {
-    if(this.selectedTemplate && this.selectedUniversity) {
+    if (this.selectedTemplate && this.selectedUniversity) {
       this.templateService.addUniversityToTemplate(this.selectedTemplate.id, this.selectedUniversity.id).subscribe({
         next: res => {
           this.templates = this.templates.map(template => {
-            if(template.id === res.id) {
+            if (template.id === res.id) {
               template = res as TemplateItem;
               template.assigned = true;
               template.safeContent = this.sanitizer.bypassSecurityTrustHtml(template.content);
@@ -131,11 +128,11 @@ export class TemplatesListComponent implements OnInit {
   }
 
   onRemoveUniversity() {
-    if(this.selectedTemplate && this.selectedUniversity) {
+    if (this.selectedTemplate && this.selectedUniversity) {
       this.templateService.removeUniversityFromTemplate(this.selectedTemplate.id, this.selectedUniversity.id).subscribe({
         next: res => {
           this.templates = this.templates.map(template => {
-            if(template.id === res.id) {
+            if (template.id === res.id) {
               template = res as TemplateItem;
               template.assigned = false;
               template.safeContent = this.sanitizer.bypassSecurityTrustHtml(template.content);
@@ -153,12 +150,18 @@ export class TemplatesListComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogTemplateCreateComponent);
 
     dialogRef.afterClosed().subscribe(next => {
-      if(next) {
+      if (next) {
         this.templates.push(next);
         this.onTemplateClicked(next.id);
       }
     })
 
+  }
+
+  onEdit() {
+    if (this.selectedTemplate) {
+      this.router.navigateByUrl(`/template/${this.selectedTemplate.id}/edit`);
+    }
   }
 }
 

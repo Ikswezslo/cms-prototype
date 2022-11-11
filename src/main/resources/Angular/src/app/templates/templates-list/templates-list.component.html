@@ -46,7 +46,7 @@
         </mat-card-content>
         <mat-divider inset></mat-divider>
         <mat-card-actions>
-          <button *ngIf="isEditMode" mat-button>
+          <button *ngIf="isEditMode" mat-button (click)="onEdit()">
             <mat-icon>create</mat-icon>
             <span>Edytuj</span>
           </button>

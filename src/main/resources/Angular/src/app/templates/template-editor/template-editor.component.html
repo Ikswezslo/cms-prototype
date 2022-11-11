@@ -1,0 +1,8 @@
+<app-quill-editor *ngIf="template"
+                  [title]="'Edytowanie szablonu'"
+                  [subtitle]="template.name"
+                  [content]="template.content"
+                  [onCloseLink]="['/templates']"
+                  [onCloseLinkParams]="{id: template.id}"
+                  (saved)="onSaved($event)">
+</app-quill-editor>

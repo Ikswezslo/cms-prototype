@@ -37,7 +37,7 @@ import {DialogUniversityCreateComponent} from './university/dialog-university-cr
 import {PageUserComponent} from './page/page-user/page-user.component';
 import {MatButtonModule} from '@angular/material/button'
 import {QuillModule} from 'ngx-quill';
-import {QuillEditorComponent} from './page/quill-editor/quill-editor.component'
+import {QuillEditorComponent} from './quill-editor/quill-editor.component'
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -60,11 +60,11 @@ import {DialogUserChangeAccountTypeComponent} from './user/dialogs/dialog-user-c
 import {SetupService} from 'src/assets/service/setup.service';
 import { SearchComponent } from './search/search.component';
 import { TemplatesListComponent } from './templates/templates-list/templates-list.component';
-import { TemplatesEditorComponent } from './templates/templates-editor/templates-editor.component';
 import {MatListModule} from "@angular/material/list";
 import { UniversitySelectorComponent } from './university/university-selector/university-selector.component';
 import { DialogTemplateCreateComponent } from './templates/dialog-template-create/dialog-template-create.component';
 import { PageEditorComponent } from './page/page-editor/page-editor.component';
+import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -103,10 +103,10 @@ export function SetupApp(setup: SetupService) {
     DialogUserChangeAccountTypeComponent,
     SearchComponent,
     TemplatesListComponent,
-    TemplatesEditorComponent,
     UniversitySelectorComponent,
     DialogTemplateCreateComponent,
     PageEditorComponent,
+    TemplateEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -141,6 +141,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'page/:pageId/edit', component: PageEditorComponent, title: 'Edycja strony'},
       {path: 'pages/:userId', component: PageUserComponent},
       {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
+      {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
       {path: 'search', component: SearchComponent, title: 'Search'}
     ]),

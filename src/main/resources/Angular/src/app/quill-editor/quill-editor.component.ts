@@ -1,11 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import Quill from "quill";
-import {Page} from "../../../assets/models/page";
-import {PageService} from "../../../assets/service/page.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatSnackBar} from '@angular/material/snack-bar';
 import ImageResize from 'quill-image-resize-module'
-import {TranslateService} from "@ngx-translate/core";
 
 Quill.register('modules/imageResize', ImageResize)
 
@@ -20,6 +15,7 @@ export class QuillEditorComponent implements OnInit {
   @Input() subtitle?: string = "Title"
   @Input() content?: string;
   @Input() onCloseLink?: any[] = ['/'];
+  @Input() onCloseLinkParams?: any;
   @Output() saved = new EventEmitter<any>;
 
   modules = {}
