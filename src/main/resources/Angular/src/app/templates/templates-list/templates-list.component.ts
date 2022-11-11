@@ -37,6 +37,7 @@ export class TemplatesListComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
       let id: number = Number(params['id']);
+      console.log(id);
       this.selectedTemplate = this.templates.filter(template => template.id === id)[0];
     })
   }
@@ -46,10 +47,15 @@ export class TemplatesListComponent implements OnInit {
     this.templateService.getAllTemplates()
       .subscribe({
         next: res => {
+          let id = Number(this.activatedRoute.snapshot.queryParams['id']);
+
           this.templates = res;
           this.spinnerService.hide();
           this.templates.forEach(template => {
             template.safeContent = this.sanitizer.bypassSecurityTrustHtml(template.content);
+            if(!this.selectedTemplate && template.id === id) {
+              this.selectedTemplate = template;
+            }
           })
         },
         error: err => {
