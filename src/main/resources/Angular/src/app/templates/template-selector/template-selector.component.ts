@@ -61,7 +61,14 @@ export class TemplateSelectorComponent implements OnInit {
     if (this.universityId) {
       this.templateService.getUniversityTemplates(this.universityId)
         .subscribe(res => {
-          this.options = res;
+          this.options = [
+            {
+              id: 0,
+              name: "Pusty Szablon",
+              content: "",
+              universities: []
+            },
+            ...res];
           this.templateControl.setValue("");
         });
     }
