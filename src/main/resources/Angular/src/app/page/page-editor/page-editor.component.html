@@ -4,4 +4,8 @@
                   [content]="page.content"
                   [onCloseLink]="['/page', page.id]"
                   (saved)="onSaved($event)">
+  <button mat-button (click)="onLoadTemplate()">
+    <mat-icon>restore_page</mat-icon>
+    <span>Wczytaj szablon</span>
+  </button>
 </app-quill-editor>

@@ -67,6 +67,7 @@ import { PageEditorComponent } from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
 import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
 import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
+import { DialogTemplateLoadComponent } from './dialog-template-load/dialog-template-load.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -110,7 +111,8 @@ export function SetupApp(setup: SetupService) {
     PageEditorComponent,
     TemplateEditorComponent,
     DialogTemplateChangeNameComponent,
-    TemplateSelectorComponent
+    TemplateSelectorComponent,
+    DialogTemplateLoadComponent
   ],
   imports: [
     BrowserModule,

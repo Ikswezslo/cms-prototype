@@ -1,0 +1,19 @@
+<form [formGroup]="form">
+  <h2 mat-dialog-title>Wcztytywanie szablonu</h2>
+  <mat-dialog-content>
+    <app-template-selector
+      [universityId]="page.university.id"
+      [form]="form"
+      (templateChanged)="onTemplateChanged($event)">
+    </app-template-selector>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button color="warn" [disabled]="pending"
+            [mat-dialog-close]="undefined">{{"CLOSE" | translate}}
+    </button>
+    <button mat-button color="primary" [disabled]="!form.valid||pending"
+            (click)="onSubmit()">Potwierdź
+    </button>
+  </mat-dialog-actions>
+</form>
+
