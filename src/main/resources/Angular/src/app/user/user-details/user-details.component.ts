@@ -65,7 +65,6 @@ export class UserDetailsComponent implements OnInit {
     private dialogService: DialogService,
     private pageService: PageService,
     private translate: TranslateService) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {

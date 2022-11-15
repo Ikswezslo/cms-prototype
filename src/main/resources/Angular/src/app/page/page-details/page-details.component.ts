@@ -46,13 +46,13 @@ export class PageDetailsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private dialogService: DialogService) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
-    const routeParams = this.route.snapshot.paramMap;
-    this.id = Number(routeParams.get('pageId'));
-    this.loadPage();
+    this.route.paramMap.subscribe(value => {
+      this.id = Number(value.get('pageId'));
+      this.loadPage();
+    })
   }
 
   loadPage() {
