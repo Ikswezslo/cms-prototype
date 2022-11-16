@@ -70,7 +70,7 @@ public class PageController {
     }
 
     @PatchMapping("/{id}/content")
-    ResponseEntity<Void> modifyPageContentField(@PathVariable long id, @RequestBody String content) {
+    ResponseEntity<Void> modifyPageContentField(@PathVariable long id, @RequestBody(required = false) String content) {
         service.modifyContentField(id, content);
         return ResponseEntity.noContent().build();
     }

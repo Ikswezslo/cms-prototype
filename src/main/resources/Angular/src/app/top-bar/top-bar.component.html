@@ -19,7 +19,7 @@
   <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/universities']" class="subButton">{{"UNIVERSITIES" | translate}}</button>
   <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/accounts']" class="subButton">{{"USERS" | translate}}</button>
   <button mat-menu-item [routerLink]="['/pages']" class="subButton">{{"PAGES" | translate}}</button>
-  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/templates']" class="subButton">{{"TEMPLATES" | translate}}</button>
+  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/templates']" class="subButton">{{"TEMPLATE.MANY" | translate}}</button>
 </mat-menu>
 
 <mat-menu #lanMenu="matMenu" yPosition="above">

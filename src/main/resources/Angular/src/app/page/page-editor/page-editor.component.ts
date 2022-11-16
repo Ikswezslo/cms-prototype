@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Page} from "../../../assets/models/page";
 import {TranslateService} from "@ngx-translate/core";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {DialogTemplateLoadComponent} from "../../dialog-template-load/dialog-template-load.component";
+import {DialogTemplateLoadComponent} from "../../templates/dialog-template-load/dialog-template-load.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -14,7 +14,8 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class PageEditorComponent implements OnInit {
 
-  public page?: Page;
+  page?: Page;
+  content?: string;
 
   constructor(private pageService: PageService,
               private router: Router,
@@ -35,6 +36,7 @@ export class PageEditorComponent implements OnInit {
     this.pageService.getPage(id)
       .subscribe(res => {
         this.page = res;
+        this.content = res.content;
       });
   }
 
@@ -50,7 +52,6 @@ export class PageEditorComponent implements OnInit {
     }
   }
 
-
   onLoadTemplate() {
     let dialogData = {
       data: {
@@ -59,8 +60,8 @@ export class PageEditorComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(DialogTemplateLoadComponent, dialogData);
     dialogRef.afterClosed().subscribe(res => {
-      if (res && this.page) {
-        this.page.content = res;
+      if (res !== undefined && this.page) {
+        this.content = res;
       }
     });
   }

@@ -167,7 +167,7 @@ public class PageService {
             throw new ForbiddenException();
         }
 
-        page.setContent(content);
+        page.setContent(Optional.ofNullable(content).orElse(""));
         pageRepository.save(page);
     }
     @Secured("ROLE_MODERATOR")

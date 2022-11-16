@@ -1,7 +1,7 @@
 <form>
-  <h2 mat-dialog-title>Dodawanie szablonu</h2>
+  <h2 mat-dialog-title>{{"TEMPLATE.DIALOG_ADD_HEADER" | translate}}</h2>
   <mat-form-field appearance="fill">
-    <mat-label>Nazwa szablonu</mat-label>
+    <mat-label>{{"TEMPLATE.FIELD_NAME" | translate}}</mat-label>
     <input matInput type="text" [formControl]="nameControl">
     <mat-error *ngIf="nameControl.hasError('required')">{{"FIELD_REQUIRED" | translate}}</mat-error>
   </mat-form-field>

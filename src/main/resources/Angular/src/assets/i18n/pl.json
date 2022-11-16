@@ -93,6 +93,7 @@
   "USERNAME_CHANGE": "Zmiana nazwy użytkownika",
   "USERNAME_CHANGED": "Nazwa użytkownika została pomyślnie zmieniona",
   "ADDING_USER": "Dodawanie użytkownika",
+  "ADDING_PAGE": "Dodawanie strony",
   "FIRST_NAME": "Imię",
   "LAST_NAME": "Nazwisko",
   "EMAIL": "Email",
@@ -115,5 +116,27 @@
   "ID": "Id",
   "SEARCH": "Wyszukaj",
   "SEARCHING": "Wyszukiwanie",
-  "TEMPLATES": "Szablony"
+  "TEMPLATE": {
+    "ONE": "Szablon",
+    "MANY": "Szablony",
+    "FIELD_NAME": "Nazwa szablonu",
+    "AVAILABLE": "Dostępne szablony",
+    "EDIT_MODE": "Tryb edycji",
+    "SELECTION_MODE": "Tryb selekcji",
+    "ADD": "Dodaj",
+    "EDIT": "Edytuj",
+    "RENAME": "Zmień nazwę",
+    "DELETE": "Usuń",
+    "ADD_TO_UNIVERSITY":  "Dodaj do uniwersytetu",
+    "REMOVE_FROM_UNIVERSITY": "Usuń z uniwersytetu",
+    "LOAD": "Wczytaj szablon",
+    "PREVIEW": "Podgląd",
+    "NONE_SELECTED": "Brak wybranego szablonu",
+    "IS_REQUIRED": "Szablon jest wymagany",
+    "EDITOR_HEADER": "Edytowanie szablonu",
+    "DIALOG_ADD_HEADER": "Dodawanie szablonu",
+    "DIALOG_RENAME_HEADER": "Zmiana nazwy szablonu",
+    "DIALOG_LOAD_HEADER": "Wczytywanie szablonu",
+    "LOAD_CONFIRM_DESCRIPTION": "Czy na pewno chcesz wczytać szablon? Zastąpi on całą zawartość strony."
+  }
 }
