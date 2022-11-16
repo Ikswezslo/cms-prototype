@@ -3,6 +3,8 @@ package com.example.cms.university;
 import com.example.cms.page.Page;
 import com.example.cms.page.PageRepository;
 import com.example.cms.security.SecurityService;
+import com.example.cms.template.Template;
+import com.example.cms.template.TemplateRepository;
 import com.example.cms.university.exceptions.UniversityException;
 import com.example.cms.university.exceptions.UniversityExceptionType;
 import com.example.cms.university.projections.UniversityDtoDetailed;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,13 +30,16 @@ public class UniversityService {
     private final UniversityRepository universityRepository;
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
+    private final TemplateRepository templateRepository;
     private final SecurityService securityService;
 
     public UniversityService(UniversityRepository universityRepository, UserRepository userRepository,
-                             PageRepository pageRepository, SecurityService securityService) {
+                             PageRepository pageRepository, TemplateRepository templateRepository,
+                             SecurityService securityService) {
         this.universityRepository = universityRepository;
         this.userRepository = userRepository;
         this.pageRepository = pageRepository;
+        this.templateRepository = templateRepository;
         this.securityService = securityService;
     }
 
@@ -61,7 +67,10 @@ public class UniversityService {
             throw new ForbiddenException();
         }
 
-        University newUniversity = form.toUniversity(creator);
+        String content = templateRepository.findByName("UniversityTemplate")
+                .map(Template::getContent).orElse("Default university page content");
+
+        University newUniversity = form.toUniversity(creator, content);
         if (securityService.isForbiddenUniversity(newUniversity)) {
             throw new ForbiddenException();
         }
