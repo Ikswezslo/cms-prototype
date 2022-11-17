@@ -9,6 +9,7 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogTemplateCreateComponent} from "../dialog-template-create/dialog-template-create.component";
 import {DialogTemplateChangeNameComponent} from "../dialog-template-change-name/dialog-template-change-name.component";
+import {UserService} from "../../../assets/service/user.service";
 
 @Component({
   selector: 'app-templates-list',
@@ -22,6 +23,7 @@ export class TemplatesListComponent implements OnInit {
   selectedUniversity?: University;
 
   constructor(private dialogService: DialogService,
+              public userService: UserService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private templateService: TemplateService,

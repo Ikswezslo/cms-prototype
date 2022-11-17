@@ -1030,27 +1030,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         pageService.modifyHiddenField(14L, false);
         pageService.modifyHiddenField(15L, false);
 
-        templateService.save("Template A");
-        templateService.save("Template B");
-        templateService.save("Template C");
-        templateService.save("Template D");
-        templateService.save("Template E");
-        templateService.save("Template F");
-        templateService.save("Template G");
-
-        templateService.modifyNameField(1L, "test");
-        templateService.modifyNameField(4L, "test 2");
-        templateService.modifyContentField(2L, "test content");
-        templateService.modifyContentField(5L, "test content 2");
-
-        templateService.addUniversity(4L, 1L);
-        templateService.addUniversity(5L, 2L);
-        templateService.addUniversity(6L, 3L);
-
-        templateService.removeUniversity(5L, 2L);
-
-        templateService.delete(1L);
-        templateService.delete(2L);
-        templateService.delete(4L);
+        templateService.save("UniversityTemplate");
+        templateService.modifyContentField(1L, "Template used for university main page.");
     }
 }

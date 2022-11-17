@@ -21,7 +21,8 @@
       </mat-card-content>
       <mat-divider inset></mat-divider>
       <mat-card-actions>
-        <button *ngIf="isEditMode" mat-button (click)="toggleEditMode()">
+        <button *ngIf="isEditMode && userService.loggedUser?.accountType==='ADMIN'"
+                mat-button (click)="toggleEditMode()">
           <mat-icon>check_box</mat-icon>
           <span>{{'TEMPLATE.SELECTION_MODE' | translate}}</span>
         </button>
@@ -29,7 +30,8 @@
           <mat-icon>add_box</mat-icon>
           <span>{{'TEMPLATE.ADD' | translate}}</span>
         </button>
-        <button *ngIf="!isEditMode" mat-button (click)="toggleEditMode()">
+        <button *ngIf="!isEditMode && userService.loggedUser?.accountType==='ADMIN'"
+                mat-button (click)="toggleEditMode()">
           <mat-icon>create</mat-icon>
           <span>{{'TEMPLATE.EDIT_MODE' | translate}}</span>
         </button>

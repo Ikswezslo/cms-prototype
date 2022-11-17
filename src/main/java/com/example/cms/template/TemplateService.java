@@ -5,6 +5,7 @@ import com.example.cms.template.projections.TemplateDtoDetailed;
 import com.example.cms.template.projections.TemplateDtoSimple;
 import com.example.cms.university.University;
 import com.example.cms.university.UniversityRepository;
+import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,11 @@ public class TemplateService {
     }
 
     public List<TemplateDtoSimple> getAllByUniversity(Long universityID) {
+        University university = universityRepository.findById(universityID).orElseThrow(NotFoundException::new);
+        if (securityService.isForbiddenUniversity(university)) {
+            throw new ForbiddenException();
+        }
+
         return templateRepository.findByUniversities_Id(universityID).stream()
                 .map(TemplateDtoSimple::of)
                 .collect(Collectors.toList());
@@ -58,6 +64,10 @@ public class TemplateService {
         Template template = templateRepository.findById(templateID).orElseThrow(NotFoundException::new);
         University university = universityRepository.findById(universityID).orElseThrow(NotFoundException::new);
 
+        if (securityService.isForbiddenUniversity(university)) {
+            throw new ForbiddenException();
+        }
+
         template.getUniversities().add(university);
         return TemplateDtoDetailed.of(templateRepository.save(template));
     }
@@ -68,11 +78,15 @@ public class TemplateService {
         Template template = templateRepository.findById(templateID).orElseThrow(NotFoundException::new);
         University university = universityRepository.findById(universityID).orElseThrow(NotFoundException::new);
 
+        if (securityService.isForbiddenUniversity(university)) {
+            throw new ForbiddenException();
+        }
+
         template.getUniversities().remove(university);
         return TemplateDtoDetailed.of(templateRepository.save(template));
     }
 
-    @Secured("ROLE_MODERATOR")
+    @Secured("ROLE_ADMIN")
     public void modifyNameField(Long id, String name) {
         Template template = templateRepository.findById(id).orElseThrow(NotFoundException::new);
 
@@ -80,7 +94,7 @@ public class TemplateService {
         templateRepository.save(template);
     }
 
-    @Secured("ROLE_MODERATOR")
+    @Secured("ROLE_ADMIN")
     public void modifyContentField(Long id, String content) {
         Template template = templateRepository.findById(id).orElseThrow(NotFoundException::new);
 

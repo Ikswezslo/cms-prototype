@@ -3,6 +3,8 @@ import {University} from "../../../assets/models/university";
 import {map, Observable, startWith} from "rxjs";
 import {AbstractControl, FormControl, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {UniversityService} from "../../../assets/service/university.service";
+import {UserService} from "../../../assets/service/user.service";
+import {User} from "../../../assets/models/user";
 
 @Component({
   selector: 'app-university-selector',
@@ -16,7 +18,7 @@ export class UniversitySelectorComponent implements OnInit {
   options: University[] = [];
   filteredOptions!: Observable<University[]>;
 
-  constructor(private universityService: UniversityService) { }
+  constructor(private universityService: UniversityService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadUniversities();
@@ -45,11 +47,19 @@ export class UniversitySelectorComponent implements OnInit {
   }
 
   loadUniversities() {
-    this.universityService.getUniversities()
-      .subscribe(res => {
-        this.options = res;
+    if(this.userService.loggedUser) {
+      let loggedUser: User = this.userService.loggedUser;
+      if(loggedUser.accountType === "ADMIN") {
+        this.universityService.getUniversities()
+          .subscribe(res => {
+            this.options = res;
+            this.universityControl.setValue("");
+          });
+      } else {
+        this.options = this.userService.loggedUser?.enrolledUniversities ?? []
         this.universityControl.setValue("");
-      });
+      }
+    }
   }
 
   displayFn(university: University): string {
