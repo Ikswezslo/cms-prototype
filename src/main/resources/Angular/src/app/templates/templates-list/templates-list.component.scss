@@ -1,0 +1,44 @@
+.row {
+  width: 100%;
+  max-width: 1200px;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+button.selected {
+  background-color: lightgray !important;
+}
+
+mat-icon {
+  margin-right: 5px;
+}
+
+mat-card {
+  height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  mat-card-header {
+    flex-shrink: 0;
+  }
+
+  > mat-card-title-group {
+    display: block;
+  }
+
+  > mat-card-content {
+    margin-bottom: 0;
+    flex-grow: 1;
+    overflow: auto;
+  }
+
+  mat-card-subtitle {
+    margin-bottom: 30px;
+  }
+
+  mat-card-actions {
+    margin-top: 10px;
+  }
+}
+

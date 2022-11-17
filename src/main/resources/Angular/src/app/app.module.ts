@@ -37,7 +37,7 @@ import {DialogUniversityCreateComponent} from './university/dialog-university-cr
 import {PageUserComponent} from './page/page-user/page-user.component';
 import {MatButtonModule} from '@angular/material/button'
 import {QuillModule} from 'ngx-quill';
-import {QuillEditorComponent} from './page/quill-editor/quill-editor.component'
+import {QuillEditorComponent} from './quill-editor/quill-editor.component'
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -59,7 +59,15 @@ import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialo
 import {DialogUserChangeAccountTypeComponent} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
 import {SetupService} from 'src/assets/service/setup.service';
 import { SearchComponent } from './search/search.component';
-
+import { TemplatesListComponent } from './templates/templates-list/templates-list.component';
+import {MatListModule} from "@angular/material/list";
+import { UniversitySelectorComponent } from './university/university-selector/university-selector.component';
+import { DialogTemplateCreateComponent } from './templates/dialog-template-create/dialog-template-create.component';
+import { PageEditorComponent } from './page/page-editor/page-editor.component';
+import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
+import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
+import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -97,6 +105,14 @@ export function SetupApp(setup: SetupService) {
     DialogUserUpdateComponent,
     DialogUserChangeAccountTypeComponent,
     SearchComponent,
+    TemplatesListComponent,
+    UniversitySelectorComponent,
+    DialogTemplateCreateComponent,
+    PageEditorComponent,
+    TemplateEditorComponent,
+    DialogTemplateChangeNameComponent,
+    TemplateSelectorComponent,
+    DialogTemplateLoadComponent
   ],
   imports: [
     BrowserModule,
@@ -128,10 +144,12 @@ export function SetupApp(setup: SetupService) {
       {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
       {path: 'pages', component: PageListComponent, title: 'Strony'},
       {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
-      {path: 'page/:pageId/edit', component: QuillEditorComponent, title: 'Edycja strony'},
+      {path: 'page/:pageId/edit', component: PageEditorComponent, title: 'Edycja strony'},
       {path: 'pages/:userId', component: PageUserComponent},
+      {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
+      {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
-      {path: 'search', component: SearchComponent, title: 'Search'}
+      {path: 'search', component: SearchComponent, title: 'Search',}
     ]),
     BrowserAnimationsModule,
     BrowserModule,
@@ -146,7 +164,8 @@ export function SetupApp(setup: SetupService) {
     }),
     MatDividerModule,
     MatExpansionModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatListModule
   ],
   providers: [
     SetupService,

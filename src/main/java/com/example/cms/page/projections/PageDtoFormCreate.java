@@ -8,6 +8,7 @@ import lombok.Value;
 public class PageDtoFormCreate {
     String title;
     String description;
+    String content;
     Long creatorId;
     Long parentId;
 
@@ -15,7 +16,7 @@ public class PageDtoFormCreate {
         Page page = new Page();
         page.setTitle(title);
         page.setDescription(description);
-        page.setContent("");
+        page.setContent(content);
         page.setHidden(true);
         page.setParent(parent);
         page.setUniversity(parent.getUniversity());

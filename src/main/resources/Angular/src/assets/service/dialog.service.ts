@@ -1,14 +1,23 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ErrorDialogComponent} from 'src/app/dialog/error-dialog/error-dialog.component';
+import {ConfirmationDialogComponent} from "../../app/dialog/confirmation-dialog/confirmation-dialog.component";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
-
+// TODO: Add all dialogs from dialog dir
   constructor(
     public dialog: MatDialog) {
+  }
+
+  openConfirmationDialog(description?: string) {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        description: description
+      }
+    });
   }
 
   openDataErrorDialog(description: string | undefined = undefined) {

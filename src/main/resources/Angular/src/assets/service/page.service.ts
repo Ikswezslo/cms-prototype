@@ -22,19 +22,6 @@ export class PageService {
   ) {
   }
 
-  private cachedPage?: Page;
-
-  cachePage(page: Page): void {
-    this.cachedPage = page;
-  }
-
-  getCachedPage(id: Number) {
-    if (id !== this.cachedPage?.id) {
-      this.cachedPage = undefined;
-    }
-    return this.cachedPage;
-  }
-
   getPage(id: Number, defaultErrorHandling: boolean = true): Observable<Page> {
     return this.http.get<Page>(`${this.pageUrl}/${id}`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));

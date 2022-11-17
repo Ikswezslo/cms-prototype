@@ -3,6 +3,8 @@ package com.example.cms.university;
 import com.example.cms.page.Page;
 import com.example.cms.page.PageRepository;
 import com.example.cms.security.SecurityService;
+import com.example.cms.template.Template;
+import com.example.cms.template.TemplateRepository;
 import com.example.cms.university.exceptions.UniversityException;
 import com.example.cms.university.exceptions.UniversityExceptionType;
 import com.example.cms.university.projections.UniversityDtoDetailed;
@@ -14,12 +16,12 @@ import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,14 +30,16 @@ public class UniversityService {
     private final UniversityRepository universityRepository;
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
+    private final TemplateRepository templateRepository;
     private final SecurityService securityService;
 
-    @Autowired
     public UniversityService(UniversityRepository universityRepository, UserRepository userRepository,
-                             PageRepository pageRepository, SecurityService securityService) {
+                             PageRepository pageRepository, TemplateRepository templateRepository,
+                             SecurityService securityService) {
         this.universityRepository = universityRepository;
         this.userRepository = userRepository;
         this.pageRepository = pageRepository;
+        this.templateRepository = templateRepository;
         this.securityService = securityService;
     }
 
@@ -63,7 +67,10 @@ public class UniversityService {
             throw new ForbiddenException();
         }
 
-        University newUniversity = form.toUniversity(creator);
+        String content = templateRepository.findByName("UniversityTemplate")
+                .map(Template::getContent).orElse("Default university page content");
+
+        University newUniversity = form.toUniversity(creator, content);
         if (securityService.isForbiddenUniversity(newUniversity)) {
             throw new ForbiddenException();
         }
@@ -127,6 +134,7 @@ public class UniversityService {
         pageRepository.delete(university.getMainPage());
         universityRepository.delete(university);
     }
+
     private void validateForDelete(University university) {
         if (!university.isHidden()) {
             throw new UniversityException(UniversityExceptionType.UNIVERSITY_IS_NOT_HIDDEN);

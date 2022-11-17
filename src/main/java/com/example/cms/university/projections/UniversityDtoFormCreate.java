@@ -12,7 +12,7 @@ public class UniversityDtoFormCreate {
     String description;
     Long creatorId;
 
-    public University toUniversity(User creator) {
+    public University toUniversity(User creator, String content) {
         University university = new University();
         university.setName(name);
         university.setShortName(shortName);
@@ -22,7 +22,7 @@ public class UniversityDtoFormCreate {
         Page page = new Page();
         page.setTitle(university.getName());
         page.setDescription("Short description about university.");
-        page.setContent("Content for university main page.");
+        page.setContent(content);
         page.setHidden(true);
         page.setUniversity(university);
         page.setCreator(creator);

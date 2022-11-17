@@ -93,6 +93,7 @@
   "USERNAME_CHANGE": "Username change",
   "USERNAME_CHANGED": "The username has been successfully changed",
   "ADDING_USER": "Adding user",
+  "ADDING_PAGE": "Adding page",
   "FIRST_NAME": "First name",
   "LAST_NAME": "Last name",
   "EMAIL": "Email",
@@ -114,5 +115,28 @@
   "USERS_LIST": "List of users",
   "ID": "Id",
   "SEARCH": "Search",
-  "SEARCHING": "Searching"
+  "SEARCHING": "Searching",
+  "TEMPLATE": {
+    "ONE": "Template",
+    "MANY": "Templates",
+    "FIELD_NAME": "Template name",
+    "AVAILABLE": "Available templates",
+    "EDIT_MODE": "Edit mode",
+    "SELECTION_MODE": "Selection mode",
+    "ADD": "Add",
+    "EDIT": "Edit",
+    "RENAME": "Change name",
+    "DELETE": "Delete",
+    "ADD_TO_UNIVERSITY":  "Add to university",
+    "REMOVE_FROM_UNIVERSITY": "Remove from university",
+    "LOAD": "Load template",
+    "PREVIEW": "Preview",
+    "NONE_SELECTED": "No template selected",
+    "IS_REQUIRED": "Template is required",
+    "EDITOR_HEADER": "Editing template",
+    "DIALOG_ADD_HEADER": "Adding template",
+    "DIALOG_RENAME_HEADER": "Changing template name",
+    "DIALOG_LOAD_HEADER": "Loading template",
+    "LOAD_CONFIRM_DESCRIPTION": "Are you sure you want to load the template? It will replace the entire content of the page."
+  }
 }

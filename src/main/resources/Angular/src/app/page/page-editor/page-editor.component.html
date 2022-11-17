@@ -1,0 +1,11 @@
+<app-quill-editor *ngIf="page"
+                  [title]="'EDITING_PAGE' | translate"
+                  [subtitle]="page.title"
+                  [content]="content"
+                  [onCloseLink]="['/page', page.id]"
+                  (saved)="onSaved($event)">
+  <button mat-button (click)="onLoadTemplate()">
+    <mat-icon>restore_page</mat-icon>
+    <span>{{'TEMPLATE.LOAD' | translate}}</span>
+  </button>
+</app-quill-editor>
