@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -99,22 +100,24 @@ public class UserService {
     }
 
     @Secured("ROLE_MODERATOR")
-    public UserDtoDetailed addUniversity(long userId, long universityId) {
+    public UserDtoDetailed updateEnrolledUniversities(long userId, List<Long> universitiesId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
 
-        University university = universityRepository.findById(universityId)
-                .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY));
-        if (securityService.isForbiddenUniversity(university)) {
-            throw new ForbiddenException(University.class);
-        }
+        Set<University> universities = universitiesId.stream().map(id -> {
+            University university = universityRepository.findById(id)
+                    .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY));
+            if (securityService.isForbiddenUniversity(university)) {
+                throw new ForbiddenException(University.class);
+            }
+            return university;
+        }).collect(Collectors.toSet());
 
-        university.getEnrolledUsers().add(user);
-        user.getEnrolledUniversities().add(university);
+        user.setEnrolledUniversities(universities);
 
-        // TODO: probably bad idea but addUniversity will be replaced by updateEnrolledUniversities in future
-        if (securityService.isForbiddenUser(user, true)) {
-            throw new ForbiddenException(User.class);
-        }
+//        // TODO: probably bad idea but addUniversity will be replaced by updateEnrolledUniversities in future
+//        if (securityService.isForbiddenUser(user, true)) {
+//            throw new ForbiddenException(User.class);
+//        }
 
         securityService.invalidateUserSession(userId);
         return UserDtoDetailed.of(userRepository.save(user));
