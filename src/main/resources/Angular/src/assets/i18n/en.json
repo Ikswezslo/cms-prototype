@@ -114,8 +114,10 @@
   "DELETE_USER_ERROR": "Error has occurred during deleting user",
   "USERS_LIST": "List of users",
   "ID": "Id",
+  "DATE": "Date",
   "SEARCH": "Search",
   "SEARCHING": "Searching",
+  "NO_ROWS_TO_SHOW": "No rows to show...",
   "TEMPLATE": {
     "ONE": "Template",
     "MANY": "Templates",

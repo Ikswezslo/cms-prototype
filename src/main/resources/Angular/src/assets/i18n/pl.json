@@ -114,8 +114,10 @@
   "DELETE_USER_ERROR": "Wystąpił błąd podczas usuwania użytkownika",
   "USERS_LIST": "Lista użytkowników",
   "ID": "Id",
+  "DATE": "Data",
   "SEARCH": "Wyszukaj",
   "SEARCHING": "Wyszukiwanie",
+  "NO_ROWS_TO_SHOW": "Brak wierszy do pokazania",
   "TEMPLATE": {
     "ONE": "Szablon",
     "MANY": "Szablony",
