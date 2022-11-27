@@ -31,7 +31,7 @@
 <button *ngIf="logged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
   class="material-icons">person</i>{{userLogged?.firstName}}</button>
 <mat-menu #userMenu="matMenu" yPosition="above">
-  <button mat-menu-item class="subButton" [routerLink]="['/account/1']">{{"PROFILE" | translate}}</button>
+  <button mat-menu-item class="subButton" [routerLink]="['/account/' + this.userLogged?.id]">{{"PROFILE" | translate}}</button>
   <button mat-menu-item class="subButton" [routerLink]="['/accounts/settings']">{{"SETTINGS" | translate}}</button>
   <button mat-menu-item class="subButton" [routerLink]="['']" (click)="logout()">{{"LOGOUT" | translate}}</button>
 </mat-menu>
