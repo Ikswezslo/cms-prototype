@@ -51,7 +51,7 @@ public class FileResourceService {
 
         FileResource fileResource = new FileResource();
         fileResource.setUploadDate(Timestamp.from(Instant.now()));
-        fileResource.setAuthor(user);
+        fileResource.setUploadedBy(user.getUsername());
         fileResource.setPage(page);
         fileResource.setFilename(StringUtils.cleanPath(multipartFile.getOriginalFilename()));
         fileResource.setFileType(multipartFile.getContentType());

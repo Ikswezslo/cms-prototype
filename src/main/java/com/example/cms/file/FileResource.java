@@ -1,7 +1,6 @@
 package com.example.cms.file;
 
 import com.example.cms.page.Page;
-import com.example.cms.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,8 +37,7 @@ public class FileResource {
 
     private Timestamp uploadDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User author;
+    private String uploadedBy;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -52,12 +50,12 @@ public class FileResource {
         if (this == o) return true;
         if (!(o instanceof FileResource)) return false;
         FileResource that = (FileResource) o;
-        return Objects.equals(id, that.id) && Objects.equals(filename, that.filename) && Objects.equals(fileType, that.fileType) && Arrays.equals(data, that.data) && Objects.equals(uploadDate, that.uploadDate) && Objects.equals(author, that.author) && page.equals(that.page);
+        return Objects.equals(id, that.id) && Objects.equals(filename, that.filename) && Objects.equals(fileType, that.fileType) && Arrays.equals(data, that.data) && Objects.equals(uploadDate, that.uploadDate) && Objects.equals(uploadedBy, that.uploadedBy) && page.equals(that.page);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, filename, fileType, uploadDate, author, page);
+        int result = Objects.hash(id, filename, fileType, uploadDate, uploadedBy, page);
         result = 31 * result + Arrays.hashCode(data);
         return result;
     }
