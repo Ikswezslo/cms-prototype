@@ -53,8 +53,10 @@ export class UniversityListComponent implements OnInit {
         error: err => {
           this.spinnerService.hide();
           this.dialogService.openDataErrorDialog();
-      }});
-    this.gridApi.sizeColumnsToFit();
+        }
+      });
+    if(this.gridApi)
+      this.gridApi.sizeColumnsToFit();
   }
 
   translateColumnDefs(){

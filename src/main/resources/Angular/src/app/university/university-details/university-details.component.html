@@ -43,11 +43,6 @@
     <mat-icon>person</mat-icon>
     <span>{{"ENROLL_USER" | translate}}</span>
   </button>
-  <button mat-menu-item
-          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
-    <mat-icon>note_edit</mat-icon>
-    <span>{{"CHANGE_MAIN_PAGE" | translate}}</span>
-  </button>
   <button mat-menu-item (click)="deleteUniversity()"
           *ngIf="securityService.hasRole('ADMIN') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>delete</mat-icon>
