@@ -4,6 +4,7 @@ import {UniversityService} from "../../../assets/service/university.service";
 import {FormControl, Validators} from "@angular/forms";
 import {University, UniversityForm} from 'src/assets/models/university';
 import {UserService} from 'src/assets/service/user.service';
+import { DialogService } from 'src/assets/service/dialog.service';
 
 @Component({
   selector: 'app-dialog-university-create',
@@ -20,6 +21,7 @@ export class DialogUniversityCreateComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private userService: UserService,
+    private dialogService: DialogService,
     private universityService: UniversityService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
@@ -40,7 +42,14 @@ export class DialogUniversityCreateComponent implements OnInit {
   }
   createUniversity(){
     if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
-      this.universityService.addNewUniversity(this.university).subscribe({next: university => console.log(university)});
+      this.universityService.addNewUniversity(this.university).subscribe({
+        next: university => {
+          this.dialogService.openConfirmationDialog("ADDED_UNIVERSITY");
+        },
+        error: err => {
+          this.dialogService.openDataErrorDialog("ADDED_UNIVERSITY_ERROR");
+        }
+      });
       this.close();
     }
   }

@@ -49,13 +49,14 @@ export class DialogUserChangePasswordComponent implements OnInit {
               private dialogService: DialogService,
               private translate: TranslateService) {
     dialogRef.disableClose = true;
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.dialog.open(SuccessDialogComponent, {
-          data: {
-            description: this.translate.instant("PASSWORD_CHANGED")
-          }
-        });
+    dialogRef.afterClosed().subscribe({
+      next: result => {
+        if (result) {
+          this.dialogService.openConfirmationDialog("PASSWORD_CHANGED");
+        }
+      },
+      error: err => {
+          this.dialogService.openDataErrorDialog("")
       }
     });
   }

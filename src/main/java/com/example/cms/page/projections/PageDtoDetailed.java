@@ -50,7 +50,7 @@ public class PageDtoDetailed {
 
         this.children = children.stream().map(PageDtoSimple::of).collect(Collectors.toSet());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyy");
         createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);
         updatedOn = page.getUpdatedOn().toLocalDateTime().format(formatter);
     }

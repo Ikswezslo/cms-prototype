@@ -25,6 +25,7 @@ import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/conf
 import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
 import {SecurityService} from "../../../assets/service/security.service";
 import {TranslateService} from "@ngx-translate/core";
+import { ThisReceiver } from '@angular/compiler';
 
 
 @Component({
@@ -126,13 +127,13 @@ export class UserDetailsComponent implements OnInit {
       if (res) {
         this.userService.deleteUser(this.user.id).subscribe({
           next: () => {
-            //TODO: Dialog for success
+            this.dialogService.openConfirmationDialog("")
             this.router.navigateByUrl('/accounts');
           },
           error: err => {
             const errorDialog = this.dialog.open(ErrorDialogComponent, {
               data: {
-                description: err.message || this.translate.instant("DELETE_USER_ERROR")
+                description: err.message || this.translate.instant("DELETE_USER_CONFIRMATION")
               }
             });
             errorDialog.afterClosed().subscribe({

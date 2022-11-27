@@ -46,6 +46,7 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
           if (this.data.user) {
             this.data.user.accountType = accountType;
           }
+          this.dialogService.openConfirmationDialog("CHANGED_ACCOUNT_TYPE");
           this.dialogRef.close(true);
         },
         error: err => {

@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {SpinnerService} from 'src/assets/service/spinner.service';
 import {take} from 'rxjs';
 import {DialogService} from 'src/assets/service/dialog.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-university-list',
@@ -21,22 +22,22 @@ export class UniversityListComponent implements OnInit {
   public selected = false;
   gridApi!: GridApi;
   columnApi!: ColumnApi;
+  public noRowsTemplate;
 
   public columnDefs: ColDef[] = [];
-  public defaultColDef: ColDef = {
-    width: 300,
-    editable: false,
-    filter: 'agTextColumnFilter',
-    suppressMovable: true
-};
+  public defaultColDef: ColDef = {};
   constructor(
     private router: Router,
     private dialogService: DialogService,
     private spinnerService: SpinnerService,
     private universityService: UniversityService,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private translate: TranslateService) {}
 
   ngOnInit(): void {
+    this.translate.onLangChange.subscribe(() => {
+      this.translateColumnDefs();
+    })
     this.loadColumn();
     this.loadUniversities();
   }
@@ -52,16 +53,29 @@ export class UniversityListComponent implements OnInit {
         error: err => {
           this.spinnerService.hide();
           this.dialogService.openDataErrorDialog();
-      }});
-    this.gridApi.sizeColumnsToFit();
+        }
+      });
+    if(this.gridApi)
+      this.gridApi.sizeColumnsToFit();
+  }
+
+  translateColumnDefs(){
+    this.columnDefs=[
+      {headerName: this.translate.instant("ID"), field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter' },
+      {headerName: this.translate.instant("NAME"), field: 'name', minWidth: 300},
+      {headerName: this.translate.instant("SHORT_NAME"),  field: 'shortName', minWidth:150 },
+    ];
+    this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
 
   loadColumn() {
-    this.columnDefs=[
-      { field: 'id', width: 100, minWidth: 100,filter: 'agNumberColumnFilter' },
-      { field: 'name', minWidth: 300},
-      { field: 'shortName', minWidth:150 },
-    ];
+    this.defaultColDef = {
+      minWidth: 100,
+      editable: false,
+      filter: 'agTextColumnFilter',
+      suppressMovable: true
+    };
+    this.translateColumnDefs();
   }
 
   addUniversity(){
