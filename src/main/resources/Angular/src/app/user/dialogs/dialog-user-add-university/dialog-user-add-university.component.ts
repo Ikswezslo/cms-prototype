@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { DialogService } from 'src/assets/service/dialog.service';
 import {University} from "../../../../assets/models/university";
 import {UniversityService} from "../../../../assets/service/university.service";
 import {UserService} from "../../../../assets/service/user.service";
@@ -17,6 +18,7 @@ export class DialogUserAddUniversityComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<DialogUserAddUniversityComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               private universityService: UniversityService,
+              private dialogService: DialogService,
               private userService: UserService) {
     dialogRef.disableClose = true;
   }
@@ -29,9 +31,11 @@ export class DialogUserAddUniversityComponent implements OnInit {
       this.exiting = true;
       this.userService.addUniversityToUser(this.data.user.id, this.selectedUniversity).subscribe({
         next: user => {
+          this.dialogService.openConfirmationDialog("");
           this.dialogRef.close(user);
         },
         error: () => {
+          this.dialogService.openDataErrorDialog("")
           this.exiting = false;
         }
       })
