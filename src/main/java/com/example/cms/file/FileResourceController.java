@@ -1,5 +1,6 @@
 package com.example.cms.file;
 
+import com.example.cms.file.projections.FileDtoSimple;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,11 @@ public class FileResourceController {
 
     FileResourceController(final FileResourceService fileService) {
         this.fileService = fileService;
+    }
+
+    @GetMapping("/all/page/{pageId}")
+    public List<FileDtoSimple> getAll(@PathVariable Long pageId) {
+        return fileService.getAll(pageId);
     }
 
     @GetMapping("download/page/{pageId}/{filename}")

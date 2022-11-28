@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ErrorHandlerService} from "./error-handler.service";
+import {FileResource} from "../models/file";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,10 @@ export class FileService {
   constructor(private http: HttpClient, private errorHandler: ErrorHandlerService) {
   }
 
+  getAll(pageID: Number, defaultErrorHandling: boolean = true): Observable<FileResource[]> {
+    return this.http.get<FileResource[]>(`${this.server}/all/page/${pageID}`, {withCredentials: true}).pipe(this.errorHandler.getErrorHandling(defaultErrorHandling))
+  }
+
   upload(formData: FormData, pageId: Number, userId: Number, defaultErrorHandling: boolean = true): Observable<HttpEvent<string[]>> {
     return this.http.post<string[]>(`${this.server}/upload/page/${pageId}/user/${userId}`, formData, {
       withCredentials: true,
@@ -20,7 +25,7 @@ export class FileService {
     }).pipe(this.errorHandler.getErrorHandling(defaultErrorHandling))
   }
 
-  download(filename: string, defaultErrorHandling: boolean = true): Observable<HttpEvent<Blob>> {
+  download(filename: string, pageId: Number, defaultErrorHandling: boolean = true): Observable<HttpEvent<Blob>> {
     return this.http.get(`${this.server}/download/${filename}`, {
       reportProgress: true,
       observe: 'events',

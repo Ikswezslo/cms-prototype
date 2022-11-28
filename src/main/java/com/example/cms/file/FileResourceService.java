@@ -1,5 +1,6 @@
 package com.example.cms.file;
 
+import com.example.cms.file.projections.FileDtoSimple;
 import com.example.cms.page.Page;
 import com.example.cms.page.PageRepository;
 import com.example.cms.user.User;
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FileResourceService {
@@ -58,5 +61,10 @@ public class FileResourceService {
         fileResource.setData(multipartFile.getBytes());
 
         return ResponseEntity.ok().body(fileRepository.save(fileResource));
+    }
+
+    public List<FileDtoSimple> getAll(Long pageId) {
+        Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
+        return fileRepository.findAllByPage(page).stream().map(FileDtoSimple::of).collect(Collectors.toList());
     }
 }
