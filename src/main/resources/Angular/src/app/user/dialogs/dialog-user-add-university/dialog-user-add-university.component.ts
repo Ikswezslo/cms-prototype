@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'src/assets/service/dialog.service';
 import {University} from "../../../../assets/models/university";
 import {UniversityService} from "../../../../assets/service/university.service";
@@ -17,8 +18,8 @@ export class DialogUserAddUniversityComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogUserAddUniversityComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
-              private universityService: UniversityService,
               private dialogService: DialogService,
+              private translate: TranslateService,
               private userService: UserService) {
     dialogRef.disableClose = true;
   }
@@ -31,11 +32,11 @@ export class DialogUserAddUniversityComponent implements OnInit {
       this.exiting = true;
       this.userService.addUniversityToUser(this.data.user.id, this.selectedUniversity).subscribe({
         next: user => {
-          this.dialogService.openConfirmationDialog("");
+          this.dialogService.openSuccessDialog(this.translate.instant("ADDED_UNIVERSITY_TO_USER"));
           this.dialogRef.close(user);
         },
         error: () => {
-          this.dialogService.openDataErrorDialog("")
+          this.dialogService.openDataErrorDialog(this.translate.instant("ADDED_UNIVERSITY_TO_USER_ERROR"));
           this.exiting = false;
         }
       })

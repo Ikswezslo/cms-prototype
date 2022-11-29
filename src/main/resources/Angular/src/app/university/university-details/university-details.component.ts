@@ -93,7 +93,7 @@ export class UniversityDetailsComponent implements OnInit {
         this.universityService.deleteUniversity(this.university.id).subscribe(
           {
             next: () => {
-              this.dialogService.openConfirmationDialog("DELETE_UNIVERSITY_CONFIRMATION")
+              this.dialogService.openSuccessDialog(this.translate.instant("DELETE_UNIVERSITY_CONFIRMATION"));
               this.router.navigateByUrl('/universities');
             },
             error: err => {
