@@ -27,11 +27,11 @@ export class DialogUserChangeUsernameComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: result => {
         if (result) {
-          this.dialogService.openConfirmationDialog("USERNAME_CHANGED");
+          this.dialogService.openSuccessDialog(this.translate.instant("USERNAME_CHANGED"));
         }
       },
       error: err => {
-        this.dialogService.openDataErrorDialog("USERNAME_CHANGED_ERROR");
+        this.dialogService.openDataErrorDialog(this.translate.instant("USERNAME_CHANGED_ERROR"));
       }
     });
   }
