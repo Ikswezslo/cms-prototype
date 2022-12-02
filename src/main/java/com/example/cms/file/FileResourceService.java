@@ -66,13 +66,12 @@ public class FileResourceService {
     }
 
     public List<FileDtoSimple> getAll(Long pageId) {
-        Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
-        List<Object[]> objects = fileRepository.findAllByPage(page);
+        List<Object[]> objects = fileRepository.findAllByPage(pageId);
 
         return prepareProjectionOutput(objects);
     }
 
-    private List<FileDtoSimple> prepareProjectionOutput(List<Object[]> objects) {
+    private static List<FileDtoSimple> prepareProjectionOutput(List<Object[]> objects) {
         List<FileDtoSimple> output = new ArrayList<>();
         for (Object[] object : objects) {
             output.add(new FileDtoSimple(object[0].toString(), object[1].toString(),

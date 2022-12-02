@@ -66,7 +66,6 @@ export class FileComponent implements OnInit {
     this.fileService.getAll(pageId!).subscribe({
       next: res => {
         this.spinnerService.hide();
-        console.log(res);
         this.filesData = res;
       },
       error: err => {
