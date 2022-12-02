@@ -17,7 +17,7 @@ import {FileResource} from "../../assets/models/file";
 export class FileComponent implements OnInit {
   @Input() page?: Page;
 
-  public columnDefs = [{field: "filename"}, {field: "fileType"}, {field: "uploadDate"}, {field: "uploadedBy"}];
+  public columnDefs = [{field: "filename"}, {field: "fileType"}, {field: "fileSize"}, {field: "uploadDate"}, {field: "uploadedBy"}];
   public gridApi!: GridApi;
   public columnApi!: ColumnApi;
   public defaultColDef: ColDef = {};

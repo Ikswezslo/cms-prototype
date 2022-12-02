@@ -4,7 +4,6 @@ import com.example.cms.page.Page;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -20,7 +19,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class FileResource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +29,9 @@ public class FileResource {
 
     @NotBlank(message = "File type name must not be empty")
     private String fileType;
+
+    @NotBlank(message = "File size name must not be empty")
+    private String fileSize;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
@@ -50,12 +51,12 @@ public class FileResource {
         if (this == o) return true;
         if (!(o instanceof FileResource)) return false;
         FileResource that = (FileResource) o;
-        return Objects.equals(id, that.id) && Objects.equals(filename, that.filename) && Objects.equals(fileType, that.fileType) && Arrays.equals(data, that.data) && Objects.equals(uploadDate, that.uploadDate) && Objects.equals(uploadedBy, that.uploadedBy) && page.equals(that.page);
+        return id.equals(that.id) && Objects.equals(filename, that.filename) && Objects.equals(fileType, that.fileType) && Objects.equals(fileSize, that.fileSize) && Arrays.equals(data, that.data) && Objects.equals(uploadDate, that.uploadDate) && Objects.equals(uploadedBy, that.uploadedBy) && page.equals(that.page);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, filename, fileType, uploadDate, uploadedBy, page);
+        int result = Objects.hash(id, filename, fileType, fileSize, uploadDate, uploadedBy, page);
         result = 31 * result + Arrays.hashCode(data);
         return result;
     }

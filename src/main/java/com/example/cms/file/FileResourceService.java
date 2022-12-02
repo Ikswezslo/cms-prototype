@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,7 @@ public class FileResourceService {
         fileResource.setUploadedBy(user.getUsername());
         fileResource.setPage(page);
         fileResource.setFilename(StringUtils.cleanPath(multipartFile.getOriginalFilename()));
+        fileResource.setFileSize(humanReadableByteCountSI(multipartFile.getSize()));
         fileResource.setFileType(multipartFile.getContentType());
         fileResource.setData(multipartFile.getBytes());
 
@@ -72,8 +75,21 @@ public class FileResourceService {
     private List<FileDtoSimple> prepareProjectionOutput(List<Object[]> objects) {
         List<FileDtoSimple> output = new ArrayList<>();
         for (Object[] object : objects) {
-            output.add(new FileDtoSimple(object[0].toString(), object[1].toString(), object[2].toString(), object[3].toString()));
+            output.add(new FileDtoSimple(object[0].toString(), object[1].toString(),
+                    object[2].toString(), object[3].toString(), object[4].toString()));
         }
         return output;
+    }
+
+    private static String humanReadableByteCountSI(long bytes) {
+        if (-1000 < bytes && bytes < 1000) {
+            return bytes + " B";
+        }
+        CharacterIterator ci = new StringCharacterIterator("kMGTPE");
+        while (bytes <= -999_950 || bytes >= 999_950) {
+            bytes /= 1000;
+            ci.next();
+        }
+        return String.format("%.1f %cB", bytes / 1000.0, ci.current());
     }
 }

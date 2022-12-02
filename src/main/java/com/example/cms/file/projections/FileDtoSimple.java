@@ -14,6 +14,7 @@ public class FileDtoSimple {
 
     private String fileType;
 
+    private String fileSize;
     private String uploadDate;
 
     private String uploadedBy;
@@ -32,13 +33,15 @@ public class FileDtoSimple {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         this.uploadDate = fileResource.getUploadDate().toLocalDateTime().format(formatter);
         this.uploadedBy = fileResource.getUploadedBy();
+        this.fileSize = fileResource.getFileSize();
     }
 
-    public FileDtoSimple(String filename, String fileType, String uploadedDate, String uploadedBy) {
+    public FileDtoSimple(String filename, String fileType, String fileSize, String uploadedDate, String uploadedBy) {
         this.filename = filename;
         this.fileType = fileType;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         this.uploadDate = Timestamp.valueOf(uploadedDate).toLocalDateTime().format(formatter);
         this.uploadedBy = uploadedBy;
+        this.fileSize = fileSize;
     }
 }
