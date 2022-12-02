@@ -1,14 +1,13 @@
 package com.example.cms.file.projections;
 
 import com.example.cms.file.FileResource;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class FileDtoSimple {
     private String filename;
@@ -18,6 +17,7 @@ public class FileDtoSimple {
     private String uploadDate;
 
     private String uploadedBy;
+
 
     public static FileDtoSimple of(FileResource fileResource) {
         if (fileResource == null) {
@@ -32,5 +32,13 @@ public class FileDtoSimple {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         this.uploadDate = fileResource.getUploadDate().toLocalDateTime().format(formatter);
         this.uploadedBy = fileResource.getUploadedBy();
+    }
+
+    public FileDtoSimple(String filename, String fileType, String uploadedDate, String uploadedBy) {
+        this.filename = filename;
+        this.fileType = fileType;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        this.uploadDate = Timestamp.valueOf(uploadedDate).toLocalDateTime().format(formatter);
+        this.uploadedBy = uploadedBy;
     }
 }

@@ -18,15 +18,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FileResourceService {
     private final FileResourceRepository fileRepository;
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
-
     FileResourceService(FileResourceRepository fileRepository,
                         UserRepository userRepository,
                         PageRepository pageRepository) {
@@ -65,6 +64,16 @@ public class FileResourceService {
 
     public List<FileDtoSimple> getAll(Long pageId) {
         Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
-        return fileRepository.findAllByPage(page).stream().map(FileDtoSimple::of).collect(Collectors.toList());
+        List<Object[]> objects = fileRepository.findAllByPage(page);
+
+        return prepareProjectionOutput(objects);
+    }
+
+    private List<FileDtoSimple> prepareProjectionOutput(List<Object[]> objects) {
+        List<FileDtoSimple> output = new ArrayList<>();
+        for (Object[] object : objects) {
+            output.add(new FileDtoSimple(object[0].toString(), object[1].toString(), object[2].toString(), object[3].toString()));
+        }
+        return output;
     }
 }

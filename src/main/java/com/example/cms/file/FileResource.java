@@ -33,6 +33,7 @@ public class FileResource {
     private String fileType;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] data;
 
     private Timestamp uploadDate;
@@ -43,7 +44,6 @@ public class FileResource {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(message = "Page must not be null")
     private Page page;
-
 
     @Override
     public boolean equals(Object o) {
