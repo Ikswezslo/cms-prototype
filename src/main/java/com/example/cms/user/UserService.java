@@ -18,6 +18,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -102,22 +103,24 @@ public class UserService {
     @Secured("ROLE_MODERATOR")
     public UserDtoDetailed updateEnrolledUniversities(long userId, List<Long> universitiesId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        Set<University> oldUniversities = user.getEnrolledUniversities();
+        Set<University> newUniversities = universitiesId.stream().map(id -> universityRepository.findById(id)
+                        .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY)))
+                .collect(Collectors.toSet());
 
-        Set<University> universities = universitiesId.stream().map(id -> {
-            University university = universityRepository.findById(id)
-                    .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY));
+        Set<University> modifiedUniversities = new HashSet<>();
+        modifiedUniversities.addAll(oldUniversities.stream().filter(university -> !newUniversities.contains(university))
+                .collect(Collectors.toSet()));
+        modifiedUniversities.addAll(newUniversities.stream().filter(university -> !oldUniversities.contains(university))
+                .collect(Collectors.toSet()));
+
+        modifiedUniversities.forEach(university -> {
             if (securityService.isForbiddenUniversity(university)) {
                 throw new ForbiddenException(University.class);
             }
-            return university;
-        }).collect(Collectors.toSet());
+        });
 
-        user.setEnrolledUniversities(universities);
-
-//        // TODO: probably bad idea but addUniversity will be replaced by updateEnrolledUniversities in future
-//        if (securityService.isForbiddenUser(user, true)) {
-//            throw new ForbiddenException(User.class);
-//        }
+        user.setEnrolledUniversities(newUniversities);
 
         securityService.invalidateUserSession(userId);
         return UserDtoDetailed.of(userRepository.save(user));

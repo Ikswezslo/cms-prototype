@@ -9,3 +9,8 @@ form {
 input {
   padding-top: 5px;
 }
+
+button:disabled,
+button[disabled]{
+  z-index: -1;
+}

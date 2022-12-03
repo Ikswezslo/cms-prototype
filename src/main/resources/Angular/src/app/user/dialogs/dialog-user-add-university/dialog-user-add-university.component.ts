@@ -8,6 +8,7 @@ import {FormControl} from "@angular/forms";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {User} from "../../../../assets/models/user";
+import {DialogService} from "../../../../assets/service/dialog.service";
 
 @Component({
   selector: 'app-dialog-user-add-university',
@@ -21,11 +22,13 @@ export class DialogUserAddUniversityComponent implements OnInit {
   availableUniversities: University[] = [];
   selectedUniversities: University[] = [];
   filteredUniversities!: Observable<University[]>;
+  pending: Boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogUserAddUniversityComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               private universityService: UniversityService,
-              private userService: UserService) {
+              private userService: UserService,
+              private dialogService: DialogService) {
     dialogRef.disableClose = true;
 
     this.filteredUniversities = this.universityControl.valueChanges.pipe(
@@ -72,11 +75,14 @@ export class DialogUserAddUniversityComponent implements OnInit {
       if (loggedUser.accountType === "ADMIN") {
         this.universityService.getUniversities()
           .subscribe(res => {
-            this.availableUniversities = res;
+            this.selectedUniversities = [...this.data.user.enrolledUniversities];
+            this.availableUniversities = res.filter(u => !this.selectedUniversities.map(x => x.id).includes(u.id));
             this.universityControl.setValue("");
           });
       } else {
-        this.availableUniversities = this.userService.loggedUser?.enrolledUniversities ?? []
+        this.selectedUniversities = [...this.data.user.enrolledUniversities];
+        this.availableUniversities = this.userService.loggedUser?.enrolledUniversities
+          .filter(u => !this.selectedUniversities.map(x => x.id).includes(u.id)) ?? [];
         this.universityControl.setValue("");
       }
     }
@@ -85,5 +91,27 @@ export class DialogUserAddUniversityComponent implements OnInit {
   private _filter(name: string): University[] {
     const filterValue = name.toLowerCase();
     return this.availableUniversities.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  updateEnrolledUniversities() {
+    this.dialogService.openConfirmationDialog().afterClosed().subscribe(value => {
+      if (value && this.data.user) {
+        this.pending = true;
+        this.userService.updateUserEnrolledUniversities(this.data.user.id, this.selectedUniversities.map(u => u.id))
+          .subscribe({
+            next: user => {
+              this.dialogRef.close(user);
+            },
+            error: () => {
+              this.pending = false;
+            }
+          })
+      }
+    })
+  }
+
+  isChipDisabled(university: University): boolean {
+    return this.userService.loggedUser?.accountType === "MODERATOR" &&
+      !this.userService.loggedUser.enrolledUniversities.map(u => u.id).includes(university.id);
   }
 }
