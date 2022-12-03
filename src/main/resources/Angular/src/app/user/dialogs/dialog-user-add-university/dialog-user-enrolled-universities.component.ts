@@ -11,11 +11,11 @@ import {User} from "../../../../assets/models/user";
 import {DialogService} from "../../../../assets/service/dialog.service";
 
 @Component({
-  selector: 'app-dialog-user-add-university',
-  templateUrl: './dialog-user-add-university.component.html',
-  styleUrls: ['./dialog-user-add-university.component.scss']
+  selector: 'app-dialog-user-enrolled-universities',
+  templateUrl: './dialog-user-enrolled-universities.component.html',
+  styleUrls: ['./dialog-user-enrolled-universities.component.scss']
 })
-export class DialogUserAddUniversityComponent implements OnInit {
+export class DialogUserEnrolledUniversitiesComponent implements OnInit {
 
   @ViewChild('universityInput') universityInput!: ElementRef<HTMLInputElement>;
   universityControl = new FormControl<string | University>('');
@@ -24,7 +24,7 @@ export class DialogUserAddUniversityComponent implements OnInit {
   filteredUniversities!: Observable<University[]>;
   pending: Boolean = false;
 
-  constructor(public dialogRef: MatDialogRef<DialogUserAddUniversityComponent>,
+  constructor(public dialogRef: MatDialogRef<DialogUserEnrolledUniversitiesComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               private universityService: UniversityService,
               private userService: UserService,

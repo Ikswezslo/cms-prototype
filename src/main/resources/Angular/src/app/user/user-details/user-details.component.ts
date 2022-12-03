@@ -8,8 +8,8 @@ import {UserService} from 'src/assets/service/user.service';
 import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
 import {
-  DialogUserAddUniversityComponent
-} from "../dialogs/dialog-user-add-university/dialog-user-add-university.component";
+  DialogUserEnrolledUniversitiesComponent
+} from "../dialogs/dialog-user-add-university/dialog-user-enrolled-universities.component";
 import {DialogService} from 'src/assets/service/dialog.service';
 import {
   DialogUserChangePasswordComponent
@@ -148,7 +148,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   openAddUniversityDialog() {
-    const dialogRef = this.dialog.open(DialogUserAddUniversityComponent, {
+    const dialogRef = this.dialog.open(DialogUserEnrolledUniversitiesComponent, {
       data: {user: this.user},
       autoFocus: false
     });
