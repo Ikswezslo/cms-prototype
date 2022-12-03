@@ -26,7 +26,6 @@ export class FileCardComponent implements OnChanges {
   public noRowsTemplate;
   public fileStatus = '';
 
-  private filename: string[] = [];
 
   constructor(
     private pageService: PageService,
@@ -65,20 +64,21 @@ export class FileCardComponent implements OnChanges {
 
   loadColumn() {
     this.defaultColDef = {
-      minWidth: 100,
+      minWidth: 200,
+      maxWidth: 500,
       editable: false,
       filter: 'agTextColumnFilter',
-      resizable: true,
+      resizable: false,
       suppressMovable: true
     };
     this.translateColumnDefs();
   }
 
   translateColumnDefs() {
-    this.columnDefs = [{headerName: this.translate.instant("FILENAME"), field: "filename"},
-      {headerName: this.translate.instant("TYPE"), field: "fileType"},
+    this.columnDefs = [{headerName: this.translate.instant("FILENAME"), field: "filename", resizable: true},
+      {headerName: this.translate.instant("TYPE"), field: "fileType", resizable: true},
       {headerName: this.translate.instant("SIZE"), field: "fileSize"},
-      {headerName: this.translate.instant("UPLOAD_DATE"), field: "uploadDate"},
+      {headerName: this.translate.instant("UPLOAD_DATE"), field: "uploadDate", resizable: true},
       {headerName: this.translate.instant("UPLOADED_BY"), field: "uploadedBy"}];
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
@@ -93,7 +93,7 @@ export class FileCardComponent implements OnChanges {
           console.log(this.fileStatus);
         }
       },
-      error: err => {
+      error: () => {
         this.dialogService.openDataErrorDialog();
       }
     });
@@ -118,8 +118,8 @@ export class FileCardComponent implements OnChanges {
         this.reportProgress(res);
         this.fileStatus = 'progress';
       },
-      error: err => {
-        console.log(err);
+      error: () => {
+        this.dialogService.openDataErrorDialog();
       }
     });
 
@@ -129,11 +129,10 @@ export class FileCardComponent implements OnChanges {
     const pageId = this.page?.id;
     this.fileService.download(filename, pageId!).subscribe({
       next: res => {
-        console.log(res);
         this.reportProgress(res);
       },
-      error: err => {
-        console.log(err);
+      error: () => {
+        this.dialogService.openDataErrorDialog();
       }
     });
   }
@@ -149,14 +148,10 @@ export class FileCardComponent implements OnChanges {
         break;
       case HttpEventType.Response:
         if (event.body instanceof Array) {
-          for (const filename of event.body) {
-            this.filename.unshift(filename);
-          }
           window.location.reload();
         } else {
           saveAs(new File([event.body!], event.headers.get('File-Name')!, {type: `${event.headers.get('Content-Type')};charset=utf-8`}));
         }
-
         break;
       default:
         console.log(event);

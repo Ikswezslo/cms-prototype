@@ -24,7 +24,6 @@
                      (gridReady)="onGridReady($event)"
                      [defaultColDef]="defaultColDef"
                      [rowSelection]="'single'"
-                     domLayout="autoHeight"
                      (rowSelected)="onDownloadFiles($event.data.filename)"
                      class="ag-theme-alpine"
                      [rowData]="filesData"
