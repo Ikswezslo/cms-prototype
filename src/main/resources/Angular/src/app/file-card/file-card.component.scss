@@ -17,9 +17,42 @@
 }
 
 .flex-container {
+  display: inline-flex;
   justify-content: space-around;
+  margin: 5px 5px 5px 0px;
+
 }
 
+.uploadText {
+  background-color: var(--base-button-blue);
+  padding: 5px;
+  border-radius: 2px;
+  font-size: 20px;
+  z-index: 0;
+  border: none;
+  height: 20px;
+}
+
+.uploadText:hover {
+  background-color: #1976d2;
+  cursor: pointer;
+}
+
+.progress {
+  margin-left: 10px;
+  padding-top: 7px;
+  padding-bottom: 20px;
+}
+
+.myInput {
+  opacity: 0; //Not visible
+  font-size: 0;
+  z-index: 1;
+  //Button dimensions
+  width: 5px;
+  height: 10px;
+  cursor: pointer;
+}
 
 .options {
   display: flex;
@@ -34,6 +67,10 @@
 
 .selectButton {
   max-height: 30px;
+}
+
+.form-group {
+  display: inline-block;
 }
 
 .button,
@@ -61,7 +98,7 @@ button {
 
   .ag-header-cell {
     background-color: var(--base-button-blue);
-    font: bold 25px
+    font: bold 25px;
   }
 
   .ag-header-cell:hover {

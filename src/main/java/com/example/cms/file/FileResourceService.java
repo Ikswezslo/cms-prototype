@@ -8,6 +8,7 @@ import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.text.StringCharacterIterator;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FileResourceService {
@@ -39,19 +41,31 @@ public class FileResourceService {
     public ResponseEntity<Resource> downloadFiles(Long pageId, String filename) {
 
         Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
+        FileResource fileResource = new FileResource();
 
-        FileResource fileResource = fileRepository.findFileResourceByFilenameAndPage(filename, page);
+        Optional<FileResource> optionalFileResource = fileRepository.findFileResourceByFilenameAndPage(filename, page);
+        if (optionalFileResource.isPresent()) {
+            fileResource = optionalFileResource.get();
+        }
+
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("File-Name", filename);
-        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;File-Name=\"" + fileResource.getFilename() + "\"");
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(fileResource.getFileType()))
-                .headers(httpHeaders).body(new ByteArrayResource(fileResource.getData()));
+        httpHeaders.set("File-Name", fileResource.getFilename());
+        httpHeaders.setContentDisposition(ContentDisposition.parse("attachment; File-Name=\"" + fileResource.getFilename() + "\""));
+        httpHeaders.setContentType(MediaType.parseMediaType(fileResource.getFileType()));
+        httpHeaders.setContentLength(fileResource.getData().length);
+
+        return ResponseEntity.ok().headers(httpHeaders).body(new ByteArrayResource(fileResource.getData()));
     }
 
     public ResponseEntity<FileResource> uploadFile(Long pageId, Long userId, MultipartFile multipartFile) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
+
+
+        Optional<FileResource> optionalFileResource = fileRepository.findFileResourceByFilenameAndPage(multipartFile.getOriginalFilename(), page);
+
+        optionalFileResource.ifPresent(fileRepository::delete);
 
         FileResource fileResource = new FileResource();
         fileResource.setUploadDate(Timestamp.from(Instant.now()));
@@ -61,6 +75,7 @@ public class FileResourceService {
         fileResource.setFileSize(humanReadableByteCountSI(multipartFile.getSize()));
         fileResource.setFileType(multipartFile.getContentType());
         fileResource.setData(multipartFile.getBytes());
+
 
         return ResponseEntity.ok().body(fileRepository.save(fileResource));
     }

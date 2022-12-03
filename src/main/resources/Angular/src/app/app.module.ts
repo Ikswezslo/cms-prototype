@@ -80,7 +80,8 @@ import {
 } from './templates/dialog-template-change-name/dialog-template-change-name.component';
 import {TemplateSelectorComponent} from './templates/template-selector/template-selector.component';
 import {DialogTemplateLoadComponent} from './templates/dialog-template-load/dialog-template-load.component';
-import {FileComponent} from './file/file.component';
+import {FileCardComponent} from './file-card/file-card.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -126,7 +127,7 @@ export function SetupApp(setup: SetupService) {
     DialogTemplateChangeNameComponent,
     TemplateSelectorComponent,
     DialogTemplateLoadComponent,
-    FileComponent
+    FileCardComponent
   ],
   imports: [
     BrowserModule,
@@ -179,7 +180,8 @@ export function SetupApp(setup: SetupService) {
     MatDividerModule,
     MatExpansionModule,
     MatAutocompleteModule,
-    MatListModule
+    MatListModule,
+    MatProgressBarModule
   ],
   providers: [
     SetupService,

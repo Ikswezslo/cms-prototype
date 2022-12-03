@@ -26,10 +26,10 @@ export class FileService {
   }
 
   download(filename: string, pageId: Number, defaultErrorHandling: boolean = true): Observable<HttpEvent<Blob>> {
-    return this.http.get(`${this.server}/download/${filename}`, {
+    return this.http.get(`${this.server}/download/page/${pageId}/${filename}`, {
       reportProgress: true,
       observe: 'events',
-      responseType: "blob"
+      responseType: "blob",
     }).pipe(this.errorHandler.getErrorHandling(defaultErrorHandling))
   }
 }

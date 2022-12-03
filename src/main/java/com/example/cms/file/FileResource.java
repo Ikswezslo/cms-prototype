@@ -41,7 +41,7 @@ public class FileResource {
 
     private String uploadedBy;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(message = "Page must not be null")
     private Page page;
