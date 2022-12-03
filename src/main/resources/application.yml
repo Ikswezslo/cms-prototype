@@ -13,7 +13,7 @@ spring:
       max-file-size: 1000000000MB
       max-request-size: 1000000000MB
   profiles:
-    active: secured, postgres
+    active: secured, h2
 
 ---
 
