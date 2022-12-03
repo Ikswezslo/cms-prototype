@@ -8,6 +8,7 @@ import {ColDef, ColumnApi, GridApi} from "ag-grid-community";
 import {DialogService} from "../../assets/service/dialog.service";
 import {FileResource} from "../../assets/models/file";
 import {PageService} from "../../assets/service/page.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-file-card',
@@ -17,12 +18,12 @@ import {PageService} from "../../assets/service/page.service";
 })
 export class FileCardComponent implements OnChanges {
   @Input() page!: Page;
-  public columnDefs = [{field: "filename"}, {field: "fileType"}, {field: "fileSize"}, {field: "uploadDate"}, {field: "uploadedBy"}];
+  public columnDefs: ColDef[] = [];
   public gridApi!: GridApi;
   public columnApi!: ColumnApi;
   public defaultColDef: ColDef = {};
   public filesData: FileResource[] = [];
-
+  public noRowsTemplate;
   public fileStatus = '';
 
   private filename: string[] = [];
@@ -31,15 +32,22 @@ export class FileCardComponent implements OnChanges {
     private pageService: PageService,
     private fileService: FileService,
     private userService: UserService,
+    private translate: TranslateService,
     private dialogService: DialogService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.translate.onLangChange.subscribe(() => {
+      this.translateColumnDefs();
+    })
     this.loadColumn();
     this.loadFiles(this.page.id);
   }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe(() => {
+      this.translateColumnDefs();
+    })
     this.loadColumn();
     this.loadFiles(this.page.id);
   }
@@ -63,7 +71,16 @@ export class FileCardComponent implements OnChanges {
       resizable: true,
       suppressMovable: true
     };
-    //this.translateColumnDefs();
+    this.translateColumnDefs();
+  }
+
+  translateColumnDefs() {
+    this.columnDefs = [{headerName: this.translate.instant("FILENAME"), field: "filename"},
+      {headerName: this.translate.instant("TYPE"), field: "fileType"},
+      {headerName: this.translate.instant("SIZE"), field: "fileSize"},
+      {headerName: this.translate.instant("UPLOAD_DATE"), field: "uploadDate"},
+      {headerName: this.translate.instant("UPLOADED_BY"), field: "uploadedBy"}];
+    this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
 
   loadFiles(pageId: Number) {

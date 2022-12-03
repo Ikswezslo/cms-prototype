@@ -147,5 +147,11 @@
     "DIALOG_RENAME_HEADER": "Zmiana nazwy szablonu",
     "DIALOG_LOAD_HEADER": "Wczytywanie szablonu",
     "LOAD_CONFIRM_DESCRIPTION": "Czy na pewno chcesz wczytać szablon? Zastąpi on całą zawartość strony."
-  }
+  },
+  "UPLOAD_FILE": "Wyślij plik",
+  "FILENAME": "Nazwa pliku",
+  "TYPE": "Typ pliku",
+  "SIZE": "Rozmiar pliku",
+  "UPLOAD_DATE": "Data dodania",
+  "UPLOADED_BY": "Dodano przez"
 }

@@ -5,7 +5,7 @@
       <form fxFlex enctype="multipart/form-data">
           <div class="form-group">
             <label class="uploadText">
-              <span>Upload file</span>
+              <span>{{"UPLOAD_FILE" | translate}}</span>
               <input (change)="onUploadFiles($event)" class="myInput" type="file" name="files" multiple>
             </label>
           </div>
@@ -24,10 +24,12 @@
                      (gridReady)="onGridReady($event)"
                      [defaultColDef]="defaultColDef"
                      [rowSelection]="'single'"
+                     domLayout="autoHeight"
                      (rowSelected)="onDownloadFiles($event.data.filename)"
                      class="ag-theme-alpine"
                      [rowData]="filesData"
-                     [columnDefs]="columnDefs">
+                     [columnDefs]="columnDefs"
+                     [overlayNoRowsTemplate]="noRowsTemplate">
     </ag-grid-angular>
   </div>
 </mat-card>
