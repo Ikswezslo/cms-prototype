@@ -1,0 +1,108 @@
+.item {
+  padding: 2px 10px;
+  margin: 0.5px;
+  background-color: rgb(184, 223, 255);
+  color: black;
+}
+
+:link {
+  color: black;
+  font-style: normal;
+  text-decoration: none;
+}
+
+:link::after {
+  color: black;
+
+}
+
+.flex-container {
+  display: inline-flex;
+  justify-content: space-around;
+  margin: 5px 5px 5px 0px;
+
+}
+
+.uploadText {
+  background-color: var(--base-button-blue);
+  padding: 5px;
+  border-radius: 2px;
+  font-size: 20px;
+  z-index: 0;
+  border: none;
+  height: 20px;
+}
+
+.uploadText:hover {
+  background-color: #1976d2;
+  cursor: pointer;
+}
+
+.progress {
+  margin-left: 10px;
+  padding-top: 7px;
+  padding-bottom: 20px;
+}
+
+.myInput {
+  opacity: 0; //Not visible
+  font-size: 0;
+  z-index: 1;
+  //Button dimensions
+  width: 5px;
+  height: 10px;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.option {
+  padding: 0px 5px;
+  margin: 0px;
+}
+
+.selectButton {
+  max-height: 30px;
+}
+
+.form-group {
+  display: inline-block;
+}
+
+.button,
+button {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--base-button-blue);
+  color: rgb(0, 0, 0);
+  border: none;
+}
+
+::ng-deep {
+  .ag-cell {
+    border-bottom: #328eff 1px solid;
+    background-color: #d8eaff;
+  }
+
+  .ag-row:hover {
+    .ag-cell {
+      border-bottom: #328eff 1px solid;
+      background-color: var(--base-button-blue);
+    }
+  }
+
+  .ag-header-cell {
+    background-color: var(--base-button-blue);
+    font: bold 25px;
+  }
+
+  .ag-header-cell:hover {
+    --ag-header-cell-hover-background-color: var(--base-button-blue) !important;
+    font: bold 25px
+  }
+}

@@ -1,0 +1,34 @@
+<mat-card>
+  <div>
+    <button style="opacity: 0"></button>
+    <span class="flex-container">
+      <form fxFlex enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="uploadText">
+              <span>{{"UPLOAD_FILE" | translate}}</span>
+              <input (change)="onUploadFiles($event)" class="myInput" type="file" name="files" multiple>
+            </label>
+          </div>
+        <div fxFlex *ngIf="fileStatus === 'progress'" class="progress">
+          <mat-progress-bar mode="indeterminate">
+
+          </mat-progress-bar>
+        </div>
+      </form>
+
+    </span>
+  </div>
+  <div style="height: 300px">
+    <ag-grid-angular style="width: 100%; height: 100%;"
+                     (window:resize)="onResize()"
+                     (gridReady)="onGridReady($event)"
+                     [defaultColDef]="defaultColDef"
+                     [rowSelection]="'single'"
+                     (rowSelected)="onDownloadFiles($event.data.filename)"
+                     class="ag-theme-alpine"
+                     [rowData]="filesData"
+                     [columnDefs]="columnDefs"
+                     [overlayNoRowsTemplate]="noRowsTemplate">
+    </ag-grid-angular>
+  </div>
+</mat-card>

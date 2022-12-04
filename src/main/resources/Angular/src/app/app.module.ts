@@ -33,7 +33,9 @@ import {UniversityDetailsComponent} from './university/university-details/univer
 import {DialogUserCreateComponent} from './user/dialogs/dialog-user-create/dialog-user-create.component';
 import {LoginComponent} from './login/login.component';
 import {UserSettingsComponent} from './user/user-settings/user-settings.component';
-import {DialogUniversityCreateComponent} from './university/dialog-university-create/dialog-university-create.component';
+import {
+  DialogUniversityCreateComponent
+} from './university/dialog-university-create/dialog-university-create.component';
 import {PageUserComponent} from './page/page-user/page-user.component';
 import {MatButtonModule} from '@angular/material/button'
 import {QuillModule} from 'ngx-quill';
@@ -49,25 +51,37 @@ import {UniversityCardComponent} from './university/university-card/university-c
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 import {SpinnerComponent} from './spinner/spinner.component';
-import {DialogUserAddUniversityComponent} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
+import {
+  DialogUserAddUniversityComponent
+} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-page-creator.component';
-import {DialogUserChangePasswordComponent} from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
+import {DialogPageCreatorComponent} from './page/dialog-page-creator/dialog-page-creator.component';
+import {
+  DialogUserChangePasswordComponent
+} from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
 import {SuccessDialogComponent} from './dialog/success-dialog/success-dialog.component';
-import {DialogUserChangeUsernameComponent} from './user/dialogs/dialog-user-change-username/dialog-user-change-username.component';
+import {
+  DialogUserChangeUsernameComponent
+} from './user/dialogs/dialog-user-change-username/dialog-user-change-username.component';
 import {DialogUserUpdateComponent} from './user/dialogs/dialog-user-update/dialog-user-update.component';
-import {DialogUserChangeAccountTypeComponent} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
+import {
+  DialogUserChangeAccountTypeComponent
+} from './user/dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component';
 import {SetupService} from 'src/assets/service/setup.service';
-import { SearchComponent } from './search/search.component';
-import { TemplatesListComponent } from './templates/templates-list/templates-list.component';
+import {SearchComponent} from './search/search.component';
+import {TemplatesListComponent} from './templates/templates-list/templates-list.component';
 import {MatListModule} from "@angular/material/list";
-import { UniversitySelectorComponent } from './university/university-selector/university-selector.component';
-import { DialogTemplateCreateComponent } from './templates/dialog-template-create/dialog-template-create.component';
-import { PageEditorComponent } from './page/page-editor/page-editor.component';
+import {UniversitySelectorComponent} from './university/university-selector/university-selector.component';
+import {DialogTemplateCreateComponent} from './templates/dialog-template-create/dialog-template-create.component';
+import {PageEditorComponent} from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
-import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
-import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
-import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
+import {
+  DialogTemplateChangeNameComponent
+} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import {TemplateSelectorComponent} from './templates/template-selector/template-selector.component';
+import {DialogTemplateLoadComponent} from './templates/dialog-template-load/dialog-template-load.component';
+import {FileCardComponent} from './file-card/file-card.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -112,7 +126,8 @@ export function SetupApp(setup: SetupService) {
     TemplateEditorComponent,
     DialogTemplateChangeNameComponent,
     TemplateSelectorComponent,
-    DialogTemplateLoadComponent
+    DialogTemplateLoadComponent,
+    FileCardComponent
   ],
   imports: [
     BrowserModule,
@@ -165,7 +180,8 @@ export function SetupApp(setup: SetupService) {
     MatDividerModule,
     MatExpansionModule,
     MatAutocompleteModule,
-    MatListModule
+    MatListModule,
+    MatProgressBarModule
   ],
   providers: [
     SetupService,

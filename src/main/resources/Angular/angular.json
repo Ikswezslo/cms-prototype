@@ -37,7 +37,9 @@
               "./node_modules/quill/dist/quill.js"
             ],
             "allowedCommonJsDependencies": [
-              "quill"
+              "quill",
+              "quill-image-resize-module",
+              "file-saver"
             ]
           },
           "configurations": {
