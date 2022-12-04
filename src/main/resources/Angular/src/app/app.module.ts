@@ -68,6 +68,7 @@ import {TemplateEditorComponent} from './templates/template-editor/template-edit
 import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
 import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
 import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
+import {MatGridListModule} from "@angular/material/grid-list";
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -165,7 +166,8 @@ export function SetupApp(setup: SetupService) {
     MatDividerModule,
     MatExpansionModule,
     MatAutocompleteModule,
-    MatListModule
+    MatListModule,
+    MatGridListModule
   ],
   providers: [
     SetupService,

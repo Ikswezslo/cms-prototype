@@ -75,6 +75,24 @@ public class PageService {
                 .collect(Collectors.toList());
     }
 
+    public List<PageDtoSimple> getAllMainPages(Pageable pageable){
+        Optional<LoggedUser> loggedUserOptional = securityService.getPrincipal();
+        List<Page> pages;
+        if (loggedUserOptional.isEmpty()) {
+            pages = pageRepository.findMainPages(pageable);
+        } else {
+            LoggedUser loggedUser = loggedUserOptional.get();
+            pages = pageRepository.findMainPages(
+                    pageable,
+                    String.valueOf(loggedUser.getAccountType()),
+                    loggedUser.getUniversities(),
+                    loggedUser.getId());
+        }
+        return pages.stream()
+                .map(PageDtoSimple::of)
+                .collect(Collectors.toList());
+    }
+
     public List<PageDtoSimple> getCreatorPages(Pageable pageable, Long userId) {
         // TODO: return only visible creator pages
         User user = userRepository.findById(userId).orElseThrow(() -> {

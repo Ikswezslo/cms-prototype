@@ -2,3 +2,20 @@ h1 {
   font-size: 40px;
   color: darkblue;
 }
+mat-grid-list{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+mat-grid-tile {
+  background: white;
+}
+
+mat-card-title {
+  text-align: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 30px;
+  line-height: 40px;
+  white-space: normal;
+}
