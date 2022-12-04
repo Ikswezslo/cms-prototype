@@ -9,7 +9,7 @@ import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../user-card/user-card.component";
 import {
   DialogUserEnrolledUniversitiesComponent
-} from "../dialogs/dialog-user-add-university/dialog-user-enrolled-universities.component";
+} from "../dialogs/dialog-user-enrolled-universities/dialog-user-enrolled-universities.component";
 import {DialogService} from 'src/assets/service/dialog.service';
 import {
   DialogUserChangePasswordComponent

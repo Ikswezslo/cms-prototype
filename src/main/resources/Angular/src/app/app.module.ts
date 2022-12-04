@@ -49,7 +49,7 @@ import {UniversityCardComponent} from './university/university-card/university-c
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 import {SpinnerComponent} from './spinner/spinner.component';
-import {DialogUserEnrolledUniversitiesComponent} from './user/dialogs/dialog-user-add-university/dialog-user-enrolled-universities.component';
+import {DialogUserEnrolledUniversitiesComponent} from './user/dialogs/dialog-user-enrolled-universities/dialog-user-enrolled-universities.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { DialogPageCreatorComponent } from './page/dialog-page-creator/dialog-page-creator.component';
 import {DialogUserChangePasswordComponent} from './user/dialogs/dialog-user-change-password/dialog-user-change-password.component';
