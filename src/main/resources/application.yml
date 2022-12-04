@@ -5,10 +5,16 @@ server:
       secure: false
     timeout: 30m
 
+
 # Here we define active profiles
 spring:
+  servlet:
+    multipart:
+      max-file-size: 1000000000MB
+      max-request-size: 1000000000MB
   profiles:
     active: secured, h2
+
 ---
 
 spring:
@@ -49,7 +55,7 @@ spring:
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
