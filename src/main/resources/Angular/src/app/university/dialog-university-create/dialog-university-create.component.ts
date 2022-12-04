@@ -4,6 +4,8 @@ import {UniversityService} from "../../../assets/service/university.service";
 import {FormControl, Validators} from "@angular/forms";
 import {University, UniversityForm} from 'src/assets/models/university';
 import {UserService} from 'src/assets/service/user.service';
+import { DialogService } from 'src/assets/service/dialog.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog-university-create',
@@ -20,7 +22,9 @@ export class DialogUniversityCreateComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private userService: UserService,
+    private dialogService: DialogService,
     private universityService: UniversityService,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit(): void {
@@ -40,7 +44,14 @@ export class DialogUniversityCreateComponent implements OnInit {
   }
   createUniversity(){
     if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
-      this.universityService.addNewUniversity(this.university).subscribe({next: university => console.log(university)});
+      this.universityService.addNewUniversity(this.university).subscribe({
+        next: university => {
+          this.dialogService.openSuccessDialog(this.translate.instant("ADDED_UNIVERSITY"));
+        },
+        error: err => {
+          this.dialogService.openDataErrorDialog(this.translate.instant("ADDED_UNIVERSITY_ERROR"));
+        }
+      });
       this.close();
     }
   }

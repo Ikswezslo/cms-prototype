@@ -125,7 +125,7 @@ export class UserDetailsComponent implements OnInit {
       if (res) {
         this.userService.deleteUser(this.user.id).subscribe({
           next: () => {
-            //TODO: Dialog for success
+            this.dialogService.openSuccessDialog(this.translate.instant("DELETE_USER_CONFIRMATION"));
             this.router.navigateByUrl('/accounts');
           },
           error: err => {

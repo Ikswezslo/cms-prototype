@@ -18,5 +18,6 @@
         [defaultColDef]="defaultColDef"
         [rowSelection]="'single'"
         (rowSelected)="onRowSelected($event)"
-        (gridReady)="onGridReady($event)">
+        (gridReady)="onGridReady($event)"
+        [overlayNoRowsTemplate]="noRowsTemplate">
     </ag-grid-angular>

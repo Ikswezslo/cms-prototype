@@ -42,14 +42,23 @@ export class TopBarComponent implements OnInit {
       this.userLogged = null;
       this.logged = false;
     }
+
+    if(localStorage.getItem('language') == 'en'){
+      this.translate_to_en();
+    }
+    if(localStorage.getItem('language') == 'pl'){
+      this.translate_to_pl();
+    }
   }
 
   translate_to_en(){
     this.translate.use('en')
+    localStorage.setItem('language','en')
   }
 
   translate_to_pl(){
     this.translate.use('pl')
+    localStorage.setItem('language','pl')
   }
 
   logout() {

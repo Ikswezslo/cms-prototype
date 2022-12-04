@@ -93,13 +93,13 @@ export class UniversityDetailsComponent implements OnInit {
         this.universityService.deleteUniversity(this.university.id).subscribe(
           {
             next: () => {
-              //TODO: Dialog for success
+              this.dialogService.openSuccessDialog(this.translate.instant("DELETE_UNIVERSITY_CONFIRMATION"));
               this.router.navigateByUrl('/universities');
             },
             error: err => {
               const errorDialog = this.dialog.open(ErrorDialogComponent, {
                 data: {
-                  description: err.message || this.translate.instant("ERROR_DELETING_USER")
+                  description: err.message || this.translate.instant("DELETE_UNIVERSITY_ERROR")
                 }
               });
               errorDialog.afterClosed().subscribe({

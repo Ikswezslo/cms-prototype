@@ -5,6 +5,7 @@ import {Page} from 'src/assets/models/page';
 import {DialogService} from 'src/assets/service/dialog.service';
 import {SpinnerService} from 'src/assets/service/spinner.service';
 import {PageService} from '../../../assets/service/page.service';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -20,16 +21,21 @@ export class PageListComponent implements OnInit {
   columnApi!: ColumnApi;
   public dataTable!: [{ id?: Number, title?: String, date?: String, university?: String, creator?: String }];
   public columnDefs: ColDef[] = [];
-  public defaultColDef: ColDef = {}
+  public defaultColDef: ColDef = {};
+  public noRowsTemplate;
 
   constructor(
     private router: Router,
     private dialogService: DialogService,
     private spinnerService: SpinnerService,
-    private pageService: PageService) {
+    private pageService: PageService,
+    private translate: TranslateService) {
   }
 
   ngOnInit(): void {
+    this.translate.onLangChange.subscribe(() => {
+      this.translateColumnDefs();
+    })
     this.loadColumn()
     this.loadPages();
   }
@@ -68,23 +74,25 @@ export class PageListComponent implements OnInit {
     this.gridApi.sizeColumnsToFit();
   }
 
-  loadColumn() {
+  translateColumnDefs(){
     this.columnDefs = [
-      {field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter'},
-      {field: 'title', minWidth: 300},
-      {field: 'date'},
-      {field: 'university', minWidth: 300},
-      {field: 'creator'},
-
+      {headerName: this.translate.instant("ID"), field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter'},
+      {headerName: this.translate.instant("TITLE"), field: 'title', minWidth: 300},
+      {headerName: this.translate.instant("DATE"), field: 'date'},
+      {headerName: this.translate.instant("UNIVERSITY"), field: 'university', minWidth: 300},
+      {headerName: this.translate.instant("AUTHOR"), field: 'creator'},
     ];
+    this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
+  }
 
+  loadColumn() {
+    this.translateColumnDefs();
     this.defaultColDef = {
       minWidth: 200,
       editable: false,
       filter: 'agTextColumnFilter',
       suppressMovable: true,
     };
-
   }
 
   onResize() {
