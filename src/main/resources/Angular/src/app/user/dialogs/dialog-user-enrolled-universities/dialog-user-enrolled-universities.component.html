@@ -3,7 +3,7 @@
 
   <mat-form-field class="example-chip-list" appearance="fill">
     <mat-label>{{"ENROLLED_UNIVERSITIES" | translate}}</mat-label>
-    <mat-chip-list #chipGrid aria-label="Fruit selection">
+    <mat-chip-list #chipGrid aria-label="University selection">
       <mat-chip *ngFor="let university of selectedUniversities" (removed)="remove(university)">
         {{university.shortName}}
         <button *ngIf="!isChipDisabled(university)" matChipRemove [attr.aria-label]="'remove ' + university.name">
