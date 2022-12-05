@@ -35,7 +35,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class UserDetailsComponent implements OnInit {
 
 
-  @Input() settings: boolean = true;
+  @Input() settings: boolean = false;
   @Input() settingsId!: Number;
   public pages!: Page[];
   public user!: User;
@@ -44,7 +44,7 @@ export class UserDetailsComponent implements OnInit {
   userCardConfig: UserCardConfig = {
     useSecondaryColor: false,
     showGoToButton: false,
-    showSettings: true
+    showSettings: false
   };
 
   pageCardConfig: PageCardConfig = {
