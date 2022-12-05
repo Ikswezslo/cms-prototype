@@ -68,6 +68,8 @@ import {TemplateEditorComponent} from './templates/template-editor/template-edit
 import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
 import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
 import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { KeyWordsSelectorsComponent } from './key-words-selectors/key-words-selectors.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -112,7 +114,8 @@ export function SetupApp(setup: SetupService) {
     TemplateEditorComponent,
     DialogTemplateChangeNameComponent,
     TemplateSelectorComponent,
-    DialogTemplateLoadComponent
+    DialogTemplateLoadComponent,
+    KeyWordsSelectorsComponent
   ],
   imports: [
     BrowserModule,
@@ -133,6 +136,7 @@ export function SetupApp(setup: SetupService) {
     MatCardModule,
     MatSnackBarModule,
     FlexLayoutModule,
+    MatChipsModule,
     QuillModule.forRoot(),
     RouterModule.forRoot([
       {path: '', component: MainPageComponent, title: 'Strona główna'},

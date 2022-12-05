@@ -26,6 +26,7 @@ public class PageDtoDetailed {
     private Set<PageDtoSimple> children;
     private String createdOn;
     private String updatedOn;
+    private String keyWords;
 
     public static PageDtoDetailed of(Page page) {
         return of(page, Set.of());
@@ -47,6 +48,7 @@ public class PageDtoDetailed {
         content = page.getContent();
         university = UniversityDtoSimple.of(page.getUniversity());
         parent = PageDtoSimple.of(page.getParent());
+        keyWords = page.getKeyWords();
 
         this.children = children.stream().map(PageDtoSimple::of).collect(Collectors.toSet());
 

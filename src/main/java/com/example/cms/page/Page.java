@@ -45,6 +45,7 @@ public class Page {
     private Set<Page> children = new HashSet<>();
     private Timestamp createdOn;
     private Timestamp updatedOn;
+    private String keyWords;
 
     @PrePersist
     private void prePersist() {

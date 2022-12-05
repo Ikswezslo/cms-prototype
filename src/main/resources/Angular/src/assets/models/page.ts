@@ -13,6 +13,7 @@ export interface Page {
     children: Page[];
     createdOn: string;
     updatedOn: string;
+    keyWords: string;
 }
 export interface PageForm{
   id: number;
@@ -21,4 +22,5 @@ export interface PageForm{
   content: string;
   creatorId: number;
   parentId: number;
+  keyWords: string;
 }

@@ -11,6 +11,7 @@ public class PageDtoFormCreate {
     String content;
     Long creatorId;
     Long parentId;
+    String keyWords;
 
     public Page toPage(Page parent, User creator) {
         Page page = new Page();
@@ -21,6 +22,7 @@ public class PageDtoFormCreate {
         page.setParent(parent);
         page.setUniversity(parent.getUniversity());
         page.setCreator(creator);
+        page.setKeyWords(keyWords);
         return page;
     }
 }
