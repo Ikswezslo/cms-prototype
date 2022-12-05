@@ -1,0 +1,30 @@
+<form>
+  <h2 mat-dialog-title>{{"ENROLLED_UNIVERSITIES_HEADER" | translate}}</h2>
+
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>{{"ENROLLED_UNIVERSITIES" | translate}}</mat-label>
+    <mat-chip-list #chipGrid aria-label="Fruit selection">
+      <mat-chip *ngFor="let university of selectedUniversities" (removed)="remove(university)">
+        {{university.shortName}}
+        <button *ngIf="!isChipDisabled(university)" matChipRemove [attr.aria-label]="'remove ' + university.name">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-list>
+    <input [placeholder]="'ADD_UNIVERSITY' | translate" #universityInput [formControl]="universityControl"
+           [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+           (matChipInputTokenEnd)="onEnter($event)"/>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let university of filteredUniversities | async" [value]="university">
+        {{university.shortName + ' - ' + university.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="pending">{{"CANCEL" | translate}}</button>
+    <button mat-button color="primary" (click)="updateEnrolledUniversities()" [disabled]="pending">
+      {{"ACCEPT" | translate}}
+    </button>
+  </mat-dialog-actions>
+</form>

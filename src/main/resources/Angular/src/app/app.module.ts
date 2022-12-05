@@ -51,9 +51,7 @@ import {UniversityCardComponent} from './university/university-card/university-c
 import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirmation-dialog.component';
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 import {SpinnerComponent} from './spinner/spinner.component';
-import {
-  DialogUserAddUniversityComponent
-} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
+import {DialogUserEnrolledUniversitiesComponent} from './user/dialogs/dialog-user-enrolled-universities/dialog-user-enrolled-universities.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {DialogPageCreatorComponent} from './page/dialog-page-creator/dialog-page-creator.component';
 import {
@@ -75,11 +73,10 @@ import {UniversitySelectorComponent} from './university/university-selector/univ
 import {DialogTemplateCreateComponent} from './templates/dialog-template-create/dialog-template-create.component';
 import {PageEditorComponent} from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
-import {
-  DialogTemplateChangeNameComponent
-} from './templates/dialog-template-change-name/dialog-template-change-name.component';
-import {TemplateSelectorComponent} from './templates/template-selector/template-selector.component';
-import {DialogTemplateLoadComponent} from './templates/dialog-template-load/dialog-template-load.component';
+import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
+import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
+import {MatChipsModule} from "@angular/material/chips";
 import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 
@@ -111,7 +108,7 @@ export function SetupApp(setup: SetupService) {
     ConfirmationDialogComponent,
     ErrorDialogComponent,
     SpinnerComponent,
-    DialogUserAddUniversityComponent,
+    DialogUserEnrolledUniversitiesComponent,
     DialogPageCreatorComponent,
     DialogUserChangePasswordComponent,
     SuccessDialogComponent,
@@ -181,6 +178,7 @@ export function SetupApp(setup: SetupService) {
     MatExpansionModule,
     MatAutocompleteModule,
     MatListModule,
+    MatChipsModule,
     MatProgressBarModule
   ],
   providers: [
