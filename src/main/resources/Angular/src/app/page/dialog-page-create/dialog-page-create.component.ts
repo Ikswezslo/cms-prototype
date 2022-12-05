@@ -51,7 +51,7 @@ export class DialogPageCreateComponent implements OnInit {
 
     this.pageService.addNewPage(pageData).subscribe({
       next: page => {
-        this.dialogService.openConfirmationDialog("ADDED_PAGE")
+        this.dialogService.openSuccessDialog(this.translate.instant("ADDED_PAGE"));
         this.dialogRef.close(page.id);
       },
       error: err => {

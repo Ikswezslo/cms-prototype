@@ -112,7 +112,6 @@
   "CHANGE_USERNAME": "Change username",
   "CHANGE_PASSWORD": "Change password",
   "CHANGE_ACCOUNT_TYPE": "Change account type",
-  "CHANGED_ACCOUNT_TYPE_ERROR": "Account type successfully changed",
   "ASSIGN_UNIVERSITY": "Assign to university",
   "ACTIVATE": "Activate",
   "DEACTIVATE": "Deactivate",
@@ -148,5 +147,11 @@
     "DIALOG_RENAME_HEADER": "Changing template name",
     "DIALOG_LOAD_HEADER": "Loading template",
     "LOAD_CONFIRM_DESCRIPTION": "Are you sure you want to load the template? It will replace the entire content of the page."
-  }
+  },
+  "UPLOAD_FILE": "Upload file",
+  "FILENAME": "File name",
+  "TYPE": "File type",
+  "SIZE": "File size",
+  "UPLOAD_DATE": "Upload date",
+  "UPLOADED_BY": "Uploaded by"
 }
