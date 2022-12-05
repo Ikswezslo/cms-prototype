@@ -13,7 +13,7 @@ spring:
       max-file-size: 1000000000MB
       max-request-size: 1000000000MB
   profiles:
-    active: secured, h2
+    active: secured, postgres
 
 ---
 
@@ -42,12 +42,9 @@ spring:
 
 spring:
   datasource:
-    # If you want to use postgres you need to create
-    # database schema named cms and write here username and password
-    # for your postgres (or make your postgresql like this :)).
-    url: jdbc:postgresql://localhost:5432/cms
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       auto-commit: false

@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: postgres
+    volumes:
+      - cms-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+    environment:
+      - POSTGRES_DB=cms
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1234
+
+  backend:
+    build: ./
+    container_name: backend
+    environment:
+      - DB_SERVER=postgres
+      - POSTGRES_DB=cms
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1234
+    ports:
+      - "8080:8080"
+    links:
+      - postgres
+
+  frontend:
+    build: ./src/main/resources/Angular
+    container_name: frontend
+    ports:
+      - "4200:80"
+    links:
+      - backend
+
+volumes:
+  cms-db:
