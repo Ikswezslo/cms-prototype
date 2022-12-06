@@ -7,7 +7,6 @@ import com.example.cms.user.projections.UserDtoFormUpdate;
 import com.example.cms.user.projections.UserDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -56,9 +55,10 @@ public class UserController {
         return service.updateUser(id, form);
     }
 
-    @PostMapping("/{userId}/universities")
-    public UserDtoDetailed addUniversityToUser(@PathVariable long userId, @RequestBody long universityId) {
-        return service.addUniversity(userId, universityId);
+    @PutMapping("/{userId}/universities")
+    public UserDtoDetailed updateUserEnrolledUniversities(@PathVariable long userId,
+                                                          @RequestBody List<Long> universitiesId) {
+        return service.updateEnrolledUniversities(userId, universitiesId);
     }
 
     @PatchMapping("/{id}/enabled")
