@@ -27,6 +27,20 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     @Query("from Page where hidden = false")
     List<Page> findVisible(Pageable pageable);
 
+
+    @Query("from Page where " +
+            "(parent is null) and ("+
+            "(hidden = false) or " +
+            "(:role = 'ADMIN') or" +
+            "(:role= 'MODERATOR' and university.id in :universities) or " +
+            "(:role = 'USER' and creator.id = :creator))")
+    List<Page> findMainPages(Pageable pageable,
+                           @Param("role") String accountType,
+                           @Param("universities") List<Long> universities,
+                           @Param("creator") Long creator);
+    @Query("from Page where (parent is null) and (hidden = false)")
+    List<Page> findMainPages(Pageable pageable);
+
     @Query("from Page where parent.id = :parent and " +
             "((hidden = false) or " +
             "(:role = 'ADMIN') or" +

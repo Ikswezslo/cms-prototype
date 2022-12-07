@@ -32,6 +32,11 @@ export class PageService {
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
+  getMainPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
+    return this.http.get<Page[]>(this.pageUrl + "/main", this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
   getNewPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
     return this.http.get<Page[]>(`${this.pageUrl}?sort=createdOn,desc`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
