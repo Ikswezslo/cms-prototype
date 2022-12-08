@@ -1,10 +1,8 @@
 package com.example.cms.page;
 
-import com.example.cms.page.projections.PageDtoDetailed;
-import com.example.cms.page.projections.PageDtoFormCreate;
-import com.example.cms.page.projections.PageDtoFormUpdate;
-import com.example.cms.page.projections.PageDtoSimple;
+import com.example.cms.page.projections.*;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,19 +24,9 @@ public class PageController {
         return service.get(id);
     }
 
-    @GetMapping("/all")
-    List<PageDtoSimple> readAllPages(Pageable pageable) {
-        return service.getAll(pageable);
-    }
-
     @GetMapping
-    List<PageDtoSimple> readVisiblePages(Pageable pageable) {
+    List<PageDtoSimple> readAllPages(Pageable pageable) {
         return service.getAllVisible(pageable);
-    }
-
-    @GetMapping("/main")
-    List<PageDtoSimple> readMainPages(Pageable pageable) {
-        return service.getAllMainPages(pageable);
     }
 
     @GetMapping("/creator/{userId}")
@@ -46,9 +34,19 @@ public class PageController {
         return service.getCreatorPages(pageable, userId);
     }
 
-    @GetMapping("/children")
-    List<PageDtoSimple> getSubpages(@RequestParam(defaultValue = "") Long parent) {
-        return service.getChildren(parent);
+    @GetMapping("/main")
+    List<PageDtoSimple> readMainPages(Sort sort) {
+        return service.getSubpagesByParentPage(sort, null);
+    }
+
+    @GetMapping("/children/{parentId}")
+    List<PageDtoSimple> readSubpages(Sort sort, @PathVariable long parentId) {
+        return service.getSubpagesByParentPage(sort, parentId);
+    }
+
+    @GetMapping("/hierarchy/{universityId}")
+    PageDtoHierarchy readUniversityHierarchy(@PathVariable long universityId) {
+        return service.getHierarchy(universityId);
     }
 
     @GetMapping("/search/{text}")

@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
@@ -23,22 +23,22 @@ public class PageDtoDetailed {
     private UniversityDtoSimple university;
     private boolean hidden;
     private String content;
-    private Set<PageDtoSimple> children;
+    private List<PageDtoSimple> children;
     private String createdOn;
     private String updatedOn;
 
     public static PageDtoDetailed of(Page page) {
-        return of(page, Set.of());
+        return of(page, List.of());
     }
 
-    public static PageDtoDetailed of(Page page, Set<Page> children) {
+    public static PageDtoDetailed of(Page page, List<Page> children) {
         if (page == null) {
             return null;
         }
         return new PageDtoDetailed(page, children);
     }
 
-    private PageDtoDetailed(Page page, Set<Page> children) {
+    private PageDtoDetailed(Page page, List<Page> children) {
         id = page.getId();
         title = page.getTitle();
         description = page.getDescription();
@@ -48,7 +48,7 @@ public class PageDtoDetailed {
         university = UniversityDtoSimple.of(page.getUniversity());
         parent = PageDtoSimple.of(page.getParent());
 
-        this.children = children.stream().map(PageDtoSimple::of).collect(Collectors.toSet());
+        this.children = children.stream().map(PageDtoSimple::of).collect(Collectors.toList());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyy");
         createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);

@@ -52,63 +52,60 @@ public class SecurityService {
     }
 
     public boolean isForbiddenPage(Page page) {
-        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
-
-        switch (loggedUser.getAccountType()) {
-            case ADMIN:
-                return false;
-            case MODERATOR:
-                return !hasUniversity(page.getUniversity().getId());
-            case USER:
-                return !page.getCreator().getId().equals(loggedUser.getId()) ||
-                        !hasUniversity(page.getUniversity().getId());
-        }
-
-        return true;
+        return getPrincipal().map(loggedUser -> {
+            switch (loggedUser.getAccountType()) {
+                case ADMIN:
+                    return false;
+                case MODERATOR:
+                    return !hasUniversity(page.getUniversity().getId());
+                case USER:
+                    return !page.getCreator().getId().equals(loggedUser.getId()) ||
+                            !hasUniversity(page.getUniversity().getId());
+            }
+            return true;
+        }).orElse(true);
     }
 
     public boolean isForbiddenUniversity(University university) {
-        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
-
-        switch (loggedUser.getAccountType()) {
-            case ADMIN:
-                return false;
-            case MODERATOR:
-                return !hasUniversity(university.getId());
-            case USER:
-                return true;
-        }
-
-        return true;
+        return getPrincipal().map(loggedUser -> {
+            switch (loggedUser.getAccountType()) {
+                case ADMIN:
+                    return false;
+                case MODERATOR:
+                    return !hasUniversity(university.getId());
+                case USER:
+                    return true;
+            }
+            return true;
+        }).orElse(true);
     }
 
     public boolean isForbiddenUser(User user, boolean onlyDifferentUser) {
-        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
-
-        if (onlyDifferentUser && loggedUser.getId().equals(user.getId())) {
-            return true;
-        } else {
-            return isForbiddenUser(user);
-        }
+        return getPrincipal().map(loggedUser -> {
+            if (onlyDifferentUser && loggedUser.getId().equals(user.getId())) {
+                return true;
+            } else {
+                return isForbiddenUser(user);
+            }
+        }).orElse(true);
     }
 
     public boolean isForbiddenUser(User user) {
-        LoggedUser loggedUser = getPrincipal().orElseThrow(UnauthorizedException::new);
-
-        switch (loggedUser.getAccountType()) {
-            case ADMIN:
-                return false;
-            case MODERATOR:
-                return !loggedUser.getId().equals(user.getId()) &&
-                        (!hasHigherRoleThan(user.getAccountType()) ||
-                        !hasUniversity(user.getEnrolledUniversities().stream()
-                                .map(University::getId)
-                                .collect(Collectors.toList())));
-            case USER:
-                return !loggedUser.getId().equals(user.getId());
-        }
-
-        return true;
+        return getPrincipal().map(loggedUser -> {
+            switch (loggedUser.getAccountType()) {
+                case ADMIN:
+                    return false;
+                case MODERATOR:
+                    return !loggedUser.getId().equals(user.getId()) &&
+                            (!hasHigherRoleThan(user.getAccountType()) ||
+                                    !hasUniversity(user.getEnrolledUniversities().stream()
+                                            .map(University::getId)
+                                            .collect(Collectors.toList())));
+                case USER:
+                    return !loggedUser.getId().equals(user.getId());
+            }
+            return true;
+        }).orElse(true);
     }
 
     public boolean hasUniversity(List<Long> universities) {
