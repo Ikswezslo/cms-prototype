@@ -26,7 +26,7 @@ public class FileResourceController {
     }
 
     @GetMapping("download/page/{pageId}/{filename}")
-    public ResponseEntity<Resource> downloadFiles(@PathVariable("pageId") Long pageId, @PathVariable("filename") String filename) throws IOException {
+    public ResponseEntity<Resource> downloadFiles(@PathVariable("pageId") Long pageId, @PathVariable("filename") String filename) {
         return fileService.downloadFiles(pageId, filename);
     }
 
@@ -38,5 +38,11 @@ public class FileResourceController {
             fileService.uploadFile(pageId, userId, file);
         }
         return ResponseEntity.ok().body(filenames);
+    }
+
+    @DeleteMapping("delete/page/{pageId}/{filename}")
+    public ResponseEntity<Void> deleteFile(@PathVariable("pageId") Long pageId, @PathVariable("filename") String filename) {
+        fileService.deleteFile(pageId, filename);
+        return ResponseEntity.noContent().build();
     }
 }
