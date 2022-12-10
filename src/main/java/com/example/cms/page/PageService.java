@@ -61,6 +61,24 @@ public class PageService {
                 .collect(Collectors.toList());
     }
 
+    public List<PageDtoSimple> searchPages(Pageable pageable, String text) {
+        Optional<LoggedUser> loggedUserOptional = securityService.getPrincipal();
+        List<Page> pages;
+        if (loggedUserOptional.isEmpty()) {
+            pages = pageRepository.searchPages(pageable, text);
+        } else {
+            LoggedUser loggedUser = loggedUserOptional.get();
+            pages = pageRepository.searchPages(
+                    pageable, text,
+                    String.valueOf(loggedUser.getAccountType()),
+                    loggedUser.getUniversities(),
+                    loggedUser.getId());
+        }
+        return pages.stream()
+                .map(PageDtoSimple::of)
+                .collect(Collectors.toList());
+    }
+
     public List<PageDtoSimple> getCreatorPages(Pageable pageable, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> {
             throw new PageException(PageExceptionType.NOT_FOUND_USER);
@@ -186,12 +204,6 @@ public class PageService {
         }
 
         pageRepository.delete(page);
-    }
-
-    public List<PageDtoSimple> searchPages(String text) {
-        return pageRepository.searchPages(text).stream()
-                .map(PageDtoSimple::of)
-                .collect(Collectors.toList());
     }
 
     public PageDtoHierarchy getHierarchy(long universityId) {

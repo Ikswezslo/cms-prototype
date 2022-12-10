@@ -30,9 +30,23 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     List<Page> findAllByParent(Sort sort, Page parent);
 
     @Query("from Page where " +
-            "LOWER(title) LIKE :text " +
-            "OR LOWER(description) LIKE :text")
-    List<Page> searchPages(@Param("text") String text);
+            "(LOWER(title) LIKE :text " +
+            "OR LOWER(description) LIKE :text) and" +
+            "(hidden = false)")
+    List<Page> searchPages(Pageable pageable, @Param("text") String text);
+
+    @Query("from Page where " +
+            "(LOWER(title) LIKE :text " +
+            "OR LOWER(description) LIKE :text) and" +
+            "((hidden = false) or " +
+            "(:role = 'ADMIN') or" +
+            "(:role= 'MODERATOR' and university.id in :universities) or " +
+            "(:role = 'USER' and creator.id = :creator))")
+    List<Page> searchPages(Pageable pageable,
+                           @Param("text") String text,
+                           @Param("role") String accountType,
+                           @Param("universities") List<Long> universities,
+                           @Param("creator") Long creator);
 
     boolean existsByCreator(User creator);
 
