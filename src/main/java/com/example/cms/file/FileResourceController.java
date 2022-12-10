@@ -1,6 +1,7 @@
 package com.example.cms.file;
 
 import com.example.cms.file.projections.FileDtoSimple;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/file")
 public class FileResourceController {
 
     private final FileResourceService fileService;
-
-    FileResourceController(final FileResourceService fileService) {
-        this.fileService = fileService;
-    }
 
     @GetMapping("/all/page/{pageId}")
     public List<FileDtoSimple> getAll(@PathVariable Long pageId) {

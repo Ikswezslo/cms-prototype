@@ -1,5 +1,6 @@
 package com.example.cms.university.projections;
 
+import com.example.cms.page.Content;
 import com.example.cms.page.Page;
 import com.example.cms.university.University;
 import com.example.cms.user.User;
@@ -22,7 +23,7 @@ public class UniversityDtoFormCreate {
         Page page = new Page();
         page.setTitle(university.getName());
         page.setDescription("Short description about university.");
-        page.setContent(content);
+        page.setContent(Content.of(content));
         page.setHidden(true);
         page.setUniversity(university);
         page.setCreator(creator);
