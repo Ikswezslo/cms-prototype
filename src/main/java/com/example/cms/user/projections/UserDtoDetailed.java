@@ -16,11 +16,9 @@ import java.util.stream.Collectors;
 public class UserDtoDetailed {
     private Long id;
     private String username;
-    private String password; // TODO: remove password field
     private String firstName;
     private String lastName;
     private String email;
-    private String address;
     private String phoneNumber;
     private String description;
     private Role accountType;
@@ -37,11 +35,9 @@ public class UserDtoDetailed {
     private UserDtoDetailed(User user) {
         id = user.getId();
         username = user.getUsername();
-        password = user.getPassword();
         firstName = user.getFirstName();
         lastName = user.getLastName();
         email = user.getEmail();
-        address = user.getAddress();
         phoneNumber = user.getPhoneNumber();
         accountType = user.getAccountType();
         description = user.getDescription();

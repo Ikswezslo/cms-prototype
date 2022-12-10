@@ -76,6 +76,7 @@ import {TemplateEditorComponent} from './templates/template-editor/template-edit
 import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
 import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
 import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
+import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
 import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
@@ -178,6 +179,7 @@ export function SetupApp(setup: SetupService) {
     MatExpansionModule,
     MatAutocompleteModule,
     MatListModule,
+    MatGridListModule,
     MatChipsModule,
     MatProgressBarModule
   ],

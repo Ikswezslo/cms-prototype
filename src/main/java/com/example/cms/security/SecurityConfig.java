@@ -63,8 +63,6 @@ public class SecurityConfig {
     public CompositeSessionAuthenticationStrategy concurrentSession(SessionRegistry sessionRegistry) {
 
         ConcurrentSessionControlAuthenticationStrategy concurrentAuthenticationStrategy = new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry);
-//        concurrentAuthenticationStrategy.setMaximumSessions(1);
-//        concurrentAuthenticationStrategy.setExceptionIfMaximumExceeded(false);
         List<SessionAuthenticationStrategy> delegateStrategies = new ArrayList<>();
         delegateStrategies.add(concurrentAuthenticationStrategy);
         delegateStrategies.add(new SessionFixationProtectionStrategy());

@@ -17,9 +17,9 @@ export class MainPageComponent implements OnInit {
     useSecondaryColor: false,
     showGoToButton: true,
     showDescription: false,
-    showUniversity: true,
+    showUniversity: false,
     showCreatedOn: false,
-    showAuthor: true
+    showAuthor: false
   };
 
   constructor(private dialogService: DialogService,
@@ -32,7 +32,7 @@ export class MainPageComponent implements OnInit {
 
   loadPages() {
     this.spinnerService.show();
-    this.pageService.getNewPages()
+    this.pageService.getMainPages()
       .subscribe({
         next: res => {
           this.pages = res;

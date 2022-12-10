@@ -28,7 +28,12 @@ export class PageService {
   }
 
   getPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
-    return this.http.get<Page[]>(this.pageUrl + "/all", this.httpOptions)
+    return this.http.get<Page[]>(`${this.pageUrl}?sort=id`, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  getMainPages(defaultErrorHandling: boolean = true): Observable<Page[]> {
+    return this.http.get<Page[]>(this.pageUrl + "/main?sort=title", this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 

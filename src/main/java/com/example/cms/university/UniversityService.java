@@ -1,6 +1,5 @@
 package com.example.cms.university;
 
-import com.example.cms.page.Page;
 import com.example.cms.page.PageRepository;
 import com.example.cms.security.SecurityService;
 import com.example.cms.template.Template;
@@ -16,16 +15,18 @@ import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UniversityService {
     private final UniversityRepository universityRepository;
     private final UserRepository userRepository;
@@ -33,24 +34,32 @@ public class UniversityService {
     private final TemplateRepository templateRepository;
     private final SecurityService securityService;
 
-    public UniversityService(UniversityRepository universityRepository, UserRepository userRepository,
-                             PageRepository pageRepository, TemplateRepository templateRepository,
-                             SecurityService securityService) {
-        this.universityRepository = universityRepository;
-        this.userRepository = userRepository;
-        this.pageRepository = pageRepository;
-        this.templateRepository = templateRepository;
-        this.securityService = securityService;
-    }
-
     public UniversityDtoDetailed getUniversity(Long id) {
-        // TODO: return university only if visible
-        return universityRepository.findById(id).map(UniversityDtoDetailed::of).orElseThrow(NotFoundException::new);
+        return universityRepository.findById(id).map(university -> {
+            if (!isUniversityVisible(university)) {
+                throw new ForbiddenException();
+            }
+
+            return UniversityDtoDetailed.of(university);
+        }).orElseThrow(NotFoundException::new);
     }
 
     public List<UniversityDtoSimple> getUniversities() {
-        // TODO: return only visible universities
-        return universityRepository.findAll().stream().map(UniversityDtoSimple::of).collect(Collectors.toList());
+        return universityRepository.findAll().stream()
+                .filter(this::isUniversityVisible)
+                .map(UniversityDtoSimple::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<UniversityDtoSimple> searchUniversities(Pageable pageable, String text) {
+        return universityRepository.searchUniversities(pageable, text).stream()
+                .filter(this::isUniversityVisible)
+                .map(UniversityDtoSimple::of)
+                .collect(Collectors.toList());
+    }
+
+    private boolean isUniversityVisible(University university) {
+        return university != null && !(university.isHidden() && securityService.isForbiddenUniversity(university));
     }
 
     @Secured("ROLE_ADMIN")
@@ -101,16 +110,6 @@ public class UniversityService {
         return UniversityDtoDetailed.of(result);
     }
 
-    @Secured("ROLE_ADMIN") // TODO: remove UniversityService#connectMainPageToUniversity
-    public University connectMainPageToUniversity(Long universityId, Long pageId) {
-
-        University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
-        Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
-
-        university.setMainPage(page);
-        return universityRepository.save(university);
-    }
-
     @Secured("ROLE_MODERATOR")
     public void modifyHiddenField(Long id, boolean hidden) {
         University university = universityRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -139,20 +138,12 @@ public class UniversityService {
         if (!university.isHidden()) {
             throw new UniversityException(UniversityExceptionType.UNIVERSITY_IS_NOT_HIDDEN);
         }
-//        if(university.getMainPage() != null){
-//            throw new UniversityException(UniversityExceptionType.CONTENT_EXISTS);
-//        }
+
         Set<User> enrolledUsers = university.getEnrolledUsers();
         for (User user : enrolledUsers) {
             if (user.isEnabled()) {
                 throw new UniversityException(UniversityExceptionType.ACTIVE_USER_EXISTS);
             }
         }
-    }
-
-    public List<UniversityDtoSimple> searchUniversities(String text) {
-        return universityRepository.searchUniversities(text).stream()
-                .map(UniversityDtoSimple::of)
-                .collect(Collectors.toList());
     }
 }

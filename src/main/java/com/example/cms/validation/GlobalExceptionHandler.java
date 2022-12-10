@@ -2,6 +2,7 @@ package com.example.cms.validation;
 
 import com.example.cms.security.LoggedUser;
 import com.example.cms.validation.exceptions.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,15 +18,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
-
-    public GlobalExceptionHandler(HttpServletRequest request, HttpServletResponse response) {
-        this.request = request;
-        this.response = response;
-    }
 
     @ExceptionHandler(NotFoundException.class)
     ResponseEntity<RestErrorBody> handleNotFoundException(NotFoundException ex) {

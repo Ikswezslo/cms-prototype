@@ -40,7 +40,6 @@ public class User {
     private String lastName;
     @Email(message = "Email must be valid")
     private String email;
-    private String address; // TODO: remove adress column
     @Pattern(message = "PhoneNumber must be valid", regexp = "^(\\+?\\d{3,12})?$")
     private String phoneNumber;
     private String description;
@@ -56,7 +55,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", accountType='" + accountType + '\'' +
                 ", enabled=" + enabled +

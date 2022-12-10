@@ -23,7 +23,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    @Transactional // TODO: needs to be changed later
+    @Transactional
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
