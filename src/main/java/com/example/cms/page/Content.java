@@ -17,7 +17,7 @@ public class Content {
     private Long id;
 
     @Lob
-    @NotNull(message = "Content value must not be null")
+    @NotNull(message = "Page content must not be null")
     private String pageContent;
 
     @Override

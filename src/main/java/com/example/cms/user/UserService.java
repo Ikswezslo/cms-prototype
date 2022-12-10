@@ -91,6 +91,10 @@ public class UserService {
     @Secured("ROLE_MODERATOR")
     public UserDtoDetailed updateEnrolledUniversities(long userId, List<Long> universitiesId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        if (!securityService.hasHigherRoleThan(user.getAccountType()) || user.getAccountType().equals(Role.ADMIN)) {
+            throw new ForbiddenException();
+        }
+
         Set<University> oldUniversities = user.getEnrolledUniversities();
         Set<University> newUniversities = universitiesId.stream().map(id -> universityRepository.findById(id)
                         .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY)))
@@ -183,10 +187,10 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Secured("ROLE_USER")
+    @Secured("ROLE_MODERATOR")
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (securityService.isForbiddenUser(user)) {
+        if (securityService.isForbiddenUser(user, true)) {
             throw new ForbiddenException();
         }
         validateForDelete(user);
