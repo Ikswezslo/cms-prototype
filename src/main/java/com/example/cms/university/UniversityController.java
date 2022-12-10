@@ -5,6 +5,7 @@ import com.example.cms.university.projections.UniversityDtoFormCreate;
 import com.example.cms.university.projections.UniversityDtoFormUpdate;
 import com.example.cms.university.projections.UniversityDtoSimple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +30,8 @@ public class UniversityController {
     }
 
     @GetMapping("/search/{text}")
-    List<UniversityDtoSimple> searchUniversities(@PathVariable String text) {
-        return service.searchUniversities("%".concat(text.toLowerCase().concat("%")));
+    List<UniversityDtoSimple> searchUniversities(Pageable pageable, @PathVariable String text) {
+        return service.searchUniversities(pageable, "%".concat(text.toLowerCase().concat("%")));
     }
 
     @PostMapping

@@ -16,6 +16,7 @@ import com.example.cms.validation.exceptions.BadRequestException;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,13 @@ public class UniversityService {
 
     public List<UniversityDtoSimple> getUniversities() {
         return universityRepository.findAll().stream()
+                .filter(this::isUniversityVisible)
+                .map(UniversityDtoSimple::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<UniversityDtoSimple> searchUniversities(Pageable pageable, String text) {
+        return universityRepository.searchUniversities(pageable, text).stream()
                 .filter(this::isUniversityVisible)
                 .map(UniversityDtoSimple::of)
                 .collect(Collectors.toList());
@@ -130,20 +138,12 @@ public class UniversityService {
         if (!university.isHidden()) {
             throw new UniversityException(UniversityExceptionType.UNIVERSITY_IS_NOT_HIDDEN);
         }
-//        if(university.getMainPage() != null){
-//            throw new UniversityException(UniversityExceptionType.CONTENT_EXISTS);
-//        }
+
         Set<User> enrolledUsers = university.getEnrolledUsers();
         for (User user : enrolledUsers) {
             if (user.isEnabled()) {
                 throw new UniversityException(UniversityExceptionType.ACTIVE_USER_EXISTS);
             }
         }
-    }
-
-    public List<UniversityDtoSimple> searchUniversities(String text) {
-        return universityRepository.searchUniversities(text).stream()
-                .map(UniversityDtoSimple::of)
-                .collect(Collectors.toList());
     }
 }
