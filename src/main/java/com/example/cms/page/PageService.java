@@ -151,7 +151,7 @@ public class PageService {
             throw new ForbiddenException();
         }
 
-        page.getContent().setValue(Optional.ofNullable(content).orElse(""));
+        page.getContent().setPageContent(Optional.ofNullable(content).orElse(""));
         pageRepository.save(page);
     }
 

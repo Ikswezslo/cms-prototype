@@ -18,7 +18,7 @@ public class Content {
 
     @Lob
     @NotNull(message = "Content value must not be null")
-    private String value;
+    private String pageContent;
 
     @Override
     public boolean equals(Object o) {
@@ -33,9 +33,9 @@ public class Content {
         return getClass().hashCode();
     }
 
-    public static Content of(String value) {
+    public static Content of(String pageContent) {
         Content content = new Content();
-        content.setValue(value);
+        content.setPageContent(pageContent);
         return content;
     }
 }

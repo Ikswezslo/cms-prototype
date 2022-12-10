@@ -44,7 +44,7 @@ public class PageDtoDetailed {
         description = page.getDescription();
         creator = UserDtoSimple.of(page.getCreator());
         hidden = page.isHidden();
-        content = page.getContent().getValue();
+        content = page.getContent().getPageContent();
         university = UniversityDtoSimple.of(page.getUniversity());
         parent = PageDtoSimple.of(page.getParent());
 
