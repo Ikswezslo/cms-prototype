@@ -31,7 +31,7 @@ public class University {
     )
     private Set<User> enrolledUsers = new HashSet<>();
 
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "main_page_id", referencedColumnName = "id")
     private Page mainPage;

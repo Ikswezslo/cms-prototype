@@ -1,6 +1,7 @@
 package com.example.cms.page;
 
 import com.example.cms.page.projections.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +11,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/pages")
 public class PageController {
 
     private final PageService service;
-
-    PageController(final PageService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     PageDtoDetailed readSinglePage(@PathVariable long id) {

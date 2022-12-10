@@ -32,7 +32,7 @@ public class PageService {
 
     public PageDtoDetailed get(Long id) {
         return pageRepository.findById(id).map(page -> {
-            if (page.isHidden() && securityService.isForbiddenPage(page)) {
+            if (!isPageVisible(page)) {
                 throw new ForbiddenException();
             }
             if (!isPageVisible(page.getParent())) {
@@ -151,7 +151,7 @@ public class PageService {
             throw new ForbiddenException();
         }
 
-        page.setContent(Optional.ofNullable(content).orElse(""));
+        page.getContent().setValue(Optional.ofNullable(content).orElse(""));
         pageRepository.save(page);
     }
 

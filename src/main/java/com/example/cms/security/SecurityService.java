@@ -4,6 +4,7 @@ import com.example.cms.page.Page;
 import com.example.cms.university.University;
 import com.example.cms.user.User;
 import com.example.cms.validation.exceptions.UnauthorizedException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
@@ -16,12 +17,9 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class SecurityService {
     private final SessionRegistry sessionRegistry;
-
-    public SecurityService(SessionRegistry sessionRegistry) {
-        this.sessionRegistry = sessionRegistry;
-    }
 
     public Optional<LoggedUser> getPrincipal() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

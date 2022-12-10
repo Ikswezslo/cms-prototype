@@ -4,8 +4,8 @@ import com.example.cms.university.projections.UniversityDtoDetailed;
 import com.example.cms.university.projections.UniversityDtoFormCreate;
 import com.example.cms.university.projections.UniversityDtoFormUpdate;
 import com.example.cms.university.projections.UniversityDtoSimple;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -13,13 +13,10 @@ import java.util.List;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "universities")
 public class UniversityController {
     private final UniversityService service;
-
-    public UniversityController(UniversityService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     public UniversityDtoDetailed getUniversity(@PathVariable long id) {
@@ -55,13 +52,6 @@ public class UniversityController {
             @PathVariable long universityId,
             @PathVariable long userId) {
         return service.enrollUsersToUniversity(universityId, userId);
-    }
-
-    @PutMapping("/{universityId}/pages/{pageID}")
-    public University connectMainPageToUniversity(
-            @PathVariable Long universityId,
-            @PathVariable Long pageID) {
-        return service.connectMainPageToUniversity(universityId, pageID);
     }
 
     @PatchMapping("/{id}/hidden")
