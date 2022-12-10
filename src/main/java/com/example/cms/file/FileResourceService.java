@@ -6,6 +6,7 @@ import com.example.cms.page.PageRepository;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -26,17 +27,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FileResourceService {
     private final FileResourceRepository fileRepository;
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
-    FileResourceService(FileResourceRepository fileRepository,
-                        UserRepository userRepository,
-                        PageRepository pageRepository) {
-        this.fileRepository = fileRepository;
-        this.pageRepository = pageRepository;
-        this.userRepository = userRepository;
-    }
 
     public ResponseEntity<Resource> downloadFiles(Long pageId, String filename) {
 

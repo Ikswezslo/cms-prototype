@@ -14,8 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByUsername(String username);
 
-    boolean existsByUsernameAndIdNot(String username, Long id);
-
     @Query("from User where " +
             "LOWER(username) LIKE :text " +
             "OR LOWER(description) LIKE :text " +

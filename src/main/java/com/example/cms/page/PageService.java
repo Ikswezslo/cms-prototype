@@ -2,59 +2,45 @@ package com.example.cms.page;
 
 import com.example.cms.page.exceptions.PageException;
 import com.example.cms.page.exceptions.PageExceptionType;
-import com.example.cms.page.projections.PageDtoDetailed;
-import com.example.cms.page.projections.PageDtoFormCreate;
-import com.example.cms.page.projections.PageDtoFormUpdate;
-import com.example.cms.page.projections.PageDtoSimple;
+import com.example.cms.page.projections.*;
 import com.example.cms.security.LoggedUser;
 import com.example.cms.security.SecurityService;
+import com.example.cms.university.University;
+import com.example.cms.university.UniversityRepository;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
 import com.example.cms.validation.exceptions.WrongDataStructureException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PageService {
     private final PageRepository pageRepository;
+    private final UniversityRepository universityRepository;
     private final UserRepository userRepository;
     private final SecurityService securityService;
 
-    public PageService(PageRepository repository,
-                       UserRepository userRepository,
-                       SecurityService securityService) {
-        this.pageRepository = repository;
-        this.userRepository = userRepository;
-        this.securityService = securityService;
-    }
-
     public PageDtoDetailed get(Long id) {
         return pageRepository.findById(id).map(page -> {
-            if (page.isHidden() && securityService.isForbiddenPage(page)) {
+            if (!isPageVisible(page)) {
                 throw new ForbiddenException();
             }
-            if (page.getParent() != null && page.getParent().isHidden() &&
-                    securityService.isForbiddenPage(page.getParent())) {
+            if (!isPageVisible(page.getParent())) {
                 page.setParent(null);
             }
-            // TODO: set user and university to null if not visible (same as parent)
-            return PageDtoDetailed.of(page, findVisibleSubpages(id));
+            // TODO: if university is hidden then page is hidden?
+            return PageDtoDetailed.of(page, findVisibleSubpages(Sort.by("title"), page));
         }).orElseThrow(NotFoundException::new);
-    }
-
-    @Secured("ROLE_ADMIN") // TODO: remove PageService#getAll
-    public List<PageDtoSimple> getAll(Pageable pageable) {
-        return pageRepository.findAll(pageable).stream()
-                .map(PageDtoSimple::of)
-                .collect(Collectors.toList());
     }
 
     public List<PageDtoSimple> getAllVisible(Pageable pageable) {
@@ -75,15 +61,15 @@ public class PageService {
                 .collect(Collectors.toList());
     }
 
-    public List<PageDtoSimple> getAllMainPages(Pageable pageable){
+    public List<PageDtoSimple> searchPages(Pageable pageable, String text) {
         Optional<LoggedUser> loggedUserOptional = securityService.getPrincipal();
         List<Page> pages;
         if (loggedUserOptional.isEmpty()) {
-            pages = pageRepository.findMainPages(pageable);
+            pages = pageRepository.searchPages(pageable, text);
         } else {
             LoggedUser loggedUser = loggedUserOptional.get();
-            pages = pageRepository.findMainPages(
-                    pageable,
+            pages = pageRepository.searchPages(
+                    pageable, text,
                     String.valueOf(loggedUser.getAccountType()),
                     loggedUser.getUniversities(),
                     loggedUser.getId());
@@ -94,36 +80,34 @@ public class PageService {
     }
 
     public List<PageDtoSimple> getCreatorPages(Pageable pageable, Long userId) {
-        // TODO: return only visible creator pages
         User user = userRepository.findById(userId).orElseThrow(() -> {
             throw new PageException(PageExceptionType.NOT_FOUND_USER);
         });
 
         return pageRepository.findByCreator(pageable, user).stream()
+                .filter(this::isPageVisible)
                 .map(PageDtoSimple::of)
                 .collect(Collectors.toList());
     }
 
-    public List<PageDtoSimple> getChildren(Long parentId) {
-        return findVisibleSubpages(parentId).stream()
+    public List<PageDtoSimple> getSubpagesByParentPage(Sort sort, Long parentId) {
+        Page parent = Optional.ofNullable(parentId)
+                .map(id -> pageRepository.findById(id).orElseThrow(NotFoundException::new))
+                .orElse(null);
+
+        return findVisibleSubpages(sort, parent).stream()
                 .map(PageDtoSimple::of)
                 .collect(Collectors.toList());
     }
 
-    private Set<Page> findVisibleSubpages(Long parentId) {
-        Optional<LoggedUser> optionalLoggedUser = securityService.getPrincipal();
-        Set<Page> children;
-        if (optionalLoggedUser.isEmpty()) {
-            children = pageRepository.findChildren(parentId);
-        } else {
-            LoggedUser loggedUser = optionalLoggedUser.get();
-            children = pageRepository.findChildren(
-                    parentId,
-                    String.valueOf(loggedUser.getAccountType()),
-                    loggedUser.getUniversities(),
-                    loggedUser.getId());
-        }
-        return children;
+    private List<Page> findVisibleSubpages(Sort sort, Page page) {
+        return pageRepository.findAllByParent(sort, page).stream()
+                .filter(this::isPageVisible)
+                .collect(Collectors.toList());
+    }
+
+    private boolean isPageVisible(Page page) {
+        return page != null && !(page.isHidden() && securityService.isForbiddenPage(page));
     }
 
     @Secured("ROLE_USER")
@@ -185,9 +169,10 @@ public class PageService {
             throw new ForbiddenException();
         }
 
-        page.setContent(Optional.ofNullable(content).orElse(""));
+        page.getContent().setPageContent(Optional.ofNullable(content).orElse(""));
         pageRepository.save(page);
     }
+
     @Secured("ROLE_MODERATOR")
     public void modifyCreatorField(Long id, String username) {
         Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -221,9 +206,8 @@ public class PageService {
         pageRepository.delete(page);
     }
 
-    public List<PageDtoSimple> searchPages(String text) {
-        return pageRepository.searchPages(text).stream()
-                .map(PageDtoSimple::of)
-                .collect(Collectors.toList());
+    public PageDtoHierarchy getHierarchy(long universityId) {
+        University university = universityRepository.findById(universityId).orElseThrow(NotFoundException::new);
+        return PageDtoHierarchy.of(university.getMainPage(), securityService);
     }
 }

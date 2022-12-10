@@ -1,5 +1,6 @@
 package com.example.cms.page.projections;
 
+import com.example.cms.page.Content;
 import com.example.cms.page.Page;
 import com.example.cms.user.User;
 import lombok.Value;
@@ -16,7 +17,7 @@ public class PageDtoFormCreate {
         Page page = new Page();
         page.setTitle(title);
         page.setDescription(description);
-        page.setContent(content);
+        page.setContent(Content.of(content));
         page.setHidden(true);
         page.setParent(parent);
         page.setUniversity(parent.getUniversity());

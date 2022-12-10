@@ -35,7 +35,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class UserDetailsComponent implements OnInit {
 
 
-  @Input() settings: boolean = false;
+  @Input() settings: boolean = true;
   @Input() settingsId!: Number;
   public pages!: Page[];
   public user!: User;
@@ -44,7 +44,7 @@ export class UserDetailsComponent implements OnInit {
   userCardConfig: UserCardConfig = {
     useSecondaryColor: false,
     showGoToButton: false,
-    showSettings: false
+    showSettings: true
   };
 
   pageCardConfig: PageCardConfig = {
@@ -147,7 +147,7 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  openAddUniversityDialog() {
+  openEnrolledUniversitiesDialog() {
     const dialogRef = this.dialog.open(DialogUserEnrolledUniversitiesComponent, {
       data: {user: this.user},
       autoFocus: false

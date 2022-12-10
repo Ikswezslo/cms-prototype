@@ -14,9 +14,10 @@ import com.example.cms.user.projections.UserDtoSimple;
 import com.example.cms.validation.exceptions.ForbiddenException;
 import com.example.cms.validation.exceptions.NotFoundException;
 import com.example.cms.validation.exceptions.WrongDataStructureException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final UniversityRepository universityRepository;
@@ -34,20 +36,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final SecurityService securityService;
 
-    UserService(final UserRepository userRepository,
-                final UniversityRepository universityRepository,
-                final PageRepository pageRepository,
-                PasswordEncoder passwordEncoder,
-                SecurityService securityService) {
-        this.pageRepository = pageRepository;
-        this.userRepository = userRepository;
-        this.universityRepository = universityRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.securityService = securityService;
-    }
-
     public UserDtoDetailed getUser(Long id) {
-        // TODO: return user only if visible
         return userRepository.findById(id).map(UserDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 
@@ -57,7 +46,6 @@ public class UserService {
     }
 
     public List<UserDtoSimple> getUsers() {
-        // TODO: return only visible users
         return userRepository.findAll().stream().map(UserDtoSimple::of).collect(Collectors.toList());
     }
 
@@ -103,6 +91,10 @@ public class UserService {
     @Secured("ROLE_MODERATOR")
     public UserDtoDetailed updateEnrolledUniversities(long userId, List<Long> universitiesId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        if (!securityService.hasHigherRoleThan(user.getAccountType()) || user.getAccountType().equals(Role.ADMIN)) {
+            throw new ForbiddenException();
+        }
+
         Set<University> oldUniversities = user.getEnrolledUniversities();
         Set<University> newUniversities = universitiesId.stream().map(id -> universityRepository.findById(id)
                         .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_UNIVERSITY)))
@@ -195,10 +187,10 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Secured("ROLE_USER")
+    @Secured("ROLE_MODERATOR")
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-        if (securityService.isForbiddenUser(user)) {
+        if (securityService.isForbiddenUser(user, true)) {
             throw new ForbiddenException();
         }
         validateForDelete(user);

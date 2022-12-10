@@ -46,8 +46,9 @@
     <mat-icon>security</mat-icon>
     <span>{{"CHANGE_ACCOUNT_TYPE" | translate}}</span>
   </button>
-  <button mat-menu-item (click)="openAddUniversityDialog()"
-          *ngIf="securityService.hasRole('MODERATOR') && securityService.hasLoggedUserHigherRole(user?.accountType)">
+  <button mat-menu-item (click)="openEnrolledUniversitiesDialog()"
+          *ngIf="securityService.hasRole('MODERATOR') && securityService.hasLoggedUserHigherRole(user?.accountType)
+                && user?.accountType !== 'ADMIN'">
     <mat-icon>business</mat-icon>
     <span>{{"ASSIGN_UNIVERSITY" | translate}}</span>
   </button>
@@ -55,16 +56,16 @@
           *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUser(user, true)
           && !user.enabled">
     <mat-icon>visibility_on</mat-icon>
-    <span>{{"DEACTIVATE" | translate}}</span>
+    <span>{{"ACTIVATE" | translate}}</span>
   </button>
   <button mat-menu-item (click)="activeUser()"
           *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUser(user, true)
           && user.enabled">
     <mat-icon>visibility_off</mat-icon>
-    <span>{{"ACTIVATE" | translate}}</span>
+    <span>{{"DEACTIVATE" | translate}}</span>
   </button>
   <button mat-menu-item (click)="deleteUser()"
-          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenUser(user)">
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUser(user, true)">
     <mat-icon>delete</mat-icon>
     <span>{{"DELETE_USER" | translate}}</span>
   </button>
