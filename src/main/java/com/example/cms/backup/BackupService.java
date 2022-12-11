@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.access.annotation.Secured;
@@ -126,5 +128,10 @@ public class BackupService {
             File zipFile = new File(String.format("%s/%s/%s.zip", backupPath, file.getName(), file.getName()));
             return new BackupDto(file.getName(), FileUtils.humanReadableByteCountSI(zipFile.length()));
         }).collect(Collectors.toList());
+    }
+
+    public FileSystemResource getBackupFile(String backupName) {
+        Path path = Path.of(String.format("./backups/%s/%s.zip", backupName, backupName));
+        return new FileSystemResource(path);
     }
 }

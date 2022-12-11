@@ -149,6 +149,10 @@
     "DIALOG_LOAD_HEADER": "Wczytywanie szablonu",
     "LOAD_CONFIRM_DESCRIPTION": "Czy na pewno chcesz wczytać szablon? Zastąpi on całą zawartość strony."
   },
+  "BACKUP": {
+    "ONE": "Kopia zapasowa",
+    "MANY": "Kopie zapasowe"
+  },
   "UPLOAD_FILE": "Wyślij plik",
   "FILENAME": "Nazwa pliku",
   "TYPE": "Typ pliku",
