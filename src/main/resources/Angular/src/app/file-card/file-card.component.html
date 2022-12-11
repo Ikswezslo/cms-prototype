@@ -3,7 +3,7 @@
     <button style="opacity: 0"></button>
     <div class="flex-container">
       <form fxFlex enctype="multipart/form-data">
-        <div class="form-group">
+        <div *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)" class="form-group">
           <label class="uploadText">
             <input (change)="onUploadFiles($event)" class="myInput" type="file" name="files" multiple>
             <mat-icon> publish</mat-icon>
@@ -58,7 +58,8 @@
               save_alt
             </mat-icon>
           </button>
-          <button mat-button class="deleteButton" (click)="onDeleteFile(row.filename)">
+          <button *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)" mat-button
+                  class="deleteButton" (click)="onDeleteFile(row.filename)">
             <mat-icon>
               delete_forever
             </mat-icon>

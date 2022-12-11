@@ -11,6 +11,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {ConfirmationDialogComponent} from "../dialog/confirmation-dialog/confirmation-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "../dialog/error-dialog/error-dialog.component";
+import {SecurityService} from "../../assets/service/security.service";
 
 @Component({
   selector: 'app-file-card',
@@ -27,6 +28,7 @@ export class FileCardComponent implements OnInit {
     private pageService: PageService,
     private fileService: FileService,
     private userService: UserService,
+    public securityService: SecurityService,
     public dialog: MatDialog,
     private translate: TranslateService,
     private dialogService: DialogService) {
@@ -105,6 +107,7 @@ export class FileCardComponent implements OnInit {
     this.fileService.download(filename, pageId!).subscribe({
       next: res => {
         FileCardComponent.reportProgress(res);
+        this.fileStatus = 'progress';
       },
       error: () => {
         this.dialogService.openDataErrorDialog();
@@ -119,17 +122,16 @@ export class FileCardComponent implements OnInit {
       case HttpEventType.DownloadProgress:
         break;
       case HttpEventType.ResponseHeader:
-        console.log('Header returned', event);
         break;
       case HttpEventType.Response:
         if (event.body instanceof Array) {
           window.location.reload();
         } else {
           saveAs(new File([event.body!], event.headers.get('File-Name')!, {type: `${event.headers.get('Content-Type')};charset=utf-8`}));
+          window.location.reload();
         }
         break;
       default:
-        console.log(event);
         break;
     }
   }
