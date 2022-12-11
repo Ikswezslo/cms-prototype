@@ -1,31 +1,18 @@
-.item {
-  padding: 2px 10px;
-  margin: 0.5px;
-  background-color: rgb(184, 223, 255);
-  color: black;
-}
-
-:link {
-  color: black;
-  font-style: normal;
-  text-decoration: none;
-}
-
-:link::after {
-  color: black;
-
+.tableContainer {
+  overflow-y: auto;
+  height: 320px;
 }
 
 .flex-container {
   display: inline-flex;
   justify-content: space-around;
-  margin: 5px 5px 5px 0px;
-
+  margin: 5px 5px 5px 0;
 }
 
 .uploadText {
   background-color: var(--base-button-blue);
   padding: 5px;
+  font-weight: bold !important;
   border-radius: 2px;
   font-size: 20px;
   z-index: 0;
@@ -54,17 +41,6 @@
   cursor: pointer;
 }
 
-.options {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-}
-
-.option {
-  padding: 0px 5px;
-  margin: 0px;
-}
-
 .selectButton {
   max-height: 30px;
 }
@@ -73,36 +49,79 @@
   display: inline-block;
 }
 
-.button,
-button {
-  display: inline-flex;
+.deleteButton {
+  background-color: red;
+}
+
+.button, button {
   align-items: center;
   cursor: pointer;
   background-color: var(--base-button-blue);
   color: rgb(0, 0, 0);
   border: none;
+  margin: 5px;
 }
 
-::ng-deep {
-  .ag-cell {
-    border-bottom: #328eff 1px solid;
-    background-color: #d8eaff;
-  }
+table {
+  width: 100%;
+}
 
-  .ag-row:hover {
-    .ag-cell {
-      border-bottom: #328eff 1px solid;
-      background-color: var(--base-button-blue);
-    }
-  }
+th {
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 14px;
+  background-color: var(--base-button-blue);
+  text-align: center !important;
+}
 
-  .ag-header-cell {
-    background-color: var(--base-button-blue);
-    font: bold 25px;
-  }
+td {
+  color: rgb(0, 0, 0);
+  text-align: center !important;
+}
 
-  .ag-header-cell:hover {
-    --ag-header-cell-hover-background-color: var(--base-button-blue) !important;
-    font: bold 25px
-  }
+.noRowsTemplate {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bolder;
+  font-style: italic;
+}
+
+.mat-column-filename {
+  padding: 5px;
+  min-width: 25px !important;
+  max-width: 35px !important;
+  word-wrap: break-word;
+}
+
+.mat-column-uploadedBy {
+  padding: 5px;
+  min-width: 30px !important;
+  max-width: 40px !important;
+  word-wrap: break-word;
+}
+
+.mat-column-fileSize {
+  padding: 5px;
+  min-width: 20px !important;
+  max-width: 25px !important;
+  word-wrap: break-word;
+}
+
+.mat-column-fileType {
+  padding: 10px;
+  min-width: 110px !important;
+  max-width: 130px !important;
+  word-wrap: break-word;
+}
+
+.mat-column-uploadDate {
+  padding: 10px;
+  min-width: 30px !important;
+  max-width: 40px !important;
+  word-wrap: break-word;
+}
+
+.mat-column-action {
+  padding: 5px;
+  width: 150px;
 }

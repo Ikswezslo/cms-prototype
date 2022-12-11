@@ -154,5 +154,6 @@
   "TYPE": "Typ pliku",
   "SIZE": "Rozmiar pliku",
   "UPLOAD_DATE": "Data dodania",
-  "UPLOADED_BY": "Dodano przez"
+  "UPLOADED_BY": "Dodano przez",
+  "NO_FILES": "Nie dodano jeszcze żadnego pliku."
 }

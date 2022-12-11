@@ -16,10 +16,9 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class FileCardComponent implements OnInit {
   @Input() page!: Page;
-  public columns: string[] = ['filename', 'fileType', 'fileSize', 'uploadDate', "uploadedBy", 'idk'];
+  public columns: string[] = ['filename', 'fileType', 'fileSize', 'uploadDate', "uploadedBy", 'action'];
   public filesData: FileResource[] = [];
   public fileStatus = '';
-
 
   constructor(
     private pageService: PageService,
@@ -44,6 +43,15 @@ export class FileCardComponent implements OnInit {
     });
   }
 
+  onDeleteFile(filename: string): void {
+    const pageId = this.page?.id;
+    this.fileService.deleteFile(filename, pageId!).subscribe({
+      next: () => {
+        window.location.reload();
+      }
+    })
+  }
+
   onUploadFiles(event: Event): void {
     const target = event.target as HTMLInputElement;
     const files = target.files as FileList;
@@ -56,7 +64,7 @@ export class FileCardComponent implements OnInit {
     }
     this.fileService.upload(formData, pageId!, userId!).subscribe({
       next: res => {
-        this.reportProgress(res);
+        FileCardComponent.reportProgress(res);
         this.fileStatus = 'progress';
       },
       error: () => {
@@ -68,9 +76,10 @@ export class FileCardComponent implements OnInit {
 
   onDownloadFiles(filename: string): void {
     const pageId = this.page?.id;
+
     this.fileService.download(filename, pageId!).subscribe({
       next: res => {
-        this.reportProgress(res);
+        FileCardComponent.reportProgress(res);
       },
       error: () => {
         this.dialogService.openDataErrorDialog();
@@ -78,7 +87,7 @@ export class FileCardComponent implements OnInit {
     });
   }
 
-  private reportProgress(event: HttpEvent<string[] | Blob>): void {
+  private static reportProgress(event: HttpEvent<string[] | Blob>): void {
     switch (event.type) {
       case HttpEventType.UploadProgress:
         break;

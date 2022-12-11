@@ -17,6 +17,10 @@ export class FileService {
     return this.http.get<FileResource[]>(`${this.server}/all/page/${pageID}`, {withCredentials: true}).pipe(this.errorHandler.getErrorHandling(defaultErrorHandling))
   }
 
+  deleteFile(filename: string, pageID: Number, defaultErrorHandling: boolean = true): Observable<FileResource[]> {
+    return this.http.delete<void>(`${this.server}/delete/page/${pageID}/${filename}`, {withCredentials: true}).pipe(this.errorHandler.getErrorHandling(defaultErrorHandling))
+  }
+
   upload(formData: FormData, pageId: Number, userId: Number, defaultErrorHandling: boolean = true): Observable<HttpEvent<string[]>> {
     return this.http.post<string[]>(`${this.server}/upload/page/${pageId}/user/${userId}`, formData, {
       withCredentials: true,

@@ -19,9 +19,14 @@
     </span>
   </div>
 
+  <div *ngIf="filesData.length == 0" class="noRowsTemplate">
+    <span>
+      {{"NO_FILES" | translate}}
+    </span>
+  </div>
 
-  <div style="height: 300px">
-    <table mat-table [dataSource]="filesData" class="mat-elevation-z8">
+  <div *ngIf="filesData.length" class="tableContainer">
+    <table mat-table [dataSource]="filesData">
 
       <ng-container matColumnDef="filename">
         <th mat-header-cell *matHeaderCellDef> {{"FILENAME" | translate}}</th>
@@ -48,19 +53,23 @@
         <td mat-cell *matCellDef="let element"> {{element.uploadedBy}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="idk">
-        <th mat-header-cell *matHeaderCellDef> Button</th>
-        <td mat-cell *matCellDef>
-          <button mat-button>
-            Download
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button (click)="onDownloadFiles(row.filename)">
+            <mat-icon>
+              save_alt
+            </mat-icon>
           </button>
-          <button mat-button>
-            Delete
+          <button mat-button class="deleteButton" (click)="onDeleteFile(row.filename)">
+            <mat-icon>
+              delete_forever
+            </mat-icon>
           </button>
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: columns;"></tr>
     </table>
   </div>

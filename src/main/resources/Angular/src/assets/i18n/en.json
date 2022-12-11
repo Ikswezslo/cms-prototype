@@ -154,5 +154,6 @@
   "TYPE": "File type",
   "SIZE": "File size",
   "UPLOAD_DATE": "Upload date",
-  "UPLOADED_BY": "Uploaded by"
+  "UPLOADED_BY": "Uploaded by",
+  "NO_FILES": "No files uploaded yet."
 }
