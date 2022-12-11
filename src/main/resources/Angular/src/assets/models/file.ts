@@ -3,6 +3,8 @@ export interface FileResource {
 
   fileType: string,
 
+  fileSize: string,
+
   uploadDate: string,
 
   uploadedBy: string,
