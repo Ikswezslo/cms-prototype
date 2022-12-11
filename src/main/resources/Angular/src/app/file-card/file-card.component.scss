@@ -3,6 +3,20 @@
   height: 320px;
 }
 
+.tableContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0;
+  border-radius: 5px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 25px var(--base-button-blue);
+}
+
 .flex-container {
   display: inline-block;
   margin-bottom: 10px;
@@ -75,6 +89,7 @@ td {
 }
 
 .noRowsTemplate {
+  padding: 40px;
   text-align: center;
   font-size: 20px;
   font-weight: bolder;
