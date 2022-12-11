@@ -149,10 +149,12 @@
     "DIALOG_LOAD_HEADER": "Loading template",
     "LOAD_CONFIRM_DESCRIPTION": "Are you sure you want to load the template? It will replace the entire content of the page."
   },
-  "UPLOAD_FILE": "Upload file",
   "FILENAME": "File name",
   "TYPE": "File type",
   "SIZE": "File size",
   "UPLOAD_DATE": "Upload date",
-  "UPLOADED_BY": "Uploaded by"
+  "UPLOADED_BY": "Uploaded by",
+  "NO_FILES": "No files uploaded yet.",
+  "DELETE_FILE_DESCRIPTION": "Are you sure you want to delete this file? This operation cannot be undone.",
+  "DELETE_FILE_ERROR": "Error occured during deleting file."
 }

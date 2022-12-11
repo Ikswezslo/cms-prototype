@@ -1,34 +1,74 @@
 <mat-card>
   <div>
     <button style="opacity: 0"></button>
-    <span class="flex-container">
+    <div class="flex-container">
       <form fxFlex enctype="multipart/form-data">
-          <div class="form-group">
-            <label class="uploadText">
-              <span>{{"UPLOAD_FILE" | translate}}</span>
-              <input (change)="onUploadFiles($event)" class="myInput" type="file" name="files" multiple>
-            </label>
-          </div>
+        <div *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)" class="form-group">
+          <label class="uploadText">
+            <input (change)="onUploadFiles($event)" class="myInput" type="file" name="files" multiple>
+            <mat-icon> publish</mat-icon>
+          </label>
+        </div>
         <div fxFlex *ngIf="fileStatus === 'progress'" class="progress">
-          <mat-progress-bar mode="indeterminate">
-
-          </mat-progress-bar>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </div>
       </form>
+    </div>
+  </div>
 
+  <div *ngIf="filesData.length == 0" class="noRowsTemplate">
+    <span>
+      {{"NO_FILES" | translate}}
     </span>
   </div>
-  <div style="height: 300px">
-    <ag-grid-angular style="width: 100%; height: 100%;"
-                     (window:resize)="onResize()"
-                     (gridReady)="onGridReady($event)"
-                     [defaultColDef]="defaultColDef"
-                     [rowSelection]="'single'"
-                     (rowSelected)="onDownloadFiles($event.data.filename)"
-                     class="ag-theme-alpine"
-                     [rowData]="filesData"
-                     [columnDefs]="columnDefs"
-                     [overlayNoRowsTemplate]="noRowsTemplate">
-    </ag-grid-angular>
+
+  <div *ngIf="filesData.length" class="tableContainer">
+    <table mat-table [dataSource]="filesData">
+
+      <ng-container matColumnDef="filename">
+        <th mat-header-cell *matHeaderCellDef>{{"FILENAME" | translate}}</th>
+        <td mat-cell *matCellDef="let element"> {{element.filename}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fileType">
+        <th mat-header-cell *matHeaderCellDef> {{"TYPE" | translate}} </th>
+        <td mat-cell *matCellDef="let element"> {{element.fileType}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fileSize">
+        <th mat-header-cell *matHeaderCellDef> {{"SIZE" | translate}} </th>
+        <td mat-cell *matCellDef="let element"> {{element.fileSize}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="uploadDate">
+        <th mat-header-cell *matHeaderCellDef> {{"UPLOAD_DATE" | translate}} </th>
+        <td mat-cell *matCellDef="let element"> {{element.uploadDate}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="uploadedBy">
+        <th mat-header-cell *matHeaderCellDef> {{"UPLOADED_BY" | translate}} </th>
+        <td mat-cell *matCellDef="let element"> {{element.uploadedBy}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button (click)="onDownloadFiles(row.filename)">
+            <mat-icon>
+              save_alt
+            </mat-icon>
+          </button>
+          <button *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)" mat-button
+                  class="deleteButton" (click)="onDeleteFile(row.filename)">
+            <mat-icon>
+              delete_forever
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
   </div>
 </mat-card>
