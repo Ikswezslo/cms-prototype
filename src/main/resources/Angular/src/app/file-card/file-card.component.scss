@@ -4,45 +4,40 @@
 }
 
 .flex-container {
-  display: inline-flex;
-  justify-content: space-around;
-  margin: 5px 5px 5px 0;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 .uploadText {
   background-color: var(--base-button-blue);
-  padding: 5px;
-  font-weight: bold !important;
-  border-radius: 2px;
-  font-size: 20px;
-  z-index: 0;
+  padding: 16px 20px 5px 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 1;
   border: none;
-  height: 20px;
 }
 
 .uploadText:hover {
-  background-color: #1976d2;
+  opacity: 0.9;
   cursor: pointer;
 }
 
 .progress {
   margin-left: 10px;
-  padding-top: 7px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
 }
 
 .myInput {
   opacity: 0; //Not visible
   font-size: 0;
-  z-index: 1;
+  z-index: 0;
+  padding: 0;
   //Button dimensions
-  width: 5px;
-  height: 10px;
+  width: 15px;
+  height: 0.001px;
   cursor: pointer;
-}
-
-.selectButton {
-  max-height: 30px;
 }
 
 .form-group {
@@ -87,9 +82,9 @@ td {
 }
 
 .mat-column-filename {
-  padding: 5px;
-  min-width: 25px !important;
-  max-width: 35px !important;
+  padding: 2px;
+  min-width: 30px !important;
+  max-width: 45px !important;
   word-wrap: break-word;
 }
 
