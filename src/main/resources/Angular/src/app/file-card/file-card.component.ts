@@ -8,6 +8,9 @@ import {DialogService} from "../../assets/service/dialog.service";
 import {FileResource} from "../../assets/models/file";
 import {PageService} from "../../assets/service/page.service";
 import {TranslateService} from "@ngx-translate/core";
+import {ConfirmationDialogComponent} from "../dialog/confirmation-dialog/confirmation-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorDialogComponent} from "../dialog/error-dialog/error-dialog.component";
 
 @Component({
   selector: 'app-file-card',
@@ -24,6 +27,7 @@ export class FileCardComponent implements OnInit {
     private pageService: PageService,
     private fileService: FileService,
     private userService: UserService,
+    public dialog: MatDialog,
     private translate: TranslateService,
     private dialogService: DialogService) {
   }
@@ -45,11 +49,32 @@ export class FileCardComponent implements OnInit {
 
   onDeleteFile(filename: string): void {
     const pageId = this.page?.id;
-    this.fileService.deleteFile(filename, pageId!).subscribe({
-      next: () => {
-        window.location.reload();
+    const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: this.translate.instant("DELETING") + ' ' + filename,
+        description: this.translate.instant("DELETE_FILE_DESCRIPTION")
       }
-    })
+    });
+    deletingDialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.fileService.deleteFile(filename, pageId!).subscribe({
+          next: () => {
+            window.location.reload()
+          },
+          error: err => {
+            this.dialog.open(ErrorDialogComponent, {
+              data: {
+                description: err.message || this.translate.instant("DELETE_FILE_ERROR")
+              }
+            }).afterClosed().subscribe(
+              {
+                next: () => window.location.reload()
+              }
+            )
+          }
+        });
+      }
+    });
   }
 
   onUploadFiles(event: Event): void {
