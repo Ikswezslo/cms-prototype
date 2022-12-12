@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {FileService} from "../../assets/service/file.service";
 import {HttpEvent, HttpEventType} from "@angular/common/http";
 import {saveAs} from 'file-saver';
@@ -18,11 +18,11 @@ import {SecurityService} from "../../assets/service/security.service";
   templateUrl: './file-card.component.html',
   styleUrls: ['./file-card.component.scss']
 })
-export class FileCardComponent implements OnInit {
+export class FileCardComponent implements OnChanges {
   @Input() page!: Page;
   public columns: string[] = ['filename', 'fileType', 'fileSize', 'uploadDate', "uploadedBy", 'action'];
   public filesData: FileResource[] = [];
-  public fileStatus = '';
+  public hideBar: boolean = true;
 
   constructor(
     private pageService: PageService,
@@ -34,7 +34,7 @@ export class FileCardComponent implements OnInit {
     private dialogService: DialogService) {
   }
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges) {
     this.loadFiles(this.page.id);
   }
 
@@ -42,15 +42,16 @@ export class FileCardComponent implements OnInit {
     this.fileService.getAll(pageId!).subscribe({
       next: res => {
         this.filesData = res;
+        this.hideBar = true;
       },
       error: () => {
         this.dialogService.openDataErrorDialog();
+        this.hideBar = true;
       }
     });
   }
 
   onDeleteFile(filename: string): void {
-    const pageId = this.page?.id;
     const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: this.translate.instant("DELETING") + ' ' + filename,
@@ -59,20 +60,17 @@ export class FileCardComponent implements OnInit {
     });
     deletingDialog.afterClosed().subscribe(res => {
       if (res) {
-        this.fileService.deleteFile(filename, pageId!).subscribe({
+        this.fileService.deleteFile(filename, this.page.id).subscribe({
           next: () => {
-            window.location.reload()
+            this.dialogService.openSuccessDialog(this.translate.instant("DELETE_FILE_CONFIRMATION"));
+            this.loadFiles(this.page.id)
           },
           error: err => {
             this.dialog.open(ErrorDialogComponent, {
               data: {
                 description: err.message || this.translate.instant("DELETE_FILE_ERROR")
               }
-            }).afterClosed().subscribe(
-              {
-                next: () => window.location.reload()
-              }
-            )
+            })
           }
         });
       }
@@ -85,14 +83,13 @@ export class FileCardComponent implements OnInit {
 
     const formData = new FormData();
     const userId = this.userService.loggedUser?.id;
-    const pageId = this.page?.id;
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i], files[i].name);
     }
-    this.fileService.upload(formData, pageId!, userId!).subscribe({
+    this.fileService.upload(formData, this.page.id, userId!).subscribe({
       next: res => {
-        FileCardComponent.reportProgress(res);
-        this.fileStatus = 'progress';
+        this.reportProgress(res);
+        this.hideBar = false;
       },
       error: () => {
         this.dialogService.openDataErrorDialog();
@@ -102,12 +99,11 @@ export class FileCardComponent implements OnInit {
   }
 
   onDownloadFiles(filename: string): void {
-    const pageId = this.page?.id;
 
-    this.fileService.download(filename, pageId!).subscribe({
+    this.fileService.download(filename, this.page.id).subscribe({
       next: res => {
-        FileCardComponent.reportProgress(res);
-        this.fileStatus = 'progress';
+        this.reportProgress(res);
+        this.hideBar = false;
       },
       error: () => {
         this.dialogService.openDataErrorDialog();
@@ -115,7 +111,7 @@ export class FileCardComponent implements OnInit {
     });
   }
 
-  private static reportProgress(event: HttpEvent<string[] | Blob>): void {
+  private reportProgress(event: HttpEvent<string[] | Blob>): void {
     switch (event.type) {
       case HttpEventType.UploadProgress:
         break;
@@ -124,12 +120,10 @@ export class FileCardComponent implements OnInit {
       case HttpEventType.ResponseHeader:
         break;
       case HttpEventType.Response:
-        if (event.body instanceof Array) {
-          window.location.reload();
-        } else {
+        if (!(event.body instanceof Array)) {
           saveAs(new File([event.body!], event.headers.get('File-Name')!, {type: `${event.headers.get('Content-Type')};charset=utf-8`}));
-          window.location.reload();
         }
+        this.loadFiles(this.page.id)
         break;
       default:
         break;

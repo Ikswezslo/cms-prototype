@@ -156,5 +156,6 @@
   "UPLOADED_BY": "Uploaded by",
   "NO_FILES": "No files uploaded yet.",
   "DELETE_FILE_DESCRIPTION": "Are you sure you want to delete this file? This operation cannot be undone.",
+  "DELETE_FILE_CONFIRMATION": "File deleted successfully.",
   "DELETE_FILE_ERROR": "Error occured during deleting file."
 }

@@ -9,7 +9,7 @@
             <mat-icon> publish</mat-icon>
           </label>
         </div>
-        <div fxFlex *ngIf="fileStatus === 'progress'" class="progress">
+        <div fxFlex [hidden]="hideBar" class="progress">
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </div>
       </form>
