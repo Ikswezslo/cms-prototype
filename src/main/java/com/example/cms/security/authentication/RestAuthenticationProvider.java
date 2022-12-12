@@ -5,6 +5,7 @@ import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -30,6 +31,9 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         User user = repository.findByUsername(username).orElse(null);
         if (user != null) {
             LoggedUser loggedUser = new LoggedUser(user);
+            if (!loggedUser.isEnabled()) {
+                throw new DisabledException("Account is disabled");
+            }
             if (passwordEncoder.matches(password, loggedUser.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(new LoggedUser(user), password,
                         loggedUser.getAuthorities());
