@@ -38,7 +38,6 @@ public class PageService {
             if (!isPageVisible(page.getParent())) {
                 page.setParent(null);
             }
-            // TODO: if university is hidden then page is hidden?
             return PageDtoDetailed.of(page, findVisibleSubpages(Sort.by("title"), page));
         }).orElseThrow(NotFoundException::new);
     }
@@ -107,7 +106,8 @@ public class PageService {
     }
 
     private boolean isPageVisible(Page page) {
-        return page != null && !(page.isHidden() && securityService.isForbiddenPage(page));
+        return page != null && !((page.isHidden() || page.getUniversity().isHidden()) &&
+                securityService.isForbiddenPage(page));
     }
 
     @Secured("ROLE_USER")
