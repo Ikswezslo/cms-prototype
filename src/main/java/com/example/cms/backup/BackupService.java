@@ -61,10 +61,13 @@ public class BackupService {
         List<File> files = new ArrayList<>();
         while (tables.next()) {
             String tableName = tables.getString("TABLE_NAME");
-            File file = new File(String.format("%s/%s.txt", backupPath, tableName));
+            File file = new File(String.format("%s/%s.bin", backupPath, tableName));
             files.add(file);
             writeTableToFile(file, tableName, copyManager);
         }
+        File file = new File(String.format("%s/%s.bin", backupPath, "pg_largeobject"));
+        files.add(file);
+        writeTableToFile(file, "pg_largeobject", copyManager);
 
         zipService.zipArchive(files, Paths.get(String.format("%s/%s.zip", backupPath, backupName)));
         FileUtils.deleteFiles(files);
@@ -72,7 +75,7 @@ public class BackupService {
 
     private void writeTableToFile(File file, String table, CopyManager copyManager) throws IOException, SQLException {
         try (var writer = new BufferedWriter(new FileWriter(file))) {
-            copyManager.copyOut(String.format("COPY %s TO STDOUT", table), writer);
+            copyManager.copyOut(String.format("COPY %s TO STDOUT WITH (FORMAT BINARY)", table), writer);
         }
     }
 
