@@ -86,6 +86,7 @@ import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { BackupListComponent } from './backup/backup-list/backup-list.component';
 import {MatTableModule} from "@angular/material/table";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -190,7 +191,8 @@ export function SetupApp(setup: SetupService) {
     MatGridListModule,
     MatChipsModule,
     MatProgressBarModule,
-    MatTableModule
+    MatTableModule,
+    MatTooltipModule
   ],
   providers: [
     SetupService,

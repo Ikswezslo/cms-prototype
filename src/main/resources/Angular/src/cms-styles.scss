@@ -62,3 +62,10 @@ $base-container-width: 1000px;
 .cms-card-secondary-color {
   background-color: #EFEFEF !important;
 }
+
+.mat-tooltip {
+  &.cms-tooltip {
+    font-size: 12px;
+    margin: 0 !important;
+  }
+}

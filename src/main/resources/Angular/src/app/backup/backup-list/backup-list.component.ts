@@ -25,8 +25,8 @@ export class BackupListComponent implements OnInit {
   loadBackups() {
     this.backupService.getBackups().subscribe(next => {
       this.backups = next.sort((a, b) => b.name.localeCompare(a.name))
-        .map((value, index) => {
-          return {...value, position: index + 1} as BackupItem
+        .map((value, index, array) => {
+          return {...value, position: array.length - index} as BackupItem
         });
     });
   }
