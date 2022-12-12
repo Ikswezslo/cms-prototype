@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Page} from "../../../assets/models/page";
+import {SecurityService} from "../../../assets/service/security.service";
 
 @Component({
   selector: 'app-page-card',
@@ -11,7 +12,7 @@ export class PageCardComponent implements OnInit {
   @Input() page?: Page;
   @Input() config: PageCardConfig = {} as PageCardConfig
 
-  constructor() {
+  constructor(public securityService: SecurityService) {
   }
 
   ngOnInit(): void {

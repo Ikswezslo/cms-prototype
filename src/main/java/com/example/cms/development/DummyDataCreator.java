@@ -505,6 +505,14 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 3L
         ));
 
+        universityService.modifyHiddenField(1L, false);
+        universityService.modifyHiddenField(2L, false);
+        universityService.modifyHiddenField(3L, false);
+        universityService.modifyHiddenField(5L, false);
+        universityService.modifyHiddenField(6L, false);
+        universityService.modifyHiddenField(8L, false);
+        universityService.modifyHiddenField(10L, false);
+
         universityService.enrollUsersToUniversity(1L, 4L);
         universityService.enrollUsersToUniversity(1L, 17L);
         universityService.enrollUsersToUniversity(1L, 18L);
