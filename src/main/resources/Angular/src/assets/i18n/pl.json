@@ -160,6 +160,7 @@
   "UPLOAD_DATE": "Data dodania",
   "UPLOADED_BY": "Dodano przez",
   "NO_FILES": "Nie dodano jeszcze żadnego pliku.",
+  "DELETE_FILE_CONFIRMATION": "Usuwanie pliku powiodło sie.",
   "DELETE_FILE_DESCRIPTION": "Czy na pewno chcesz usunąć ten plik? Ta operacja jest nieodwracalna.",
   "DELETE_FILE_ERROR": "Wystąpił problem podczas usuwania pliku."
 }

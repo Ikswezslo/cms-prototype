@@ -15,7 +15,7 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     boolean existsByParent(Page parent);
 
     @Query("from Page where " +
-            "(hidden = false) or " +
+            "(hidden = false and university.hidden = false) or " +
             "(:role = 'ADMIN') or" +
             "(:role= 'MODERATOR' and university.id in :universities) or " +
             "(:role = 'USER' and creator.id = :creator)")
@@ -24,7 +24,7 @@ public interface PageRepository extends JpaRepository<Page, Long> {
                            @Param("universities") List<Long> universities,
                            @Param("creator") Long creator);
 
-    @Query("from Page where hidden = false")
+    @Query("from Page where hidden = false and university.hidden = false")
     List<Page> findVisible(Pageable pageable);
 
     List<Page> findAllByParent(Sort sort, Page parent);
@@ -32,13 +32,13 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     @Query("from Page where " +
             "(LOWER(title) LIKE :text " +
             "OR LOWER(description) LIKE :text) and" +
-            "(hidden = false)")
+            "(hidden = false and university.hidden = false)")
     List<Page> searchPages(Pageable pageable, @Param("text") String text);
 
     @Query("from Page where " +
             "(LOWER(title) LIKE :text " +
             "OR LOWER(description) LIKE :text) and" +
-            "((hidden = false) or " +
+            "((hidden = false and university.hidden = false) or " +
             "(:role = 'ADMIN') or" +
             "(:role= 'MODERATOR' and university.id in :universities) or " +
             "(:role = 'USER' and creator.id = :creator))")

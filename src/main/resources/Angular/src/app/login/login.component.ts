@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from 'src/assets/service/user.service';
 import {ErrorHandlerService} from "../../assets/service/error-handler.service";
+import {DialogService} from "../../assets/service/dialog.service";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private userService: UserService,
     private router: Router,
-    private errorHandler: ErrorHandlerService) {
+    private errorHandler: ErrorHandlerService,
+    private dialogService: DialogService) {
   }
 
   ngOnInit(): void {
@@ -35,8 +37,9 @@ export class LoginComponent implements OnInit {
         })
       },
       error: err => {
-        if (err.status == "401") {
+        if (err.status === 401) {
           this.user = {username: '', password: ''};
+          this.dialogService.openDataErrorDialog(err.message)
         } else
             this.errorHandler.handleError(err);
       }
