@@ -85,6 +85,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatTableModule} from "@angular/material/table";
+import {DialogPageEditBasicComponent} from './page/dialog-page-edit-basic/dialog-page-edit-basic.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -130,7 +131,8 @@ export function SetupApp(setup: SetupService) {
     DialogTemplateChangeNameComponent,
     TemplateSelectorComponent,
     DialogTemplateLoadComponent,
-    FileCardComponent
+    FileCardComponent,
+    DialogPageEditBasicComponent
   ],
   imports: [
     BrowserModule,
