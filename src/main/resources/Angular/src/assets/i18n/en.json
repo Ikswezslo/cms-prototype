@@ -157,5 +157,10 @@
   "NO_FILES": "No files uploaded yet.",
   "DELETE_FILE_DESCRIPTION": "Are you sure you want to delete this file? This operation cannot be undone.",
   "DELETE_FILE_CONFIRMATION": "File deleted successfully.",
-  "DELETE_FILE_ERROR": "Error occured during deleting file."
+  "DELETE_FILE_ERROR": "Error occurred during deleting file.",
+  "EDIT_INFORMATION": "Edit information",
+  "CHANGING_BASE_INFORMATION": "Changing basic information",
+  "INFORMATION_CHANGED": "Basic information changed successfully.",
+  "UPDATING_PAGE_ERROR": "Error has occurred during editing page.",
+  "CHANGING_CREATOR": "Changing author"
 }

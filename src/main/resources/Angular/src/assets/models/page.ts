@@ -14,11 +14,16 @@ export interface Page {
     createdOn: string;
     updatedOn: string;
 }
-export interface PageForm{
+export interface PageForm {
   id: number;
   title: string;
   description: string;
   content: string;
   creatorId: number;
   parentId: number;
+}
+
+export interface PageUpdateForm {
+  title: string;
+  description: string;
 }
