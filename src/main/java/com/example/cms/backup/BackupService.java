@@ -1,21 +1,23 @@
 package com.example.cms.backup;
 
+import com.example.cms.file.FileUtils;
+import com.example.cms.validation.exceptions.NotFoundException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +31,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class BackupService {
+    @Getter
+    private final Path restoreMainPath = Path.of("./db-resources/restore/");
+    @Getter
+    private final Path backupsMainPath = Path.of("./db-resources/backups/");
+    private static final String LARGE_OBJECT_TABLE = "pg_largeobject";
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
     private final ZipService zipService;
@@ -49,48 +56,53 @@ public class BackupService {
     }
 
     @Secured("ROLE_ADMIN")
+    @Transactional
     public void exportBackup(String backupName) throws SQLException, IOException {
         Connection connection = getConnection();
         CopyManager copyManager = createCopyManager(connection);
-
-        Path backupPath = Paths.get(String.format("./backups/%s/", backupName));
+        Path backupPath = backupsMainPath.resolve(backupName).normalize();
         Files.createDirectories(backupPath);
+        Files.createDirectories(restoreMainPath);
 
         ResultSet tables = connection.getMetaData().getTables(null, "public",
                 "%", new String[]{"TABLE"});
         List<File> files = new ArrayList<>();
         while (tables.next()) {
             String tableName = tables.getString("TABLE_NAME");
-            File file = new File(String.format("%s/%s.bin", backupPath, tableName));
+            File file = backupPath.resolve(tableName.concat(".txt")).toFile();
             files.add(file);
             writeTableToFile(file, tableName, copyManager);
         }
-        File file = new File(String.format("%s/%s.bin", backupPath, "pg_largeobject"));
+        File file = backupPath.resolve(LARGE_OBJECT_TABLE.concat(".txt")).toFile();
         files.add(file);
-        writeTableToFile(file, "pg_largeobject", copyManager);
+        writeTableToFile(file, LARGE_OBJECT_TABLE, copyManager);
 
-        zipService.zipArchive(files, Paths.get(String.format("%s/%s.zip", backupPath, backupName)));
+        zipService.zipArchive(files, backupPath.resolve(backupName.concat(".zip")));
         FileUtils.deleteFiles(files);
     }
 
     private void writeTableToFile(File file, String table, CopyManager copyManager) throws IOException, SQLException {
         try (var writer = new BufferedWriter(new FileWriter(file))) {
-            copyManager.copyOut(String.format("COPY %s TO STDOUT WITH (FORMAT BINARY)", table), writer);
+            copyManager.copyOut(String.format("COPY %s TO STDOUT", table), writer);
         }
     }
 
     @Secured("ROLE_ADMIN")
+    @Transactional
     public void importBackup(String backupName) throws IOException, SQLException {
-        Path backupPath = Paths.get(String.format("./backups/%s/", backupName));
-        File zipArchive = new File(String.format("%s/%s.zip", backupPath, backupName));
-        zipService.unzipArchive(zipArchive.toPath());
-        Files.delete(zipArchive.toPath());
+        Path zipPath = restoreMainPath.resolve(backupName.concat(".zip"));
+
+        zipService.unzipArchive(zipPath);
+        Files.delete(zipPath);
 
         CopyManager copyManager = createCopyManager(getConnection());
 
-        List<File> files = Arrays.stream(Optional.ofNullable(backupPath.toFile().listFiles()).orElseThrow(() -> {
-            throw new BackupException("Can't get backup files");
-        })).filter(File::isFile).collect(Collectors.toList());
+        List<File> files = Arrays.stream(Optional.ofNullable(restoreMainPath.toFile().listFiles()).orElseThrow(() -> {
+                    throw new BackupException("Can't get backup files");
+                }))
+                .filter(File::isFile)
+                .filter(file -> !file.getName().equals(LARGE_OBJECT_TABLE.concat(".txt")))
+                .collect(Collectors.toList());
 
         List<String> tableNames = files.stream()
                 .map(file -> file.getName().substring(0, file.getName().lastIndexOf('.')))
@@ -103,10 +115,14 @@ public class BackupService {
             readTableFromFile(files.get(i).getPath(), tableNames.get(i), copyManager);
         }
 
+        entityManager.createNativeQuery("DELETE FROM pg_largeobject").executeUpdate();
+        readTableFromFile(restoreMainPath.resolve(LARGE_OBJECT_TABLE.concat(".txt")).toString(),
+                LARGE_OBJECT_TABLE, copyManager);
+
         executeQueryOnTables(tableNames, "ALTER TABLE %s ENABLE TRIGGER ALL");
 
+        Files.delete(restoreMainPath.resolve("pg_largeobject.txt"));
         FileUtils.deleteFiles(files);
-        Files.delete(backupPath);
     }
 
     private void readTableFromFile(String path, String table, CopyManager copyManager) throws IOException, SQLException {
@@ -122,19 +138,36 @@ public class BackupService {
 
     @Secured("ROLE_ADMIN")
     public List<BackupDto> getBackups() {
-        Path backupPath = Paths.get("./backups");
-        List<File> files = Arrays.stream(Optional.ofNullable(backupPath.toFile().listFiles()).orElseThrow(() -> {
+        List<File> files = Arrays.stream(Optional.ofNullable(backupsMainPath.toFile().listFiles()).orElseThrow(() -> {
             throw new BackupException("Can't get backup directories");
         })).filter(File::isDirectory).collect(Collectors.toList());
 
-        return files.stream().map(file -> {
-            File zipFile = new File(String.format("%s/%s/%s.zip", backupPath, file.getName(), file.getName()));
-            return new BackupDto(file.getName(), FileUtils.humanReadableByteCountSI(zipFile.length()));
+        return files.stream().map(File::getName).map(fileName -> {
+            File zipFile = backupsMainPath.resolve(fileName).resolve(fileName.concat(".zip")).toFile();
+            return new BackupDto(fileName, FileUtils.humanReadableByteCountSI(zipFile.length()));
         }).collect(Collectors.toList());
     }
 
+    @Secured("ROLE_ADMIN")
     public FileSystemResource getBackupFile(String backupName) {
-        Path path = Path.of(String.format("./backups/%s/%s.zip", backupName, backupName));
-        return new FileSystemResource(path);
+        try {
+            Path path = backupsMainPath.resolve(backupName).resolve(backupName.concat(".zip"))
+                    .normalize().toRealPath();
+            return new FileSystemResource(path);
+        } catch (IOException e) {
+            throw new NotFoundException();
+        }
+    }
+
+    @Secured("ROLE_ADMIN")
+    public void deleteBackupFile(String backupName) {
+        try {
+            Path path = backupsMainPath.resolve(backupName).resolve(backupName.concat(".zip"))
+                    .normalize().toRealPath();
+            Files.delete(path);
+            Files.delete(path.getParent());
+        } catch (IOException e) {
+            throw new NotFoundException();
+        }
     }
 }

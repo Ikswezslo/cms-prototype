@@ -1,18 +1,17 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
-
     <mat-card>
-      <h2 mat-card-title align="center">Kopie zapasowe bazy danych</h2>
+      <h2 mat-card-title>{{'BACKUP.TITLE' | translate}}</h2>
       <mat-card-content fxLayout='column' fxLayoutAlign="center center">
         <h3>
-          <span>Ostatnia kopia została utworzona: </span>
-          <b>2 godziny temu</b>
+          <span>{{'BACKUP.TIME_SINCE' | translate}}</span>
+          <b>{{timeSinceLastBackup}}</b>
         </h3>
         <h3>
-          <span>Liczba utworzonych kopii: </span>
+          <span>{{'BACKUP.NUMBER_OF' | translate}}</span>
           <b>{{backups.length}}</b>
         </h3>
-        <button mat-stroked-button color="primary" (click)="createBackup()">
-          Utwórz kopię zapasową
+        <button mat-stroked-button color="primary" [disabled]="createBackupPending" (click)="createBackup()">
+          {{'BACKUP.CREATE_NEW' | translate}}
         </button>
       </mat-card-content>
     </mat-card>
@@ -22,17 +21,17 @@
         <table mat-table [dataSource]="backups">
 
           <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef><b>No.</b></th>
+            <th mat-header-cell *matHeaderCellDef>{{'BACKUP.POSITION_COL' | translate}}</th>
             <td mat-cell *matCellDef="let backup">{{backup.position}}</td>
           </ng-container>
 
           <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef><b>Date</b></th>
+            <th mat-header-cell *matHeaderCellDef>{{'BACKUP.DATE_COL' | translate}}</th>
             <td mat-cell *matCellDef="let backup"> {{backup.name | date:'dd-MM-yyyy HH:mm'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="size">
-            <th mat-header-cell *matHeaderCellDef><b>Size</b></th>
+            <th mat-header-cell *matHeaderCellDef>{{'BACKUP.SIZE_COL' | translate}}</th>
             <td mat-cell *matCellDef="let backup"> {{backup.size}} </td>
           </ng-container>
 
@@ -40,17 +39,19 @@
             <th mat-header-cell *matHeaderCellDef>  </th>
             <td mat-cell *matCellDef="let backup">
               <button color="warn" mat-icon-button
+                      (click)="deleteBackup(backup)"
                       [matTooltipPosition]="'left'"
                       [matTooltipShowDelay]="700"
                       matTooltipClass="cms-tooltip"
-                      matTooltip="Usuń kopię zapasową">
+                      [matTooltip]="'BACKUP.DElETE_TOOLTIP' | translate">
                 <mat-icon>delete</mat-icon>
               </button>
               <button color="primary" mat-icon-button
-                      [matTooltipPosition]="'right'"
+                      (click)="downloadBackup(backup)"
                       [matTooltipShowDelay]="700"
+                      [matTooltipPosition]="'right'"
                       matTooltipClass="cms-tooltip"
-                      matTooltip="Pobierz kopię zapasową">
+                      [matTooltip]="'BACKUP.DOWNLOAD_TOOLTIP' | translate">
                 <mat-icon>download</mat-icon>
               </button>
             </td>
@@ -61,7 +62,6 @@
         </table>
       </mat-card-content>
     </mat-card>
-
 </div>
 
 

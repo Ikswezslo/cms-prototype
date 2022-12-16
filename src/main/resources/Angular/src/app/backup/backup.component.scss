@@ -1,5 +1,9 @@
 $border-color: solid rgba(0,0,0,.12);
 
+[mat-card-title] {
+  text-align: center;
+}
+
 table {
   border-top: 1px $border-color;
   width: 100%;
@@ -30,4 +34,14 @@ mat-card-content h3, button {
   border-left: 1px $border-color;
   border-right: 1px $border-color;
   text-align: end;
+}
+
+[mat-header-cell] {
+  color: black;
+  font-weight: bold;
+  background-color: whitesmoke;
+}
+
+[mat-icon-button]:hover {
+  filter: brightness(85%);
 }

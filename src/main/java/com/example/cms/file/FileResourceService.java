@@ -23,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +38,7 @@ public class FileResourceService {
     private final SecurityService securityService;
 
     public ResponseEntity<Resource> downloadFiles(Long pageId, String filename) {
+        // TODO: Add security
 
         Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
         FileResource fileResource = new FileResource();
@@ -73,6 +72,7 @@ public class FileResourceService {
     }
 
     public List<FileDtoSimple> getAll(Long pageId) {
+        // TODO: Add security
         List<Object[]> objects = fileRepository.findAllByPage(pageId);
 
         return prepareProjectionOutput(objects);
@@ -110,7 +110,7 @@ public class FileResourceService {
         fileResource.setUploadedBy(user.getUsername());
         fileResource.setPage(page);
         fileResource.setFilename(StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename())));
-        fileResource.setFileSize(humanReadableByteCountSI(multipartFile.getSize()));
+        fileResource.setFileSize(FileUtils.humanReadableByteCountSI(multipartFile.getSize()));
         fileResource.setFileType(multipartFile.getContentType());
         fileResource.setData(multipartFile.getBytes());
 
@@ -125,18 +125,5 @@ public class FileResourceService {
         }
         return output;
     }
-
-    private static String humanReadableByteCountSI(long bytes) {
-        if (-1024 < bytes && bytes < 1024) {
-            return bytes + " B";
-        }
-        CharacterIterator ci = new StringCharacterIterator("kMGTPE");
-        while (bytes <= -999_950 || bytes >= 999_950) {
-            bytes /= 1024;
-            ci.next();
-        }
-        return String.format("%.1f %cB", bytes / 1024.0, ci.current());
-    }
-
 
 }

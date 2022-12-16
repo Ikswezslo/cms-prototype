@@ -151,7 +151,19 @@
   },
   "BACKUP": {
     "ONE": "Kopia zapasowa",
-    "MANY": "Kopie zapasowe"
+    "MANY": "Kopie zapasowe",
+    "TITLE": "Kopie zapasowe bazy danych",
+    "TIME_SINCE": "Czas od wykonania ostatniej kopii: ",
+    "NUMBER_OF": "Liczba utworzonych kopii: ",
+    "CREATE_NEW": "Utwórz kopię zapasową",
+    "CREATE_SUCCESS": "Kopia zapasowa została utworzona",
+    "DELETE_SUCCESS": "Kopia zapasowa została usunięta",
+    "POSITION_COL": "Nr",
+    "DATE_COL": "Data",
+    "SIZE_COL": "Rozmiar",
+    "DElETE_TOOLTIP": "Usuń kopię zapasową",
+    "DOWNLOAD_TOOLTIP": "Pobierz kopię zapasową",
+    "NO_BACKUPS": "---"
   },
   "UPLOAD_FILE": "Wyślij plik",
   "FILENAME": "Nazwa pliku",
