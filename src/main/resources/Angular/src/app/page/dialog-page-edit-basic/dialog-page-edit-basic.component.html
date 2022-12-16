@@ -1,0 +1,19 @@
+<div class="form-input">
+  <h2> {{"CHANGING_BASE_INFORMATION" | translate}}</h2>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>{{"TITLE" | translate}}</mat-label>
+      <input matInput required [(ngModel)]="title" [formControl]="titleValid">
+      <mat-error *ngIf="titleValid.hasError('required')">{{"TITLE_REQUIRED" | translate}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{"DESCRIPTION" | translate}}</mat-label>
+      <input matInput required [(ngModel)]="description" [formControl]="descriptionValid">
+      <mat-error *ngIf="descriptionValid.hasError('required')">{{"DESCRIPTION_REQUIRED" | translate}}</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<span>
+    <button mat-stroked-button class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
+    <button mat-stroked-button class="button-option" (click)="changePageInformation()">{{"SAVE" | translate}}</button>
+</span>

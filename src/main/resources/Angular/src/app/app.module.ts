@@ -86,6 +86,7 @@ import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {BackupComponent} from './backup/backup.component';
 import {MatTableModule} from "@angular/material/table";
+import {DialogPageEditBasicComponent} from './page/dialog-page-edit-basic/dialog-page-edit-basic.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 
 export function SetupApp(setup: SetupService) {
@@ -133,7 +134,8 @@ export function SetupApp(setup: SetupService) {
     TemplateSelectorComponent,
     DialogTemplateLoadComponent,
     FileCardComponent,
-    BackupComponent
+    BackupComponent,
+    DialogPageEditBasicComponent
   ],
   imports: [
     BrowserModule,

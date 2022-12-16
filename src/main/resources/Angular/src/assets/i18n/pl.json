@@ -174,5 +174,10 @@
   "NO_FILES": "Nie dodano jeszcze żadnego pliku.",
   "DELETE_FILE_CONFIRMATION": "Usuwanie pliku powiodło sie.",
   "DELETE_FILE_DESCRIPTION": "Czy na pewno chcesz usunąć ten plik? Ta operacja jest nieodwracalna.",
-  "DELETE_FILE_ERROR": "Wystąpił problem podczas usuwania pliku."
+  "DELETE_FILE_ERROR": "Wystąpił problem podczas usuwania pliku.",
+  "EDIT_INFORMATION": "Edytuj informacje",
+  "CHANGING_BASE_INFORMATION": "Zmiana podstawowych informacji",
+  "INFORMATION_CHANGED": "Podstawowe informacje został zmienione.",
+  "UPDATING_PAGE_ERROR": "Wystąpił błąd podczas edycji strony.",
+  "CHANGING_CREATOR": "Zmiana autora"
 }

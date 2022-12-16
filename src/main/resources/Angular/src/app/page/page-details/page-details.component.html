@@ -61,6 +61,11 @@
     <mat-icon>note_add</mat-icon>
     <span>{{"ADD_SUBPAGE" | translate}}</span>
   </button>
+  <button mat-menu-item (click)="editPage()"
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenPage(page)">
+    <mat-icon>edit</mat-icon>
+    <span>{{"EDIT_INFORMATION" | translate}}</span>
+  </button>
   <button mat-menu-item (click)="hiddenPage()"
           *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)
           && !page.hidden">

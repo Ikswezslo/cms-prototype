@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Page, PageForm} from 'src/assets/models/page';
+import {Page, PageForm, PageUpdateForm} from 'src/assets/models/page';
 import {Observable} from "rxjs";
 import {ErrorHandlerService} from "./error-handler.service";
 
@@ -72,8 +72,8 @@ export class PageService {
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  editPage(Page: PageForm, defaultErrorHandling: boolean = true): Observable<Page> {
-    return this.http.put<Page>(`${this.pageUrl}/${Page.id}`, Page, this.httpOptions)
+  editPage(pageId: Number, Page: PageUpdateForm, defaultErrorHandling: boolean = true): Observable<Page> {
+    return this.http.put<Page>(`${this.pageUrl}/${pageId}`, Page, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
