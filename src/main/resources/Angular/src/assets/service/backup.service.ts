@@ -15,7 +15,6 @@ export class BackupService {
     withCredentials: true
   };
 
-
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlerService

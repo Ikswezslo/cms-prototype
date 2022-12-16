@@ -15,6 +15,7 @@ export class BackupComponent implements OnInit {
   backups: BackupItem[] = [];
   timeSinceLastBackup = "";
   createBackupPending: boolean = false;
+  displayedColumns: string[] = ['position', 'date', 'size', 'actions'];
 
   constructor(
     private backupService: BackupService,
@@ -36,8 +37,6 @@ export class BackupComponent implements OnInit {
       this.updateTimeSinceLastBackup();
     });
   }
-
-  displayedColumns: string[] = ['position', 'date', 'size', 'actions'];
 
   createBackup() {
     this.dialogService.openConfirmationDialog().afterClosed().subscribe(value => {
