@@ -18,6 +18,8 @@ services:
   backend:
     build: ./
     container_name: backend
+    volumes:
+      - ./db-resources:/db-resources
     environment:
       - DB_SERVER=postgres
       - POSTGRES_DB=cms

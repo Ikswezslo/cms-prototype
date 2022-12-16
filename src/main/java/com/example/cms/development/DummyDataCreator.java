@@ -1,5 +1,7 @@
 package com.example.cms.development;
 
+import com.example.cms.backup.BackupException;
+import com.example.cms.backup.BackupService;
 import com.example.cms.page.PageService;
 import com.example.cms.page.projections.PageDtoFormCreate;
 import com.example.cms.security.Role;
@@ -8,6 +10,7 @@ import com.example.cms.university.UniversityService;
 import com.example.cms.university.projections.UniversityDtoFormCreate;
 import com.example.cms.user.UserService;
 import com.example.cms.user.projections.UserDtoFormCreate;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -16,6 +19,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -27,19 +36,45 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
     private final UserService userService;
     private final UniversityService universityService;
     private final TemplateService templateService;
+    private final BackupService backupService;
 
     @Override
-    public void onApplicationEvent(final ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NonNull final ContextRefreshedEvent event) {
         try {
             SecurityContext ctx = SecurityContextHolder.createEmptyContext();
             SecurityContextHolder.setContext(ctx);
             ctx.setAuthentication(CustomAuthenticationToken.create(Role.ADMIN, Set.of()));
 
-            createData();
-            log.info("Created dummy data");
+            Files.createDirectories(backupService.getRestoreMainPath());
+            Files.createDirectories(backupService.getBackupsMainPath());
+            tryToRestoreDatabase();
+        } catch (IOException e) {
+            throw new BackupException("Backup/restore folders can't be created");
         } finally {
             SecurityContextHolder.clearContext();
         }
+    }
+
+    private void tryToRestoreDatabase() {
+        Arrays.stream(Optional.ofNullable(backupService.getRestoreMainPath().toFile().listFiles()).orElseThrow(() -> {
+                    throw new BackupException("Can't get restore backup");
+                }))
+                .filter(File::isFile)
+                .map(File::getName)
+                .filter(fileName -> fileName.substring(fileName.lastIndexOf('.')).equals(".zip"))
+                .map(fileName -> fileName.substring(0, fileName.lastIndexOf('.')))
+                .findAny()
+                .ifPresentOrElse(backupName -> {
+                    try {
+                        backupService.importBackup(backupName);
+                    } catch (IOException | SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    log.info(String.format("Imported %s backup", backupName));
+                }, () -> {
+                    createData();
+                    log.info("Created dummy data");
+                });
     }
 
     private void createData() {

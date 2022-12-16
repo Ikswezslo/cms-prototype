@@ -84,8 +84,10 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
 import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {BackupComponent} from './backup/backup.component';
 import {MatTableModule} from "@angular/material/table";
 import {DialogPageEditBasicComponent} from './page/dialog-page-edit-basic/dialog-page-edit-basic.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -132,6 +134,7 @@ export function SetupApp(setup: SetupService) {
     TemplateSelectorComponent,
     DialogTemplateLoadComponent,
     FileCardComponent,
+    BackupComponent,
     DialogPageEditBasicComponent
   ],
   imports: [
@@ -168,6 +171,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'pages/:userId', component: PageUserComponent},
       {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
       {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
+      {path: 'backups', component: BackupComponent, title: 'Kopie zapasowe'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
       {path: 'search', component: SearchComponent, title: 'Search',}
     ]),
@@ -189,7 +193,8 @@ export function SetupApp(setup: SetupService) {
     MatGridListModule,
     MatChipsModule,
     MatProgressBarModule,
-    MatTableModule
+    MatTableModule,
+    MatTooltipModule
   ],
   providers: [
     SetupService,

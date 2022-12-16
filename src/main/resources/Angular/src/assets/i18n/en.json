@@ -149,6 +149,22 @@
     "DIALOG_LOAD_HEADER": "Loading template",
     "LOAD_CONFIRM_DESCRIPTION": "Are you sure you want to load the template? It will replace the entire content of the page."
   },
+  "BACKUP": {
+    "ONE": "Backup",
+    "MANY": "Backups",
+    "TITLE": "Database backups",
+    "TIME_SINCE": "Time since the last backup: ",
+    "NUMBER_OF": "Number of backups: ",
+    "CREATE_NEW": "Create backup",
+    "CREATE_SUCCESS": "Backup created successfully",
+    "DELETE_SUCCESS": "Backup deleted successfully",
+    "POSITION_COL": "No.",
+    "DATE_COL": "Date",
+    "SIZE_COL": "Size",
+    "DElETE_TOOLTIP": "Delete backup",
+    "DOWNLOAD_TOOLTIP": "Download backup",
+    "NO_BACKUPS": "---"
+  },
   "FILENAME": "File name",
   "TYPE": "File type",
   "SIZE": "File size",

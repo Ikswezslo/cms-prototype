@@ -149,6 +149,22 @@
     "DIALOG_LOAD_HEADER": "Wczytywanie szablonu",
     "LOAD_CONFIRM_DESCRIPTION": "Czy na pewno chcesz wczytać szablon? Zastąpi on całą zawartość strony."
   },
+  "BACKUP": {
+    "ONE": "Kopia zapasowa",
+    "MANY": "Kopie zapasowe",
+    "TITLE": "Kopie zapasowe bazy danych",
+    "TIME_SINCE": "Czas od wykonania ostatniej kopii: ",
+    "NUMBER_OF": "Liczba utworzonych kopii: ",
+    "CREATE_NEW": "Utwórz kopię zapasową",
+    "CREATE_SUCCESS": "Kopia zapasowa została utworzona",
+    "DELETE_SUCCESS": "Kopia zapasowa została usunięta",
+    "POSITION_COL": "Nr",
+    "DATE_COL": "Data",
+    "SIZE_COL": "Rozmiar",
+    "DElETE_TOOLTIP": "Usuń kopię zapasową",
+    "DOWNLOAD_TOOLTIP": "Pobierz kopię zapasową",
+    "NO_BACKUPS": "---"
+  },
   "FILENAME": "Nazwa pliku",
   "TYPE": "Typ pliku",
   "SIZE": "Rozmiar pliku",
