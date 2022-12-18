@@ -53,9 +53,8 @@ export class UsersListComponent implements OnInit {
           this.spinnerService.hide();
         this.users = res;
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog();
         }
       });
   }

@@ -45,11 +45,8 @@ export class DialogUniversityCreateComponent implements OnInit {
   createUniversity(){
     if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
       this.universityService.addNewUniversity(this.university).subscribe({
-        next: university => {
+        next: () => {
           this.dialogService.openSuccessDialog(this.translate.instant("ADDED_UNIVERSITY"));
-        },
-        error: err => {
-          this.dialogService.openDataErrorDialog(this.translate.instant("ADDED_UNIVERSITY_ERROR"));
         }
       });
       this.close();

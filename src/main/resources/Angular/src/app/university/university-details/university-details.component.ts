@@ -53,7 +53,7 @@ export class UniversityDetailsComponent implements OnInit {
     public securityService: SecurityService,
     private dialogService: DialogService,
     private translate: TranslateService
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
@@ -66,12 +66,9 @@ export class UniversityDetailsComponent implements OnInit {
     this.universityService.getUniversity(this.id)
       .subscribe({
         next: res => {
-        this.university = res;
-        },
-        error: err => {
-          this.dialogService.openDataErrorDialog();
-      }});
-
+          this.university = res;
+        }
+      });
   }
 
   hiddenUniversity() {
@@ -81,42 +78,23 @@ export class UniversityDetailsComponent implements OnInit {
   }
 
   deleteUniversity() {
-    const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
+    this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: this.translate.instant("DELETING") + " " + this.university.name,
         description: this.translate.instant("UNIVERSITY_DELETE_DESCRIPTION")
       }
-    });
-    deletingDialog.afterClosed().subscribe(res => {
+    }).afterClosed().subscribe(res => {
       if (res) {
-
         this.universityService.deleteUniversity(this.university.id).subscribe(
           {
             next: () => {
               this.dialogService.openSuccessDialog(this.translate.instant("DELETE_UNIVERSITY_CONFIRMATION"));
               this.router.navigateByUrl('/universities');
-            },
-            error: err => {
-              const errorDialog = this.dialog.open(ErrorDialogComponent, {
-                data: {
-                  description: err.message || this.translate.instant("DELETE_UNIVERSITY_ERROR")
-                }
-              });
-              errorDialog.afterClosed().subscribe({
-                next: () => {
-                  this.router.navigateByUrl('/university/' + this.university.id);
-                }
-              });
             }
           }
         );
-
-
-      } else {
-        this.router.navigateByUrl('/university/' + this.university.id);
       }
     });
-
   }
 
   startEdit() {

@@ -22,7 +22,7 @@ export class DialogPageCreateComponent implements OnInit {
 
   parentPage?: Page;
   template?: Template;
-  exiting: boolean = false;
+  pending: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogPageCreateComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
@@ -45,18 +45,15 @@ export class DialogPageCreateComponent implements OnInit {
       parentId: this.parentPage?.id
     } as PageForm
 
-    this.exiting = true;
+    this.pending = true;
 
     this.pageService.addNewPage(pageData).subscribe({
       next: page => {
         this.dialogService.openSuccessDialog(this.translate.instant("ADDED_PAGE"));
         this.dialogRef.close(page.id);
       },
-      error: err => {
-        this.exiting = false;
-        if (err.status === 400) {
-          this.dialogService.openDataErrorDialog(err.message);
-        }
+      error: () => {
+        this.pending = false;
       }
     });
   }

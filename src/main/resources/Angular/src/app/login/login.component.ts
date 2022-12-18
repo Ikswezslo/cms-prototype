@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.userService.login(this.user, false).subscribe({
-      next: data => {
+      next: () => {
         this.userService.getLoggedUser().subscribe({
           next: user => {
             this.userService.loggedUser = user;
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       error: err => {
         if (err.status === 401) {
           this.user = {username: '', password: ''};
-          this.dialogService.openDataErrorDialog(err.message)
+          this.dialogService.openErrorDialog(err.message)
         } else
             this.errorHandler.handleError(err);
       }

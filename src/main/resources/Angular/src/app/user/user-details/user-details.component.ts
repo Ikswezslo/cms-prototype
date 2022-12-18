@@ -81,9 +81,6 @@ export class UserDetailsComponent implements OnInit {
       .subscribe({
         next: res => {
           this.user = res;
-        },
-        error: err => {
-          this.dialogService.openDataErrorDialog();
         }
       });
   }
@@ -100,15 +97,7 @@ export class UserDetailsComponent implements OnInit {
     this.pageService.getCreatorPages(userId)
       .subscribe({
         next: res => {
-
           this.pages = res;
-        },
-        error: err => {
-          const errorDialog = this.dialog.open(ErrorDialogComponent, {
-            data: {
-              description: err.message
-            }
-          });
         }
       });
   }
@@ -127,22 +116,8 @@ export class UserDetailsComponent implements OnInit {
           next: () => {
             this.dialogService.openSuccessDialog(this.translate.instant("DELETE_USER_CONFIRMATION"));
             this.router.navigateByUrl('/accounts');
-          },
-          error: err => {
-            const errorDialog = this.dialog.open(ErrorDialogComponent, {
-              data: {
-                description: err.message || this.translate.instant("DELETE_USER_ERROR")
-              }
-            });
-            errorDialog.afterClosed().subscribe({
-              next: () => {
-                this.router.navigateByUrl('/account/' + this.user.id);
-              }
-            });
           }
         })
-      } else {
-        this.router.navigateByUrl('/account/' + this.user.id);
       }
     });
   }

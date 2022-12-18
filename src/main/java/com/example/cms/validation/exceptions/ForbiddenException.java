@@ -2,10 +2,9 @@ package com.example.cms.validation.exceptions;
 
 public class ForbiddenException extends RuntimeException {
     public ForbiddenException() {
-        super("ForbiddenException error");
+        super("ERRORS.403");
     }
-
-    public ForbiddenException(Class<?> c) {
-        super(c.getSimpleName());
+    public ForbiddenException(String message) {
+        super(message);
     }
 }

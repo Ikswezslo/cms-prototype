@@ -7,7 +7,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
 import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
-import {DialogService} from 'src/assets/service/dialog.service';
 import {SecurityService} from "../../../assets/service/security.service";
 import {DialogPageEditBasicComponent} from "../dialog-page-edit-basic/dialog-page-edit-basic.component";
 
@@ -40,13 +39,12 @@ export class PageDetailsComponent implements OnInit {
   };
 
   constructor(
+    public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private pageService: PageService,
     public securityService: SecurityService,
-    private sanitizer: DomSanitizer,
-    public dialog: MatDialog,
-    private dialogService: DialogService) {
+    private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -58,15 +56,11 @@ export class PageDetailsComponent implements OnInit {
 
   loadPage() {
     this.pageService.getPage(this.id)
-      .subscribe({
-        next: res => {
+      .subscribe(res => {
           this.page = res;
           this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
-        },
-        error: err => {
-          this.dialogService.openDataErrorDialog(err.message);
         }
-      });
+      );
   }
 
   hiddenPage() {

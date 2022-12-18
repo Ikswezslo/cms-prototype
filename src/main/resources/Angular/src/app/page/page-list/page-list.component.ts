@@ -66,9 +66,8 @@ export class PageListComponent implements OnInit {
               })
           });
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog();
         }
       });
     this.gridApi.sizeColumnsToFit();

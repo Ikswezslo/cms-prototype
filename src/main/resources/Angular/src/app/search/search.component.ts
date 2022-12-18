@@ -61,8 +61,6 @@ export class SearchComponent implements OnInit {
           this.pages = pages;
           this.universities = universities;
           this.users = users;
-        },
-        error: err => {
         }
       });
   }

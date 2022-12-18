@@ -50,9 +50,8 @@ export class UniversityListComponent implements OnInit {
           this.spinnerService.hide();
           this.universities = showHidden ? res : res.filter(element => !element.hidden);
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog();
         }
       });
     if(this.gridApi)

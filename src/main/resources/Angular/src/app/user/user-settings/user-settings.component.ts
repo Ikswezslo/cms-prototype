@@ -23,28 +23,10 @@ export class UserSettingsComponent implements OnInit {
   }
 
   loadUser() {
-    this.userService.getLoggedUser()
-      .subscribe({
-        next: res => {
+    this.userService.getLoggedUser().subscribe({
+      next: res => {
         this.user = res;
-        },
-        error: err => {
-          this.dialogService.openDataErrorDialog();
-      }});
+      },
+    });
   }
-
-  // startEdit() {
-  //   let dialogData = {
-  //     data: {
-  //       edit: true,
-  //       user: this.user
-  //     }
-  //   }
-  //
-  //
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.loadUsers();
-  //   });
-  // }
-
 }
