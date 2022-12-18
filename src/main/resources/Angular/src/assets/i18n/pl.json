@@ -194,6 +194,10 @@
     },
     "TEMPLATE": {
       "404": "Nie znaleziono szablonu"
+    },
+    "BACKUP": {
+      "400": "Błąd podczas importu/eksportu kopii zapasowej",
+      "404": "Nie znaleziono kopii zapasowej"
     }
   },
   "FILENAME": "Nazwa pliku",

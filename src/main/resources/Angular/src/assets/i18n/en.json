@@ -193,6 +193,10 @@
     },
     "TEMPLATE": {
       "404": "Template not found"
+    },
+    "BACKUP": {
+      "400": "Error occurred during backup import/export",
+      "404": "Backup not found"
     }
   },
   "FILENAME": "File name",
