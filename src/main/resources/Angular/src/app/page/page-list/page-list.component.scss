@@ -14,26 +14,3 @@
     color: black;
 
 }
-
-::ng-deep{
-    .ag-cell{
-        border-bottom: #328eff 1px solid;
-        background-color:  #d8eaff;
-    }
-    .ag-row:hover{
-        .ag-cell{
-            border-bottom: #328eff 1px solid;
-            background-color:  var(--base-button-blue);
-        }
-    }
-
-    .ag-header-cell{
-        background-color: var(--base-button-blue);
-        font:bold 25px
-    }
-    
-    .ag-header-cell:hover{
-        --ag-header-cell-hover-background-color: var(--base-button-blue) !important;
-        font:bold 25px
-    }
-}
