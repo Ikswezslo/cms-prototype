@@ -41,11 +41,10 @@ public class UniversityController {
     }
 
     @PutMapping("/{universityId}")
-    ResponseEntity<Void> updateUniversity(
+    UniversityDtoDetailed updateUniversity(
             @PathVariable long universityId,
             @RequestBody UniversityDtoFormUpdate form) {
-        service.update(universityId, form);
-        return ResponseEntity.noContent().build();
+        return service.update(universityId, form);
     }
 
     @PutMapping("/{universityId}/users/{userId}")
