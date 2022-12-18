@@ -24,6 +24,7 @@ import {
 import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
 import {SecurityService} from "../../../assets/service/security.service";
 import {TranslateService} from "@ngx-translate/core";
+import {ErrorHandlerService} from "../../../assets/service/error-handler.service";
 
 
 @Component({
@@ -56,11 +57,12 @@ export class UserDetailsComponent implements OnInit {
   };
 
   constructor(
+    public securityService: SecurityService,
+    public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    public securityService: SecurityService,
-    public dialog: MatDialog,
+    private errorHandler: ErrorHandlerService,
     private dialogService: DialogService,
     private pageService: PageService,
     private translate: TranslateService) {
@@ -97,6 +99,10 @@ export class UserDetailsComponent implements OnInit {
       .subscribe({
         next: res => {
           this.pages = res;
+        },
+        error: err => {
+          if(err.status !== 404)
+            this.errorHandler.handleError(err);
         }
       });
   }
