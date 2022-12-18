@@ -1,8 +1,12 @@
 <mat-card *ngIf="page" fxFlex
           [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
   <mat-card-title>
-    <span>{{page.title}}</span>
-    <mat-icon *ngIf="page.hidden">visibility_off</mat-icon>
+    <div>
+      <span [ngClass]="config.showLink? 'cms-link': 'null'" [routerLink]="['/page', page.id]">
+        <span>{{page.title}}</span>
+        <mat-icon *ngIf="page.hidden">visibility_off</mat-icon>
+      </span>
+    </div>
   </mat-card-title>
 
   <mat-card-subtitle>
@@ -37,12 +41,4 @@
     <p>{{page.description}}</p>
   </mat-card-content>
 
-  <mat-card-actions>
-    <button *ngIf="config.showGoToButton" mat-button [routerLink]="['/page', page.id]">
-      <mat-icon>launch</mat-icon>
-      <span>{{"GO_TO_PAGE" | translate}}</span>
-    </button>
-
-    <ng-content></ng-content>
-  </mat-card-actions>
 </mat-card>

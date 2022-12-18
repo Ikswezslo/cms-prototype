@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
 
   pageCardConfig: PageCardConfig = {
     useSecondaryColor: false,
-    showGoToButton: true,
+    showLink: true,
     showDescription: false,
     showUniversity: true,
     showCreatedOn: false,
@@ -62,7 +62,7 @@ export class SearchComponent implements OnInit {
           this.universities = universities;
           this.users = users;
         },
-        error: err => {
+        error: () => {
         }
       });
   }

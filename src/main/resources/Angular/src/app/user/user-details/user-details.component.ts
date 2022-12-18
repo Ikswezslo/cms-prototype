@@ -49,7 +49,7 @@ export class UserDetailsComponent implements OnInit {
 
   pageCardConfig: PageCardConfig = {
     useSecondaryColor: true,
-    showGoToButton: true,
+    showLink: true,
     showDescription: true,
     showUniversity: true,
     showCreatedOn: true,
@@ -82,7 +82,7 @@ export class UserDetailsComponent implements OnInit {
         next: res => {
           this.user = res;
         },
-        error: err => {
+        error: () => {
           this.dialogService.openDataErrorDialog();
         }
       });
@@ -104,7 +104,7 @@ export class UserDetailsComponent implements OnInit {
           this.pages = res;
         },
         error: err => {
-          const errorDialog = this.dialog.open(ErrorDialogComponent, {
+          this.dialog.open(ErrorDialogComponent, {
             data: {
               description: err.message
             }

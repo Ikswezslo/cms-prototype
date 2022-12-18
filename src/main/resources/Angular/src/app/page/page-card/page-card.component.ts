@@ -22,7 +22,7 @@ export class PageCardComponent implements OnInit {
 
 export interface PageCardConfig {
   useSecondaryColor: boolean;
-  showGoToButton: boolean;
+  showLink: boolean;
   showDescription: boolean;
   showUniversity: boolean;
   showCreatedOn: boolean;
