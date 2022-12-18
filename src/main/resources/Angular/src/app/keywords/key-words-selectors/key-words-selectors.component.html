@@ -1,6 +1,6 @@
 <div *ngIf="form" [formGroup]="form" class="container">
   <mat-form-field fxFlex="100" appearance="fill">
-    <mat-label>Słowa klucze </mat-label>
+    <mat-label>{{ "KEYWORD.MANY" | translate}} </mat-label>
     <mat-chip-list #chipGrid aria-label="Słowa kluczowe">
       <mat-chip *ngFor="let selectedKeyWord of selectedKeyWords" (removed)="remove(selectedKeyWord)">
         {{selectedKeyWord}}

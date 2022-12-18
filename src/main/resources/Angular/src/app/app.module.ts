@@ -83,6 +83,9 @@ import { KeyWordsSelectorsComponent } from './keywords/key-words-selectors/key-w
 import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { EditPageKeyWordsComponent } from './keywords/edit-page-key-words/edit-page-key-words.component';
+import { KeywordsComponent } from './keywords/keywords/keywords.component';
+import { MatTableModule } from '@angular/material/table';
+import { DialogInputKeywordsComponent } from './keywords/dialog-input-keywords/dialog-input-keywords.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -130,7 +133,9 @@ export function SetupApp(setup: SetupService) {
     DialogTemplateLoadComponent,
     KeyWordsSelectorsComponent,
     FileCardComponent,
-    EditPageKeyWordsComponent
+    EditPageKeyWordsComponent,
+    KeywordsComponent,
+    DialogInputKeywordsComponent
   ],
   imports: [
     BrowserModule,
@@ -152,6 +157,7 @@ export function SetupApp(setup: SetupService) {
     MatSnackBarModule,
     FlexLayoutModule,
     MatChipsModule,
+    MatTableModule,
     QuillModule.forRoot(),
     RouterModule.forRoot([
       {path: '', component: MainPageComponent, title: 'Strona główna'},
@@ -168,7 +174,8 @@ export function SetupApp(setup: SetupService) {
       {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
       {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
-      {path: 'search', component: SearchComponent, title: 'Search',}
+      {path: 'search', component: SearchComponent, title: 'Search',},
+      {path: 'keywords', component: KeywordsComponent, title: 'Keywords',}
     ]),
     BrowserAnimationsModule,
     BrowserModule,

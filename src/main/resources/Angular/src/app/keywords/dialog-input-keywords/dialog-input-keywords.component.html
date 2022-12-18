@@ -1,0 +1,12 @@
+<div class="form-input">
+    <div [formGroup]="form" class="row">
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>{{ "KEYWORD.ONE" | translate}} </mat-label>
+            <input matInput placeholder="Dodaj słowo klucz" [formControl]="keyWordsControl" [(ngModel)]="keyword.word" />
+        </mat-form-field>
+    </div>
+    <span>
+        <button mat-stroked-button color="warn" class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
+        <button mat-stroked-button color="primary" class="button-option" (click)="save()">{{"SAVE" | translate}}</button>
+    </span>
+</div>

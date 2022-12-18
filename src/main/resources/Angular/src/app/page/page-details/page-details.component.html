@@ -54,7 +54,7 @@
   <button mat-menu-item (click)="changeKeyWords()"
           *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)">
     <mat-icon>create</mat-icon>
-    <span>{{"EDIT_KEYWORDS" | translate}}</span>
+    <span>{{"KEYWORD.EDIT_MANY" | translate}}</span>
   </button>
   <button mat-menu-item (click)="changePageCreator()"
           *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenPage(page)">

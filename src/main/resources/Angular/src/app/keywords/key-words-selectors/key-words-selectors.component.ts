@@ -5,6 +5,7 @@ import { KeyWordsService } from 'src/assets/service/key-words.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { SpinnerService } from 'src/assets/service/spinner.service';
 
 @Component({
   selector: 'app-key-words-selectors',
@@ -21,7 +22,9 @@ export class KeyWordsSelectorsComponent implements OnInit {
   selectedKeyWords: string[] = [];
   filteredKeyWords!: Observable<string[]>;
   allKeyWords: string[] = [];
-  constructor(private keyWordsService: KeyWordsService) {
+  constructor(
+    private keyWordsService: KeyWordsService,
+    private spinnerService: SpinnerService) {
     this.filteredKeyWords = this.keyWordsControl.valueChanges.pipe(
       startWith(null),
       map((keyWord: string | null) => (keyWord ? this._filter(keyWord) : this.allKeyWords.slice())),
@@ -43,17 +46,15 @@ export class KeyWordsSelectorsComponent implements OnInit {
     }
   }
 
-  private objectTypeValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const valid = typeof control.value === "object";
-      return valid ? null : { forbiddenType: { value: control.value } };
-    };
-  }
-
   loadKeyWords() {
-    this.keyWordsService.getAllKeyWords()
-      .subscribe(res => {
+    this.spinnerService.show();
+
+    this.keyWordsService.getAllKeyWords().subscribe({
+      next: res => {
         this.allKeyWords = res.map(keyWord => keyWord['word']);
+        this.spinnerService.hide();
+      },
+      error: err => this.spinnerService.hide()
       });
   }
 

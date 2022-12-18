@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Keyword } from '../models/keywords';
 import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
@@ -20,13 +21,13 @@ export class KeyWordsService {
   ) {
   }
 
-  getKeyWord(id: number, defaultErrorHandling: boolean = true): Observable<string> {
-    return this.http.get<string>(`${this.keyWordsUrl}/${id}`, this.httpOptions)
+  getKeyWord(id: number, defaultErrorHandling: boolean = true): Observable<Keyword> {
+    return this.http.get<Keyword>(`${this.keyWordsUrl}/${id}`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  getAllKeyWords(defaultErrorHandling: boolean = true): Observable<string[]> {
-    return this.http.get<string[]>(this.keyWordsUrl + "/all", this.httpOptions)
+  getAllKeyWords(defaultErrorHandling: boolean = true): Observable<Keyword[]> {
+    return this.http.get<Keyword[]>(this.keyWordsUrl + "/all", this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
@@ -41,7 +42,7 @@ export class KeyWordsService {
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  deleteKeyWords(id: Number, defaultErrorHandling: boolean = true): Observable<any> {
+  deleteKeyWord(id: Number, defaultErrorHandling: boolean = true): Observable<any> {
     return this.http.delete<void>(`${this.keyWordsUrl}/${id}`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }

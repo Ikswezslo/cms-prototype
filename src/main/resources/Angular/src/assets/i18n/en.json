@@ -37,7 +37,6 @@
   "PARENT_PAGE": "Parent page",
   "SUBPAGE": "Subpage",
   "EDIT_CONTENT": "Edit content",
-  "EDIT_KEYWORDS": "Edit keywords",
   "CHANGE_AUTHOR": "Change author",
   "SHOW_DETAILS": "Show details",
   "ADD_SUBPAGE": "Add subpage",
@@ -154,5 +153,19 @@
   "TYPE": "File type",
   "SIZE": "File size",
   "UPLOAD_DATE": "Upload date",
-  "UPLOADED_BY": "Uploaded by"
+  "UPLOADED_BY": "Uploaded by",
+  "KEYWORD":{
+    "ONE": "Keyword",
+    "MANY": "Keywords",
+    "EDIT": "Edit",
+    "EDIT_MANY": "Edit keywords",
+    "ADD": "Add",
+    "DELETE": "Delete",
+    "AVAILABLE": "Available keywords",
+    "EDIT_MODE": "Edit mode",
+    "CLOSE": "Close",
+    "VIEW_MODE": "View mode"
+
+  }
+
 }

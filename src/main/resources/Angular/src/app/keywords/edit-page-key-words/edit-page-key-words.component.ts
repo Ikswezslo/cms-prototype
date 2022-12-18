@@ -12,27 +12,15 @@ import { PageService } from 'src/assets/service/page.service';
 export class EditPageKeyWordsComponent implements OnInit {
 
   listOfKeyWords: string[] = []; 
-  allKeyWords: string[] = [];
   form = new FormGroup({});
 
   constructor(
     private pageService: PageService,
-    private keyWordsService: KeyWordsService,
     public dialogRef: MatDialogRef<EditPageKeyWordsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EditPageKeyWordsData) { }
 
   ngOnInit(): void {
     this.listOfKeyWords = this.data.keyWords.length > 0 ? this.data.keyWords.split(',') : [];
-    this.loadAllKeyWords();
-
-  }
-  
-
-  loadAllKeyWords() {
-    this.keyWordsService.getAllKeyWords()
-      .subscribe(res => {
-        this.allKeyWords = res.map(keyWord => keyWord['word']);
-      });
   }
 
   onKeyWordsChanged(keyWords?: string[]) {

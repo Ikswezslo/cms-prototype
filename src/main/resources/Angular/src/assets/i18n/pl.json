@@ -1,13 +1,13 @@
 {
   "CURRENT_LANGUAGE": "Polski (pl)",
-  "UNIVERSITY":"Uniwersytet",
-  "UNIVERSITIES":"Uniwersytety",
-  "USER":"Użytkownik",
-  "USERS":"Użytkownicy",
+  "UNIVERSITY": "Uniwersytet",
+  "UNIVERSITIES": "Uniwersytety",
+  "USER": "Użytkownik",
+  "USERS": "Użytkownicy",
   "RECENTLY_ADDED_PAGES": "Ostatnio dodane strony",
-  "YES" : "Tak",
-  "NO" : "Nie",
-  "UNIVERSITY_DELETE_DESCRIPTION" : "Czy na pewno chcesz usunąć tę uczelnię? Może to wywołać inne zmiany.",
+  "YES": "Tak",
+  "NO": "Nie",
+  "UNIVERSITY_DELETE_DESCRIPTION": "Czy na pewno chcesz usunąć tę uczelnię? Może to wywołać inne zmiany.",
   "CONFIRM": "Potwierdź",
   "ARE_YOU_SURE": "Czy jesteś pewny?",
   "CLOSE": "Zamknij",
@@ -37,7 +37,6 @@
   "PARENT_PAGE": "Nadstrona",
   "SUBPAGE": "Podstrona",
   "EDIT_CONTENT": "Edytuj zawartość",
-  "EDIT_KEYWORDS": "Edytuj słowa klucze",
   "CHANGE_AUTHOR": "Zmień autora",
   "SHOW_DETAILS": "Pokaż szczegóły",
   "ADD_SUBPAGE": "Dodaj podstronę",
@@ -137,7 +136,7 @@
     "EDIT": "Edytuj",
     "RENAME": "Zmień nazwę",
     "DELETE": "Usuń",
-    "ADD_TO_UNIVERSITY":  "Dodaj do uniwersytetu",
+    "ADD_TO_UNIVERSITY": "Dodaj do uniwersytetu",
     "REMOVE_FROM_UNIVERSITY": "Usuń z uniwersytetu",
     "LOAD": "Wczytaj szablon",
     "PREVIEW": "Podgląd",
@@ -154,5 +153,18 @@
   "TYPE": "Typ pliku",
   "SIZE": "Rozmiar pliku",
   "UPLOAD_DATE": "Data dodania",
-  "UPLOADED_BY": "Dodano przez"
+  "UPLOADED_BY": "Dodano przez",
+  "KEYWORD": {
+    "ONE": "Słowo klucz",
+    "MANY": "Słowa klucze",
+    "EDIT": "Edytuj",
+    "EDIT_MANY": "Edytuj słowa klucze",
+    "ADD": "Dodaj",
+    "DELETE": "Usuń",
+    "AVAILABLE": "Dostępne słowa klucze",
+    "EDIT_MODE": "Tryb edycji",
+    "CLOSE": "Zamknij",
+    "VIEW_MODE": "Tryb widoku"
+
+  }
 }
