@@ -42,7 +42,8 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 
     @Query("from Page where " +
             "LOWER(title) LIKE :text " +
-            "OR LOWER(description) LIKE :text")
+            "OR LOWER(description) LIKE :text " +
+            "OR LOWER(keyWords) LIKE :text")
     List<Page> searchPages(@Param("text") String text);
 
     List<Page> findByParent(Page parent);

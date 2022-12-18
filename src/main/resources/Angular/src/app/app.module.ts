@@ -79,9 +79,10 @@ import { DialogTemplateChangeNameComponent} from './templates/dialog-template-ch
 import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
 import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { KeyWordsSelectorsComponent } from './key-words-selectors/key-words-selectors.component';
+import { KeyWordsSelectorsComponent } from './keywords/key-words-selectors/key-words-selectors.component';
 import {FileCardComponent} from './file-card/file-card.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { EditPageKeyWordsComponent } from './keywords/edit-page-key-words/edit-page-key-words.component';
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -128,7 +129,8 @@ export function SetupApp(setup: SetupService) {
     TemplateSelectorComponent,
     DialogTemplateLoadComponent,
     KeyWordsSelectorsComponent,
-    FileCardComponent
+    FileCardComponent,
+    EditPageKeyWordsComponent
   ],
   imports: [
     BrowserModule,

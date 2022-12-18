@@ -9,6 +9,8 @@ import {PageCardConfig} from "../page-card/page-card.component";
 import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
 import {DialogService} from 'src/assets/service/dialog.service';
 import {SecurityService} from "../../../assets/service/security.service";
+import { EditPageKeyWordsComponent } from 'src/app/keywords/edit-page-key-words/edit-page-key-words.component';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-page-details',
@@ -116,6 +118,19 @@ export class PageDetailsComponent implements OnInit {
       }
     }
     const dialogRef = this.dialog.open(DialogPageCreatorComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
+  }
+
+  changeKeyWords() {
+    let dialogData = {
+      data: {
+        id: this.page.id,
+        keyWords: this.page.keyWords
+      }
+    }
+    const dialogRef = this.dialog.open(EditPageKeyWordsComponent, dialogData);
     dialogRef.afterClosed().subscribe(() => {
       this.loadPage();
     });

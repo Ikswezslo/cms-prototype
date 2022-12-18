@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { KeyWordsService } from 'src/assets/service/key-words.service';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-key-words-selectors',
@@ -14,24 +14,28 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 export class KeyWordsSelectorsComponent implements OnInit {
 
   @Input() form?: FormGroup;
+  @Input() keyWords?: string[];
   @Output() keyWordsChanged = new EventEmitter<string[]>;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  keyWordsControl = new FormControl<string>('', [this.objectTypeValidator()]);
-  options: string[] = [];
-  filteredOptions!: Observable<string[]>;
-  allOptions: string[] = [];
-  constructor(private keyWordsService: KeyWordsService) { }
+  keyWordsControl = new FormControl<string>('');
+  selectedKeyWords: string[] = [];
+  filteredKeyWords!: Observable<string[]>;
+  allKeyWords: string[] = [];
+  constructor(private keyWordsService: KeyWordsService) {
+    this.filteredKeyWords = this.keyWordsControl.valueChanges.pipe(
+      startWith(null),
+      map((keyWord: string | null) => (keyWord ? this._filter(keyWord) : this.allKeyWords.slice())),
+    );
+  }
 
   ngOnInit(): void {
-    console.log("XXX")
+    if (this.keyWords) {
+      this.selectedKeyWords = this.keyWords;
+    }
     this.loadKeyWords();
     this.keyWordsControl.statusChanges.subscribe(status => {
-      if (status === "VALID") {
-        let value: string[] = this.options;
-        this.keyWordsChanged.emit(value);
-      } else {
-        this.keyWordsChanged.emit(undefined);
-      }
+      let value: string[] = this.selectedKeyWords;
+      this.keyWordsChanged.emit(value);
     })
 
     if (this.form) {
@@ -49,43 +53,39 @@ export class KeyWordsSelectorsComponent implements OnInit {
   loadKeyWords() {
     this.keyWordsService.getAllKeyWords()
       .subscribe(res => {
-        this.allOptions = res.map(keyWord => keyWord['word']);
-        this.filteredOptions = this.keyWordsControl.valueChanges.pipe(
-          startWith(null),
-          map((keyWord: string | null) => (keyWord ? this._filter(keyWord) : this.allOptions.slice())),
-        );
-        this.keyWordsControl.setValue('');
+        this.allKeyWords = res.map(keyWord => keyWord['word']);
       });
   }
 
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    if (value) {
-      this.options.push(value);
-    }
+    this.addToSelected((event.value || '').trim())
 
     event.chipInput!.clear();
-
     this.keyWordsControl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.options.indexOf(fruit);
+  remove(keyWord: string): void {
+    const index = this.selectedKeyWords.indexOf(keyWord);
 
     if (index >= 0) {
-      this.options.splice(index, 1);
+      this.selectedKeyWords.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.options.push(event.option.viewValue);
+    this.addToSelected(event.option.viewValue)
     this.keyWordsControl.setValue(null);
+  }
+
+  addToSelected(value) {
+    if (!this.selectedKeyWords.includes(value) && this.allKeyWords.includes(value)) {
+      this.selectedKeyWords.push(value);
+    }
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allOptions.filter(option => option.toLowerCase().includes(filterValue));
+    return this.allKeyWords.filter(option => option.toLowerCase().includes(filterValue) && !this.selectedKeyWords.includes(option));
   }
 }
