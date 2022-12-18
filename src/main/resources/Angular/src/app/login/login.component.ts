@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {UserService} from 'src/assets/service/user.service';
 import {ErrorHandlerService} from "../../assets/service/error-handler.service";
 import {DialogService} from "../../assets/service/dialog.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,12 @@ export class LoginComponent implements OnInit {
   user = {} as { username: string, password: string };
   showSpinner = false;
 
-  constructor(private userService: UserService,
+  constructor(
+    private userService: UserService,
     private router: Router,
     private errorHandler: ErrorHandlerService,
-    private dialogService: DialogService) {
+    private dialogService: DialogService,
+    private translateService: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -39,7 +42,8 @@ export class LoginComponent implements OnInit {
       error: err => {
         if (err.status === 401) {
           this.user = {username: '', password: ''};
-          this.dialogService.openErrorDialog(err.message)
+          this.dialogService.openErrorDialog(err.message ? this.translateService.instant(err.message) :
+            this.translateService.instant("ERRORS.401"))
         } else
             this.errorHandler.handleError(err);
       }

@@ -160,6 +160,7 @@
   },
   "ERRORS": {
     "400": "Invalid request",
+    "401": "Not authorized",
     "403": "No access",
     "404": "Resource not found",
     "500": "Server error",
@@ -197,6 +198,13 @@
     "BACKUP": {
       "400": "Error occurred during backup import/export",
       "404": "Backup not found"
+    },
+    "LOGIN": {
+      "401": {
+        "DISABLED": "Account is deactivated",
+        "WRONG_PASSWORD": "Wrong password",
+        "WRONG_USERNAME": "Wrong username"
+      }
     }
   },
   "FILENAME": "File name",

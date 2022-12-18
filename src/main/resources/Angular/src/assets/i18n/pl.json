@@ -158,9 +158,9 @@
     "DOWNLOAD_TOOLTIP": "Pobierz kopię zapasową",
     "NO_BACKUPS": "---"
   },
-
   "ERRORS": {
     "400": "Błędne zapytanie",
+    "401": "Brak autoryzacji",
     "403": "Brak dostępu",
     "404": "Nie znaleziono zasobu",
     "500": "Błąd serwera",
@@ -198,6 +198,13 @@
     "BACKUP": {
       "400": "Błąd podczas importu/eksportu kopii zapasowej",
       "404": "Nie znaleziono kopii zapasowej"
+    },
+    "LOGIN": {
+      "401": {
+        "DISABLED": "Konto jest zdezaktywowane",
+        "WRONG_PASSWORD": "Nieprawidłowe hasło",
+        "WRONG_USERNAME": "Nieprawidłowa nazwa użytkownika"
+      }
     }
   },
   "FILENAME": "Nazwa pliku",

@@ -22,7 +22,6 @@ import {
   DialogUserChangeAccountTypeComponent
 } from "../dialogs/dialog-user-change-account-type/dialog-user-change-account-type.component";
 import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
-import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
 import {SecurityService} from "../../../assets/service/security.service";
 import {TranslateService} from "@ngx-translate/core";
 
