@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("secured, h2")
 class PageControllerTest {
 
     @Autowired
@@ -52,7 +54,7 @@ class PageControllerTest {
     void succeed() throws Exception {
         ctx.setAuthentication(CustomAuthenticationToken.create(Role.ADMIN, Set.of()));
 
-        var result = mvc.perform(get("/pages/all").contentType(MediaType.APPLICATION_JSON))
+        var result = mvc.perform(get("/templates/all").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -62,15 +64,15 @@ class PageControllerTest {
 
     @Test
     void forbidden() throws Exception {
-        ctx.setAuthentication(CustomAuthenticationToken.create(Role.MODERATOR, Set.of()));
+        ctx.setAuthentication(CustomAuthenticationToken.create(Role.USER, Set.of()));
 
-        mvc.perform(get("/pages/all").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/templates/all").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void unauthorized() throws Exception {
-        mvc.perform(get("/pages/all").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/templates/all").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
 }

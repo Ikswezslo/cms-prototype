@@ -10,7 +10,7 @@ import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-cre
 import {DialogService} from 'src/assets/service/dialog.service';
 import {SecurityService} from "../../../assets/service/security.service";
 import { EditPageKeyWordsComponent } from 'src/app/keywords/edit-page-key-words/edit-page-key-words.component';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import {DialogPageEditBasicComponent} from "../dialog-page-edit-basic/dialog-page-edit-basic.component";
 
 @Component({
   selector: 'app-page-details',
@@ -65,7 +65,7 @@ export class PageDetailsComponent implements OnInit {
           this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
         },
         error: err => {
-          this.dialogService.openDataErrorDialog();
+          this.dialogService.openDataErrorDialog(err.message);
         }
       });
   }
@@ -100,11 +100,12 @@ export class PageDetailsComponent implements OnInit {
   editPage() {
     let dialogData = {
       data: {
-        edit: true,
-        page: this.page
+        id: this.page.id,
+        title: this.page.title,
+        description: this.page.description
       }
     }
-    const dialogRef = this.dialog.open(DialogPageCreateComponent, dialogData);
+    const dialogRef = this.dialog.open(DialogPageEditBasicComponent, dialogData);
     dialogRef.afterClosed().subscribe(() => {
       this.loadPage();
     });

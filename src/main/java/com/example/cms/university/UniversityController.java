@@ -4,8 +4,9 @@ import com.example.cms.university.projections.UniversityDtoDetailed;
 import com.example.cms.university.projections.UniversityDtoFormCreate;
 import com.example.cms.university.projections.UniversityDtoFormUpdate;
 import com.example.cms.university.projections.UniversityDtoSimple;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -13,13 +14,10 @@ import java.util.List;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "universities")
 public class UniversityController {
     private final UniversityService service;
-
-    public UniversityController(UniversityService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     public UniversityDtoDetailed getUniversity(@PathVariable long id) {
@@ -32,8 +30,8 @@ public class UniversityController {
     }
 
     @GetMapping("/search/{text}")
-    List<UniversityDtoSimple> searchUniversities(@PathVariable String text) {
-        return service.searchUniversities("%".concat(text.toLowerCase().concat("%")));
+    List<UniversityDtoSimple> searchUniversities(Pageable pageable, @PathVariable String text) {
+        return service.searchUniversities(pageable, "%".concat(text.toLowerCase().concat("%")));
     }
 
     @PostMapping
@@ -43,11 +41,10 @@ public class UniversityController {
     }
 
     @PutMapping("/{universityId}")
-    ResponseEntity<Void> updateUniversity(
+    UniversityDtoDetailed updateUniversity(
             @PathVariable long universityId,
             @RequestBody UniversityDtoFormUpdate form) {
-        service.update(universityId, form);
-        return ResponseEntity.noContent().build();
+        return service.update(universityId, form);
     }
 
     @PutMapping("/{universityId}/users/{userId}")
@@ -55,13 +52,6 @@ public class UniversityController {
             @PathVariable long universityId,
             @PathVariable long userId) {
         return service.enrollUsersToUniversity(universityId, userId);
-    }
-
-    @PutMapping("/{universityId}/pages/{pageID}")
-    public University connectMainPageToUniversity(
-            @PathVariable Long universityId,
-            @PathVariable Long pageID) {
-        return service.connectMainPageToUniversity(universityId, pageID);
     }
 
     @PatchMapping("/{id}/hidden")

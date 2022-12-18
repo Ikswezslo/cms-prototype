@@ -69,8 +69,8 @@ export class UserService {
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 
-  addUniversityToUser(id: Number, university: University, defaultErrorHandling: boolean = true): Observable<User> {
-    return this.http.post<User>(`${this.userUrl}/${id}/universities`, university.id, this.httpOptions)
+  updateUserEnrolledUniversities(id: Number, universitiesId: Number[], defaultErrorHandling: boolean = true): Observable<User> {
+    return this.http.put<User>(`${this.userUrl}/${id}/universities`, universitiesId, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 

@@ -1,0 +1,47 @@
+$border-color: solid rgba(0,0,0,.12);
+
+[mat-card-title] {
+  text-align: center;
+}
+
+table {
+  border-top: 1px $border-color;
+  width: 100%;
+}
+
+mat-card {
+  width: 600px;
+}
+
+mat-card-content h3, button {
+  text-align: center;
+}
+
+.mat-column-position {
+  border-left: 1px $border-color;
+  padding-right: 50px;
+}
+
+.mat-column-date {
+  padding-right: 50px;
+}
+
+.mat-column-size {
+  padding-right: 100px;
+}
+
+.mat-column-actions {
+  border-left: 1px $border-color;
+  border-right: 1px $border-color;
+  text-align: end;
+}
+
+[mat-header-cell] {
+  color: black;
+  font-weight: bold;
+  background-color: whitesmoke;
+}
+
+[mat-icon-button]:hover {
+  filter: brightness(85%);
+}

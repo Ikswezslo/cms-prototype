@@ -5,6 +5,7 @@
   "USER":"User",
   "USERS":"Users",
   "RECENTLY_ADDED_PAGES": "Recently added pages",
+  "UNIVERSITIES_WE_WORK_WITH": "Universities we work with",
   "YES" : "Yes",
   "NO" : "No",
   "UNIVERSITY_DELETE_DESCRIPTION" : "Are you sure you want to delete this university? It might induce other changes.",
@@ -38,10 +39,7 @@
   "SUBPAGE": "Subpage",
   "EDIT_CONTENT": "Edit content",
   "CHANGE_AUTHOR": "Change author",
-  "SHOW_DETAILS": "Show details",
   "ADD_SUBPAGE": "Add subpage",
-  "CREATE_PAGE_COPY": "Create page copy",
-  "DISPLAY_SETTINGS": "Display settings",
   "HIDE_PAGE": "Hide page",
   "SHOW_PAGE": "Show page",
   "DELETE_PAGE": "Delete page",
@@ -77,6 +75,9 @@
   "ADDING_UNIVERSITY_TO_USER": "Adding university to user",
   "ADDED_UNIVERSITY_TO_USER": "University successfully added to user",
   "ADDED_UNIVERSITY_TO_USER_ERROR": "Error has occurred during adding university to user",
+  "ERROR_DELETING_USER": "Error has occurred during deleting user",
+  "ENROLLED_UNIVERSITIES_HEADER": "Enrolled universities to user",
+  "ENROLLED_UNIVERSITIES": "Enrolled universities",
   "UNIVERSITY_NAME": "University name",
   "CANCEL": "Cancel",
   "ACCEPT": "Accept",
@@ -148,7 +149,22 @@
     "DIALOG_LOAD_HEADER": "Loading template",
     "LOAD_CONFIRM_DESCRIPTION": "Are you sure you want to load the template? It will replace the entire content of the page."
   },
-  "UPLOAD_FILE": "Upload file",
+  "BACKUP": {
+    "ONE": "Backup",
+    "MANY": "Backups",
+    "TITLE": "Database backups",
+    "TIME_SINCE": "Time since the last backup: ",
+    "NUMBER_OF": "Number of backups: ",
+    "CREATE_NEW": "Create backup",
+    "CREATE_SUCCESS": "Backup created successfully",
+    "DELETE_SUCCESS": "Backup deleted successfully",
+    "POSITION_COL": "No.",
+    "DATE_COL": "Date",
+    "SIZE_COL": "Size",
+    "DElETE_TOOLTIP": "Delete backup",
+    "DOWNLOAD_TOOLTIP": "Download backup",
+    "NO_BACKUPS": "---"
+  },
   "FILENAME": "File name",
   "TYPE": "File type",
   "SIZE": "File size",
@@ -166,6 +182,14 @@
     "CLOSE": "Close",
     "VIEW_MODE": "View mode"
 
-  }
-
+  },
+  "NO_FILES": "No files uploaded yet.",
+  "DELETE_FILE_DESCRIPTION": "Are you sure you want to delete this file? This operation cannot be undone.",
+  "DELETE_FILE_CONFIRMATION": "File deleted successfully.",
+  "DELETE_FILE_ERROR": "Error occurred during deleting file.",
+  "EDIT_INFORMATION": "Edit information",
+  "CHANGING_BASE_INFORMATION": "Changing basic information",
+  "INFORMATION_CHANGED": "Basic information changed successfully.",
+  "UPDATING_PAGE_ERROR": "Error has occurred during editing page.",
+  "CHANGING_CREATOR": "Changing author"
 }

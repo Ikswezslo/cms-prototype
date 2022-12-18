@@ -7,8 +7,13 @@
 
   <mat-card-subtitle>
     <div *ngIf="config.showUniversity">
-      <span class="cms-link" [routerLink]="['/university', page.university.id]">
+      <span *ngIf="!(page.university.hidden && securityService.isForbiddenUniversity(page.university))"
+            class="cms-link" [routerLink]="['/university', page.university.id]">
         <mat-icon>business</mat-icon>
+        <span>{{page.university.name}}</span>
+      </span>
+      <span *ngIf="page.university.hidden && securityService.isForbiddenUniversity(page.university)">
+        <mat-icon>domain_disabled</mat-icon>
         <span>{{page.university.name}}</span>
       </span>
     </div>

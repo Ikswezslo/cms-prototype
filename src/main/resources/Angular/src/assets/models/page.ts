@@ -15,7 +15,7 @@ export interface Page {
     updatedOn: string;
     keyWords: string;
 }
-export interface PageForm{
+export interface PageForm {
   id: number;
   title: string;
   description: string;
@@ -23,4 +23,9 @@ export interface PageForm{
   creatorId: number;
   parentId: number;
   keyWords: string;
+}
+
+export interface PageUpdateForm {
+  title: string;
+  description: string;
 }

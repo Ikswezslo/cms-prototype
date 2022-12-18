@@ -127,8 +127,10 @@ export class UniversityDetailsComponent implements OnInit {
       }
     }
     const dialogRef = this.dialog.open(DialogUniversityCreateComponent, dialogData);
-    dialogRef.afterClosed().subscribe(() => {
-      this.loadUniversity();
+    dialogRef.afterClosed().subscribe(res => {
+      if(res) {
+        this.university = res;
+      }
     });
   }
 }

@@ -1,6 +1,8 @@
 package com.example.cms.development;
 
 import com.example.cms.keyWords.KeyWordsService;
+import com.example.cms.backup.BackupException;
+import com.example.cms.backup.BackupService;
 import com.example.cms.page.PageService;
 import com.example.cms.page.projections.PageDtoFormCreate;
 import com.example.cms.security.Role;
@@ -9,6 +11,8 @@ import com.example.cms.university.UniversityService;
 import com.example.cms.university.projections.UniversityDtoFormCreate;
 import com.example.cms.user.UserService;
 import com.example.cms.user.projections.UserDtoFormCreate;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,41 +20,63 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
     private final PageService pageService;
     private final UserService userService;
     private final UniversityService universityService;
     private final TemplateService templateService;
+    private final BackupService backupService;
     private final KeyWordsService keyWordsService;
 
-    DummyDataCreator(final PageService pageService,
-                     final UserService userService,
-                     final UniversityService universityService, TemplateService templateService,
-                     final KeyWordsService keyWordsService) {
-        this.pageService = pageService;
-        this.userService = userService;
-        this.universityService = universityService;
-        this.templateService = templateService;
-        this.keyWordsService = keyWordsService;
-    }
-
     @Override
-    public void onApplicationEvent(final ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NonNull final ContextRefreshedEvent event) {
         try {
             SecurityContext ctx = SecurityContextHolder.createEmptyContext();
             SecurityContextHolder.setContext(ctx);
             ctx.setAuthentication(CustomAuthenticationToken.create(Role.ADMIN, Set.of()));
 
-            createData();
-            log.info("Created dummy data");
+            Files.createDirectories(backupService.getRestoreMainPath());
+            Files.createDirectories(backupService.getBackupsMainPath());
+            tryToRestoreDatabase();
+        } catch (IOException e) {
+            throw new BackupException("Backup/restore folders can't be created");
         } finally {
             SecurityContextHolder.clearContext();
         }
+    }
+
+    private void tryToRestoreDatabase() {
+        Arrays.stream(Optional.ofNullable(backupService.getRestoreMainPath().toFile().listFiles()).orElseThrow(() -> {
+                    throw new BackupException("Can't get restore backup");
+                }))
+                .filter(File::isFile)
+                .map(File::getName)
+                .filter(fileName -> fileName.substring(fileName.lastIndexOf('.')).equals(".zip"))
+                .map(fileName -> fileName.substring(0, fileName.lastIndexOf('.')))
+                .findAny()
+                .ifPresentOrElse(backupName -> {
+                    try {
+                        backupService.importBackup(backupName);
+                    } catch (IOException | SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    log.info(String.format("Imported %s backup", backupName));
+                }, () -> {
+                    createData();
+                    log.info("Created dummy data");
+                });
     }
 
     private void createData() {
@@ -60,7 +86,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Wojciech",
                 "Kowalski",
                 "wojciech.kowalski7342@gmail.com",
-                "Piotrowo 1",
                 "935283642",
                 true,
                 Role.ADMIN
@@ -71,7 +96,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Leszek",
                 "Bartkiewicz",
                 "leszek.bartkiewicz5229@gmail.com",
-                "Piotrowo 2",
                 "264878345",
                 true,
                 Role.ADMIN
@@ -82,7 +106,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Bożena",
                 "Banik",
                 "bożena.banik9987@gmail.com",
-                "Piotrowo 39",
                 "653916167",
                 true,
                 Role.ADMIN
@@ -93,7 +116,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Szymon",
                 "Koltun",
                 "szymon.koltun8441@gmail.com",
-                "Piotrowo 2",
                 "311222995",
                 true,
                 Role.MODERATOR
@@ -104,7 +126,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Roman",
                 "Zlotkowski",
                 "roman.zlotkowski9843@gmail.com",
-                "Piotrowo 1",
                 "739393723",
                 true,
                 Role.MODERATOR
@@ -115,7 +136,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Ferdynand",
                 "Radecki",
                 "ferdynand.radecki1321@gmail.com",
-                "Piotrowo 2",
                 "727456789",
                 true,
                 Role.MODERATOR
@@ -126,7 +146,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Mateusz",
                 "Kostuch",
                 "mateusz.kostuch2531@gmail.com",
-                "Piotrowo 2",
                 "672476734",
                 true,
                 Role.MODERATOR
@@ -137,7 +156,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Błażej",
                 "Szymkowski",
                 "blazej.szymkowski5231@gmail.com",
-                "Piotrowo 2",
                 "738350481",
                 true,
                 Role.MODERATOR
@@ -148,7 +166,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Marcin",
                 "Mieczkowski",
                 "marcin.mieczkowski7235@gmail.com",
-                "Piotrowo 2",
                 "830393622",
                 true,
                 Role.MODERATOR
@@ -159,7 +176,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Ewa",
                 "Jusko",
                 "ewa.jusko9033@gmail.com",
-                "Piotrowo 41",
                 "258683257",
                 true,
                 Role.MODERATOR
@@ -170,7 +186,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Eliza",
                 "Halicka",
                 "eliza.halicka8511@gmail.com",
-                "Piotrowo 9",
                 "852660762",
                 true,
                 Role.MODERATOR
@@ -181,7 +196,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Igor",
                 "Olszowy",
                 "igor.olszowy5729@gmail.com",
-                "Piotrowo 8",
                 "542395438",
                 true,
                 Role.MODERATOR
@@ -192,7 +206,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Tomasz",
                 "Gorczyca",
                 "tomasz.gorczyca2514@gmail.com",
-                "Piotrowo 7",
                 "481764007",
                 true,
                 Role.MODERATOR
@@ -203,7 +216,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Anastazja",
                 "Sobolewicz",
                 "anastazja.sobolewicz7829@gmail.com",
-                "Piotrowo 24",
                 "343862564",
                 true,
                 Role.MODERATOR
@@ -214,7 +226,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Arkadiusz",
                 "Śmiałek",
                 "arkadiusz.smiałek2512@gmail.com",
-                "Piotrowo 3",
                 "722351974",
                 true,
                 Role.MODERATOR
@@ -225,7 +236,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Halina",
                 "Kamienska",
                 "halina.kamienska3612@gmail.com",
-                "Piotrowo 47",
                 "662386326",
                 true,
                 Role.MODERATOR
@@ -236,7 +246,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Zuzanna",
                 "Giertych",
                 "zuzanna.giertych1196@gmail.com",
-                "Piotrowo 40",
                 "607386937",
                 true,
                 Role.USER
@@ -247,7 +256,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Kornelia",
                 "Sobczynska",
                 "kornelia.sobczynska3202@gmail.com",
-                "Piotrowo 35",
                 "991417604",
                 true,
                 Role.USER
@@ -258,7 +266,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Michał",
                 "Jerzak",
                 "michał.jerzak4983@gmail.com",
-                "Piotrowo 1",
                 "702758897",
                 true,
                 Role.USER
@@ -269,7 +276,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Stefan",
                 "Kulinski",
                 "stefan.kulinski8388@gmail.com",
-                "Piotrowo 31",
                 "333229173",
                 true,
                 Role.USER
@@ -280,7 +286,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Jerzy",
                 "Michno",
                 "jerzy.michno9332@gmail.com",
-                "Piotrowo 49",
                 "262637472",
                 true,
                 Role.USER
@@ -291,7 +296,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Michal",
                 "Wazowski",
                 "michal.wazowski9020@gmail.com",
-                "Piotrowo 44",
                 "460515555",
                 true,
                 Role.USER
@@ -302,7 +306,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Krzysztof",
                 "Bielak",
                 "krzysztof.bielak4152@gmail.com",
-                "Piotrowo 36",
                 "168130688",
                 true,
                 Role.USER
@@ -313,7 +316,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Mateusz",
                 "Zubek",
                 "mateusz.zubek3408@gmail.com",
-                "Piotrowo 29",
                 "945442735",
                 true,
                 Role.USER
@@ -324,7 +326,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Filip",
                 "Fialkowski",
                 "filip.fialkowski6444@gmail.com",
-                "Piotrowo 42",
                 "411422855",
                 true,
                 Role.USER
@@ -335,7 +336,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Robert",
                 "Filan",
                 "robert.filan2085@gmail.com",
-                "Piotrowo 9",
                 "162988145",
                 true,
                 Role.USER
@@ -346,7 +346,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Nikodem",
                 "Zyla",
                 "nikodem.zyla9010@gmail.com",
-                "Piotrowo 28",
                 "172856301",
                 true,
                 Role.USER
@@ -357,7 +356,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Łukasz",
                 "Franc",
                 "lukasz.franc7575@gmail.com",
-                "Piotrowo 27",
                 "281506654",
                 true,
                 Role.USER
@@ -368,7 +366,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Mariusz",
                 "Ruminski",
                 "mariusz.ruminski4387@gmail.com",
-                "Piotrowo 31",
                 "943157548",
                 true,
                 Role.USER
@@ -379,7 +376,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Dariusz",
                 "Przybyszewski",
                 "dariusz.przybyszewski8263@gmail.com",
-                "Piotrowo 38",
                 "481361620",
                 true,
                 Role.USER
@@ -390,7 +386,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Grażyna",
                 "Bereza",
                 "grażyna.bereza4794@gmail.com",
-                "Piotrowo 31",
                 "525852050",
                 true,
                 Role.USER
@@ -401,7 +396,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Lucyna",
                 "Pociask",
                 "lucyna.pociask8433@gmail.com",
-                "Piotrowo 4",
                 "790540150",
                 true,
                 Role.USER
@@ -412,7 +406,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Krystyna",
                 "Wasko",
                 "krystyna.wasko5594@gmail.com",
-                "Piotrowo 5",
                 "889104495",
                 true,
                 Role.USER
@@ -423,7 +416,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Barbara",
                 "Lesak",
                 "barbara.lesak4474@gmail.com",
-                "Piotrowo 33",
                 "963386317",
                 true,
                 Role.USER
@@ -434,7 +426,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Edward",
                 "Falkowski",
                 "edward.falkowski2311@gmail.com",
-                "Piotrowo 45",
                 "827669891",
                 true,
                 Role.USER
@@ -445,7 +436,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Wincenty",
                 "Kostka",
                 "wincenty.kostka4672@gmail.com",
-                "Piotrowo 48",
                 "896274278",
                 true,
                 Role.USER
@@ -456,7 +446,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Dżesika",
                 "Ignatowska",
                 "dzesika.ignatowska6987@gmail.com",
-                "Piotrowo 15",
                 "460808376",
                 true,
                 Role.USER
@@ -467,7 +456,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Roksana",
                 "Kryszak",
                 "roksana.kryszak2878@gmail.com",
-                "Piotrowo 6",
                 "510676502",
                 true,
                 Role.USER
@@ -478,7 +466,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Marian",
                 "Kempka",
                 "marian.kempka2425@gmail.com",
-                "Piotrowo 26",
                 "276986682",
                 true,
                 Role.USER
@@ -489,7 +476,6 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Antoni",
                 "Leszczynski",
                 "antoni.leszczynski7188@gmail.com",
-                "Piotrowo 31",
                 "667887826",
                 true,
                 Role.USER
@@ -555,6 +541,14 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "blank",
                 3L
         ));
+
+        universityService.modifyHiddenField(1L, false);
+        universityService.modifyHiddenField(2L, false);
+        universityService.modifyHiddenField(3L, false);
+        universityService.modifyHiddenField(5L, false);
+        universityService.modifyHiddenField(6L, false);
+        universityService.modifyHiddenField(8L, false);
+        universityService.modifyHiddenField(10L, false);
 
         universityService.enrollUsersToUniversity(1L, 4L);
         universityService.enrollUsersToUniversity(1L, 17L);

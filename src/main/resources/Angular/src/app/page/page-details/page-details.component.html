@@ -61,25 +61,15 @@
     <mat-icon>app_registration</mat-icon>
     <span>{{"CHANGE_AUTHOR" | translate}}</span>
   </button>
-  <button mat-menu-item
-          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)">
-    <mat-icon>dashboard</mat-icon>
-    <span>{{"SHOW_DETAILS" | translate}}</span>
-  </button>
   <button mat-menu-item (click)="addPage()"
           *ngIf="securityService.hasRole('USER') && securityService.hasUniversity(page?.university?.id)">
     <mat-icon>note_add</mat-icon>
     <span>{{"ADD_SUBPAGE" | translate}}</span>
   </button>
-  <button mat-menu-item
-          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)">
-    <mat-icon>file_copy</mat-icon>
-    <span>{{"CREATE_PAGE_COPY" | translate}}</span>
-  </button>
-  <button mat-menu-item
-          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)">
-    <mat-icon>settings</mat-icon>
-    <span>{{"DISPLAY_SETTINGS" | translate}}</span>
+  <button mat-menu-item (click)="editPage()"
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenPage(page)">
+    <mat-icon>edit</mat-icon>
+    <span>{{"EDIT_INFORMATION" | translate}}</span>
   </button>
   <button mat-menu-item (click)="hiddenPage()"
           *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)

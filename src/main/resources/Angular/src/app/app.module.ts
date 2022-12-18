@@ -52,8 +52,8 @@ import {ConfirmationDialogComponent} from './dialog/confirmation-dialog/confirma
 import {ErrorDialogComponent} from './dialog/error-dialog/error-dialog.component';
 import {SpinnerComponent} from './spinner/spinner.component';
 import {
-  DialogUserAddUniversityComponent
-} from './user/dialogs/dialog-user-add-university/dialog-user-add-university.component';
+  DialogUserEnrolledUniversitiesComponent
+} from './user/dialogs/dialog-user-enrolled-universities/dialog-user-enrolled-universities.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {DialogPageCreatorComponent} from './page/dialog-page-creator/dialog-page-creator.component';
 import {
@@ -76,16 +76,20 @@ import {DialogTemplateCreateComponent} from './templates/dialog-template-create/
 import {PageEditorComponent} from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
 import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
-import { TemplateSelectorComponent } from './templates/template-selector/template-selector.component';
-import { DialogTemplateLoadComponent } from './templates/dialog-template-load/dialog-template-load.component';
-import { MatChipsModule } from '@angular/material/chips';
 import { KeyWordsSelectorsComponent } from './keywords/key-words-selectors/key-words-selectors.component';
-import {FileCardComponent} from './file-card/file-card.component';
-import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { EditPageKeyWordsComponent } from './keywords/edit-page-key-words/edit-page-key-words.component';
 import { KeywordsComponent } from './keywords/keywords/keywords.component';
-import { MatTableModule } from '@angular/material/table';
 import { DialogInputKeywordsComponent } from './keywords/dialog-input-keywords/dialog-input-keywords.component';
+import {TemplateSelectorComponent} from './templates/template-selector/template-selector.component';
+import {DialogTemplateLoadComponent} from './templates/dialog-template-load/dialog-template-load.component';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatChipsModule} from "@angular/material/chips";
+import {FileCardComponent} from './file-card/file-card.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {BackupComponent} from './backup/backup.component';
+import {MatTableModule} from "@angular/material/table";
+import {DialogPageEditBasicComponent} from './page/dialog-page-edit-basic/dialog-page-edit-basic.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -115,7 +119,7 @@ export function SetupApp(setup: SetupService) {
     ConfirmationDialogComponent,
     ErrorDialogComponent,
     SpinnerComponent,
-    DialogUserAddUniversityComponent,
+    DialogUserEnrolledUniversitiesComponent,
     DialogPageCreatorComponent,
     DialogUserChangePasswordComponent,
     SuccessDialogComponent,
@@ -135,7 +139,9 @@ export function SetupApp(setup: SetupService) {
     FileCardComponent,
     EditPageKeyWordsComponent,
     KeywordsComponent,
-    DialogInputKeywordsComponent
+    DialogInputKeywordsComponent,
+    BackupComponent,
+    DialogPageEditBasicComponent
   ],
   imports: [
     BrowserModule,
@@ -173,6 +179,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'pages/:userId', component: PageUserComponent},
       {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
       {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
+      {path: 'backups', component: BackupComponent, title: 'Kopie zapasowe'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
       {path: 'search', component: SearchComponent, title: 'Search',},
       {path: 'keywords', component: KeywordsComponent, title: 'Keywords',}
@@ -192,7 +199,11 @@ export function SetupApp(setup: SetupService) {
     MatExpansionModule,
     MatAutocompleteModule,
     MatListModule,
-    MatProgressBarModule
+    MatGridListModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    MatTableModule,
+    MatTooltipModule
   ],
   providers: [
     SetupService,

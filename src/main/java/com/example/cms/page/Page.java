@@ -27,9 +27,9 @@ public class Page {
     private String title;
     @NotBlank(message = "Description must not be empty")
     private String description;
-    @Lob
     @NotNull(message = "Content must not be null")
-    private String content;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Content content;
     private boolean hidden;
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull(message = "Creator must not be null")

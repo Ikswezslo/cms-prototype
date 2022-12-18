@@ -14,6 +14,8 @@ public class UserDtoSimple {
     private String firstName;
     private String lastName;
 
+    private boolean enabled;
+
     public static UserDtoSimple of(User user) {
         if (user == null) {
             return null;
@@ -26,5 +28,6 @@ public class UserDtoSimple {
         username = user.getUsername();
         firstName = user.getFirstName();
         lastName = user.getLastName();
+        enabled = user.isEnabled();
     }
 }

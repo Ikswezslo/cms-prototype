@@ -12,7 +12,6 @@ public class UserDtoFormCreate {
     String firstName;
     String lastName;
     String email;
-    String address;
     String phoneNumber;
     boolean enabled;
     Role accountType;
@@ -26,7 +25,6 @@ public class UserDtoFormCreate {
         }
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setAddress(address);
         user.setPhoneNumber(phoneNumber);
         user.setEmail(email);
         user.setAccountType(accountType);
