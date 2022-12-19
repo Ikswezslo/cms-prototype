@@ -47,7 +47,7 @@ export class KeywordsComponent implements OnInit {
   }
 
   onKeywordClicked(id: number) {
-    this.selectedKeyword = this.allKeyWords.find(keyword => keyword.id == id) ?? this.selectedKeyword;
+    this.selectedKeyword = this.allKeyWords.find(keyword => keyword.id == id) ?? {id: -1, word: ""};
   }
 
   onAddKeyword() {
@@ -82,12 +82,14 @@ export class KeywordsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(next => {
+      console.log("XXX");
       if (next) {
         this.spinnerService.show();
         this.keyWordsService.modifyKeyWordWordField(next.id, next.word).subscribe({
           next: () => {
             this.spinnerService.hide();
             this.loadKeyWords();
+            this.selectedKeyword = { id: -1, word: "" };
           },
           error: err => {
             this.spinnerService.hide();
