@@ -19,10 +19,9 @@ export class PageListComponent implements OnInit {
   public selected = false;
   gridApi!: GridApi;
   columnApi!: ColumnApi;
-  public dataTable!: [{ id?: Number, title?: String, date?: String, university?: String, creator?: String }];
   public columnDefs: ColDef[] = [];
   public defaultColDef: ColDef = {};
-  public noRowsTemplate;
+  public noRowsTemplate: string = "";
 
   constructor(
     private router: Router,
@@ -40,30 +39,17 @@ export class PageListComponent implements OnInit {
     this.loadPages();
   }
 
-  loadPages(showHidden: Boolean = false) {
+  loadPages() {
     this.spinnerService.show();
     this.pageService.getPages()
       .subscribe({
         next: res => {
           this.spinnerService.hide();
-          this.pages = showHidden ? res : res.filter(element => !element.hidden);
-          res.forEach(el => {
-            if (!this.dataTable)
-              this.dataTable = [{
-                id: el.id,
-                title: el.title,
-                date: el.createdOn,
-                university: el.university.name,
-                creator: el.creator.firstName + " " + el.creator.lastName
-              }];
-            else
-              this.dataTable.push({
-                id: el.id,
-                title: el.title,
-                date: el.createdOn,
-                university: el.university.name,
-                creator: el.creator.firstName + " " + el.creator.lastName
-              })
+          this.pages = res.map(page => {
+            const [dateComponents, timeComponents] = page.createdOn.split(' ');
+            const [day, month, year] = dateComponents.split('-');
+            page.createdOn = `${year}-${month}-${day} ${timeComponents}`
+            return page
           });
         },
         error: err => {
@@ -71,33 +57,56 @@ export class PageListComponent implements OnInit {
           this.dialogService.openDataErrorDialog();
         }
       });
-    this.gridApi.sizeColumnsToFit();
   }
 
   translateColumnDefs(){
     this.columnDefs = [
-      {headerName: this.translate.instant("ID"), field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter'},
-      {headerName: this.translate.instant("TITLE"), field: 'title', minWidth: 300},
-      {headerName: this.translate.instant("DATE"), field: 'date'},
-      {headerName: this.translate.instant("UNIVERSITY"), field: 'university', minWidth: 300},
-      {headerName: this.translate.instant("AUTHOR"), field: 'creator'},
+      {
+        headerName: this.translate.instant("ID"),
+        field: 'id',
+        filter: 'agNumberColumnFilter',
+        flex: 0.5
+      },
+      {
+        headerName: this.translate.instant("TITLE"),
+        field: 'title',
+        flex: 2
+      },
+      {
+        headerName: this.translate.instant("DATE"),
+        field: 'createdOn', filter: 'agDateColumnFilter',
+      },
+      {
+        headerName: this.translate.instant("UNIVERSITY"),
+        field: 'university.shortName',
+        },
+      {
+        headerName: this.translate.instant("AUTHOR"),
+        field: 'creator.username',
+      },
+      {
+        headerName: 'Ukryta',
+        field: 'hidden',
+      },
     ];
+
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
 
   loadColumn() {
     this.translateColumnDefs();
     this.defaultColDef = {
-      minWidth: 200,
       editable: false,
       filter: 'agTextColumnFilter',
-      suppressMovable: true,
+      sortable: true,
+      flex: 1,
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      }
     };
   }
 
   onResize() {
-    this.gridApi.sizeColumnsToFit();
-    // this.columnApi.autoSizeAllColumns(false);
 
   }
 
@@ -108,8 +117,10 @@ export class PageListComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;
-    // this.columnApi.autoSizeAllColumns(false);
-    this.gridApi.sizeColumnsToFit();
+    window.addEventListener('resize', function () {
+      setTimeout(function () {
+      });
+    });
   }
 }
 

@@ -1,16 +1,6 @@
-.item {
-    padding: 2px 10px;
-    margin: 0.5px;
-    background-color: rgb(184, 223, 255);
-    color: black;
-}
-
-:link {
-    color: black;
-    font-style: normal;
-    text-decoration: none;
-}
-:link::after{
-    color: black;
-
+ag-grid-angular {
+  height: 75vh;
+  width: 80vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
 }
