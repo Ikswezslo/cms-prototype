@@ -75,9 +75,11 @@ import {UniversitySelectorComponent} from './university/university-selector/univ
 import {DialogTemplateCreateComponent} from './templates/dialog-template-create/dialog-template-create.component';
 import {PageEditorComponent} from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
-import {
-  DialogTemplateChangeNameComponent
-} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import { KeyWordsSelectorsComponent } from './keywords/key-words-selectors/key-words-selectors.component';
+import { EditPageKeyWordsComponent } from './keywords/edit-page-key-words/edit-page-key-words.component';
+import { KeywordsComponent } from './keywords/keywords/keywords.component';
+import { DialogInputKeywordsComponent } from './keywords/dialog-input-keywords/dialog-input-keywords.component';
 import {TemplateSelectorComponent} from './templates/template-selector/template-selector.component';
 import {DialogTemplateLoadComponent} from './templates/dialog-template-load/dialog-template-load.component';
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -133,7 +135,11 @@ export function SetupApp(setup: SetupService) {
     DialogTemplateChangeNameComponent,
     TemplateSelectorComponent,
     DialogTemplateLoadComponent,
+    KeyWordsSelectorsComponent,
     FileCardComponent,
+    EditPageKeyWordsComponent,
+    KeywordsComponent,
+    DialogInputKeywordsComponent,
     BackupComponent,
     DialogPageEditBasicComponent
   ],
@@ -156,6 +162,8 @@ export function SetupApp(setup: SetupService) {
     MatCardModule,
     MatSnackBarModule,
     FlexLayoutModule,
+    MatChipsModule,
+    MatTableModule,
     QuillModule.forRoot(),
     RouterModule.forRoot([
       {path: '', component: MainPageComponent, title: 'Strona główna'},
@@ -173,7 +181,8 @@ export function SetupApp(setup: SetupService) {
       {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
       {path: 'backups', component: BackupComponent, title: 'Kopie zapasowe'},
       {path: 'login', component: LoginComponent, title: 'Logowanie'},
-      {path: 'search', component: SearchComponent, title: 'Search',}
+      {path: 'search', component: SearchComponent, title: 'Search',},
+      {path: 'keywords', component: KeywordsComponent, title: 'Keywords',}
     ]),
     BrowserAnimationsModule,
     BrowserModule,

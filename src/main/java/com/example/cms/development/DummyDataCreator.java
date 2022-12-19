@@ -1,5 +1,6 @@
 package com.example.cms.development;
 
+import com.example.cms.keyWords.KeyWordsService;
 import com.example.cms.backup.BackupException;
 import com.example.cms.backup.BackupService;
 import com.example.cms.page.PageService;
@@ -37,6 +38,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
     private final UniversityService universityService;
     private final TemplateService templateService;
     private final BackupService backupService;
+    private final KeyWordsService keyWordsService;
 
     @Override
     public void onApplicationEvent(@NonNull final ContextRefreshedEvent event) {
@@ -584,42 +586,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 4L,
-                1L
+                1L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 4L,
-                1L
+                1L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 17L,
-                1L
+                1L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 17L,
-                1L
+                1L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 18L,
-                1L
+                1L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 18L,
-                1L
+                1L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -627,42 +635,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 5L,
-                2L
+                2L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 5L,
-                2L
+                2L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 19L,
-                2L
+                2L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 19L,
-                2L
+                2L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 20L,
-                2L
+                2L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 20L,
-                2L
+                2L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -670,42 +684,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 6L,
-                3L
+                3L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 6L,
-                3L
+                3L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 21L,
-                3L
+                3L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 21L,
-                3L
+                3L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 22L,
-                3L
+                3L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 22L,
-                3L
+                3L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -713,42 +733,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 7L,
-                4L
+                4L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 7L,
-                4L
+                4L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 23L,
-                4L
+                4L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 23L,
-                4L
+                4L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 24L,
-                4L
+                4L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 24L,
-                4L
+                4L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -756,42 +782,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 8L,
-                5L
+                5L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 8L,
-                5L
+                5L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 25L,
-                5L
+                5L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 25L,
-                5L
+                5L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 26L,
-                5L
+                5L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 26L,
-                5L
+                5L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -799,42 +831,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 9L,
-                6L
+                6L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 9L,
-                6L
+                6L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 27L,
-                6L
+                6L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 27L,
-                6L
+                6L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 28L,
-                6L
+                6L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 28L,
-                6L
+                6L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -842,42 +880,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 10L,
-                7L
+                7L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 10L,
-                7L
+                7L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 29L,
-                7L
+                7L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 29L,
-                7L
+                7L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 30L,
-                7L
+                7L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 30L,
-                7L
+                7L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -885,42 +929,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 11L,
-                8L
+                8L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 11L,
-                8L
+                8L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 31L,
-                8L
+                8L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 31L,
-                8L
+                8L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 32L,
-                8L
+                8L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 32L,
-                8L
+                8L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -928,42 +978,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 12L,
-                9L
+                9L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 12L,
-                9L
+                9L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 33L,
-                9L
+                9L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 33L,
-                9L
+                9L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 34L,
-                9L
+                9L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 34L,
-                9L
+                9L,
+                ""
         ));
 
         pageService.save(new PageDtoFormCreate(
@@ -971,42 +1027,48 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "The list of courses we offer.",
                 "",
                 13L,
-                10L
+                10L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
                 13L,
-                10L
+                10L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Business",
                 "Services and experts",
                 "",
                 35L,
-                10L
+                10L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Staff",
                 "The list of our staff.",
                 "",
                 35L,
-                10L
+                10L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Contact",
                 "This page contains contact information.",
                 "",
                 36L,
-                10L
+                10L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "History",
                 "The history of our university.",
                 "",
                 36L,
-                10L
+                10L,
+                ""
         ));
 
 
@@ -1028,5 +1090,14 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
         templateService.save("UniversityTemplate");
         templateService.modifyContentField(1L, "Template used for university main page.");
+
+        keyWordsService.save("sztuczna inteligencja");
+        keyWordsService.save("si");
+        keyWordsService.save("artificial intelligence");
+        keyWordsService.save("ai");
+        keyWordsService.save("politechnika");
+        keyWordsService.save("uniwersytet");
+        keyWordsService.save("university");
+        keyWordsService.save("machine learning");
     }
 }

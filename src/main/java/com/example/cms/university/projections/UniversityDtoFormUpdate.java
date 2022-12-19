@@ -7,9 +7,11 @@ import lombok.Value;
 public class UniversityDtoFormUpdate {
     String name;
     String shortName;
+    String description;
 
     public void updateUniversity(University university) {
         university.setName(name);
         university.setShortName(shortName);
+        university.setDescription(description);
     }
 }

@@ -31,13 +31,15 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 
     @Query("from Page where " +
             "(LOWER(title) LIKE :text " +
-            "OR LOWER(description) LIKE :text) and" +
+            "OR LOWER(description) LIKE :text " +
+            "OR LOWER(keyWords) LIKE :text) and " +
             "(hidden = false and university.hidden = false)")
     List<Page> searchPages(Pageable pageable, @Param("text") String text);
 
     @Query("from Page where " +
             "(LOWER(title) LIKE :text " +
-            "OR LOWER(description) LIKE :text) and" +
+            "OR LOWER(description) LIKE :text " +
+            "OR LOWER(keyWords) LIKE :text) and " +
             "((hidden = false and university.hidden = false) or " +
             "(:role = 'ADMIN') or" +
             "(:role= 'MODERATOR' and university.id in :universities) or " +

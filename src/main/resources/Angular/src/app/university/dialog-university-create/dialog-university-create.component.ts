@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UniversityService} from "../../../assets/service/university.service";
 import {FormControl, Validators} from "@angular/forms";
 import {University, UniversityForm} from 'src/assets/models/university';
@@ -20,6 +20,7 @@ export class DialogUniversityCreateComponent implements OnInit {
   edit = false;
 
   constructor(
+    public dialogRef: MatDialogRef<DialogUniversityCreateComponent>,
     public dialog: MatDialog,
     private userService: UserService,
     private dialogService: DialogService,
@@ -57,8 +58,9 @@ export class DialogUniversityCreateComponent implements OnInit {
   }
   editUser() {
     if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
-      this.universityService.editUniversity(this.university).subscribe({next: university => console.log(university)});
-      this.close();
+      this.universityService.editUniversity(this.university).subscribe({
+        next: university => this.dialogRef.close(university)
+      });
     }
   }
 }

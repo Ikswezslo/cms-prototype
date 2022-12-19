@@ -1,0 +1,45 @@
+<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
+    <div fxFlex class="cms-fixed-width">
+        <mat-card fxFlex class="cms-fixed-width">
+            <mat-card-title>{{'KEYWORD.AVAILABLE' | translate}}</mat-card-title>
+            <mat-card-subtitle *ngIf="isEditMode">{{'KEYWORD.EDIT_MODE' | translate}}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="!isEditMode">{{'KEYWORD.VIEW_MODE' | translate}}</mat-card-subtitle>
+
+            <mat-divider inset></mat-divider>
+            <mat-card-content>
+                <mat-action-list>
+                    <button *ngFor="let keyword of allKeyWords"
+                        [ngClass]="{selected: keyword.id === selectedKeyword.id}" mat-list-item
+                        (click)="onKeywordClicked(keyword.id)">
+                        {{keyword.word}}
+                    </button>
+                </mat-action-list>
+            </mat-card-content>
+            <mat-divider inset></mat-divider>
+            <mat-card-actions>
+                <button *ngIf="isEditMode" mat-button (click)="onAddKeyword()">
+                    <mat-icon>add_box</mat-icon>
+                    <span>{{'KEYWORD.ADD' | translate}}</span>
+                </button>
+                <button *ngIf="isEditMode" mat-button (click)="onEditKeyword()">
+                    <mat-icon>edit</mat-icon>
+                    <span>{{'KEYWORD.EDIT' | translate}}</span>
+                </button>
+                <button *ngIf="isEditMode" mat-button (click)="onDeleteKeyword()">
+                    <mat-icon>delete</mat-icon>
+                    <span>{{'KEYWORD.DELETE' | translate}}</span>
+                </button>
+                <button *ngIf="!isEditMode && userService.loggedUser?.accountType==='ADMIN'" mat-button
+                    (click)="toggleEditMode()">
+                    <mat-icon>create</mat-icon>
+                    <span>{{'KEYWORD.EDIT_MODE' | translate}}</span>
+                </button>
+                <button *ngIf="isEditMode && userService.loggedUser?.accountType==='ADMIN'" mat-button
+                    (click)="toggleEditMode()">
+                    <mat-icon>close</mat-icon>
+                    <span>{{'KEYWORD.CLOSE' | translate}}</span>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
