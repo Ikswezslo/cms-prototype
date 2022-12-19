@@ -18,7 +18,7 @@ export class DialogInputKeywordsComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogInputKeywordsComponent>) { }
 
   ngOnInit(): void {
-    if(this.data.keyword)
+    if(this.data?.keyword)
       this.keyword = this.data.keyword;
   }
 
