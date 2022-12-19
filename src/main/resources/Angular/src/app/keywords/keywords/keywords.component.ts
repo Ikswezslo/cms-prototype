@@ -104,9 +104,9 @@ export class KeywordsComponent implements OnInit {
     if (this.selectedKeyword.id < 0)
       return;
     
-    this.spinnerService.show();
     this.dialogService.openConfirmationDialog().afterClosed().subscribe(value => {
       if (value && this.selectedKeyword) {
+        this.spinnerService.show();
         this.allKeyWords = this.allKeyWords.filter(keyword => {
           return keyword.id !== this.selectedKeyword?.id;
         })
