@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Keyword } from 'src/assets/models/keywords';
@@ -76,7 +77,7 @@ export class KeywordsComponent implements OnInit {
       return
     const dialogRef = this.dialog.open(DialogInputKeywordsComponent, {
       data: {
-        keyword: this.selectedKeyword
+        keyword: JSON.parse(JSON.stringify(this.selectedKeyword))
       }
     });
 
@@ -96,7 +97,6 @@ export class KeywordsComponent implements OnInit {
         })
       }
     })
-
   }
 
   onDeleteKeyword() {
@@ -127,4 +127,6 @@ export class KeywordsComponent implements OnInit {
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
   }
+
+  
 }
