@@ -24,7 +24,7 @@ export class PageDetailsComponent implements OnInit {
 
   primaryCardConfig: PageCardConfig = {
     useSecondaryColor: false,
-    showGoToButton: false,
+    showLink: false,
     showDescription: true,
     showUniversity: true,
     showCreatedOn: true,
@@ -33,7 +33,7 @@ export class PageDetailsComponent implements OnInit {
 
   secondaryCardConfig: PageCardConfig = {
     useSecondaryColor: true,
-    showGoToButton: true,
+    showLink: true,
     showDescription: true,
     showUniversity: false,
     showCreatedOn: true,

@@ -15,7 +15,7 @@ export class MainPageComponent implements OnInit {
 
   cardConfig: PageCardConfig = {
     useSecondaryColor: false,
-    showGoToButton: true,
+    showLink: true,
     showDescription: false,
     showUniversity: false,
     showCreatedOn: false,
