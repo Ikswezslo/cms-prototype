@@ -7,7 +7,6 @@ import {SpinnerService} from 'src/assets/service/spinner.service';
 import {PageService} from '../../../assets/service/page.service';
 import {TranslateService} from "@ngx-translate/core";
 
-
 @Component({
   selector: 'app-page-list',
   templateUrl: './page-list.component.html',
@@ -15,13 +14,13 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class PageListComponent implements OnInit {
 
-  pages: Page[] = [];
-  public selected = false;
-  gridApi!: GridApi;
-  columnApi!: ColumnApi;
   public columnDefs: ColDef[] = [];
   public defaultColDef: ColDef = {};
   public noRowsTemplate: string = "";
+  pages: Page[] = [];
+  data: PageGridItem[] = [];
+  gridApi?: GridApi;
+  columnApi?: ColumnApi;
 
   constructor(
     private router: Router,
@@ -34,6 +33,7 @@ export class PageListComponent implements OnInit {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.translateColumnDefs();
+      this.translateData();
     })
     this.loadColumn()
     this.loadPages();
@@ -45,12 +45,8 @@ export class PageListComponent implements OnInit {
       .subscribe({
         next: res => {
           this.spinnerService.hide();
-          this.pages = res.map(page => {
-            const [dateComponents, timeComponents] = page.createdOn.split(' ');
-            const [day, month, year] = dateComponents.split('-');
-            page.createdOn = `${year}-${month}-${day} ${timeComponents}`
-            return page
-          });
+          this.pages = res;
+          this.translateData();
         },
         error: err => {
           this.spinnerService.hide();
@@ -59,55 +55,60 @@ export class PageListComponent implements OnInit {
       });
   }
 
-  translateColumnDefs(){
+  translateData() {
+    this.data = this.pages.map(page => {
+      const pageItem = page as PageGridItem
+      const dateComponents = pageItem.createdOn.split(' ')[0];
+      const [day, month, year] = dateComponents.split('-');
+      pageItem.createdOnAsDate = new Date(+year, +month - 1, +day);
+      if (pageItem.hidden) {
+        pageItem.hiddenTranslated = this.translate.instant("YES");
+      } else {
+        pageItem.hiddenTranslated = this.translate.instant("NO");
+      }
+      return pageItem
+    });
+  }
+
+  translateColumnDefs() {
     this.columnDefs = [
       {
-        headerName: this.translate.instant("ID"),
-        field: 'id',
-        filter: 'agNumberColumnFilter',
-        flex: 0.5
+        headerName: this.translate.instant("ID"), field: 'id', flex: 0.5,
+        filter: 'agNumberColumnFilter'
       },
       {
-        headerName: this.translate.instant("TITLE"),
-        field: 'title',
-        flex: 2
+        headerName: this.translate.instant("TITLE"), field: 'title', flex: 2
       },
       {
-        headerName: this.translate.instant("DATE"),
-        field: 'createdOn', filter: 'agDateColumnFilter',
+        headerName: this.translate.instant("CREATED_ON"), field: 'createdOnAsDate',
+        filter: 'agDateColumnFilter',
+        valueFormatter: params => params.data.createdOn,
       },
       {
-        headerName: this.translate.instant("UNIVERSITY"),
-        field: 'university.shortName',
-        },
-      {
-        headerName: this.translate.instant("AUTHOR"),
-        field: 'creator.username',
+        headerName: this.translate.instant("UNIVERSITY"), field: 'university.shortName',
       },
       {
-        headerName: 'Ukryta',
-        field: 'hidden',
+        headerName: this.translate.instant("AUTHOR"), field: 'creator.username',
       },
+      {
+        headerName: this.translate.instant("IS_HIDDEN_PAGE"), field: 'hiddenTranslated',
+      }
     ];
-
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
 
   loadColumn() {
     this.translateColumnDefs();
     this.defaultColDef = {
-      editable: false,
-      filter: 'agTextColumnFilter',
-      sortable: true,
       flex: 1,
+      filter: 'agTextColumnFilter',
+      suppressMovable: true,
+      sortable: true,
+      editable: false,
       filterParams: {
         buttons: ['reset', 'apply'],
       }
     };
-  }
-
-  onResize() {
-
   }
 
   onRowSelected(event: RowSelectedEvent) {
@@ -117,10 +118,11 @@ export class PageListComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;
-    window.addEventListener('resize', function () {
-      setTimeout(function () {
-      });
-    });
   }
+}
+
+interface PageGridItem extends Page {
+  createdOnAsDate: Date;
+  hiddenTranslated: string;
 }
 

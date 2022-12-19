@@ -1,5 +1,6 @@
 package com.example.cms.user.projections;
 
+import com.example.cms.security.Role;
 import com.example.cms.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ public class UserDtoSimple {
     private String username;
     private String firstName;
     private String lastName;
-
+    private Role accountType;
     private boolean enabled;
 
     public static UserDtoSimple of(User user) {
@@ -29,5 +30,6 @@ public class UserDtoSimple {
         firstName = user.getFirstName();
         lastName = user.getLastName();
         enabled = user.isEnabled();
+        accountType= user.getAccountType();
     }
 }
