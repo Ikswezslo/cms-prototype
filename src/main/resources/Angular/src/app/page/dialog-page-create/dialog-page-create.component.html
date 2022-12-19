@@ -18,6 +18,10 @@
       [form]="form"
       (templateChanged)="onTemplateChanged($event)">
     </app-template-selector>
+    <app-key-words-selectors 
+      [form]="form"
+      (keyWordsChanged)="onKeyWordsChanged($event)">
+    </app-key-words-selectors>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
     <button mat-stroked-button class="button-option" [disabled]="exiting"

@@ -191,6 +191,16 @@ public class PageService {
         page.setCreator(creator);
         pageRepository.save(page);
     }
+    @Secured("ROLE_USER")
+    public void modifyKeyWordsField(Long id, String keyWords) {
+        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (securityService.isForbiddenPage(page)) {
+            throw new ForbiddenException();
+        }
+
+        page.setKeyWords(keyWords);
+        pageRepository.save(page);
+    }
 
     @Secured("ROLE_USER")
     public void delete(Long id) {
