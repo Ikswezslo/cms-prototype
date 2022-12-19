@@ -58,14 +58,18 @@ body {
 
 .ag-root-wrapper {
   @extend .mat-elevation-z4;
-  border: var(--base-blue) 1px solid;
+  border: #74b5ff 1px solid;
 
   .ag-root {
     .ag-header {
-      border-bottom: var(--base-blue) 1px solid;
+      border-bottom: #74b5ff 1px solid;
       .ag-header-viewport {
         background-color: var(--base-button-blue);
       }
+    }
+
+    .ag-body-viewport {
+      background-color: #f0f8ff;
     }
 
     .ag-row {
