@@ -58,9 +58,10 @@ export class PageListComponent implements OnInit {
   translateData() {
     this.data = this.pages.map(page => {
       const pageItem = page as PageGridItem
-      const dateComponents = pageItem.createdOn.split(' ')[0];
+      const [dateComponents, timeComponents] = pageItem.createdOn.split(' ');
       const [day, month, year] = dateComponents.split('-');
-      pageItem.createdOnAsDate = new Date(+year, +month - 1, +day);
+      const [hour, minute, second] = timeComponents.split(':');
+      pageItem.createdOnAsDate = new Date(+year, +month - 1, +day, +hour, +minute, +second);
       if (pageItem.hidden) {
         pageItem.hiddenTranslated = this.translate.instant("YES");
       } else {
@@ -74,14 +75,21 @@ export class PageListComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: this.translate.instant("ID"), field: 'id', flex: 0.5,
+        minWidth: 80,
         filter: 'agNumberColumnFilter'
       },
       {
-        headerName: this.translate.instant("TITLE"), field: 'title', flex: 2
+        headerName: this.translate.instant("TITLE"), field: 'title', flex: 2,
+        minWidth: 200,
       },
       {
         headerName: this.translate.instant("CREATED_ON"), field: 'createdOnAsDate',
+        minWidth: 200,
         filter: 'agDateColumnFilter',
+        filterValueGetter: params => {
+          const date: Date = params.data.createdOnAsDate as Date;
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
         valueFormatter: params => params.data.createdOn,
       },
       {
@@ -92,6 +100,7 @@ export class PageListComponent implements OnInit {
       },
       {
         headerName: this.translate.instant("IS_HIDDEN_PAGE"), field: 'hiddenTranslated',
+        minWidth: 100,
       }
     ];
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
@@ -101,6 +110,7 @@ export class PageListComponent implements OnInit {
     this.translateColumnDefs();
     this.defaultColDef = {
       flex: 1,
+      minWidth: 150,
       filter: 'agTextColumnFilter',
       suppressMovable: true,
       sortable: true,

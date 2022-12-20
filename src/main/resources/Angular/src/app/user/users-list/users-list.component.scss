@@ -1,8 +1,20 @@
-ag-grid-angular {
-  height: 70vh;
-  width: 80vw;
-  margin-left: 10vw;
-  margin-right: 10vw;
+:host {
+  flex-grow: 1;
+
+  h1 {
+    margin: 0;
+    padding: 30px 30px 0;
+  }
+
+  button {
+    margin: 30px;
+  }
+
+  ag-grid-angular {
+    max-width: 1200px;
+    width: 85%;
+    margin-bottom: 60px;
+  }
 }
 
 button {

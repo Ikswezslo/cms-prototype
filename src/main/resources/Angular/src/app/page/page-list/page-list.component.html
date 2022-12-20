@@ -1,15 +1,14 @@
-<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding">
-  <h1 fxFlex>{{"PAGES" | translate}}</h1>
+<div fxFlex fxLayout='column' fxLayoutAlign="center center">
+  <h1>{{"PAGES" | translate}}</h1>
+  <ag-grid-angular fxFlex="100"
+    class="ag-theme-alpine"
+    [suppressCellFocus]="true"
+    [rowSelection]="'single'"
+    [rowData]="pages"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [overlayNoRowsTemplate]="noRowsTemplate"
+    (rowSelected)="onRowSelected($event)"
+    (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
 </div>
-
-<ag-grid-angular
-  class="ag-theme-alpine"
-  [suppressCellFocus]="true"
-  [rowSelection]="'single'"
-  [rowData]="pages"
-  [columnDefs]="columnDefs"
-  [defaultColDef]="defaultColDef"
-  [overlayNoRowsTemplate]="noRowsTemplate"
-  (rowSelected)="onRowSelected($event)"
-  (gridReady)="onGridReady($event)">
-</ag-grid-angular>

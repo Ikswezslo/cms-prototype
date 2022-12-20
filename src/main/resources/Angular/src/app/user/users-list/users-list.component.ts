@@ -85,6 +85,7 @@ export class UsersListComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: this.translate.instant("ID"), field: 'id', flex: 0.5,
+        minWidth: 80,
         filter: 'agNumberColumnFilter'
       },
       {
@@ -101,6 +102,7 @@ export class UsersListComponent implements OnInit {
       },
       {
         headerName: this.translate.instant("ENABLED"), field: 'enabledTranslated', flex: 0.75,
+        minWidth: 100,
       }
     ];
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
@@ -110,6 +112,7 @@ export class UsersListComponent implements OnInit {
     this.translateColumnDefs();
     this.defaultColDef = {
       flex: 1,
+      minWidth: 150,
       filter: 'agTextColumnFilter',
       suppressMovable: true,
       sortable: true,

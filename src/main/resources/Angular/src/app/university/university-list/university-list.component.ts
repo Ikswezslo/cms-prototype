@@ -75,16 +75,20 @@ export class UniversityListComponent implements OnInit {
     this.columnDefs=[
       {
         headerName: this.translate.instant("ID"), field: 'id', flex: 0.5,
+        minWidth: 80,
         filter: 'agNumberColumnFilter'
       },
       {
         headerName: this.translate.instant("NAME"), field: 'name', flex: 1.5,
+        minWidth: 200,
       },
       {
         headerName: this.translate.instant("SHORT_NAME"),  field: 'shortName',
+        minWidth: 200,
       },
       {
         headerName: this.translate.instant("IS_HIDDEN_UNIVERSITY"), field: 'hiddenTranslated',
+        minWidth: 100,
       },
     ];
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
