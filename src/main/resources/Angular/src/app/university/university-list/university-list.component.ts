@@ -18,14 +18,14 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class UniversityListComponent implements OnInit {
 
-  universities: University[] = [];
-  public selected = false;
-  gridApi!: GridApi;
-  columnApi!: ColumnApi;
-  public noRowsTemplate;
-
   public columnDefs: ColDef[] = [];
   public defaultColDef: ColDef = {};
+  public noRowsTemplate;
+  universities: University[] = [];
+  data: UniversityGridItem[] = [];
+  gridApi?: GridApi;
+  columnApi?: ColumnApi;
+
   constructor(
     private router: Router,
     private dialogService: DialogService,
@@ -37,45 +37,75 @@ export class UniversityListComponent implements OnInit {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.translateColumnDefs();
+      this.translateData();
     })
     this.loadColumn();
     this.loadUniversities();
   }
 
-  loadUniversities(showHidden: Boolean = false) {
+  loadUniversities() {
     this.spinnerService.show();
-    this.universityService.getUniversities().pipe(take(1))
+    this.universityService.getUniversities()
       .subscribe({
         next: res => {
           this.spinnerService.hide();
-          this.universities = showHidden ? res : res.filter(element => !element.hidden);
+          this.universities = res;
+          this.translateData();
         },
         error: err => {
           this.spinnerService.hide();
           this.dialogService.openDataErrorDialog();
         }
       });
-    if(this.gridApi)
-      this.gridApi.sizeColumnsToFit();
+  }
+
+  translateData() {
+    this.data = this.universities.map(university => {
+      const universityItem = university as UniversityGridItem
+      if (universityItem.hidden) {
+        universityItem.hiddenTranslated = this.translate.instant("YES");
+      } else {
+        universityItem.hiddenTranslated = this.translate.instant("NO");
+      }
+      return universityItem
+    });
   }
 
   translateColumnDefs(){
     this.columnDefs=[
-      {headerName: this.translate.instant("ID"), field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter' },
-      {headerName: this.translate.instant("NAME"), field: 'name', minWidth: 300},
-      {headerName: this.translate.instant("SHORT_NAME"),  field: 'shortName', minWidth:150 },
+      {
+        headerName: this.translate.instant("ID"), field: 'id', flex: 0.5,
+        minWidth: 80,
+        filter: 'agNumberColumnFilter'
+      },
+      {
+        headerName: this.translate.instant("NAME"), field: 'name', flex: 1.5,
+        minWidth: 200,
+      },
+      {
+        headerName: this.translate.instant("SHORT_NAME"),  field: 'shortName',
+        minWidth: 200,
+      },
+      {
+        headerName: this.translate.instant("IS_HIDDEN_UNIVERSITY"), field: 'hiddenTranslated',
+        minWidth: 100,
+      },
     ];
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
 
   loadColumn() {
-    this.defaultColDef = {
-      minWidth: 100,
-      editable: false,
-      filter: 'agTextColumnFilter',
-      suppressMovable: true
-    };
     this.translateColumnDefs();
+    this.defaultColDef = {
+      flex: 1,
+      filter: 'agTextColumnFilter',
+      suppressMovable: true,
+      sortable: true,
+      editable: false,
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      }
+    };
   }
 
   addUniversity(){
@@ -90,13 +120,7 @@ export class UniversityListComponent implements OnInit {
       if (!result)
         return;
       this.loadUniversities();
-      this.gridApi.sizeColumnsToFit();
     });
-  }
-
-  onResize() {
-    this.gridApi.sizeColumnsToFit();
-    //this.columnApi.autoSizeAllColumns(false);
   }
 
   onRowSelected(event: RowSelectedEvent) {
@@ -106,6 +130,9 @@ export class UniversityListComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;
-    this.gridApi.sizeColumnsToFit();
   }
+}
+
+interface UniversityGridItem extends University {
+  hiddenTranslated: string;
 }

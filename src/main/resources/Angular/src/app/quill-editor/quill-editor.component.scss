@@ -1,10 +1,27 @@
 @import '../../cms-styles';
 
-.editor {
-  background-color: white;
-  max-width: $base-container-width;
-}
+:host {
+  flex-grow: 1;
 
-mat-card {
-  @extend .cms-fixed-width
+  mat-card {
+    @extend .cms-fixed-width
+  }
+
+  .editor {
+    background-color: white;
+    max-width: $base-container-width;
+    overflow: auto;
+    padding-bottom: 66px;
+    quill-editor {
+      height: 100%;
+    }
+
+    @media screen and (max-width: 672px) {
+      padding-bottom: 90px;
+    }
+
+    @media screen and (max-width: 478px) {
+      padding-bottom: 114px;
+    }
+  }
 }

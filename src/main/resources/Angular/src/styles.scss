@@ -55,3 +55,32 @@ body {
 }
 
 @import "cms-styles";
+
+.ag-root-wrapper {
+  @extend .mat-elevation-z4;
+  border: #74b5ff 1px solid;
+
+  .ag-root {
+    .ag-header {
+      border-bottom: #74b5ff 1px solid;
+      .ag-header-viewport {
+        background-color: var(--base-button-blue);
+      }
+    }
+
+    .ag-row {
+      border-bottom: var(--base-button-blue) 1px solid;
+      background-color: #d8eaff;
+      cursor: pointer;
+    }
+
+    .ag-row:hover {
+      background-color: var(--base-button-blue);
+    }
+
+    .ag-icon-menu:hover {
+      color: black;
+      opacity: 0.4;
+    }
+  }
+}
