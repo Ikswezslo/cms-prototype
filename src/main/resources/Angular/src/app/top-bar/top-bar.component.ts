@@ -63,13 +63,13 @@ export class TopBarComponent implements OnInit {
 
   logout() {
     this.userService.logout(false).subscribe({
-      next: user => {
+      next: () => {
         this.logged = false;
         this.userLogged = null;
         this.userService.loggedUser = null;
         window.location.replace('');
       },
-      error: err => {
+      error: () => {
       }
     });
   }
