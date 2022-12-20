@@ -47,7 +47,7 @@ export class KeywordsComponent implements OnInit {
   }
 
   onKeywordClicked(id: number) {
-    this.selectedKeyword = this.allKeyWords.find(keyword => keyword.id == id) ?? this.selectedKeyword;
+    this.selectedKeyword = this.allKeyWords.find(keyword => keyword.id == id) ?? {id: -1, word: ""};
   }
 
   onAddKeyword() {
@@ -67,6 +67,7 @@ export class KeywordsComponent implements OnInit {
               this.dialogService.openDataErrorDialog();
           }
         })
+        this.selectedKeyword = { id: -1, word: "" };
       }
     })
 
@@ -95,6 +96,7 @@ export class KeywordsComponent implements OnInit {
               this.dialogService.openDataErrorDialog();
           }
         })
+        this.selectedKeyword = { id: -1, word: "" };
       }
     })
   }
@@ -112,7 +114,6 @@ export class KeywordsComponent implements OnInit {
         })
         this.keyWordsService.deleteKeyWord(this.selectedKeyword.id).subscribe({
           next: () => {
-            this.selectedKeyword.id = -1;
             this.spinnerService.hide();
           }, error: err => {
             this.spinnerService.hide();
@@ -120,6 +121,7 @@ export class KeywordsComponent implements OnInit {
               this.dialogService.openDataErrorDialog();
           }
         });
+        this.selectedKeyword = { id: -1, word: "" };
       }
     });
   }
