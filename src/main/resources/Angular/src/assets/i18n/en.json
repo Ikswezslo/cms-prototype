@@ -119,6 +119,11 @@
   "SEARCH": "Search",
   "SEARCHING": "Searching",
   "NO_ROWS_TO_SHOW": "No rows to show...",
+  "IS_HIDDEN_PAGE": "Hidden",
+  "IS_HIDDEN_UNIVERSITY": "Hidden",
+  "CREATED_ON": "Creation date",
+  "ROLE": "Role",
+  "ENABLED": "Activated",
   "TEMPLATE": {
     "ONE": "Template",
     "MANY": "Templates",

@@ -40,7 +40,7 @@ export class SearchComponent implements OnInit {
   universityCardConfig: UniversityCardConfig = {
     useSecondaryColor: false,
     showDescription: true,
-    showGoToButton: true
+    showLink: true
   };
 
   userCardConfig: UserCardConfig = {

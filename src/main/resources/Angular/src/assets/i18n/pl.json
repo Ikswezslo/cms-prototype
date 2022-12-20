@@ -119,6 +119,11 @@
   "SEARCH": "Wyszukaj",
   "SEARCHING": "Wyszukiwanie",
   "NO_ROWS_TO_SHOW": "Brak wierszy do pokazania",
+  "IS_HIDDEN_PAGE": "Ukryta",
+  "IS_HIDDEN_UNIVERSITY": "Ukryty",
+  "CREATED_ON": "Data utworzenia",
+  "ROLE": "Rola",
+  "ENABLED": "Aktywowany",
   "TEMPLATE": {
     "ONE": "Szablon",
     "MANY": "Szablony",

@@ -7,7 +7,6 @@ import {SpinnerService} from 'src/assets/service/spinner.service';
 import {PageService} from '../../../assets/service/page.service';
 import {TranslateService} from "@ngx-translate/core";
 
-
 @Component({
   selector: 'app-page-list',
   templateUrl: './page-list.component.html',
@@ -15,14 +14,13 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class PageListComponent implements OnInit {
 
-  pages: Page[] = [];
-  public selected = false;
-  gridApi!: GridApi;
-  columnApi!: ColumnApi;
-  public dataTable!: [{ id?: Number, title?: String, date?: String, university?: String, creator?: String }];
   public columnDefs: ColDef[] = [];
   public defaultColDef: ColDef = {};
-  public noRowsTemplate;
+  public noRowsTemplate: string = "";
+  pages: Page[] = [];
+  data: PageGridItem[] = [];
+  gridApi?: GridApi;
+  columnApi?: ColumnApi;
 
   constructor(
     private router: Router,
@@ -35,51 +33,74 @@ export class PageListComponent implements OnInit {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.translateColumnDefs();
+      this.translateData();
     })
     this.loadColumn()
     this.loadPages();
   }
 
-  loadPages(showHidden: Boolean = false) {
+  loadPages() {
     this.spinnerService.show();
     this.pageService.getPages()
       .subscribe({
         next: res => {
           this.spinnerService.hide();
-          this.pages = showHidden ? res : res.filter(element => !element.hidden);
-          res.forEach(el => {
-            if (!this.dataTable)
-              this.dataTable = [{
-                id: el.id,
-                title: el.title,
-                date: el.createdOn,
-                university: el.university.name,
-                creator: el.creator.firstName + " " + el.creator.lastName
-              }];
-            else
-              this.dataTable.push({
-                id: el.id,
-                title: el.title,
-                date: el.createdOn,
-                university: el.university.name,
-                creator: el.creator.firstName + " " + el.creator.lastName
-              })
-          });
+          this.pages = res;
+          this.translateData();
         },
         error: () => {
           this.spinnerService.hide();
         }
       });
-    this.gridApi.sizeColumnsToFit();
   }
 
-  translateColumnDefs(){
+  translateData() {
+    this.data = this.pages.map(page => {
+      const pageItem = page as PageGridItem
+      const [dateComponents, timeComponents] = pageItem.createdOn.split(' ');
+      const [day, month, year] = dateComponents.split('-');
+      const [hour, minute, second] = timeComponents.split(':');
+      pageItem.createdOnAsDate = new Date(+year, +month - 1, +day, +hour, +minute, +second);
+      if (pageItem.hidden) {
+        pageItem.hiddenTranslated = this.translate.instant("YES");
+      } else {
+        pageItem.hiddenTranslated = this.translate.instant("NO");
+      }
+      return pageItem
+    });
+  }
+
+  translateColumnDefs() {
     this.columnDefs = [
-      {headerName: this.translate.instant("ID"), field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter'},
-      {headerName: this.translate.instant("TITLE"), field: 'title', minWidth: 300},
-      {headerName: this.translate.instant("DATE"), field: 'date'},
-      {headerName: this.translate.instant("UNIVERSITY"), field: 'university', minWidth: 300},
-      {headerName: this.translate.instant("AUTHOR"), field: 'creator'},
+      {
+        headerName: this.translate.instant("ID"), field: 'id', flex: 0.5,
+        minWidth: 80,
+        filter: 'agNumberColumnFilter'
+      },
+      {
+        headerName: this.translate.instant("TITLE"), field: 'title', flex: 2,
+        minWidth: 200,
+      },
+      {
+        headerName: this.translate.instant("CREATED_ON"), field: 'createdOnAsDate',
+        minWidth: 200,
+        filter: 'agDateColumnFilter',
+        filterValueGetter: params => {
+          const date: Date = params.data.createdOnAsDate as Date;
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
+        valueFormatter: params => params.data.createdOn,
+      },
+      {
+        headerName: this.translate.instant("UNIVERSITY"), field: 'university.shortName',
+      },
+      {
+        headerName: this.translate.instant("AUTHOR"), field: 'creator.username',
+      },
+      {
+        headerName: this.translate.instant("IS_HIDDEN_PAGE"), field: 'hiddenTranslated',
+        minWidth: 100,
+      }
     ];
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
@@ -87,17 +108,16 @@ export class PageListComponent implements OnInit {
   loadColumn() {
     this.translateColumnDefs();
     this.defaultColDef = {
-      minWidth: 200,
-      editable: false,
+      flex: 1,
+      minWidth: 150,
       filter: 'agTextColumnFilter',
       suppressMovable: true,
+      sortable: true,
+      editable: false,
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      }
     };
-  }
-
-  onResize() {
-    this.gridApi.sizeColumnsToFit();
-    // this.columnApi.autoSizeAllColumns(false);
-
   }
 
   onRowSelected(event: RowSelectedEvent) {
@@ -107,8 +127,11 @@ export class PageListComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;
-    // this.columnApi.autoSizeAllColumns(false);
-    this.gridApi.sizeColumnsToFit();
   }
+}
+
+interface PageGridItem extends Page {
+  createdOnAsDate: Date;
+  hiddenTranslated: string;
 }
 

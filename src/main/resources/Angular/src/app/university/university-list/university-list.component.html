@@ -1,24 +1,15 @@
-<h1>{{"UNIVERSITIES" | translate}}</h1>
-<button mat-button (click)="addUniversity()">{{"ADD_UNIVERSITY" | translate}}</button>
-<div class="options">
-    <mat-form-field appearance="standard" class="option">
-        <mat-label>{{"SHOW" | translate}}</mat-label>
-        <mat-select [(value)]="selected" (selectionChange)="loadUniversities($event.value)">
-            <mat-option [value]=true>{{"ALL" | translate}}</mat-option>
-            <mat-option [value]=false>{{"WITHOUT_HIDDEN" | translate}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-</div>
-<ag-grid-angular
-    (window:resize)="onResize()"
-    style="width: 100%; height: 100%;"
-    domLayout='autoHeight'
+<div fxFlex fxLayout='column' fxLayoutAlign="center center">
+  <h1 fxFlex>{{"UNIVERSITIES" | translate}}</h1>
+  <button fxFlex mat-button (click)="addUniversity()">{{"ADD_UNIVERSITY" | translate}}</button>
+  <ag-grid-angular fxFlex="100"
     class="ag-theme-alpine"
-    [rowData]="universities"
+    [rowSelection]="'single'"
+    [suppressCellFocus]="true"
+    [rowData]="data"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
-    [rowSelection]="'single'"
+    [overlayNoRowsTemplate]="noRowsTemplate"
     (rowSelected)="onRowSelected($event)"
-    (gridReady)="onGridReady($event)"
-    [overlayNoRowsTemplate]="noRowsTemplate">
-</ag-grid-angular>
+    (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+</div>
