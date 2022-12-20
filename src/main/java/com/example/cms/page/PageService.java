@@ -185,9 +185,9 @@ public class PageService {
     }
     @Secured("ROLE_USER")
     public void modifyKeyWordsField(Long id, String keyWords) {
-        Page page = pageRepository.findById(id).orElseThrow(NotFoundException::new);
+        Page page = pageRepository.findById(id).orElseThrow(PageNotFound::new);
         if (securityService.isForbiddenPage(page)) {
-            throw new ForbiddenException();
+            throw new PageForbidden();
         }
 
         page.setKeyWords(keyWords);

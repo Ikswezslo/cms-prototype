@@ -1,6 +1,6 @@
-package com.example.cms.keyWords.projections;
+package com.example.cms.keywords.projections;
 
-import com.example.cms.keyWords.KeyWords;
+import com.example.cms.keywords.KeyWords;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

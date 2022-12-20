@@ -174,7 +174,7 @@
     "UNIVERSITY": {
       "400":{
         "NAME_TAKEN": "Ta nazwa jest już zajęta",
-        "UNIVERSITY_IS_NOT_HIDDEN": "Nie można usunąć widocznych uniwersytetów",
+        "UNIVERSITY_NOT_HIDDEN": "Nie można usunąć widocznych uniwersytetów",
         "ACTIVE_USER_EXISTS": "Nie można usunąć uniwersytetu z aktywnymi użytkownikami"
       },
       "403": "Brak dostępu do uniwersytetu",
@@ -187,7 +187,7 @@
         "USERNAME_TAKEN": "Podana nazwa użytkownika jest już zajęta",
         "WRONG_PASSWORD": "Złe hasło",
         "NOT_VALID_PASSWORD": "Hasło nie spełnia wymagań",
-        "USER_IS_ENABLED": "Nie można usunąć aktywnego użytkownika"
+        "USER_ENABLED": "Nie można usunąć aktywnego użytkownika"
       },
       "403": "Brak dostępu do użytkownika",
       "404": "Nie znaleziono użytkownika"

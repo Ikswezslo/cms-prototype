@@ -174,7 +174,7 @@
     "UNIVERSITY": {
       "400":{
         "NAME_TAKEN": "This name is already taken",
-        "UNIVERSITY_IS_NOT_HIDDEN": "Cannot delete not hidden university",
+        "UNIVERSITY_NOT_HIDDEN": "Cannot delete not hidden university",
         "ACTIVE_USER_EXISTS": "Cannot delete university with active users"
       },
       "403": "No access to university",
@@ -187,7 +187,7 @@
         "USERNAME_TAKEN": "User with given username already exists",
         "WRONG_PASSWORD": "The password is wrong",
         "NOT_VALID_PASSWORD": "The password is not valid",
-        "USER_IS_ENABLED": "Cannot delete active user"
+        "USER_ENABLED": "Cannot delete active user"
       },
       "403": "No access to user",
       "404": "User not found"

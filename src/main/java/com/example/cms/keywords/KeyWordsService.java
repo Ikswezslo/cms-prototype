@@ -1,9 +1,8 @@
-package com.example.cms.keyWords;
+package com.example.cms.keywords;
 
-import com.example.cms.keyWords.projections.KeyWordsDtoDetailed;
-import com.example.cms.security.SecurityService;
-import com.example.cms.university.UniversityRepository;
+import com.example.cms.keywords.projections.KeyWordsDtoDetailed;
 import com.example.cms.validation.exceptions.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class KeyWordsService {
     private final KeyWordsRepository keyWordsRepository;
-    private final SecurityService securityService;
-
-    public KeyWordsService(KeyWordsRepository keyWordsRepository,
-                           SecurityService securityService) {
-        this.keyWordsRepository = keyWordsRepository;
-        this.securityService = securityService;
-    }
 
     public KeyWordsDtoDetailed get(Long id) {
         return keyWordsRepository.findById(id).map(KeyWordsDtoDetailed::of).orElseThrow(NotFoundException::new);
