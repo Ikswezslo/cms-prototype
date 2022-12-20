@@ -22,5 +22,5 @@ export class UniversityCardComponent implements OnInit {
 export interface UniversityCardConfig {
   useSecondaryColor: boolean;
   showDescription: boolean;
-  showGoToButton: boolean;
+  showLink: boolean;
 }
