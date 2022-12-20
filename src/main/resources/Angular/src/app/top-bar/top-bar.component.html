@@ -1,27 +1,32 @@
-<span class="beginning">
-    <button mat-button style="text-align: center" [routerLink]="['/']">Logo</button>
+<span class="topBarCss">
+    <button mat-button fxHide.xs style="text-align: center" [routerLink]="['/']">Logo</button>
     <button *ngIf="logged" [matMenuTriggerFor]="aboveMenu" class="mainButton">
         <mat-icon fontIcon="menu"></mat-icon>
-        CMS
+        <span fxHide.xs>CMS</span>
     </button>
-    <button #isopen="matMenuTrigger" [matMenuTriggerFor]="lanMenu" class="lanButton">
-          <mat-icon fontIcon="menu"></mat-icon>
-          {{"CURRENT_LANGUAGE" | translate}}
+    <button [matMenuTriggerFor]="lanMenu" class="lanButton">
+        <mat-icon fontIcon="menu" fxHide.xs></mat-icon>
+        <span>{{"CURRENT_LANGUAGE" | translate}}</span>
     </button>
 
     <button mat-button [routerLink]="['/search']">
         <mat-icon>search</mat-icon>
-        {{"SEARCH" | translate}}
+        <span fxHide.xs>{{"SEARCH" | translate}}</span>
     </button>
 </span>
 <mat-menu #aboveMenu="matMenu" yPosition="above">
   <button mat-menu-item [routerLink]="['/']" class="subButton">{{"MAIN_PAGE" | translate}}</button>
-  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/universities']" class="subButton">{{"UNIVERSITIES" | translate}}</button>
-  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/accounts']" class="subButton">{{"USERS" | translate}}</button>
+  <button mat-menu-item *ngIf="userLogged?.accountType !== 'USER'" [routerLink]="['/universities']"
+          class="subButton">{{"UNIVERSITIES" | translate}}</button>
+  <button mat-menu-item *ngIf="userLogged?.accountType !== 'USER'" [routerLink]="['/accounts']"
+          class="subButton">{{"USERS" | translate}}</button>
   <button mat-menu-item [routerLink]="['/pages']" class="subButton">{{"PAGES" | translate}}</button>
-  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/templates']" class="subButton">{{"TEMPLATE.MANY" | translate}}</button>
-  <button *ngIf="userLogged?.accountType !== 'USER'" mat-menu-item [routerLink]="['/keywords']" class="subButton">{{"KEYWORD.MANY" | translate}}</button>
-  <button *ngIf="userLogged?.accountType === 'ADMIN'" mat-menu-item [routerLink]="['/backups']" class="subButton">{{"BACKUP.MANY" | translate}}</button>
+  <button mat-menu-item *ngIf="userLogged?.accountType !== 'USER'" [routerLink]="['/templates']"
+          class="subButton">{{"TEMPLATE.MANY" | translate}}</button>
+  <button mat-menu-item *ngIf="userLogged?.accountType !== 'USER'" [routerLink]="['/keywords']"
+          class="subButton">{{"KEYWORD.MANY" | translate}}</button>
+  <button mat-menu-item *ngIf="userLogged?.accountType === 'ADMIN'" [routerLink]="['/backups']"
+          class="subButton">{{"BACKUP.MANY" | translate}}</button>
 </mat-menu>
 
 <mat-menu #lanMenu="matMenu" yPosition="above">
@@ -29,14 +34,19 @@
   <button mat-menu-item class="subButton" (click)="translate_to_en()">English (en)</button>
 </mat-menu>
 
-
-<button *ngIf="logged" class="mainButton" [matMenuTriggerFor]="userMenu"><i
-  class="material-icons">person</i>{{userLogged?.firstName}}</button>
 <mat-menu #userMenu="matMenu" yPosition="above">
-  <button mat-menu-item class="subButton" [routerLink]="['/account/' + this.userLogged?.id]">{{"PROFILE" | translate}}</button>
+  <button mat-menu-item class="subButton"
+          [routerLink]="['/account/' + this.userLogged?.id]">{{"PROFILE" | translate}}</button>
   <button mat-menu-item class="subButton" [routerLink]="['/accounts/settings']">{{"SETTINGS" | translate}}</button>
   <button mat-menu-item class="subButton" [routerLink]="['']" (click)="logout()">{{"LOGOUT" | translate}}</button>
 </mat-menu>
-
-<button *ngIf="!logged" class="mainButton" [routerLink]="['/login']">{{"LOGIN" | translate}}<i
-    class="material-icons">person</i></button>
+<span class="topBarCss">
+  <button *ngIf="logged" class="mainButton" [matMenuTriggerFor]="userMenu">
+    <mat-icon>person</mat-icon>
+    <span fxHide.xs>{{userLogged?.firstName}}</span>
+  </button>
+  <button *ngIf="!logged" class="mainButton" [routerLink]="['/login']">
+    <mat-icon fxHide.xs>person</mat-icon>
+    <span>{{"LOGIN" | translate}}</span>
+  </button>
+</span>
