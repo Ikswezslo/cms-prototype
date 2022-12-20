@@ -26,13 +26,13 @@ export class UniversityDetailsComponent implements OnInit {
 
   userCardConfig: UserCardConfig = {
     useSecondaryColor: true,
-    showGoToButton: true,
+    showLink: true,
     showSettings: false
   };
 
   secondaryCardConfig: PageCardConfig = {
     useSecondaryColor: true,
-    showGoToButton: true,
+    showLink: true,
     showDescription: true,
     showUniversity: false,
     showCreatedOn: true,
@@ -105,8 +105,10 @@ export class UniversityDetailsComponent implements OnInit {
       }
     }
     const dialogRef = this.dialog.open(DialogUniversityCreateComponent, dialogData);
-    dialogRef.afterClosed().subscribe(() => {
-      this.loadUniversity();
+    dialogRef.afterClosed().subscribe(res => {
+      if(res) {
+        this.university = res;
+      }
     });
   }
 }

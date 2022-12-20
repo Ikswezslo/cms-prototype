@@ -87,4 +87,10 @@ public class PageController {
         service.modifyCreatorField(id, username);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/keyWords")
+    ResponseEntity<Void> modifyPageKeyWords(@PathVariable long id, @RequestBody String keyWords) {
+        service.modifyKeyWordsField(id, keyWords);
+        return ResponseEntity.noContent().build();
+    }
 }

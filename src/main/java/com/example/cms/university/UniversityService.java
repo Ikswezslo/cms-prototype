@@ -89,14 +89,14 @@ public class UniversityService {
     }
 
     @Secured("ROLE_MODERATOR")
-    public void update(Long id, UniversityDtoFormUpdate form) {
+    public UniversityDtoDetailed update(Long id, UniversityDtoFormUpdate form) {
         University university = universityRepository.findById(id).orElseThrow(UniversityNotFound::new);
         if (securityService.isForbiddenUniversity(university)) {
             throw new UniversityForbidden();
         }
 
         form.updateUniversity(university);
-        universityRepository.save(university);
+        return UniversityDtoDetailed.of(universityRepository.save(university));
     }
 
     @Transactional

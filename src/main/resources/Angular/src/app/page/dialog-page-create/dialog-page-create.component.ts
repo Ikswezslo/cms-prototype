@@ -22,6 +22,7 @@ export class DialogPageCreateComponent implements OnInit {
 
   parentPage?: Page;
   template?: Template;
+  keyWords?: string;
   pending: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogPageCreateComponent>,
@@ -42,7 +43,8 @@ export class DialogPageCreateComponent implements OnInit {
       description: this.form.controls.description.value,
       content: this.template?.content,
       creatorId: this.userService.loggedUser?.id,
-      parentId: this.parentPage?.id
+      parentId: this.parentPage?.id,
+      keyWords: this.keyWords
     } as PageForm
 
     this.pending = true;
@@ -60,5 +62,8 @@ export class DialogPageCreateComponent implements OnInit {
 
   onTemplateChanged(template?: Template) {
     this.template = template;
+  }
+  onKeyWordsChanged(keyWords?: string[]) {
+    this.keyWords = keyWords?.join(',');
   }
 }

@@ -43,13 +43,13 @@ export class UserDetailsComponent implements OnInit {
 
   userCardConfig: UserCardConfig = {
     useSecondaryColor: false,
-    showGoToButton: false,
+    showLink: false,
     showSettings: true
   };
 
   pageCardConfig: PageCardConfig = {
     useSecondaryColor: true,
-    showGoToButton: true,
+    showLink: true,
     showDescription: true,
     showUniversity: true,
     showCreatedOn: true,

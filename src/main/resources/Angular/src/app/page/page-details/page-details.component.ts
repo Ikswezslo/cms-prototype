@@ -8,6 +8,7 @@ import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-creat
 import {PageCardConfig} from "../page-card/page-card.component";
 import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
 import {SecurityService} from "../../../assets/service/security.service";
+import { EditPageKeyWordsComponent } from 'src/app/keywords/edit-page-key-words/edit-page-key-words.component';
 import {DialogPageEditBasicComponent} from "../dialog-page-edit-basic/dialog-page-edit-basic.component";
 
 @Component({
@@ -22,7 +23,7 @@ export class PageDetailsComponent implements OnInit {
 
   primaryCardConfig: PageCardConfig = {
     useSecondaryColor: false,
-    showGoToButton: false,
+    showLink: false,
     showDescription: true,
     showUniversity: true,
     showCreatedOn: true,
@@ -31,7 +32,7 @@ export class PageDetailsComponent implements OnInit {
 
   secondaryCardConfig: PageCardConfig = {
     useSecondaryColor: true,
-    showGoToButton: true,
+    showLink: true,
     showDescription: true,
     showUniversity: false,
     showCreatedOn: true,
@@ -112,6 +113,19 @@ export class PageDetailsComponent implements OnInit {
       }
     }
     const dialogRef = this.dialog.open(DialogPageCreatorComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
+  }
+
+  changeKeyWords() {
+    let dialogData = {
+      data: {
+        id: this.page.id,
+        keyWords: this.page.keyWords
+      }
+    }
+    const dialogRef = this.dialog.open(EditPageKeyWordsComponent, dialogData);
     dialogRef.afterClosed().subscribe(() => {
       this.loadPage();
     });

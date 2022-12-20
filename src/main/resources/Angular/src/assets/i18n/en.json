@@ -212,6 +212,19 @@
   "SIZE": "File size",
   "UPLOAD_DATE": "Upload date",
   "UPLOADED_BY": "Uploaded by",
+  "KEYWORD":{
+    "ONE": "Keyword",
+    "MANY": "Keywords",
+    "EDIT": "Edit",
+    "EDIT_MANY": "Edit keywords",
+    "ADD": "Add",
+    "DELETE": "Delete",
+    "AVAILABLE": "Available keywords",
+    "EDIT_MODE": "Edit mode",
+    "CLOSE": "Close",
+    "VIEW_MODE": "View mode"
+
+  },
   "NO_FILES": "No files uploaded yet.",
   "DELETE_FILE_DESCRIPTION": "Are you sure you want to delete this file? This operation cannot be undone.",
   "DELETE_FILE_CONFIRMATION": "File deleted successfully.",
