@@ -1,4 +1,4 @@
-<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
+<div fxFlex fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap">
   <mat-card fxFlex>
     <mat-card-title>{{title}}</mat-card-title>
     <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
@@ -16,12 +16,13 @@
     </mat-card-actions>
   </mat-card>
 
-  <div fxFlex class="editor">
-    <quill-editor [(ngModel)]="content"
-                  [sanitize]="true"
-                  [styles]="{height: '600px'}"
-                  (onEditorCreated)="created($event)"
-                  [modules]="modules">
-    </quill-editor>
+  <div fxFlex="100" fxLayout='column'>
+    <div fxFlex fxLayout='column' class="editor mat-elevation-z4">
+      <quill-editor [(ngModel)]="content"
+                    [sanitize]="true"
+                    (onEditorCreated)="created($event)"
+                    [modules]="modules">
+      </quill-editor>
+    </div>
   </div>
 </div>
