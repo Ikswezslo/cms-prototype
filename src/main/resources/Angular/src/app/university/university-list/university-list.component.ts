@@ -21,7 +21,7 @@ export class UniversityListComponent implements OnInit {
   public columnDefs: ColDef[] = [];
   public defaultColDef: ColDef = {};
   public noRowsTemplate;
-  universities: University[] = [];University
+  universities: University[] = [];
   data: UniversityGridItem[] = [];
   gridApi?: GridApi;
   columnApi?: ColumnApi;
