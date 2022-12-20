@@ -11,20 +11,19 @@ public class UserException extends BadRequestException {
     private static String getMessage(UserExceptionType type) {
         switch (type) {
             case PAGES_EXISTS:
-                return "You cannot delete user if pages which he created exist";
+                return "ERRORS.USER.400.PAGES_EXISTS";
             case SAME_PASSWORD:
-                return "The passwords are the same";
-            case NOT_FOUND_UNIVERSITY:
-                return "University is not found";
+                return "ERRORS.USER.400.SAME_PASSWORD";
             case USERNAME_TAKEN:
-                return "User with given username already exists";
+                return "ERRORS.USER.400.USERNAME_TAKEN";
             case WRONG_PASSWORD:
-                return "The password is wrong";
+                return "ERRORS.USER.400.WRONG_PASSWORD";
             case NOT_VALID_PASSWORD:
-                return "Password is not valid";
+                return "ERRORS.USER.400.NOT_VALID_PASSWORD";
             case USER_IS_ENABLED:
-                return "You cannot delete enabled users";
+                return "ERRORS.USER.400.USER_ENABLED";
+            default:
+                return "ERRORS.400";
         }
-        return "Unknown bad request";
     }
 }

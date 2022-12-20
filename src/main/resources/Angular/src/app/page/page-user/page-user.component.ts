@@ -37,7 +37,6 @@ export class PageUserComponent implements OnInit {
         },
         error: () => {
           this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog()
         }
       })
   }

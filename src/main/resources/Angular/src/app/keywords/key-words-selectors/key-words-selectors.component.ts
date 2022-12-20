@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroup} from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { KeyWordsService } from 'src/assets/service/key-words.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -36,7 +36,7 @@ export class KeyWordsSelectorsComponent implements OnInit {
       this.selectedKeyWords = this.keyWords;
     }
     this.loadKeyWords();
-    this.keyWordsControl.statusChanges.subscribe(status => {
+    this.keyWordsControl.statusChanges.subscribe(() => {
       let value: string[] = this.selectedKeyWords;
       this.keyWordsChanged.emit(value);
     })
@@ -54,7 +54,7 @@ export class KeyWordsSelectorsComponent implements OnInit {
         this.allKeyWords = res.map(keyWord => keyWord['word']);
         this.spinnerService.hide();
       },
-      error: err => this.spinnerService.hide()
+      error: () => this.spinnerService.hide()
       });
   }
 

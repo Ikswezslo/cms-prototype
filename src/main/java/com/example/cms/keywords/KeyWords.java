@@ -1,4 +1,4 @@
-package com.example.cms.keyWords;
+package com.example.cms.keywords;
 
 import lombok.Getter;
 import lombok.Setter;

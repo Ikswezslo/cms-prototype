@@ -10,14 +10,13 @@ public class UniversityException extends BadRequestException {
     private static String getMessage(UniversityExceptionType type) {
         switch (type) {
             case NAME_TAKEN:
-                return "This name is already taken";
-            case CONTENT_EXISTS:
-                return "You cannot delete University with associated content";
+                return "ERRORS.UNIVERSITY.400.NAME_TAKEN";
             case UNIVERSITY_IS_NOT_HIDDEN:
-                return "You cannot delete University which is not hidden";
+                return "ERRORS.UNIVERSITY.400.UNIVERSITY_NOT_HIDDEN";
             case ACTIVE_USER_EXISTS:
-                return "You cannot delete University with active users";
+                return "ERRORS.UNIVERSITY.400.ACTIVE_USER_EXISTS";
+            default:
+                return "ERRORS.400";
         }
-        return "Unknown bad request";
     }
 }

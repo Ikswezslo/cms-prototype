@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Keyword } from 'src/assets/models/keywords';
@@ -38,10 +37,8 @@ export class KeywordsComponent implements OnInit {
         this.allKeyWords = res;
         this.spinnerService.hide();
       },
-      error: err => {
+      error: () => {
         this.spinnerService.hide();
-        if (err.status !== 401)
-          this.dialogService.openDataErrorDialog();
       }
     });
   }
@@ -61,16 +58,13 @@ export class KeywordsComponent implements OnInit {
             this.spinnerService.hide();
             this.loadKeyWords();
           },
-          error: err => {
+          error: () => {
             this.spinnerService.hide();
-            if (err.status !== 401)
-              this.dialogService.openDataErrorDialog();
           }
         })
         this.selectedKeyword = { id: -1, word: "" };
       }
     })
-
   }
 
   onEditKeyword() {
@@ -90,10 +84,8 @@ export class KeywordsComponent implements OnInit {
             this.spinnerService.hide();
             this.loadKeyWords();
           },
-          error: err => {
+          error: () => {
             this.spinnerService.hide();
-            if (err.status !== 401)
-              this.dialogService.openDataErrorDialog();
           }
         })
         this.selectedKeyword = { id: -1, word: "" };
@@ -105,7 +97,7 @@ export class KeywordsComponent implements OnInit {
     console.log(this.selectedKeyword.id);
     if (this.selectedKeyword.id < 0)
       return;
-    
+
     this.dialogService.openConfirmationDialog().afterClosed().subscribe(value => {
       if (value && this.selectedKeyword) {
         this.spinnerService.show();
@@ -115,10 +107,9 @@ export class KeywordsComponent implements OnInit {
         this.keyWordsService.deleteKeyWord(this.selectedKeyword.id).subscribe({
           next: () => {
             this.spinnerService.hide();
-          }, error: err => {
+          },
+          error: () => {
             this.spinnerService.hide();
-            if (err.status !== 401)
-              this.dialogService.openDataErrorDialog();
           }
         });
         this.selectedKeyword = { id: -1, word: "" };
@@ -129,6 +120,4 @@ export class KeywordsComponent implements OnInit {
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
   }
-
-  
 }

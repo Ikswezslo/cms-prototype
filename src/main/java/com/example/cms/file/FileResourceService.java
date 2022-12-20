@@ -3,11 +3,12 @@ package com.example.cms.file;
 import com.example.cms.file.projections.FileDtoSimple;
 import com.example.cms.page.Page;
 import com.example.cms.page.PageRepository;
+import com.example.cms.page.exceptions.PageForbidden;
+import com.example.cms.page.exceptions.PageNotFound;
 import com.example.cms.security.SecurityService;
 import com.example.cms.user.User;
 import com.example.cms.user.UserRepository;
-import com.example.cms.validation.exceptions.ForbiddenException;
-import com.example.cms.validation.exceptions.NotFoundException;
+import com.example.cms.user.exceptions.UserNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -40,7 +41,7 @@ public class FileResourceService {
     public ResponseEntity<Resource> downloadFiles(Long pageId, String filename) {
         // TODO: Add security
 
-        Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
+        Page page = pageRepository.findById(pageId).orElseThrow(PageNotFound::new);
         FileResource fileResource = new FileResource();
 
         Optional<FileResource> optionalFileResource = fileRepository.findFileResourceByFilenameAndPage(filename, page);
@@ -57,12 +58,12 @@ public class FileResourceService {
     @Secured("ROLE_USER")
     public void uploadFile(Long pageId, Long userId, MultipartFile multipartFile) throws IOException {
 
-        Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
+        Page page = pageRepository.findById(pageId).orElseThrow(PageNotFound::new);
         if (securityService.isForbiddenPage(page)) {
-            throw new ForbiddenException();
+            throw new PageForbidden();
         }
 
-        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFound::new);
 
         deleteFileIfExists(page, multipartFile);
 
@@ -81,9 +82,9 @@ public class FileResourceService {
     @Transactional
     @Secured("ROLE_USER")
     public void deleteFile(Long pageId, String filename) {
-        Page page = pageRepository.findById(pageId).orElseThrow(NotFoundException::new);
+        Page page = pageRepository.findById(pageId).orElseThrow(PageNotFound::new);
         if (securityService.isForbiddenPage(page)) {
-            throw new ForbiddenException();
+            throw new PageForbidden();
         }
         fileRepository.deleteFileResourceByFilenameAndAndPage(filename, page);
     }

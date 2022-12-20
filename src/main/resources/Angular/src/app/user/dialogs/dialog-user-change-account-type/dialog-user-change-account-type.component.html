@@ -12,10 +12,10 @@
   </mat-form-field>
 
   <mat-dialog-actions>
-    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">{{"CANCEL" | translate}}</button>
+    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="pending">{{"CANCEL" | translate}}</button>
     <button mat-button color="primary"
             (click)="changeAccountType(accountTypeControl.value)"
-            [disabled]="!accountTypeControl.valid||exiting">{{"ACCEPT" | translate}}
+            [disabled]="!accountTypeControl.valid||pending">{{"ACCEPT" | translate}}
     </button>
   </mat-dialog-actions>
 </form>

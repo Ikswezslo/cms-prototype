@@ -8,9 +8,6 @@ import {DialogService} from "../../assets/service/dialog.service";
 import {FileResource} from "../../assets/models/file";
 import {PageService} from "../../assets/service/page.service";
 import {TranslateService} from "@ngx-translate/core";
-import {ConfirmationDialogComponent} from "../dialog/confirmation-dialog/confirmation-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
-import {ErrorDialogComponent} from "../dialog/error-dialog/error-dialog.component";
 import {SecurityService} from "../../assets/service/security.service";
 
 @Component({
@@ -25,11 +22,10 @@ export class FileCardComponent implements OnChanges {
   public hideBar: boolean = true;
 
   constructor(
+    public securityService: SecurityService,
     private pageService: PageService,
     private fileService: FileService,
     private userService: UserService,
-    public securityService: SecurityService,
-    public dialog: MatDialog,
     private translate: TranslateService,
     private dialogService: DialogService) {
   }
@@ -45,36 +41,23 @@ export class FileCardComponent implements OnChanges {
         this.hideBar = true;
       },
       error: () => {
-        this.dialogService.openDataErrorDialog();
         this.hideBar = true;
       }
     });
   }
 
   onDeleteFile(filename: string): void {
-    const deletingDialog = this.dialog.open(ConfirmationDialogComponent, {
-      data: {
-        title: this.translate.instant("DELETING") + ' ' + filename,
-        description: this.translate.instant("DELETE_FILE_DESCRIPTION")
-      }
-    });
-    deletingDialog.afterClosed().subscribe(res => {
-      if (res) {
-        this.fileService.deleteFile(filename, this.page.id).subscribe({
-          next: () => {
-            this.dialogService.openSuccessDialog(this.translate.instant("DELETE_FILE_CONFIRMATION"));
-            this.loadFiles(this.page.id)
-          },
-          error: err => {
-            this.dialog.open(ErrorDialogComponent, {
-              data: {
-                description: err.message || this.translate.instant("DELETE_FILE_ERROR")
-              }
-            })
-          }
-        });
-      }
-    });
+    this.dialogService.openConfirmationDialog(this.translate.instant("DELETE_FILE_DESCRIPTION")).afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.fileService.deleteFile(filename, this.page.id).subscribe({
+            next: () => {
+              this.dialogService.openSuccessDialog(this.translate.instant("DELETE_FILE_CONFIRMATION"));
+              this.loadFiles(this.page.id)
+            }
+          });
+        }
+      });
   }
 
   onUploadFiles(event: Event): void {
@@ -90,23 +73,16 @@ export class FileCardComponent implements OnChanges {
       next: res => {
         this.reportProgress(res);
         this.hideBar = false;
-      },
-      error: () => {
-        this.dialogService.openDataErrorDialog();
       }
     });
 
   }
 
   onDownloadFiles(filename: string): void {
-
     this.fileService.download(filename, this.page.id).subscribe({
       next: res => {
         this.reportProgress(res);
         this.hideBar = false;
-      },
-      error: () => {
-        this.dialogService.openDataErrorDialog();
       }
     });
   }

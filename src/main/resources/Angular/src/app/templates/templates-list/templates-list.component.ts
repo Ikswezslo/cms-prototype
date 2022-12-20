@@ -59,10 +59,8 @@ export class TemplatesListComponent implements OnInit {
             }
           })
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          if (err.status !== 401)
-            this.dialogService.openDataErrorDialog();
         }
       });
   }

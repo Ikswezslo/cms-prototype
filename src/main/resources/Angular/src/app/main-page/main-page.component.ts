@@ -38,10 +38,8 @@ export class MainPageComponent implements OnInit {
           this.pages = res;
           this.spinnerService.hide();
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          if (err.status !== 401)
-            this.dialogService.openDataErrorDialog();
         }
       });
   }

@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
 import {UserForm} from 'src/assets/models/user';
 import {UserService} from 'src/assets/service/user.service';
-import {DialogService} from "../../../../assets/service/dialog.service";
 import {SecurityService} from "../../../../assets/service/security.service";
 
 @Component({
@@ -22,14 +21,13 @@ export class DialogUserCreateComponent implements OnInit {
     phoneNumber: new FormControl("", [Validators.pattern("^\\+?\\d{3,12}$")]),
     accountType: new FormControl("USER", [Validators.required]),
   });
-  hide = true;
 
-  exiting: boolean = false;
+  hide = true;
+  pending: boolean = false;
 
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<DialogUserCreateComponent>,
-    private dialogService: DialogService,
     public securityService: SecurityService
   ) {
     dialogRef.disableClose = true;
@@ -39,7 +37,7 @@ export class DialogUserCreateComponent implements OnInit {
   }
 
   createUser(): void {
-    this.exiting = true;
+    this.pending = true;
 
     let userData: UserForm = {
       username: this.form.controls.username.value,
@@ -55,11 +53,8 @@ export class DialogUserCreateComponent implements OnInit {
       next: result => {
         this.dialogRef.close(result);
       },
-      error: err => {
-        this.exiting = false;
-        if (err.status === 400) {
-          this.dialogService.openDataErrorDialog(err.message);
-        }
+      error: () => {
+        this.pending = false;
       }
     });
   }

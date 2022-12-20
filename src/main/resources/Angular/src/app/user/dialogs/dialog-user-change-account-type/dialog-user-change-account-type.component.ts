@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {SuccessDialogComponent} from "../../../dialog/success-dialog/success-dialog.component";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../../../assets/service/user.service";
 import {DialogService} from "../../../../assets/service/dialog.service";
 import {FormControl, Validators} from "@angular/forms";
@@ -15,22 +14,17 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
 
   accountTypeControl = new FormControl(this.data.user?.accountType ?? "", [Validators.required]);
 
-  exiting: boolean = false;
+  pending: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogUserChangeAccountTypeComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
-              private dialog: MatDialog,
               private userService: UserService,
               private dialogService: DialogService,
               private translate: TranslateService) {
     dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dialog.open(SuccessDialogComponent, {
-          data: {
-            description: this.translate.instant("ACCOUNT_TYPE_CHANGED")
-          }
-        });
+        this.dialogService.openSuccessDialog(this.translate.instant("ACCOUNT_TYPE_CHANGED"));
       }
     });
   }
@@ -40,7 +34,7 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
 
   changeAccountType(accountType: string | null) {
     if (this.data.user && accountType) {
-      this.exiting = true;
+      this.pending = true;
       this.userService.modifyUserAccountTypeField(this.data.user.id, accountType).subscribe({
         next: () => {
           if (this.data.user) {
@@ -48,11 +42,8 @@ export class DialogUserChangeAccountTypeComponent implements OnInit {
           }
           this.dialogRef.close(true);
         },
-        error: err => {
-          this.exiting = false;
-          if (err.status === 400) {
-            this.dialogService.openDataErrorDialog(err.message);
-          }
+        error: () => {
+          this.pending = false;
         }
       })
     }

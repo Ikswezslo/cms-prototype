@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { KeyWordsService } from 'src/assets/service/key-words.service';
 import { PageService } from 'src/assets/service/page.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { PageService } from 'src/assets/service/page.service';
 })
 export class EditPageKeyWordsComponent implements OnInit {
 
-  listOfKeyWords: string[] = []; 
+  listOfKeyWords: string[] = [];
   form = new FormGroup({});
 
   constructor(
@@ -31,7 +30,7 @@ export class EditPageKeyWordsComponent implements OnInit {
     this.pageService.changeKeyWords(this.data.id, this.listOfKeyWords.join(',')).subscribe();
     this.close();
   }
-  
+
 
   close(add: Boolean = false) {
     if (add)

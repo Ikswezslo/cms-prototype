@@ -1,5 +1,7 @@
 package com.example.cms.backup;
 
+import com.example.cms.backup.exceptions.BackupException;
+import com.example.cms.backup.exceptions.BackupNotFound;
 import com.example.cms.file.FileUtils;
 import com.example.cms.validation.exceptions.NotFoundException;
 import lombok.Getter;
@@ -43,13 +45,13 @@ public class BackupService {
     private Connection getConnection() {
         return DataSourceUtils.getConnection(Optional.ofNullable(jdbcTemplate.getDataSource())
                 .orElseThrow(() -> {
-                    throw new BackupException("Can't get Connection object");
+                    throw new BackupException();
                 }));
     }
 
     private CopyManager createCopyManager(Connection connection) throws SQLException {
         if (!connection.isWrapperFor(BaseConnection.class)) {
-            throw new BackupException("Can't create CopyManager");
+            throw new BackupException();
         }
 
         return new CopyManager(connection.unwrap(BaseConnection.class));
@@ -98,7 +100,7 @@ public class BackupService {
         CopyManager copyManager = createCopyManager(getConnection());
 
         List<File> files = Arrays.stream(Optional.ofNullable(restoreMainPath.toFile().listFiles()).orElseThrow(() -> {
-                    throw new BackupException("Can't get backup files");
+                    throw new BackupNotFound();
                 }))
                 .filter(File::isFile)
                 .filter(file -> !file.getName().equals(LARGE_OBJECT_TABLE.concat(".txt")))
@@ -139,7 +141,7 @@ public class BackupService {
     @Secured("ROLE_ADMIN")
     public List<BackupDto> getBackups() {
         List<File> files = Arrays.stream(Optional.ofNullable(backupsMainPath.toFile().listFiles()).orElseThrow(() -> {
-            throw new BackupException("Can't get backup directories");
+            throw new BackupNotFound();
         })).filter(File::isDirectory).collect(Collectors.toList());
 
         return files.stream().map(File::getName).map(fileName -> {
@@ -155,7 +157,7 @@ public class BackupService {
                     .normalize().toRealPath();
             return new FileSystemResource(path);
         } catch (IOException e) {
-            throw new NotFoundException();
+            throw new BackupNotFound();
         }
     }
 
@@ -167,7 +169,7 @@ public class BackupService {
             Files.delete(path);
             Files.delete(path.getParent());
         } catch (IOException e) {
-            throw new NotFoundException();
+            throw new BackupNotFound();
         }
     }
 }

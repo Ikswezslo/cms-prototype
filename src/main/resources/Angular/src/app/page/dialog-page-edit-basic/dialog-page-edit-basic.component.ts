@@ -50,9 +50,8 @@ export class DialogPageEditBasicComponent implements OnInit {
             this.close();
             this.dialogService.openSuccessDialog(this.translate.instant("INFORMATION_CHANGED"));
           },
-          error: err => {
+          error: () => {
             this.close();
-            this.dialogService.openDataErrorDialog(err.message || this.translate.instant("UPDATING_PAGE_ERROR"));
           }
         }
       );
