@@ -40,7 +40,7 @@ export class UniversityDetailsComponent implements OnInit {
   };
   universityCardConfig: UniversityCardConfig = {
     useSecondaryColor: false,
-    showGoToButton: true,
+    showLink: false,
     showDescription: true,
   };
 

@@ -10,7 +10,9 @@ table {
 }
 
 mat-card {
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
+  overflow: auto;
 }
 
 mat-card-content h3, button {

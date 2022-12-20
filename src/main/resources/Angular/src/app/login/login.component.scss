@@ -19,21 +19,39 @@ button {
     font-size: 15px;
 }
 
-
 .button:hover,
 button:hover {
-    opacity: 0.9;
-    font-weight: normal;
+  opacity: 0.9;
+  font-weight: normal;
 }
 
 .button:disabled,
 button:disabled {
-    opacity: 0.5;
-    cursor: auto;
+  opacity: 0.5;
+  cursor: auto;
 }
 
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto 
+.card {
+  margin: 0 auto;
+  display: inline-block;
+  text-align: center;
+}
+
+.main-div {
+  top: 33%;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  padding: 2px;
+}
+
+:host::ng-deep {
+  mat-form-field {
+    width: 80% !important;
+  }
+
+  mat-card-header {
+    margin: 0 !important;
+    padding: 5px !important;
+  }
 }
