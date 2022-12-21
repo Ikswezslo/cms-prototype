@@ -4,33 +4,39 @@
     text-decoration: none;
 }
 
-.beginning {
+.topBarCss {
   display: inline-flex;
   justify-content: space-around;
 }
 
 .button,
 button {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 16px;
-    cursor: pointer;
-    color: rgb(0, 0, 0);
-    border: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  border: none;
 }
 
-.mainButton{
-    border-radius: 2px;
-    font-size: 20px;
-    background-color: var(--base-light-blue);
-
+.mat-button {
+  height: 40px;
 }
 
-.lanButton{
+.mainButton {
   border-radius: 2px;
   font-size: 20px;
+  height: 40px;
+  background-color: var(--base-light-blue);
+
+}
+
+.lanButton {
+  border-radius: 2px;
+  font-size: 20px;
+  height: 40px;
   margin-left: 10px;
-  white-space:nowrap;
+  white-space: nowrap;
   background-color: var(--base-light-blue);
 }
 

@@ -16,17 +16,13 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class UsersListComponent implements OnInit {
 
-  users: User[] = [];
-
   public columnDefs: ColDef[] = [];
-
   public defaultColDef: ColDef = {};
-
+  public noRowsTemplate: string = "";
+  users: User[] = [];
+  data: UserGridItem[] = [];
   gridApi!: GridApi;
   columnApi!: ColumnApi;
-
-  public noRowsTemplate;
-
 
   constructor(
     private router: Router,
@@ -34,16 +30,17 @@ export class UsersListComponent implements OnInit {
     private userService: UserService,
     private spinnerService: SpinnerService,
     public dialog: MatDialog,
-    private translate: TranslateService) { }
+    private translate: TranslateService) {
+  }
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.translateColumnDefs();
+      this.translateData();
     })
     this.loadUsers();
     this.loadColumn();
   }
-
 
   loadUsers() {
     this.spinnerService.show();
@@ -51,34 +48,78 @@ export class UsersListComponent implements OnInit {
       .subscribe({
         next: res => {
           this.spinnerService.hide();
-        this.users = res;
+          this.users = res;
+          this.translateData();
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog();
         }
       });
   }
 
-  translateColumnDefs(){
+  translateData() {
+    this.data = this.users.map(user => {
+      const userItem = user as UserGridItem;
+      switch (user.accountType) {
+        case "ADMIN":
+          userItem.accountTypeTranslated = this.translate.instant("MAIN_ADMIN");
+          break;
+        case "MODERATOR":
+          userItem.accountTypeTranslated = this.translate.instant("UNIVERSITY_ADMIN");
+          break;
+        case "USER":
+          userItem.accountTypeTranslated = this.translate.instant("USER");
+          break;
+      }
+      if (userItem.enabled) {
+        userItem.enabledTranslated = this.translate.instant("YES");
+      } else {
+        userItem.enabledTranslated = this.translate.instant("NO");
+      }
+      return userItem;
+    });
+  }
+
+  translateColumnDefs() {
     this.columnDefs = [
-      {headerName: this.translate.instant("ID"), field: 'id', maxWidth: 100, filter: 'agNumberColumnFilter'},
-      {headerName: this.translate.instant("USERNAME"), field: 'username', minWidth: 150},
-      {headerName: this.translate.instant("FIRST_NAME"), field: 'firstName', minWidth: 150},
-      {headerName: this.translate.instant("LAST_NAME"), field: 'lastName', minWidth: 150}
+      {
+        headerName: this.translate.instant("ID"), field: 'id', flex: 0.5,
+        minWidth: 80,
+        filter: 'agNumberColumnFilter'
+      },
+      {
+        headerName: this.translate.instant("USERNAME"), field: 'username',
+      },
+      {
+        headerName: this.translate.instant("FIRST_NAME"), field: 'firstName',
+      },
+      {
+        headerName: this.translate.instant("LAST_NAME"), field: 'lastName',
+      },
+      {
+        headerName: this.translate.instant("ROLE"), field: 'accountTypeTranslated',
+      },
+      {
+        headerName: this.translate.instant("ENABLED"), field: 'enabledTranslated', flex: 0.75,
+        minWidth: 100,
+      }
     ];
     this.noRowsTemplate = this.translate.instant("NO_ROWS_TO_SHOW");
   }
 
   loadColumn() {
+    this.translateColumnDefs();
     this.defaultColDef = {
-      minWidth: 100,
-      editable: false,
+      flex: 1,
+      minWidth: 150,
       filter: 'agTextColumnFilter',
       suppressMovable: true,
-      type: 'textColumn'
+      sortable: true,
+      editable: false,
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      }
     };
-    this.translateColumnDefs();
   }
 
   addUser() {
@@ -89,22 +130,20 @@ export class UsersListComponent implements OnInit {
         return;
       }
       this.loadUsers();
-      this.gridApi.sizeColumnsToFit();
     });
-  }
-
-  onResize() {
-    this.gridApi.sizeColumnsToFit();
-    //this.columnApi.autoSizeAllColumns(false);
   }
 
   onRowSelected(event: RowSelectedEvent) {
     this.router.navigateByUrl('/account/' + event.data.id);
   }
+
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;
-    this.gridApi.sizeColumnsToFit();
   }
+}
 
+interface UserGridItem extends User {
+  enabledTranslated: string;
+  accountTypeTranslated: string;
 }

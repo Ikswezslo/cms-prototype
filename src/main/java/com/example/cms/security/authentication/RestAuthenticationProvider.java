@@ -32,16 +32,16 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         if (user != null) {
             LoggedUser loggedUser = new LoggedUser(user);
             if (!loggedUser.isEnabled()) {
-                throw new DisabledException("Account is disabled");
+                throw new DisabledException("ERRORS.LOGIN.401.DISABLED");
             }
             if (passwordEncoder.matches(password, loggedUser.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(new LoggedUser(user), password,
                         loggedUser.getAuthorities());
             } else {
-                throw new BadCredentialsException("Invalid password");
+                throw new BadCredentialsException("ERRORS.LOGIN.401.WRONG_CREDENTIALS");
             }
         } else {
-            throw new BadCredentialsException("No user registered with this details");
+            throw new BadCredentialsException("ERRORS.LOGIN.401.WRONG_CREDENTIALS");
         }
     }
 

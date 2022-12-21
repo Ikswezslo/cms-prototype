@@ -1,9 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TemplateService} from "../../../assets/service/template.service";
-import {DialogService} from "../../../assets/service/dialog.service";
-import {TranslateService} from "@ngx-translate/core";
 import {DialogTemplateCreateComponent} from "../dialog-template-create/dialog-template-create.component";
 
 @Component({
@@ -19,10 +17,7 @@ export class DialogTemplateChangeNameComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogTemplateCreateComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
-              private dialog: MatDialog,
-              private templateService: TemplateService,
-              private dialogService: DialogService,
-              private translate: TranslateService) {
+              private templateService: TemplateService) {
     dialogRef.disableClose = true;
   }
 
@@ -36,11 +31,8 @@ export class DialogTemplateChangeNameComponent implements OnInit {
         next: () => {
           this.dialogRef.close(name);
         },
-        error: err => {
+        error: () => {
           this.pending = false;
-          if (err.status === 400) {
-            this.dialogService.openDataErrorDialog(err.message);
-          }
         }
       })
     }

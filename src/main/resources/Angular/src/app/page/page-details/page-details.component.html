@@ -72,46 +72,51 @@
       </mat-card>
     </div>
 
-    <mat-menu #actions="matMenu">
-      <button mat-menu-item [routerLink]="['/page/'+page.id+'/edit']"
-              *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)">
-        <mat-icon>create</mat-icon>
-        <span>{{"EDIT_CONTENT" | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="changePageCreator()"
-              *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenPage(page)">
-        <mat-icon>app_registration</mat-icon>
-        <span>{{"CHANGE_AUTHOR" | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="addPage()"
-              *ngIf="securityService.hasRole('USER') && securityService.hasUniversity(page?.university?.id)">
-        <mat-icon>note_add</mat-icon>
-        <span>{{"ADD_SUBPAGE" | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="editPage()"
-              *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenPage(page)">
-        <mat-icon>edit</mat-icon>
-        <span>{{"EDIT_INFORMATION" | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="hiddenPage()"
-              *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)
-              && !page.hidden">
-        <mat-icon>visibility_off</mat-icon>
-        <span>{{"HIDE_PAGE" | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="hiddenPage()"
-              *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)
-              && page.hidden">
-        <mat-icon>visibility_on</mat-icon>
-        <span>{{"SHOW_PAGE" | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="deletePage()"
-              *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)
-              && page.children.length == 0
-              && page.parent != null">
-        <mat-icon>delete</mat-icon>
-        <span>{{"DELETE_PAGE" | translate}}</span>
-      </button>
-    </mat-menu>
+<mat-menu #actions="matMenu">
+  <button mat-menu-item [routerLink]="['/page/'+page.id+'/edit']"
+          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)">
+    <mat-icon>create</mat-icon>
+    <span>{{"EDIT_CONTENT" | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="changeKeyWords()"
+          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)">
+    <mat-icon>create</mat-icon>
+    <span>{{"KEYWORD.EDIT_MANY" | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="changePageCreator()"
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenPage(page)">
+    <mat-icon>app_registration</mat-icon>
+    <span>{{"CHANGE_AUTHOR" | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="addPage()"
+          *ngIf="securityService.hasRole('USER') && securityService.hasUniversity(page?.university?.id)">
+    <mat-icon>note_add</mat-icon>
+    <span>{{"ADD_SUBPAGE" | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="editPage()"
+          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenPage(page)">
+    <mat-icon>edit</mat-icon>
+    <span>{{"EDIT_INFORMATION" | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="hiddenPage()"
+          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)
+          && !page.hidden">
+    <mat-icon>visibility_off</mat-icon>
+    <span>{{"HIDE_PAGE" | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="hiddenPage()"
+          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)
+          && page.hidden">
+    <mat-icon>visibility_on</mat-icon>
+    <span>{{"SHOW_PAGE" | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="deletePage()"
+          *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)
+          && page.children.length == 0
+          && page.parent != null">
+    <mat-icon>delete</mat-icon>
+    <span>{{"DELETE_PAGE" | translate}}</span>
+  </button>
+</mat-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -75,9 +75,11 @@ import {UniversitySelectorComponent} from './university/university-selector/univ
 import {DialogTemplateCreateComponent} from './templates/dialog-template-create/dialog-template-create.component';
 import {PageEditorComponent} from './page/page-editor/page-editor.component';
 import {TemplateEditorComponent} from './templates/template-editor/template-editor.component';
-import {
-  DialogTemplateChangeNameComponent
-} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import { DialogTemplateChangeNameComponent} from './templates/dialog-template-change-name/dialog-template-change-name.component';
+import { KeyWordsSelectorsComponent } from './keywords/key-words-selectors/key-words-selectors.component';
+import { EditPageKeyWordsComponent } from './keywords/edit-page-key-words/edit-page-key-words.component';
+import { KeywordsComponent } from './keywords/keywords/keywords.component';
+import { DialogInputKeywordsComponent } from './keywords/dialog-input-keywords/dialog-input-keywords.component';
 import {TemplateSelectorComponent} from './templates/template-selector/template-selector.component';
 import {DialogTemplateLoadComponent} from './templates/dialog-template-load/dialog-template-load.component';
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -134,70 +136,77 @@ export function SetupApp(setup: SetupService) {
     DialogTemplateChangeNameComponent,
     TemplateSelectorComponent,
     DialogTemplateLoadComponent,
+    KeyWordsSelectorsComponent,
     FileCardComponent,
+    EditPageKeyWordsComponent,
+    KeywordsComponent,
+    DialogInputKeywordsComponent,
     BackupComponent,
     DialogPageEditBasicComponent
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        MatMenuModule,
-        MatSidenavModule,
-        MatInputModule,
-        MatSelectModule,
-        MatIconModule,
-        MatToolbarModule,
-        AgGridModule,
-        MatDialogModule,
-        MatCardModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        MatCardModule,
-        MatSnackBarModule,
-        FlexLayoutModule,
-        QuillModule.forRoot(),
-        RouterModule.forRoot([
-            {path: '', component: MainPageComponent, title: 'Strona główna'},
-            {path: 'universities', component: UniversityListComponent, title: 'Uniwersytety'},
-            {path: 'university/:universityId', component: UniversityDetailsComponent, title: 'Szczegóły uniwersytetu'},
-            {path: 'accounts', component: UsersListComponent, title: 'Użytkownicy'},
-            {path: 'accounts/create', component: DialogUserCreateComponent, title: 'Stwórz użytkownika'},
-            {path: 'accounts/settings', component: UserSettingsComponent, title: 'Ustawienia'},
-            {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
-            {path: 'pages', component: PageListComponent, title: 'Strony'},
-            {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
-            {path: 'page/:pageId/edit', component: PageEditorComponent, title: 'Edycja strony'},
-            {path: 'pages/:userId', component: PageUserComponent},
-            {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
-            {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
-            {path: 'backups', component: BackupComponent, title: 'Kopie zapasowe'},
-            {path: 'login', component: LoginComponent, title: 'Logowanie'},
-            {path: 'search', component: SearchComponent, title: 'Search',}
-        ]),
-        BrowserAnimationsModule,
-        BrowserModule,
-        // ngx-translate and the loader module
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        MatDividerModule,
-        MatExpansionModule,
-        MatAutocompleteModule,
-        MatListModule,
-        MatGridListModule,
-        MatChipsModule,
-        MatProgressBarModule,
-        MatTableModule,
-        MatTooltipModule,
-        MatTreeModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatToolbarModule,
+    AgGridModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatSnackBarModule,
+    FlexLayoutModule,
+    MatChipsModule,
+    MatTableModule,
+    QuillModule.forRoot(),
+    RouterModule.forRoot([
+      {path: '', component: MainPageComponent, title: 'Strona główna'},
+      {path: 'universities', component: UniversityListComponent, title: 'Uniwersytety'},
+      {path: 'university/:universityId', component: UniversityDetailsComponent, title: 'Szczegóły uniwersytetu'},
+      {path: 'accounts', component: UsersListComponent, title: 'Użytkownicy'},
+      {path: 'accounts/create', component: DialogUserCreateComponent, title: 'Stwórz użytkownika'},
+      {path: 'accounts/settings', component: UserSettingsComponent, title: 'Ustawienia'},
+      {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
+      {path: 'pages', component: PageListComponent, title: 'Strony'},
+      {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
+      {path: 'page/:pageId/edit', component: PageEditorComponent, title: 'Edycja strony'},
+      {path: 'pages/:userId', component: PageUserComponent},
+      {path: 'templates', component: TemplatesListComponent, title: 'Szablony'},
+      {path: 'template/:templateId/edit', component: TemplateEditorComponent, title: 'Edycja szablonu'},
+      {path: 'backups', component: BackupComponent, title: 'Kopie zapasowe'},
+      {path: 'login', component: LoginComponent, title: 'Logowanie'},
+      {path: 'search', component: SearchComponent, title: 'Search',},
+      {path: 'keywords', component: KeywordsComponent, title: 'Keywords',}
+    ]),
+    BrowserAnimationsModule,
+    BrowserModule,
+    // ngx-translate and the loader module
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MatDividerModule,
+    MatExpansionModule,
+    MatAutocompleteModule,
+    MatListModule,
+    MatGridListModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatTreeModule
+  ],
   providers: [
     SetupService,
     {

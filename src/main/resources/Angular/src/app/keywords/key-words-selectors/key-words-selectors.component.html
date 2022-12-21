@@ -1,0 +1,21 @@
+<div *ngIf="form" [formGroup]="form" class="container">
+  <mat-form-field fxFlex="100" appearance="fill">
+    <mat-label>{{ "KEYWORD.MANY" | translate}} </mat-label>
+    <mat-chip-list #chipGrid aria-label="Słowa kluczowe">
+      <mat-chip *ngFor="let selectedKeyWord of selectedKeyWords" (removed)="remove(selectedKeyWord)">
+        {{selectedKeyWord}}
+        <button matChipRemove [attr.aria-label]="'remove ' + selectedKeyWord">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-list>
+    <input placeholder="Dodaj słowo klucz" [formControl]="keyWordsControl" [matChipInputFor]="chipGrid"
+      [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)" />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let filteredKeyWord of filteredKeyWords | async" [value]="filteredKeyWord">
+        {{filteredKeyWord}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

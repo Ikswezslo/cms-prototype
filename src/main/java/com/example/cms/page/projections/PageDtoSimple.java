@@ -21,6 +21,7 @@ public class PageDtoSimple {
     private boolean hidden;
     private String createdOn;
     private String updatedOn;
+    private String keyWords;
 
     public static PageDtoSimple of(Page page) {
         if (page == null) {
@@ -39,5 +40,6 @@ public class PageDtoSimple {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         createdOn = page.getCreatedOn().toLocalDateTime().format(formatter);
         updatedOn = page.getUpdatedOn().toLocalDateTime().format(formatter);
+        keyWords = page.getKeyWords();
     }
 }

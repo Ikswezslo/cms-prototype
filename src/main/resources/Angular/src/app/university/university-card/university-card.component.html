@@ -1,8 +1,12 @@
 <mat-card *ngIf="university" fxFlex
           [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
   <mat-card-title>
-    <span> {{ university.name }} </span>
-    <mat-icon *ngIf="university.hidden">visibility_off</mat-icon>
+    <div>
+      <span [ngClass]="config.showLink ? 'cms-link': 'null'" [routerLink]="['/university', university.id]">
+        <span> {{ university.name }} </span>
+        <mat-icon *ngIf="university.hidden">visibility_off</mat-icon>
+      </span>
+    </div>
   </mat-card-title>
   <mat-card-subtitle>
     <div>

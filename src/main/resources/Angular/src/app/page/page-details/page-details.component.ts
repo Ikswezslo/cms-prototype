@@ -7,8 +7,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-create.component";
 import {PageCardConfig} from "../page-card/page-card.component";
 import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
-import {DialogService} from 'src/assets/service/dialog.service';
 import {SecurityService} from "../../../assets/service/security.service";
+import { EditPageKeyWordsComponent } from 'src/app/keywords/edit-page-key-words/edit-page-key-words.component';
 import {DialogPageEditBasicComponent} from "../dialog-page-edit-basic/dialog-page-edit-basic.component";
 import {SpinnerService} from "../../../assets/service/spinner.service";
 import {MatSidenav} from "@angular/material/sidenav";
@@ -38,7 +38,7 @@ export class PageDetailsComponent implements OnInit {
 
   primaryCardConfig: PageCardConfig = {
     useSecondaryColor: false,
-    showGoToButton: false,
+    showLink: false,
     showDescription: true,
     showUniversity: true,
     showCreatedOn: true,
@@ -47,7 +47,7 @@ export class PageDetailsComponent implements OnInit {
 
   secondaryCardConfig: PageCardConfig = {
     useSecondaryColor: true,
-    showGoToButton: true,
+    showLink: true,
     showDescription: true,
     showUniversity: false,
     showCreatedOn: true,
@@ -55,13 +55,12 @@ export class PageDetailsComponent implements OnInit {
   };
 
   constructor(
+    public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private pageService: PageService,
     public securityService: SecurityService,
     private sanitizer: DomSanitizer,
-    public dialog: MatDialog,
-    private dialogService: DialogService,
     private spinnerService: SpinnerService,
     private observer: BreakpointObserver) {
   }
@@ -71,21 +70,16 @@ export class PageDetailsComponent implements OnInit {
       this.id = Number(value.get('pageId'));
       this.loadPage();
     })
-
   }
 
   loadPage() {
     this.pageService.getPage(this.id)
-      .subscribe({
-        next: res => {
+      .subscribe(res => {
           this.page = res;
           this.loadHierarchy();
           this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
-        },
-        error: err => {
-          this.dialogService.openDataErrorDialog(err.message);
         }
-      });
+      );
   }
 
   hiddenPage() {
@@ -142,6 +136,19 @@ export class PageDetailsComponent implements OnInit {
     });
   }
 
+  changeKeyWords() {
+    let dialogData = {
+      data: {
+        id: this.page.id,
+        keyWords: this.page.keyWords
+      }
+    }
+    const dialogRef = this.dialog.open(EditPageKeyWordsComponent, dialogData);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPage();
+    });
+  }
+
   loadHierarchy(){
     this.spinnerService.show();
     let uniId = this.page.university.id;
@@ -152,10 +159,6 @@ export class PageDetailsComponent implements OnInit {
           this.universityHierarchy.push(res);
           this.dataSource.data = this.universityHierarchy;
           this.spinnerService.hide();
-        },
-        error: err => {
-          this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog();
         }
       });
   }

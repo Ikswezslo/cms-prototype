@@ -18,12 +18,16 @@
       [form]="form"
       (templateChanged)="onTemplateChanged($event)">
     </app-template-selector>
+    <app-key-words-selectors 
+      [form]="form"
+      (keyWordsChanged)="onKeyWordsChanged($event)">
+    </app-key-words-selectors>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-stroked-button class="button-option" [disabled]="exiting"
+    <button mat-stroked-button class="button-option" [disabled]="pending"
             [mat-dialog-close]="undefined">{{"CLOSE" | translate}}
     </button>
-    <button mat-stroked-button class="button-option" [disabled]="!form.valid||exiting"
+    <button mat-stroked-button class="button-option" [disabled]="!form.valid||pending"
             (click)="createPage()">{{"ADD_PAGE" | translate}}
     </button>
   </mat-dialog-actions>
