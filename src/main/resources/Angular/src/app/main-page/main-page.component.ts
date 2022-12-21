@@ -12,6 +12,7 @@ import {SpinnerService} from 'src/assets/service/spinner.service';
 })
 export class MainPageComponent implements OnInit {
   pages: Page[] = [];
+  breakpoint: number = 4;
 
   cardConfig: PageCardConfig = {
     useSecondaryColor: false,
@@ -28,6 +29,7 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPages();
+    this.breakpoint = this.countBreakpoint(innerWidth);
   }
 
   loadPages() {
@@ -45,4 +47,13 @@ export class MainPageComponent implements OnInit {
         }
       });
   }
+
+  onResize(event) {
+    this.breakpoint =  this.countBreakpoint(event.target.innerWidth);
+  }
+
+  countBreakpoint(width: number):number{
+    return Math.floor(width/ 400);
+  }
+
 }

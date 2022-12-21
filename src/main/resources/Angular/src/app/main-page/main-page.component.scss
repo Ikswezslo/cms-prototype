@@ -1,5 +1,6 @@
 h1 {
   font-size: 40px;
+  line-height: 45px;
   color: darkblue;
 }
 mat-grid-list{
@@ -16,6 +17,12 @@ mat-card-title {
   margin-left: 10px;
   margin-right: 10px;
   font-size: 30px;
+
   line-height: 40px;
   white-space: normal;
+}
+
+button{
+  width: 100%;
+  height: 100%;
 }

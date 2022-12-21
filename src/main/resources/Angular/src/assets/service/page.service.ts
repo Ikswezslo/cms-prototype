@@ -81,4 +81,9 @@ export class PageService {
     return this.http.patch<Page>(`${this.pageUrl}/${id}/creator`, username, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
+
+  getUniversityHierarchy(universityId: number, defaultErrorHandling: boolean = true): Observable<Page> {
+    return this.http.get<Page>(`${this.pageUrl}/hierarchy/${universityId}`, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
 }

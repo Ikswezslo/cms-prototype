@@ -32,13 +32,8 @@ public class PageDtoHierarchy {
                     return title1.compareToIgnoreCase(title2);
                 })
                 .filter(Objects::nonNull)
-                .map(child -> {
-                    if (child.isHidden() && securityService.isForbiddenPage(child)) {
-                        child.setId(null);
-                        child.setTitle("Hidden");
-                    }
-                    return PageDtoHierarchy.of(child, securityService);
-                })
+                .filter((page0) -> !page0.isHidden() || !securityService.isForbiddenPage(page0))
+                .map(child -> PageDtoHierarchy.of(child, securityService))
                 .collect(Collectors.toList());
     }
 }

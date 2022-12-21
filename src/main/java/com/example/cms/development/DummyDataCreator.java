@@ -587,6 +587,20 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 1L
         ));
         pageService.save(new PageDtoFormCreate(
+                "Computer Science",
+                "Computers, math, programming...",
+                "",
+                4L,
+                11L
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "Telecommunication",
+                "Computer networks, communication...",
+                "",
+                4L,
+                11L
+        ));
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
@@ -1021,10 +1035,13 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         pageService.modifyHiddenField(9L, false);
         pageService.modifyHiddenField(10L, false);
         pageService.modifyHiddenField(11L, false);
-        pageService.modifyHiddenField(12L, false);
-        pageService.modifyHiddenField(13L, false);
+        //pageService.modifyHiddenField(12L, false);
+        //pageService.modifyHiddenField(13L, false);
         pageService.modifyHiddenField(14L, false);
         pageService.modifyHiddenField(15L, false);
+        pageService.modifyHiddenField(16L, false);
+        pageService.modifyHiddenField(17L, false);
+        pageService.modifyHiddenField(18L, false);
 
         templateService.save("UniversityTemplate");
         templateService.modifyContentField(1L, "Template used for university main page.");
