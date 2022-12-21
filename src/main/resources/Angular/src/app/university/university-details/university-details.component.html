@@ -38,11 +38,6 @@
     <mat-icon>visibility_off</mat-icon>
     <span>{{"HIDE_UNIVERSITY" | translate}}</span>
   </button>
-  <button mat-menu-item
-          *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUniversity(university)">
-    <mat-icon>person</mat-icon>
-    <span>{{"ENROLL_USER" | translate}}</span>
-  </button>
   <button mat-menu-item (click)="deleteUniversity()"
           *ngIf="securityService.hasRole('ADMIN') && !securityService.isForbiddenUniversity(university)">
     <mat-icon>delete</mat-icon>
