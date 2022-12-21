@@ -38,10 +38,10 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
                 return new UsernamePasswordAuthenticationToken(new LoggedUser(user), password,
                         loggedUser.getAuthorities());
             } else {
-                throw new BadCredentialsException("ERRORS.LOGIN.401.WRONG_PASSWORD");
+                throw new BadCredentialsException("ERRORS.LOGIN.401.WRONG_CREDENTIALS");
             }
         } else {
-            throw new BadCredentialsException("ERRORS.LOGIN.401.WRONG_USERNAME");
+            throw new BadCredentialsException("ERRORS.LOGIN.401.WRONG_CREDENTIALS");
         }
     }
 

@@ -207,8 +207,7 @@
     "LOGIN": {
       "401": {
         "DISABLED": "Account is deactivated",
-        "WRONG_PASSWORD": "Wrong password",
-        "WRONG_USERNAME": "Wrong username"
+        "WRONG_CREDENTIALS": "Wrong username or password"
       }
     }
   },

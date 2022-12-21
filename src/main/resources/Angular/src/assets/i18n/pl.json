@@ -207,8 +207,7 @@
     "LOGIN": {
       "401": {
         "DISABLED": "Konto jest zdezaktywowane",
-        "WRONG_PASSWORD": "Nieprawidłowe hasło",
-        "WRONG_USERNAME": "Nieprawidłowa nazwa użytkownika"
+        "WRONG_CREDENTIALS": "Nieprawidłowa nazwa użytkownika lub hasło"
       }
     }
   },
