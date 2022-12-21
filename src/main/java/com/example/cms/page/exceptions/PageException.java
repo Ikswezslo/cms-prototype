@@ -10,14 +10,9 @@ public class PageException extends BadRequestException {
     }
 
     private static String getMessage(PageExceptionType type) {
-        switch (type) {
-            case NOT_FOUND_PARENT:
-                return "Page parent was not found";
-            case NOT_FOUND_USER:
-                return "User was not found";
-            case DELETING_WITH_CHILD:
-                return "Cannot delete page with at least one child";
+        if (type == PageExceptionType.DELETING_WITH_CHILD) {
+            return "ERRORS.PAGE.400.DELETING_WITH_CHILD";
         }
-        return "Unknown bad request";
+        return "ERRORS.400";
     }
 }

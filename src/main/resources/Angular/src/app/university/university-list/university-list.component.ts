@@ -52,9 +52,8 @@ export class UniversityListComponent implements OnInit {
           this.universities = res;
           this.translateData();
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog();
         }
       });
   }

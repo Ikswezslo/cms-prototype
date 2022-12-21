@@ -61,7 +61,6 @@
   "UNIVERSITY_DESCRIPTION_REQUIRED": "Opis uniwersytetu jest wymagany",
   "ADD_UNIVERSITY": "Dodaj uniwersytet",
   "ADDED_UNIVERSITY": "Uniwersytet pomyślnie dodany",
-  "ADDED_UNIVERSITY_ERROR": "Wystąpił błąd podczas dodawania uniwersytetu",
   "MAIN_PAGE_OF": "Główna strona",
   "ENROLLED_USERS": "Zarejestrowani użytkownicy",
   "EDIT": "Edytuj",
@@ -70,12 +69,9 @@
   "ENROLL_USER": "Zarejestruj użytkownika",
   "DELETE_UNIVERSITY": "Usuń uniwersytet",
   "DELETING": "Usuwanie",
-  "DELETE_UNIVERSITY_ERROR": "Wystąpił błąd podczas usuwania uniwersytetu",
   "DELETE_UNIVERSITY_CONFIRMATION": "Usunięto uniwersytet",
   "ADDING_UNIVERSITY_TO_USER": "Dodawanie uniwersytetu do użytkownika",
   "ADDED_UNIVERSITY_TO_USER": "Pomyślnie dodano uniwersytet do użytkownika",
-  "ADDED_UNIVERSITY_TO_USER_ERROR": "Wystąpił błąd podczas dodawania uniwersytetu do użytkownika",
-  "ERROR_DELETING_USER": "Wystąpił błąd podczas usuwania użytkownika",
   "ENROLLED_UNIVERSITIES_HEADER": "Przypisane uniwersytety do użytkownika",
   "ENROLLED_UNIVERSITIES": "Przypisane uniwersytety",
   "UNIVERSITY_NAME": "Nazwa uniwersytetu",
@@ -95,10 +91,8 @@
   "CONFIRM_PASSWORD": "Potwierdź hasło",
   "THE_SAME_PASSWORD": "Hasła muszą być takie same",
   "PASSWORD_CHANGED": "Hasło zostało pomyślnie zmienione",
-  "PASSWORD_CHANGED_ERROR": "Wystąpił błąd podczas zmiany hasła",
   "USERNAME_CHANGE": "Zmiana nazwy użytkownika",
   "USERNAME_CHANGED": "Nazwa użytkownika została pomyślnie zmieniona",
-  "USERNAME_CHANGED_ERROR": "Wystąpił błąd podczas zmiany nazwy użytkownika",
   "ADDING_USER": "Dodawanie użytkownika",
   "ADDING_PAGE": "Dodawanie strony",
   "FIRST_NAME": "Imię",
@@ -118,7 +112,6 @@
   "DEACTIVATE": "Dezaktywuj",
   "DELETE_USER": "Usuń użytkownika",
   "DELETE_USER_DESCRIPTION": "Czy na pewno chcesz usunąć tego użytkownika?",
-  "DELETE_USER_ERROR": "Wystąpił błąd podczas usuwania użytkownika",
   "DELETE_USER_CONFIRMATION": "Usunięto użytkownika",
   "USERS_LIST": "Lista użytkowników",
   "ID": "Id",
@@ -170,6 +163,54 @@
     "DOWNLOAD_TOOLTIP": "Pobierz kopię zapasową",
     "NO_BACKUPS": "---"
   },
+  "ERRORS": {
+    "400": "Błędne zapytanie",
+    "401": "Brak autoryzacji",
+    "403": "Brak dostępu",
+    "404": "Nie znaleziono zasobu",
+    "500": "Błąd serwera",
+    "PAGE": {
+      "400":{
+        "DELETING_WITH_CHILD": "Nie można usunąć strony z podstronami"
+      },
+      "403": "Brak dostępu do strony",
+      "404": "Nie znaleziono strony"
+    },
+    "UNIVERSITY": {
+      "400":{
+        "NAME_TAKEN": "Ta nazwa jest już zajęta",
+        "UNIVERSITY_NOT_HIDDEN": "Nie można usunąć widocznych uniwersytetów",
+        "ACTIVE_USER_EXISTS": "Nie można usunąć uniwersytetu z aktywnymi użytkownikami"
+      },
+      "403": "Brak dostępu do uniwersytetu",
+      "404": "Nie znaleziono uniwersytetu"
+    },
+    "USER": {
+      "400":{
+        "PAGES_EXISTS": "Nie można usunąć użytkownika, jeśli jest on autorem jakiejkolwiek strony",
+        "SAME_PASSWORD": "Stare hasło jest takie samo jak nowe hasło",
+        "USERNAME_TAKEN": "Podana nazwa użytkownika jest już zajęta",
+        "WRONG_PASSWORD": "Złe hasło",
+        "NOT_VALID_PASSWORD": "Hasło nie spełnia wymagań",
+        "USER_ENABLED": "Nie można usunąć aktywnego użytkownika"
+      },
+      "403": "Brak dostępu do użytkownika",
+      "404": "Nie znaleziono użytkownika"
+    },
+    "TEMPLATE": {
+      "404": "Nie znaleziono szablonu"
+    },
+    "BACKUP": {
+      "400": "Błąd podczas importu/eksportu kopii zapasowej",
+      "404": "Nie znaleziono kopii zapasowej"
+    },
+    "LOGIN": {
+      "401": {
+        "DISABLED": "Konto jest zdezaktywowane",
+        "WRONG_CREDENTIALS": "Nieprawidłowa nazwa użytkownika lub hasło"
+      }
+    }
+  },
   "FILENAME": "Nazwa pliku",
   "TYPE": "Typ pliku",
   "SIZE": "Rozmiar pliku",
@@ -191,10 +232,8 @@
   "NO_FILES": "Nie dodano jeszcze żadnego pliku.",
   "DELETE_FILE_CONFIRMATION": "Usuwanie pliku powiodło sie.",
   "DELETE_FILE_DESCRIPTION": "Czy na pewno chcesz usunąć ten plik? Ta operacja jest nieodwracalna.",
-  "DELETE_FILE_ERROR": "Wystąpił problem podczas usuwania pliku.",
   "EDIT_INFORMATION": "Edytuj informacje",
   "CHANGING_BASE_INFORMATION": "Zmiana podstawowych informacji",
   "INFORMATION_CHANGED": "Podstawowe informacje został zmienione.",
-  "UPDATING_PAGE_ERROR": "Wystąpił błąd podczas edycji strony.",
   "CHANGING_CREATOR": "Zmiana autora"
 }

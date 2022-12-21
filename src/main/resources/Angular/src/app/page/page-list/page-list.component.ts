@@ -48,9 +48,8 @@ export class PageListComponent implements OnInit {
           this.pages = res;
           this.translateData();
         },
-        error: err => {
+        error: () => {
           this.spinnerService.hide();
-          this.dialogService.openDataErrorDialog();
         }
       });
   }

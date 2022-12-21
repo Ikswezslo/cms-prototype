@@ -62,10 +62,10 @@
     </mat-dialog-content>
 
     <mat-dialog-actions>
-        <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="exiting">{{"CANCEL" | translate}}</button>
+        <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="pending">{{"CANCEL" | translate}}</button>
         <button mat-button color="primary"
                 (click)="createUser()"
-                [disabled]="!form.valid||exiting">{{"ADD_USER" | translate}}
+                [disabled]="!form.valid||pending">{{"ADD_USER" | translate}}
         </button>
     </mat-dialog-actions>
 </form>

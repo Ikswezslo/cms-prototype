@@ -61,7 +61,6 @@
   "UNIVERSITY_DESCRIPTION_REQUIRED": "Description of university is required",
   "ADD_UNIVERSITY": "Add university",
   "ADDED_UNIVERSITY": "University successfully created",
-  "ADDED_UNIVERSITY_ERROR": "Error has occurred during adding university",
   "MAIN_PAGE_OF": "Main page of",
   "ENROLLED_USERS": "Enrolled users",
   "EDIT": "Edit",
@@ -70,12 +69,9 @@
   "ENROLL_USER": "Enroll user",
   "DELETE_UNIVERSITY": "Delete university",
   "DELETING": "Deleting",
-  "DELETE_UNIVERSITY_ERROR": "Error has occurred during deleting user",
   "DELETE_UNIVERSITY_CONFIRMATION": "University deleted",
   "ADDING_UNIVERSITY_TO_USER": "Adding university to user",
   "ADDED_UNIVERSITY_TO_USER": "University successfully added to user",
-  "ADDED_UNIVERSITY_TO_USER_ERROR": "Error has occurred during adding university to user",
-  "ERROR_DELETING_USER": "Error has occurred during deleting user",
   "ENROLLED_UNIVERSITIES_HEADER": "Enrolled universities to user",
   "ENROLLED_UNIVERSITIES": "Enrolled universities",
   "UNIVERSITY_NAME": "University name",
@@ -95,10 +91,8 @@
   "CONFIRM_PASSWORD": "Confirm password",
   "THE_SAME_PASSWORD": "Passwords must be the same",
   "PASSWORD_CHANGED": "The password has been successfully changed",
-  "PASSWORD_CHANGED_ERROR": "Error has occurred during changing password",
   "USERNAME_CHANGE": "Username change",
   "USERNAME_CHANGED": "The username has been successfully changed",
-  "USERNAME_CHANGED_ERROR": "Error has occurred during changing username",
   "ADDING_USER": "Adding user",
   "ADDING_PAGE": "Adding page",
   "FIRST_NAME": "First name",
@@ -118,7 +112,6 @@
   "DEACTIVATE": "Deactivate",
   "DELETE_USER": "Delete user",
   "DELETE_USER_DESCRIPTION": "Are you sure you want to delete this user?",
-  "DELETE_USER_ERROR": "Error has occurred during deleting user",
   "DELETE_USER_CONFIRMATION": "User deleted",
   "USERS_LIST": "List of users",
   "ID": "Id",
@@ -170,6 +163,54 @@
     "DOWNLOAD_TOOLTIP": "Download backup",
     "NO_BACKUPS": "---"
   },
+  "ERRORS": {
+    "400": "Invalid request",
+    "401": "Not authorized",
+    "403": "No access",
+    "404": "Resource not found",
+    "500": "Server error",
+    "PAGE": {
+      "400":{
+        "DELETING_WITH_CHILD": "Cannot delete page with subpages"
+      },
+      "403": "No access to page",
+      "404": "Page not found"
+    },
+    "UNIVERSITY": {
+      "400":{
+        "NAME_TAKEN": "This name is already taken",
+        "UNIVERSITY_NOT_HIDDEN": "Cannot delete not hidden university",
+        "ACTIVE_USER_EXISTS": "Cannot delete university with active users"
+      },
+      "403": "No access to university",
+      "404": "University not found"
+    },
+    "USER": {
+      "400":{
+        "PAGES_EXISTS": "Cannot delete a user, if he is the author of any page",
+        "SAME_PASSWORD": "The old password is the same as the new password",
+        "USERNAME_TAKEN": "User with given username already exists",
+        "WRONG_PASSWORD": "The password is wrong",
+        "NOT_VALID_PASSWORD": "The password is not valid",
+        "USER_ENABLED": "Cannot delete active user"
+      },
+      "403": "No access to user",
+      "404": "User not found"
+    },
+    "TEMPLATE": {
+      "404": "Template not found"
+    },
+    "BACKUP": {
+      "400": "Error occurred during backup import/export",
+      "404": "Backup not found"
+    },
+    "LOGIN": {
+      "401": {
+        "DISABLED": "Account is deactivated",
+        "WRONG_CREDENTIALS": "Wrong username or password"
+      }
+    }
+  },
   "FILENAME": "File name",
   "TYPE": "File type",
   "SIZE": "File size",
@@ -191,10 +232,8 @@
   "NO_FILES": "No files uploaded yet.",
   "DELETE_FILE_DESCRIPTION": "Are you sure you want to delete this file? This operation cannot be undone.",
   "DELETE_FILE_CONFIRMATION": "File deleted successfully.",
-  "DELETE_FILE_ERROR": "Error occurred during deleting file.",
   "EDIT_INFORMATION": "Edit information",
   "CHANGING_BASE_INFORMATION": "Changing basic information",
   "INFORMATION_CHANGED": "Basic information changed successfully.",
-  "UPDATING_PAGE_ERROR": "Error has occurred during editing page.",
   "CHANGING_CREATOR": "Changing author"
 }

@@ -68,8 +68,6 @@ export class TopBarComponent implements OnInit {
         this.userLogged = null;
         this.userService.loggedUser = null;
         window.location.replace('');
-      },
-      error: () => {
       }
     });
   }

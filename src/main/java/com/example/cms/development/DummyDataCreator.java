@@ -1,7 +1,7 @@
 package com.example.cms.development;
 
-import com.example.cms.keyWords.KeyWordsService;
-import com.example.cms.backup.BackupException;
+import com.example.cms.backup.exceptions.BackupException;
+import com.example.cms.keywords.KeyWordsService;
 import com.example.cms.backup.BackupService;
 import com.example.cms.page.PageService;
 import com.example.cms.page.projections.PageDtoFormCreate;
@@ -51,7 +51,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
             Files.createDirectories(backupService.getBackupsMainPath());
             tryToRestoreDatabase();
         } catch (IOException e) {
-            throw new BackupException("Backup/restore folders can't be created");
+            throw new BackupException();
         } finally {
             SecurityContextHolder.clearContext();
         }
@@ -59,7 +59,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
     private void tryToRestoreDatabase() {
         Arrays.stream(Optional.ofNullable(backupService.getRestoreMainPath().toFile().listFiles()).orElseThrow(() -> {
-                    throw new BackupException("Can't get restore backup");
+                    throw new BackupException();
                 }))
                 .filter(File::isFile)
                 .map(File::getName)
@@ -70,7 +70,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                     try {
                         backupService.importBackup(backupName);
                     } catch (IOException | SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new BackupException();
                     }
                     log.info(String.format("Imported %s backup", backupName));
                 }, () -> {
