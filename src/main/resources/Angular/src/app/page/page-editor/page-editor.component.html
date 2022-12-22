@@ -1,7 +1,7 @@
 <app-quill-editor *ngIf="page" fxFlex
                   [title]="'EDITING_PAGE' | translate"
                   [subtitle]="page.title"
-                  [content]="content"
+                  [(content)]="content"
                   [onCloseLink]="['/page', page.id]"
                   (saved)="onSaved($event)">
   <button mat-button (click)="onLoadTemplate()">

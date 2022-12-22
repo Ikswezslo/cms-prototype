@@ -26,7 +26,6 @@ export class UniversityDetailsComponent implements OnInit {
   userCardConfig: UserCardConfig = {
     useSecondaryColor: true,
     showLink: true,
-    showSettings: false
   };
 
   secondaryCardConfig: PageCardConfig = {

@@ -3,7 +3,6 @@ package com.example.cms.backup;
 import com.example.cms.backup.exceptions.BackupException;
 import com.example.cms.backup.exceptions.BackupNotFound;
 import com.example.cms.file.FileUtils;
-import com.example.cms.validation.exceptions.NotFoundException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import org.postgresql.core.BaseConnection;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +59,7 @@ public class BackupService {
 
     @Secured("ROLE_ADMIN")
     @Transactional
+    @Async
     public void exportBackup(String backupName) throws SQLException, IOException {
         Connection connection = getConnection();
         CopyManager copyManager = createCopyManager(connection);
@@ -144,10 +145,17 @@ public class BackupService {
             throw new BackupNotFound();
         })).filter(File::isDirectory).collect(Collectors.toList());
 
-        return files.stream().map(File::getName).map(fileName -> {
-            File zipFile = backupsMainPath.resolve(fileName).resolve(fileName.concat(".zip")).toFile();
-            return new BackupDto(fileName, FileUtils.humanReadableByteCountSI(zipFile.length()));
-        }).collect(Collectors.toList());
+        return files.stream()
+                .filter(file -> {
+                    File[] fileList = Optional.ofNullable(file.listFiles()).orElse(new File[]{});
+                    return fileList.length == 1 &&
+                            fileList[0].getName().substring(fileList[0].getName().lastIndexOf('.')).equals(".zip");
+                })
+                .map(File::getName).map(fileName -> {
+                    File zipFile = backupsMainPath.resolve(fileName).resolve(fileName.concat(".zip")).toFile();
+                    return new BackupDto(fileName, FileUtils.humanReadableByteCountSI(zipFile.length()));
+                })
+                .collect(Collectors.toList());
     }
 
     @Secured("ROLE_ADMIN")
