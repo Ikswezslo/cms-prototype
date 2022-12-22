@@ -23,7 +23,7 @@
       </div>
       <div *ngIf="user.accountType">
         <mat-icon>perm_identity</mat-icon>
-        <span>{{user.accountType}}</span>
+        <span>{{getTranslatedAccountType()}}</span>
       </div>
       <div *ngFor="let university of user.enrolledUniversities">
             <span class="cms-link" [routerLink]="['/university', university.id]">
