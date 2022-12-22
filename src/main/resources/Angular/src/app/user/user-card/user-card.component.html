@@ -1,8 +1,5 @@
 <mat-card *ngIf="user" fxFlex
           [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
-    <mat-card-subtitle *ngIf="config.showSettings">
-        <span>{{"SETTINGS" | translate}}<br></span>
-    </mat-card-subtitle>
     <mat-card-title>
       <div>
         <span [ngClass]="config.showLink ? 'cms-link': 'null'" [routerLink]="['/account', user.id]">

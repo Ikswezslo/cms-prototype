@@ -5,11 +5,10 @@ import {UserService} from 'src/assets/service/user.service';
 
 @Component({
   selector: 'app-user-settings',
-  templateUrl: './user-settings.component.html',
-  styleUrls: ['./user-settings.component.scss']
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.scss']
 })
-export class UserSettingsComponent implements OnInit {
-
+export class UserProfileComponent implements OnInit {
 
   public user!: User;
 

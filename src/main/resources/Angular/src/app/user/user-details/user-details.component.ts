@@ -34,17 +34,13 @@ import {ErrorHandlerService} from "../../../assets/service/error-handler.service
 })
 export class UserDetailsComponent implements OnInit {
 
-
-  @Input() settings: boolean = true;
-  @Input() settingsId!: Number;
+  @Input() id?: Number;
   public pages!: Page[];
   public user!: User;
-  public id!: Number;
 
   userCardConfig: UserCardConfig = {
     useSecondaryColor: false,
     showLink: false,
-    showSettings: true
   };
 
   pageCardConfig: PageCardConfig = {
@@ -70,25 +66,25 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
-    this.id = this.settingsId ?? Number(routeParams.get('userId'));
+    this.id = this.id ?? Number(routeParams.get('userId'));
     this.loadUser();
     this.loadPages(this.id);
-
-    this.userCardConfig.showSettings = this.settings;
   }
 
   loadUser() {
-    this.userService.getUser(this.id)
-      .subscribe({
-        next: res => {
-          this.user = res;
-        }
-      });
+    if (this.id) {
+      this.userService.getUser(this.id)
+        .subscribe({
+          next: res => {
+            this.user = res;
+          }
+        });
+    }
   }
 
   activeUser() {
-    if (this.user != null) {
-      this.userService.modifyUserEnabledField(this.id, !this.user.enabled).subscribe(() => {
+    if (this.user) {
+      this.userService.modifyUserEnabledField(this.user.id, !this.user.enabled).subscribe(() => {
         this.user.enabled = !this.user.enabled;
       });
     }

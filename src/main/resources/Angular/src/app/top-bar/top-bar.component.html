@@ -35,9 +35,7 @@
 </mat-menu>
 
 <mat-menu #userMenu="matMenu" yPosition="above">
-  <button mat-menu-item class="subButton"
-          [routerLink]="['/account/' + this.userLogged?.id]">{{"PROFILE" | translate}}</button>
-  <button mat-menu-item class="subButton" [routerLink]="['/accounts/settings']">{{"SETTINGS" | translate}}</button>
+  <button mat-menu-item class="subButton" [routerLink]="['/accounts/profile']">{{"PROFILE" | translate}}</button>
   <button mat-menu-item class="subButton" [routerLink]="['']" (click)="logout()">{{"LOGOUT" | translate}}</button>
 </mat-menu>
 <span class="topBarCss">

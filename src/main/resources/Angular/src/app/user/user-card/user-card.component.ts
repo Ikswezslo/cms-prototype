@@ -22,5 +22,4 @@ export class UserCardComponent implements OnInit {
 export interface UserCardConfig {
   useSecondaryColor: boolean;
   showLink: boolean;
-  showSettings: boolean;
 }

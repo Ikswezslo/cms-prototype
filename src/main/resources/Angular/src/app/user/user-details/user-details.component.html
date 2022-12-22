@@ -1,16 +1,13 @@
 <div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="user">
   <app-user-card *ngIf="user" [user]="user" [config]="userCardConfig" class="cms-fixed-width">
-    <div *ngIf="settings">
-      <hr>
-      <button *ngIf="!securityService.isForbiddenUser(user) || securityService.hasLoggedUserHigherRole(user.accountType)"
-              mat-button [matMenuTriggerFor]="actions">
-        <mat-icon>label_important</mat-icon>
-        <span>{{"SETTINGS" | translate}}</span>
-      </button>
-    </div>
+    <button *ngIf="!securityService.isForbiddenUser(user) || securityService.hasLoggedUserHigherRole(user.accountType)"
+            mat-button [matMenuTriggerFor]="actions">
+      <mat-icon>label_important</mat-icon>
+      <span>{{"SETTINGS" | translate}}</span>
+    </button>
   </app-user-card>
 
-  <mat-accordion *ngIf="!settings" fxFlex class="cms-fixed-width">
+  <mat-accordion fxFlex class="cms-fixed-width">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>

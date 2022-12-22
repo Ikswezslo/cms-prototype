@@ -32,7 +32,7 @@ import {UniversityListComponent} from './university/university-list/university-l
 import {UniversityDetailsComponent} from './university/university-details/university-details.component';
 import {DialogUserCreateComponent} from './user/dialogs/dialog-user-create/dialog-user-create.component';
 import {LoginComponent} from './login/login.component';
-import {UserSettingsComponent} from './user/user-settings/user-settings.component';
+import {UserProfileComponent} from './user/user-profile/user-profile.component';
 import {
   DialogUniversityCreateComponent
 } from './university/dialog-university-create/dialog-university-create.component';
@@ -108,7 +108,7 @@ export function SetupApp(setup: SetupService) {
     UniversityDetailsComponent,
     DialogUserCreateComponent,
     LoginComponent,
-    UserSettingsComponent,
+    UserProfileComponent,
     DialogUniversityCreateComponent,
     PageUserComponent,
     QuillEditorComponent,
@@ -171,7 +171,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'university/:universityId', component: UniversityDetailsComponent, title: 'Szczegóły uniwersytetu'},
       {path: 'accounts', component: UsersListComponent, title: 'Użytkownicy'},
       {path: 'accounts/create', component: DialogUserCreateComponent, title: 'Stwórz użytkownika'},
-      {path: 'accounts/settings', component: UserSettingsComponent, title: 'Ustawienia'},
+      {path: 'accounts/profile', component: UserProfileComponent, title: 'Ustawienia'},
       {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
       {path: 'pages', component: PageListComponent, title: 'Strony'},
       {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
