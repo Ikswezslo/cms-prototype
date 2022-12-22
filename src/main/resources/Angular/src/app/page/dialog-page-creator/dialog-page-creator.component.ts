@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {PageService} from "../../../assets/service/page.service";
+import {TranslateService} from "@ngx-translate/core";
+import {DialogService} from "../../../assets/service/dialog.service";
 
 @Component({
   selector: 'app-dialog-page-creator',
@@ -15,7 +17,10 @@ export class DialogPageCreatorComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogPageCreatorComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private pageService: PageService) { }
+              private pageService: PageService,
+              private dialogService: DialogService,
+              private translate: TranslateService) {
+  }
 
   ngOnInit(): void {
     this.pageId = this.data.id as number;
@@ -23,8 +28,12 @@ export class DialogPageCreatorComponent implements OnInit {
   }
 
   changePageCreator(){
-    if(this.creatorUsernameValid.status == "VALID"){
-      this.pageService.changePageCreator(this.pageId, this.creatorUsername).subscribe();
+    if(this.creatorUsernameValid.status == "VALID") {
+      this.pageService.changePageCreator(this.pageId, this.creatorUsername).subscribe({
+        next: () => {
+          this.dialogService.openSuccessDialog(this.translate.instant("CREATOR_CHANGED"));
+        }
+      });
       this.close();
     }
   }

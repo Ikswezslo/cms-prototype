@@ -84,9 +84,20 @@ export class UserDetailsComponent implements OnInit {
 
   activeUser() {
     if (this.user) {
-      this.userService.modifyUserEnabledField(this.user.id, !this.user.enabled).subscribe(() => {
-        this.user.enabled = !this.user.enabled;
-      });
+      this.dialog.open(ConfirmationDialogComponent, {
+        data: {
+          title: this.translate.instant("HIDING") + ": " + this.user.username,
+          description: this.translate.instant("HIDE_DESCRIPTION")
+        }
+      }).afterClosed().subscribe(res => {
+        if (res) {
+          this.userService.modifyUserEnabledField(this.user.id, !this.user.enabled).subscribe(() => {
+            this.user.enabled = !this.user.enabled;
+            this.dialogService.openSuccessDialog(this.translate.instant("HIDING_CONFIRMATION"));
+          });
+        }
+      })
+
     }
   }
 

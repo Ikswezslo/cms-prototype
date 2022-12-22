@@ -24,5 +24,6 @@
 <span>
     <button mat-stroked-button class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
     <button mat-stroked-button class="button-option" *ngIf="!edit" (click)="createUniversity()">{{"ADD_UNIVERSITY" | translate}}</button>
-    <button mat-stroked-button class="button-option" *ngIf="edit" (click)="editUser()">{{"SAVE" | translate}}</button>
+    <button mat-stroked-button class="button-option" *ngIf="edit"
+            (click)="editUniversity()">{{"SAVE" | translate}}</button>
 </span>

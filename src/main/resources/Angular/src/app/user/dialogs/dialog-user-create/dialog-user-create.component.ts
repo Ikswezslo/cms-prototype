@@ -4,6 +4,8 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {UserForm} from 'src/assets/models/user';
 import {UserService} from 'src/assets/service/user.service';
 import {SecurityService} from "../../../../assets/service/security.service";
+import {TranslateService} from "@ngx-translate/core";
+import {DialogService} from "../../../../assets/service/dialog.service";
 
 @Component({
   selector: 'app-dialog-user-create',
@@ -27,6 +29,8 @@ export class DialogUserCreateComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private dialogService: DialogService,
+    private translate: TranslateService,
     public dialogRef: MatDialogRef<DialogUserCreateComponent>,
     public securityService: SecurityService
   ) {
@@ -51,6 +55,7 @@ export class DialogUserCreateComponent implements OnInit {
 
     this.userService.createUser(userData).subscribe({
       next: result => {
+        this.dialogService.openSuccessDialog(this.translate.instant("ADDED_USER"));
         this.dialogRef.close(result);
       },
       error: () => {

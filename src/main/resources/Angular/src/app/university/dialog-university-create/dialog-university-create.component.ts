@@ -4,8 +4,8 @@ import {UniversityService} from "../../../assets/service/university.service";
 import {FormControl, Validators} from "@angular/forms";
 import {University, UniversityForm} from 'src/assets/models/university';
 import {UserService} from 'src/assets/service/user.service';
-import { DialogService } from 'src/assets/service/dialog.service';
-import { TranslateService } from '@ngx-translate/core';
+import {DialogService} from 'src/assets/service/dialog.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog-university-create',
@@ -44,17 +44,19 @@ export class DialogUniversityCreateComponent implements OnInit {
     this.dialog.closeAll()
   }
   createUniversity(){
-    if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
+    if (this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID') {
       this.universityService.addNewUniversity(this.university).subscribe({
         next: () => {
           this.dialogService.openSuccessDialog(this.translate.instant("ADDED_UNIVERSITY"));
+          this.dialogRef.close(true);
         }
       });
       this.close();
     }
   }
-  editUser() {
-    if(this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID'){
+
+  editUniversity() {
+    if (this.nameValid.status == 'VALID' && this.shortNameValid.status == 'VALID' && this.descriptionValid.status == 'VALID') {
       this.universityService.editUniversity(this.university).subscribe({
         next: university => this.dialogRef.close(university)
       });
