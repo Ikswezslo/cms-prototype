@@ -70,9 +70,19 @@ export class UniversityDetailsComponent implements OnInit {
   }
 
   hiddenUniversity() {
-    this.universityService.modifyUniversityHiddenField(this.university.id, !this.university.hidden).subscribe(() => {
-      this.university.hidden = !this.university.hidden;
-    });
+    this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: this.translate.instant("HIDING") + ": " + this.university.name,
+        description: this.translate.instant("HIDE_DESCRIPTION")
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.universityService.modifyUniversityHiddenField(this.university.id, !this.university.hidden).subscribe(() => {
+          this.university.hidden = !this.university.hidden;
+          this.dialogService.openSuccessDialog(this.translate.instant("HIDING_CONFIRMATION"));
+        });
+      }
+    })
   }
 
   deleteUniversity() {

@@ -70,9 +70,19 @@ export class PageDetailsComponent implements OnInit {
   }
 
   hiddenPage() {
-    this.pageService.modifyPageHiddenField(this.id, !this.page.hidden).subscribe(() => {
-      this.page.hidden = !this.page.hidden;
-    });
+    this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: this.translate.instant("HIDING") + ": " + this.page.title,
+        description: this.translate.instant("HIDE_DESCRIPTION")
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.pageService.modifyPageHiddenField(this.id, !this.page.hidden).subscribe(() => {
+          this.page.hidden = !this.page.hidden;
+          this.dialogService.openSuccessDialog(this.translate.instant("HIDING_CONFIRMATION"));
+        });
+      }
+    })
   }
 
   deletePage() {
