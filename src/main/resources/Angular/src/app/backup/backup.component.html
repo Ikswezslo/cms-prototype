@@ -14,6 +14,7 @@
           {{'BACKUP.CREATE_NEW' | translate}}
         </button>
       </mat-card-content>
+      <mat-progress-bar [ngClass]="{'hidden': !createBackupPending}" mode="indeterminate"></mat-progress-bar>
     </mat-card>
 
     <mat-card>
