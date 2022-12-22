@@ -171,7 +171,7 @@ export function SetupApp(setup: SetupService) {
       {path: 'university/:universityId', component: UniversityDetailsComponent, title: 'Szczegóły uniwersytetu'},
       {path: 'accounts', component: UsersListComponent, title: 'Użytkownicy'},
       {path: 'accounts/create', component: DialogUserCreateComponent, title: 'Stwórz użytkownika'},
-      {path: 'accounts/profile', component: UserProfileComponent, title: 'Ustawienia'},
+      {path: 'accounts/profile', component: UserProfileComponent, title: 'Profil'},
       {path: 'account/:userId', component: UserDetailsComponent, title: 'Szczegóły użytkownika'},
       {path: 'pages', component: PageListComponent, title: 'Strony'},
       {path: 'page/:pageId', component: PageDetailsComponent, title: 'Szczegóły strony'},
