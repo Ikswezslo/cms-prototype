@@ -46,7 +46,6 @@ export class SearchComponent implements OnInit {
   userCardConfig: UserCardConfig = {
     useSecondaryColor: true,
     showLink: true,
-    showSettings: false
   };
 
   ngOnInit(): void {
