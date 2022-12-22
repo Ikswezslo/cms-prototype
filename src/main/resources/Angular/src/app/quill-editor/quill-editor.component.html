@@ -18,7 +18,8 @@
 
   <div fxFlex="100" fxLayout='column'>
     <div fxFlex fxLayout='column' class="editor mat-elevation-z4">
-      <quill-editor [(ngModel)]="content"
+      <quill-editor [ngModel]="content"
+                    (ngModelChange)="onContentChanged($event)"
                     [sanitize]="true"
                     (onEditorCreated)="created($event)"
                     [modules]="modules">

@@ -17,6 +17,7 @@ export class QuillEditorComponent implements OnInit {
   @Input() onCloseLink?: any[] = ['/'];
   @Input() onCloseLinkParams?: any;
   @Output() saved = new EventEmitter<any>;
+  @Output() contentChange = new EventEmitter<string>();
 
   modules = {}
 
@@ -39,5 +40,10 @@ export class QuillEditorComponent implements OnInit {
     if (this.content) {
       this.saved.emit(this.content);
     }
+  }
+
+  onContentChanged(content: string) {
+    this.contentChange.emit(content);
+    this.content = content;
   }
 }
