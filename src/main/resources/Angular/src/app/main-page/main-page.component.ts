@@ -51,6 +51,8 @@ export class MainPageComponent implements OnInit {
   }
 
   countBreakpoint(width: number):number{
+    if(width < 800)
+      return Math.floor(width/ 325);
     return Math.floor(width/ 400);
   }
 

@@ -235,5 +235,6 @@
   "EDIT_INFORMATION": "Edytuj informacje",
   "CHANGING_BASE_INFORMATION": "Zmiana podstawowych informacji",
   "INFORMATION_CHANGED": "Podstawowe informacje został zmienione.",
-  "CHANGING_CREATOR": "Zmiana autora"
+  "CHANGING_CREATOR": "Zmiana autora",
+  "HIERARCHY": "Hierarchia"
 }

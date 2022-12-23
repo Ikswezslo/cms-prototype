@@ -594,14 +594,16 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Computers, math, programming...",
                 "",
                 4L,
-                11L
+                11L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Telecommunication",
                 "Computer networks, communication...",
                 "",
                 4L,
-                11L
+                11L,
+                ""
         ));
         pageService.save(new PageDtoFormCreate(
                 "Research",

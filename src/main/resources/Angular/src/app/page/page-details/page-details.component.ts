@@ -11,8 +11,7 @@ import {SecurityService} from "../../../assets/service/security.service";
 import { EditPageKeyWordsComponent } from 'src/app/keywords/edit-page-key-words/edit-page-key-words.component';
 import {DialogPageEditBasicComponent} from "../dialog-page-edit-basic/dialog-page-edit-basic.component";
 import {SpinnerService} from "../../../assets/service/spinner.service";
-import {MatSidenav} from "@angular/material/sidenav";
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {NestedTreeControl} from "@angular/cdk/tree";
 import {MatTreeNestedDataSource} from "@angular/material/tree";
 
@@ -28,6 +27,10 @@ export class PageDetailsComponent implements OnInit {
   public pageHtml: any;
   public showParentPage: boolean = false;
   public showChildPage: boolean = false;
+  public defaultSidenavWidth: number = innerWidth >= 700 ? 350 : 50;
+  public sidenavWidth: string = this.toPixels(this.defaultSidenavWidth);
+  public sidenavExtended: boolean = innerWidth >= 700;
+  public modeOnInit: MatDrawerMode = innerWidth >= 1740 ? 'over' : 'side';
 
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
@@ -61,8 +64,7 @@ export class PageDetailsComponent implements OnInit {
     private pageService: PageService,
     public securityService: SecurityService,
     private sanitizer: DomSanitizer,
-    private spinnerService: SpinnerService,
-    private observer: BreakpointObserver) {
+    private spinnerService: SpinnerService) {
   }
 
   ngOnInit(): void {
@@ -163,21 +165,34 @@ export class PageDetailsComponent implements OnInit {
       });
   }
 
-  ngAfterViewInit() {
-    this.observer.observe(['(max-width: 1600px)']).subscribe((res) => {
-      if (res.matches) {
-        this.sidenav.mode = 'side';
-      } else {
-        this.sidenav.mode = 'over';
-        this.sidenav.open();
+  onResize(event) {
+    if(event.target.innerWidth >= 1740){
+      this.defaultSidenavWidth = 350;
+      this.sidenav.mode = 'over';
+    }
+    else{
+      this.sidenav.mode = 'side';
+      if (event.target.innerWidth >= 700){
+        this.defaultSidenavWidth = 350;
       }
-    });
-    this.observer.observe(['(max-width: 700px)']).subscribe((res) => {
-      if (res.matches) {
-        this.sidenav.close();
-      } else {
-        this.sidenav.open();
+      else{
+        this.defaultSidenavWidth = event.target.innerWidth;
       }
-    });
+    }
+    if(this.sidenavExtended){
+      this.sidenavWidth = this.toPixels(this.defaultSidenavWidth);
+    }
+    else{
+      this.sidenavWidth = this.toPixels(50);
+    }
+  }
+
+  toggleSidenav(){
+    this.sidenavExtended = !this.sidenavExtended;
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  toPixels(num: number):string{
+    return num.toString()+"px";
   }
 }

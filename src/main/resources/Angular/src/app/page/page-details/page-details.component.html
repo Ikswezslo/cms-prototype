@@ -1,6 +1,13 @@
-<mat-sidenav-container  hasBackdrop="false">
-  <mat-sidenav mode="over" disableClose="true" >
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="hierarchy-tree" >
+<mat-sidenav-container hasBackdrop="false">
+  <mat-sidenav class="sidenav-tree" [style.width]="sidenavWidth" (window:resize)="onResize($event)" [mode]="modeOnInit" opened disableClose="true">
+    <div class="collapse-button">
+      <div class="hierarchy-title" *ngIf="sidenavExtended">{{"HIERARCHY" | translate}}</div>
+      <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon *ngIf="sidenavExtended" >arrow_back</mat-icon>
+        <mat-icon *ngIf="!sidenavExtended">arrow_forward</mat-icon>
+      </button>
+    </div>
+    <mat-tree *ngIf="sidenavExtended" [dataSource]="dataSource" [treeControl]="treeControl" class="hierarchy-tree" >
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle >
         <button mat-button [routerLink]="['/page', node.id]">
           <div class="tree-node-title">{{node.title}}</div>
@@ -14,6 +21,7 @@
               {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
             </mat-icon>
           </button>
+          <mat-icon *ngIf="nested_node.ariaLevel == '1'">home</mat-icon>
           <button mat-button [routerLink]="['/page', node.id]">
             <div class="tree-node-title">{{node.title}}</div>
           </button>

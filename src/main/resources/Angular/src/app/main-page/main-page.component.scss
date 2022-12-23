@@ -16,9 +16,23 @@ mat-card-title {
   text-align: center;
   margin-left: 10px;
   margin-right: 10px;
-  font-size: 30px;
+  @media screen and (min-width: 801px){
+    font-size: 30px;
+    line-height: 35px;
+  }
+  @media screen and (max-width: 800px) and (min-width: 340px){
+    font-size: 24px;
+    line-height: 29px;
+  }
+  @media screen and (max-width: 339px) and (min-width: 301px){
+    font-size: 20px;
+    line-height: 0;
+  }
+  @media screen and (max-width: 300px){
+    font-size: 15px;
+    line-height: 0;
+  }
 
-  line-height: 40px;
   white-space: normal;
 }
 
