@@ -18,7 +18,6 @@ public class KeyWordsService {
         return keyWordsRepository.findById(id).map(KeyWordsDtoDetailed::of).orElseThrow(NotFoundException::new);
     }
 
-    @Secured("ROLE_MODERATOR")
     public List<KeyWordsDtoDetailed> getAll() {
         return keyWordsRepository.findAll().stream().map(KeyWordsDtoDetailed::of).collect(Collectors.toList());
     }
