@@ -7,7 +7,6 @@ import {PageCardConfig} from "../../page/page-card/page-card.component";
 import {UserCardConfig} from "../../user/user-card/user-card.component";
 import {UniversityCardConfig} from "../university-card/university-card.component";
 import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
-import {ErrorDialogComponent} from "../../dialog/error-dialog/error-dialog.component";
 import {PageService} from "../../../assets/service/page.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogUniversityCreateComponent} from "../dialog-university-create/dialog-university-create.component";
@@ -27,7 +26,6 @@ export class UniversityDetailsComponent implements OnInit {
   userCardConfig: UserCardConfig = {
     useSecondaryColor: true,
     showLink: true,
-    showSettings: false
   };
 
   secondaryCardConfig: PageCardConfig = {
@@ -72,9 +70,19 @@ export class UniversityDetailsComponent implements OnInit {
   }
 
   hiddenUniversity() {
-    this.universityService.modifyUniversityHiddenField(this.university.id, !this.university.hidden).subscribe(() => {
-      this.university.hidden = !this.university.hidden;
-    });
+    this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: this.translate.instant("HIDING") + ": " + this.university.name,
+        description: this.translate.instant("HIDE_DESCRIPTION")
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.universityService.modifyUniversityHiddenField(this.university.id, !this.university.hidden).subscribe(() => {
+          this.university.hidden = !this.university.hidden;
+          this.dialogService.openSuccessDialog(this.translate.instant("HIDING_CONFIRMATION"));
+        });
+      }
+    })
   }
 
   deleteUniversity() {
@@ -108,6 +116,7 @@ export class UniversityDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if(res) {
         this.university = res;
+        this.dialogService.openSuccessDialog(this.translate.instant("EDIT_UNIVERSITY_SUCCESS"));
       }
     });
   }

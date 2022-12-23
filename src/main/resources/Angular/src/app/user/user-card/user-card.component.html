@@ -1,8 +1,5 @@
 <mat-card *ngIf="user" fxFlex
           [ngClass]="{'cms-card-secondary-color': config.useSecondaryColor, 'cms-card': true}">
-    <mat-card-subtitle *ngIf="config.showSettings">
-        <span>{{"SETTINGS" | translate}}<br></span>
-    </mat-card-subtitle>
     <mat-card-title>
       <div>
         <span [ngClass]="config.showLink ? 'cms-link': 'null'" [routerLink]="['/account', user.id]">
@@ -26,7 +23,7 @@
       </div>
       <div *ngIf="user.accountType">
         <mat-icon>perm_identity</mat-icon>
-        <span>{{user.accountType}}</span>
+        <span>{{getTranslatedAccountType()}}</span>
       </div>
       <div *ngFor="let university of user.enrolledUniversities">
             <span class="cms-link" [routerLink]="['/university', university.id]">

@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../../../assets/service/user.service";
 import {UserForm} from "../../../../assets/models/user";
+import {TranslateService} from "@ngx-translate/core";
+import {DialogService} from "../../../../assets/service/dialog.service";
 
 @Component({
   selector: 'app-dialog-user-update',
@@ -23,7 +25,9 @@ export class DialogUserUpdateComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogUserUpdateComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
-              private userService: UserService) {
+              private userService: UserService,
+              private dialogService: DialogService,
+              private translate: TranslateService) {
     dialogRef.disableClose = true;
   }
 
@@ -44,6 +48,7 @@ export class DialogUserUpdateComponent implements OnInit {
 
       this.userService.editUser(this.data.user.id, userData).subscribe({
         next: result => {
+          this.dialogService.openSuccessDialog(this.translate.instant("EDIT_USER_SUCCESS"));
           this.dialogRef.close(result);
         },
         error: () => {

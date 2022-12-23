@@ -9,6 +9,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {User} from "../../../../assets/models/user";
 import {DialogService} from "../../../../assets/service/dialog.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-dialog-user-enrolled-universities',
@@ -28,7 +29,8 @@ export class DialogUserEnrolledUniversitiesComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data,
               private universityService: UniversityService,
               private userService: UserService,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private translate: TranslateService) {
     dialogRef.disableClose = true;
 
     this.filteredUniversities = this.universityControl.valueChanges.pipe(
@@ -100,6 +102,7 @@ export class DialogUserEnrolledUniversitiesComponent implements OnInit {
         this.userService.updateUserEnrolledUniversities(this.data.user.id, this.selectedUniversities.map(u => u.id))
           .subscribe({
             next: user => {
+              this.dialogService.openSuccessDialog(this.translate.instant("USER_ENROLLED"));
               this.dialogRef.close(user);
             },
             error: () => {

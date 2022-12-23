@@ -47,3 +47,7 @@ mat-card-content h3, button {
 [mat-icon-button]:hover {
   filter: brightness(85%);
 }
+
+.hidden {
+  z-index: -1;
+}

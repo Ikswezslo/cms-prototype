@@ -8,8 +8,11 @@ import {DialogPageCreateComponent} from "../dialog-page-create/dialog-page-creat
 import {PageCardConfig} from "../page-card/page-card.component";
 import {DialogPageCreatorComponent} from "../dialog-page-creator/dialog-page-creator.component";
 import {SecurityService} from "../../../assets/service/security.service";
-import { EditPageKeyWordsComponent } from 'src/app/keywords/edit-page-key-words/edit-page-key-words.component';
+import {EditPageKeyWordsComponent} from 'src/app/keywords/edit-page-key-words/edit-page-key-words.component';
 import {DialogPageEditBasicComponent} from "../dialog-page-edit-basic/dialog-page-edit-basic.component";
+import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
+import {DialogService} from "../../../assets/service/dialog.service";
+import {TranslateService} from "@ngx-translate/core";
 import {SpinnerService} from "../../../assets/service/spinner.service";
 import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {NestedTreeControl} from "@angular/cdk/tree";
@@ -62,6 +65,8 @@ export class PageDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private pageService: PageService,
+    private dialogService: DialogService,
+    private translate: TranslateService,
     public securityService: SecurityService,
     private sanitizer: DomSanitizer,
     private spinnerService: SpinnerService) {
@@ -85,15 +90,39 @@ export class PageDetailsComponent implements OnInit {
   }
 
   hiddenPage() {
-    this.pageService.modifyPageHiddenField(this.id, !this.page.hidden).subscribe(() => {
-      this.page.hidden = !this.page.hidden;
-    });
+    this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: this.translate.instant("HIDING") + ": " + this.page.title,
+        description: this.translate.instant("HIDE_DESCRIPTION")
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.pageService.modifyPageHiddenField(this.id, !this.page.hidden).subscribe(() => {
+          this.page.hidden = !this.page.hidden;
+          this.dialogService.openSuccessDialog(this.translate.instant("HIDING_CONFIRMATION"));
+        });
+      }
+    })
   }
 
   deletePage() {
-    this.pageService.deletePage(this.id).subscribe(() => {
-      this.router.navigateByUrl('');
-    })
+    this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: this.translate.instant("DELETING") + " " + this.page.title,
+        description: this.translate.instant("PAGE_DELETE_DESCRIPTION")
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.pageService.deletePage(this.id).subscribe(
+          {
+            next: () => {
+              this.dialogService.openSuccessDialog(this.translate.instant("DELETE_PAGE_CONFIRMATION"));
+              this.router.navigateByUrl('/pages');
+            }
+          }
+        );
+      }
+    });
   }
 
   addPage() {
