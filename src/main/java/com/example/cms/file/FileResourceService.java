@@ -39,9 +39,11 @@ public class FileResourceService {
     private final SecurityService securityService;
 
     public ResponseEntity<Resource> downloadFiles(Long pageId, String filename) {
-        // TODO: Add security
-
         Page page = pageRepository.findById(pageId).orElseThrow(PageNotFound::new);
+        if ((page.isHidden() || page.getUniversity().isHidden()) && securityService.isForbiddenPage(page)) {
+            throw new PageForbidden();
+        }
+
         FileResource fileResource = new FileResource();
 
         Optional<FileResource> optionalFileResource = fileRepository.findFileResourceByFilenameAndPage(filename, page);
@@ -73,7 +75,10 @@ public class FileResourceService {
     }
 
     public List<FileDtoSimple> getAll(Long pageId) {
-        // TODO: Add security
+        Page page = pageRepository.findById(pageId).orElseThrow(PageNotFound::new);
+        if ((page.isHidden() || page.getUniversity().isHidden()) && securityService.isForbiddenPage(page)) {
+            throw new PageForbidden();
+        }
         List<Object[]> objects = fileRepository.findAllByPage(pageId);
 
         return prepareProjectionOutput(objects);
