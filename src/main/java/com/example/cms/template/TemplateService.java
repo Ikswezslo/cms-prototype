@@ -41,7 +41,7 @@ public class TemplateService {
 
     public List<TemplateDtoSimple> getAllByUniversity(Long universityID) {
         University university = universityRepository.findById(universityID).orElseThrow(UniversityNotFound::new);
-        if (securityService.isForbiddenUniversity(university)) {
+        if (!securityService.hasUniversity(university.getId())) {
             throw new UniversityForbidden();
         }
 
