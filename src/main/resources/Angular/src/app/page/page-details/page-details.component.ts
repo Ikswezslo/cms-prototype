@@ -29,11 +29,13 @@ export class PageDetailsComponent implements OnInit {
   public id: Number = 0;
   public pageHtml: any;
   public showParentPage: boolean = false;
-  public showChildPage: boolean = false;
-  public defaultSidenavWidth: number = innerWidth >= 700 ? 350 : 50;
-  public sidenavWidth: string = this.toPixels(this.defaultSidenavWidth);
-  public sidenavExtended: boolean = innerWidth >= 700;
+  public showChildPages: boolean = false;
+  public xs: number = 600;
+  public sidenavWidth: string = this.toPixels(innerWidth >= this.xs ? 350 : 50);
+  public sidenavExtended: boolean = innerWidth >= this.xs;
   public modeOnInit: MatDrawerMode = innerWidth >= 1740 ? 'over' : 'side';
+  public innerWidth: number = innerWidth;
+  public mainPageAddress: string = "";
 
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
@@ -73,10 +75,19 @@ export class PageDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.innerWidth = innerWidth;
     this.route.paramMap.subscribe(value => {
       this.id = Number(value.get('pageId'));
       this.loadPage();
+      if(innerWidth < this.xs && this.sidenavExtended)
+        this.toggleSidenav();
     })
+    this.pageService.sidenavToggled
+      .subscribe(
+        () => {
+          this.toggleSidenav();
+        }
+      );
   }
 
   loadPage() {
@@ -188,31 +199,36 @@ export class PageDetailsComponent implements OnInit {
         next: res => {
           this.universityHierarchy.pop();
           this.universityHierarchy.push(res);
-          this.dataSource.data = this.universityHierarchy;
+          this.dataSource.data = this.universityHierarchy[0].children;
+          this.mainPageAddress = this.universityHierarchy[0].id.toString();
           this.spinnerService.hide();
         }
       });
   }
 
   onResize(event) {
-    if(event.target.innerWidth >= 1740){
-      this.defaultSidenavWidth = 350;
+    this.innerWidth = event.target.innerWidth;
+
+    if(event.target.innerWidth >= 1740)
       this.sidenav.mode = 'over';
-    }
-    else{
+    else
       this.sidenav.mode = 'side';
-      if (event.target.innerWidth >= 700){
-        this.defaultSidenavWidth = 350;
-      }
-      else{
-        this.defaultSidenavWidth = event.target.innerWidth;
-      }
-    }
+
+    if(event.target.innerWidth >= this.xs && !this.sidenav.opened)
+      this.sidenav.open!();
+
     if(this.sidenavExtended){
-      this.sidenavWidth = this.toPixels(this.defaultSidenavWidth);
+      if(event.target.innerWidth >= this.xs)
+        this.sidenavWidth = this.toPixels(350);
+      else
+        this.sidenavWidth = this.toPixels(event.target.innerWidth);
+      if(event.target.innerWidth < this.xs)
+        this.sidenav.open!();
     }
     else{
       this.sidenavWidth = this.toPixels(50);
+      if(event.target.innerWidth < this.xs)
+        this.sidenav.close!();
     }
   }
 
@@ -221,6 +237,7 @@ export class PageDetailsComponent implements OnInit {
     window.dispatchEvent(new Event('resize'));
   }
 
+  /**This function changes sidenavWidth to a string with a 'px' suffix, because without it, sidenav will not wrap correctly.*/
   toPixels(num: number):string{
     return num.toString()+"px";
   }

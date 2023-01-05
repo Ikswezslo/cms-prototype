@@ -1,5 +1,8 @@
 <span class="topBarCss">
     <button mat-button fxHide.xs style="text-align: center" [routerLink]="['/']">Logo</button>
+    <button class="hierarchyButton" fxHide fxShow.xs *ngIf="isOnPage.test(router.url)"  style="text-align: center" (click)="toggleSidenav()">
+      <mat-icon fontIcon="list_alt"></mat-icon>
+    </button>
     <button *ngIf="logged" [matMenuTriggerFor]="aboveMenu" class="mainButton">
         <mat-icon fontIcon="menu"></mat-icon>
         <span fxHide.xs>CMS</span>

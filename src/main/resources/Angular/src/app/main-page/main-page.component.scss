@@ -26,11 +26,11 @@ mat-card-title {
   }
   @media screen and (max-width: 339px) and (min-width: 301px){
     font-size: 20px;
-    line-height: 0;
+    line-height: 20px;
   }
   @media screen and (max-width: 300px){
     font-size: 15px;
-    line-height: 0;
+    line-height: 2px;
   }
 
   white-space: normal;

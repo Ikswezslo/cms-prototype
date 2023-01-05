@@ -1,17 +1,23 @@
-$sidenav-color: #4999fa;
-$sidenav-color-title: #107be5;
+$sidenav-color: #94b8ef;
+$sidenav-color-title: #558aec;
 $main-background-color: #9ec6f7;
 
 .collapse-button{
   padding: 5px;
-  .hierarchy-title{
-    font-size: 25px;
-    padding-left: 5px;
-  }
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: $sidenav-color-title;
+  .hierarchy-title{
+    font-size: 20px;
+    padding-left: 5px;
+    .mat-icon{
+      width: 22px;
+      height: 22px;
+      padding-bottom: 5px;
+      padding-right: 5px;
+    }
+  }
 }
 .mat-sidenav.sidenav-tree{
   position: fixed;
@@ -30,11 +36,8 @@ $main-background-color: #9ec6f7;
   }
   background-color: $sidenav-color;
 }
-.hierarchy-tree div[role=group] > .mat-tree-node {
-  padding-left: 30px;
-}
 .hierarchy-tree .mat-nested-tree-node div[role=group] {
-  padding-left: 20px;
+  padding-left: 30px;
 }
 .hierarchy-tree-invisible {
   display: none;
@@ -48,20 +51,24 @@ button.mat-button-wrapper{
   white-space: normal;
   text-align: left;
 }
+.tree-node-title.no-expand{
+  padding-left: 33px
+}
 .mat-tree-node {
   min-height: 45px;
   .mat-icon-button{
-    width: 30px;
-    height: 30px;
-  }
-  .mat-icon-rtl-mirror.mat-icon{
-    justify-content: center;
-    height:30px;
-    width:30px;
-    font-size:30px;
+    width: 33px;
+    height: 33px;
+    .mat-icon-rtl-mirror.mat-icon{
+      height: 33px;
+      width: 33px;
+      font-size:30px;
+    }
   }
 }
-
-
+mat-sidenav-container::-webkit-scrollbar-thumb {
+  background-color: black !important;
+  display: inline-block;
+}
 
 

@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Page, PageForm, PageUpdateForm} from 'src/assets/models/page';
 import {Observable} from "rxjs";
 import {ErrorHandlerService} from "./error-handler.service";
@@ -11,10 +11,11 @@ export class PageService {
 
   private pageUrl = 'http://localhost:8080/pages';
 
+  sidenavToggled = new EventEmitter();
+
   httpOptions = {
     withCredentials: true
   };
-
 
   constructor(
     private http: HttpClient,

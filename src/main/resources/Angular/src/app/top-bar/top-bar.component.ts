@@ -23,9 +23,10 @@ export class TopBarComponent implements OnInit {
   universities: University[] = [];
   users: User[] = [];
   pages: Page[] = [];
+  public isOnPage: RegExp = RegExp("page\/");
 
   constructor(
-    private router: Router,
+    public router: Router,
     private pageService: PageService,
     private userService: UserService,
     private dialogService: DialogService,
@@ -70,5 +71,9 @@ export class TopBarComponent implements OnInit {
         window.location.replace('');
       }
     });
+  }
+
+  toggleSidenav(){
+    this.pageService.sidenavToggled.emit();
   }
 }

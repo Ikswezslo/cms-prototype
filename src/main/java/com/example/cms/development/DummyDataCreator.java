@@ -598,6 +598,22 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 ""
         ));
         pageService.save(new PageDtoFormCreate(
+                "First degree",
+                "First degree",
+                "",
+                4L,
+                12L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "Second degree",
+                "Second degree",
+                "",
+                4L,
+                12L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
                 "Telecommunication",
                 "Computer networks, communication...",
                 "",
@@ -1099,8 +1115,8 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         pageService.modifyHiddenField(9L, false);
         pageService.modifyHiddenField(10L, false);
         pageService.modifyHiddenField(11L, false);
-        //pageService.modifyHiddenField(12L, false);
-        //pageService.modifyHiddenField(13L, false);
+        pageService.modifyHiddenField(12L, false);
+        pageService.modifyHiddenField(13L, false);
         pageService.modifyHiddenField(14L, false);
         pageService.modifyHiddenField(15L, false);
         pageService.modifyHiddenField(16L, false);

@@ -1,7 +1,9 @@
 <mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav class="sidenav-tree" [style.width]="sidenavWidth" (window:resize)="onResize($event)" [mode]="modeOnInit" opened disableClose="true">
+  <mat-sidenav class="sidenav-tree" [autoFocus]="false" [style.width]="sidenavWidth" (window:resize)="onResize($event)"
+               [mode]="modeOnInit" [opened]="innerWidth > xs" disableClose="true">
     <div class="collapse-button">
-      <div class="hierarchy-title" *ngIf="sidenavExtended">{{"HIERARCHY" | translate}}</div>
+      <button class="hierarchy-title" *ngIf="sidenavExtended" mat-button [routerLink]="['/page', mainPageAddress]">
+        <mat-icon>home</mat-icon>{{"MAIN_PAGE" | translate}}</button>
       <button mat-icon-button (click)="toggleSidenav()">
         <mat-icon *ngIf="sidenavExtended" >arrow_back</mat-icon>
         <mat-icon *ngIf="!sidenavExtended">arrow_forward</mat-icon>
@@ -10,18 +12,17 @@
     <mat-tree *ngIf="sidenavExtended" [dataSource]="dataSource" [treeControl]="treeControl" class="hierarchy-tree" >
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle >
         <button mat-button [routerLink]="['/page', node.id]">
-          <div class="tree-node-title">{{node.title}}</div>
+          <div class="tree-node-title no-expand">{{node.title}}</div>
         </button>
       </mat-tree-node>
       <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" #nested_node>
         <div class="mat-tree-node" >
-          <button *ngIf="nested_node.ariaLevel != '1'" mat-icon-button matTreeNodeToggle
+          <button mat-icon-button matTreeNodeToggle
                   [attr.aria-label]="'Toggle ' + node.title">
             <mat-icon class="mat-icon-rtl-mirror">
               {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
             </mat-icon>
           </button>
-          <mat-icon *ngIf="nested_node.ariaLevel == '1'">home</mat-icon>
           <button mat-button [routerLink]="['/page', node.id]">
             <div class="tree-node-title">{{node.title}}</div>
           </button>
@@ -72,7 +73,7 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card *ngIf="showChildPage && page.children.length" fxFlex class="cms-fixed-width">
+      <mat-card *ngIf="showChildPages && page.children.length" fxFlex class="cms-fixed-width">
         <mat-card-title class="mb-20">{{"SUBPAGE" | translate}}<br></mat-card-title>
         <mat-card-content fxLayout='column' class="cms-layout-gap">
           <app-page-card *ngFor="let child of page.children" [page]="child" [config]="secondaryCardConfig"></app-page-card>
