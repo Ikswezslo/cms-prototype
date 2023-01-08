@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Page} from 'src/assets/models/page';
@@ -17,25 +17,28 @@ import {SpinnerService} from "../../../assets/service/spinner.service";
 import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {NestedTreeControl} from "@angular/cdk/tree";
 import {MatTreeNestedDataSource} from "@angular/material/tree";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-page-details',
   templateUrl: './page-details.component.html',
   styleUrls: ['./page-details.component.scss']
 })
-export class PageDetailsComponent implements OnInit {
+export class PageDetailsComponent implements OnInit, OnDestroy {
   public page!: Page;
   public universityHierarchy: Page[] = [];
   public id: Number = 0;
   public pageHtml: any;
-  public showParentPage: boolean = false;
-  public showChildPages: boolean = false;
+  public showParentPage: boolean = true;
+  public showChildPages: boolean = true;
   public xs: number = 600;
   public sidenavWidth: string = this.toPixels(innerWidth >= this.xs ? 350 : 50);
   public sidenavExtended: boolean = innerWidth >= this.xs;
   public modeOnInit: MatDrawerMode = innerWidth >= 1740 ? 'over' : 'side';
   public innerWidth: number = innerWidth;
   public mainPageAddress: string = "";
+
+  private sidenavToggledSubscription?: Subscription;
 
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
@@ -82,12 +85,16 @@ export class PageDetailsComponent implements OnInit {
       if(innerWidth < this.xs && this.sidenavExtended)
         this.toggleSidenav();
     })
-    this.pageService.sidenavToggled
+    this.sidenavToggledSubscription = this.pageService.sidenavToggled
       .subscribe(
         () => {
           this.toggleSidenav();
         }
       );
+  }
+
+  ngOnDestroy(): void {
+    this.sidenavToggledSubscription?.unsubscribe()
   }
 
   loadPage() {
