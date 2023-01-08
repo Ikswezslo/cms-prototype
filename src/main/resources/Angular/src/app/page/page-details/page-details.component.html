@@ -1,49 +1,85 @@
-<div fxLayout='column' fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="page">
-  <app-page-card [page]="page" [config]="primaryCardConfig" class="cms-fixed-width">
-    <button *ngIf="securityService.hasUniversity(page.university?.id)" mat-button [matMenuTriggerFor]="actions">
-      <mat-icon>label_important</mat-icon>
-      <span>{{"ACTIONS" | translate}}</span>
-    </button>
-  </app-page-card>
-
-  <mat-card fxFlex class="cms-fixed-width">
-    <div class="ql-container ql-snow" style="border-width: 0;">
-      <div class="ql-editor" [innerHtml]="pageHtml"></div>
+<mat-sidenav-container hasBackdrop="false">
+  <mat-sidenav class="sidenav-tree" [autoFocus]="false" [style.width]="sidenavWidth" (window:resize)="onResize($event)"
+               [mode]="modeOnInit" [opened]="innerWidth > xs" disableClose="true">
+    <div class="collapse-button">
+      <button class="hierarchy-title" *ngIf="sidenavExtended" mat-button [routerLink]="['/page', mainPageAddress]">
+        <mat-icon>home</mat-icon>{{"MAIN_PAGE" | translate}}</button>
+      <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon *ngIf="sidenavExtended" >arrow_back</mat-icon>
+        <mat-icon *ngIf="!sidenavExtended">arrow_forward</mat-icon>
+      </button>
     </div>
-  </mat-card>
+    <mat-tree *ngIf="sidenavExtended" [dataSource]="dataSource" [treeControl]="treeControl" class="hierarchy-tree" >
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle >
+        <button mat-button [routerLink]="['/page', node.id]">
+          <div class="tree-node-title no-expand">{{node.title}}</div>
+        </button>
+      </mat-tree-node>
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" #nested_node>
+        <div class="mat-tree-node" >
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.title">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <button mat-button [routerLink]="['/page', node.id]">
+            <div class="tree-node-title">{{node.title}}</div>
+          </button>
+        </div>
+        <div [class.hierarchy-tree-invisible]="treeControl.isExpanded(node)"
+             role="group">
+          <ng-container matTreeNodeOutlet></ng-container>
+        </div>
+      </mat-nested-tree-node>
+    </mat-tree>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div fxLayout='column'  fxLayoutAlign="center center" class="cms-padding cms-layout-gap" *ngIf="page">
+      <app-page-card [page]="page" [config]="primaryCardConfig" class="cms-fixed-width">
+        <button *ngIf="securityService.hasUniversity(page.university?.id)" mat-button [matMenuTriggerFor]="actions">
+          <mat-icon>label_important</mat-icon>
+          <span>{{"ACTIONS" | translate}}</span>
+        </button>
+      </app-page-card>
 
-  <mat-card fxFlex class="cms-fixed-width">
-    <mat-card-title class="mb-20">{{"PAGE_RESOURCES" | translate}}</mat-card-title>
-    <mat-card-content>
-      <mat-accordion>
+      <mat-card fxFlex class="cms-fixed-width">
+        <div class="ql-container ql-snow" style="border-width: 0;">
+          <div class="ql-editor" [innerHtml]="pageHtml"></div>
+        </div>
+      </mat-card>
 
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>attachment</mat-icon>
-              <span>{{"ATTACHED_FILES" | translate}}</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-file-card [page]="page" class="cms-fixed-width"></app-file-card>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-card-content>
-  </mat-card>
+      <mat-card fxFlex class="cms-fixed-width">
+        <mat-card-title class="mb-20">{{"PAGE_RESOURCES" | translate}}</mat-card-title>
+        <mat-card-content>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>attachment</mat-icon>
+                  <span>{{"ATTACHED_FILES" | translate}}</span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-file-card [page]="page" class="cms-fixed-width"></app-file-card>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card-content>
+      </mat-card>
 
-  <mat-card *ngIf="page.parent" fxFlex class="cms-fixed-width">
-    <mat-card-title class="mb-20">{{"PARENT_PAGE" | translate}}<br></mat-card-title>
-    <mat-card-content fxLayout='column' class="cms-layout-gap">
-      <app-page-card [page]="page.parent" [config]="secondaryCardConfig"></app-page-card>
-    </mat-card-content>
-  </mat-card>
+      <mat-card *ngIf="showParentPage && page.parent" fxFlex class="cms-fixed-width">
+        <mat-card-title class="mb-20">{{"PARENT_PAGE" | translate}}<br></mat-card-title>
+        <mat-card-content fxLayout='column' class="cms-layout-gap">
+          <app-page-card [page]="page.parent" [config]="secondaryCardConfig"></app-page-card>
+        </mat-card-content>
+      </mat-card>
 
-  <mat-card *ngIf="page.children.length" fxFlex class="cms-fixed-width">
-    <mat-card-title class="mb-20">{{"SUBPAGE" | translate}}<br></mat-card-title>
-    <mat-card-content fxLayout='column' class="cms-layout-gap">
-      <app-page-card *ngFor="let child of page.children" [page]="child" [config]="secondaryCardConfig"></app-page-card>
-    </mat-card-content>
-  </mat-card>
-</div>
+      <mat-card *ngIf="showChildPages && page.children.length" fxFlex class="cms-fixed-width">
+        <mat-card-title class="mb-20">{{"SUBPAGE" | translate}}<br></mat-card-title>
+        <mat-card-content fxLayout='column' class="cms-layout-gap">
+          <app-page-card *ngFor="let child of page.children" [page]="child" [config]="secondaryCardConfig"></app-page-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
 <mat-menu #actions="matMenu">
   <button mat-menu-item [routerLink]="['/page/'+page.id+'/edit']"
@@ -91,3 +127,5 @@
     <span>{{"DELETE_PAGE" | translate}}</span>
   </button>
 </mat-menu>
+  </mat-sidenav-content>
+</mat-sidenav-container>

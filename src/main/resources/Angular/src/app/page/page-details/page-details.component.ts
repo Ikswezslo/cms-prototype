@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Page} from 'src/assets/models/page';
@@ -13,16 +13,39 @@ import {DialogPageEditBasicComponent} from "../dialog-page-edit-basic/dialog-pag
 import {ConfirmationDialogComponent} from "../../dialog/confirmation-dialog/confirmation-dialog.component";
 import {DialogService} from "../../../assets/service/dialog.service";
 import {TranslateService} from "@ngx-translate/core";
+import {SpinnerService} from "../../../assets/service/spinner.service";
+import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
+import {NestedTreeControl} from "@angular/cdk/tree";
+import {MatTreeNestedDataSource} from "@angular/material/tree";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-page-details',
   templateUrl: './page-details.component.html',
   styleUrls: ['./page-details.component.scss']
 })
-export class PageDetailsComponent implements OnInit {
+export class PageDetailsComponent implements OnInit, OnDestroy {
   public page!: Page;
+  public universityHierarchy: Page[] = [];
   public id: Number = 0;
   public pageHtml: any;
+  public showParentPage: boolean = true;
+  public showChildPages: boolean = true;
+  public xs: number = 600;
+  public sidenavWidth: string = this.toPixels(innerWidth >= this.xs ? 350 : 50);
+  public sidenavExtended: boolean = innerWidth >= this.xs;
+  public modeOnInit: MatDrawerMode = innerWidth >= 1740 ? 'over' : 'side';
+  public innerWidth: number = innerWidth;
+  public mainPageAddress: string = "";
+
+  private sidenavToggledSubscription?: Subscription;
+
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+
+  treeControl = new NestedTreeControl<Page>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<Page>();
+  hasChild = (_: number, node: Page) => !!node.children && node.children.length > 0;
 
   primaryCardConfig: PageCardConfig = {
     useSecondaryColor: false,
@@ -50,20 +73,35 @@ export class PageDetailsComponent implements OnInit {
     private dialogService: DialogService,
     private translate: TranslateService,
     public securityService: SecurityService,
-    private sanitizer: DomSanitizer) {
+    private sanitizer: DomSanitizer,
+    private spinnerService: SpinnerService) {
   }
 
   ngOnInit(): void {
+    this.innerWidth = innerWidth;
     this.route.paramMap.subscribe(value => {
       this.id = Number(value.get('pageId'));
       this.loadPage();
+      if(innerWidth < this.xs && this.sidenavExtended)
+        this.toggleSidenav();
     })
+    this.sidenavToggledSubscription = this.pageService.sidenavToggled
+      .subscribe(
+        () => {
+          this.toggleSidenav();
+        }
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.sidenavToggledSubscription?.unsubscribe()
   }
 
   loadPage() {
     this.pageService.getPage(this.id)
       .subscribe(res => {
           this.page = res;
+          this.loadHierarchy();
           this.pageHtml = this.sanitizer.bypassSecurityTrustHtml(this.page.content);
         }
       );
@@ -158,5 +196,56 @@ export class PageDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       this.loadPage();
     });
+  }
+
+  loadHierarchy(){
+    this.spinnerService.show();
+    let uniId = this.page.university.id;
+    this.pageService.getUniversityHierarchy(uniId)
+      .subscribe({
+        next: res => {
+          this.universityHierarchy.pop();
+          this.universityHierarchy.push(res);
+          this.dataSource.data = this.universityHierarchy[0].children;
+          this.mainPageAddress = this.universityHierarchy[0].id.toString();
+          this.spinnerService.hide();
+        }
+      });
+  }
+
+  onResize(event) {
+    this.innerWidth = event.target.innerWidth;
+
+    if(event.target.innerWidth >= 1740)
+      this.sidenav.mode = 'over';
+    else
+      this.sidenav.mode = 'side';
+
+    if(event.target.innerWidth >= this.xs && !this.sidenav.opened)
+      this.sidenav.open!();
+
+    if(this.sidenavExtended){
+      if(event.target.innerWidth >= this.xs)
+        this.sidenavWidth = this.toPixels(350);
+      else
+        this.sidenavWidth = this.toPixels(event.target.innerWidth);
+      if(event.target.innerWidth < this.xs)
+        this.sidenav.open!();
+    }
+    else{
+      this.sidenavWidth = this.toPixels(50);
+      if(event.target.innerWidth < this.xs)
+        this.sidenav.close!();
+    }
+  }
+
+  toggleSidenav(){
+    this.sidenavExtended = !this.sidenavExtended;
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  /**This function changes sidenavWidth to a string with a 'px' suffix, because without it, sidenav will not wrap correctly.*/
+  toPixels(num: number):string{
+    return num.toString()+"px";
   }
 }

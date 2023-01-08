@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Page, PageForm, PageUpdateForm} from 'src/assets/models/page';
 import {Observable} from "rxjs";
 import {ErrorHandlerService} from "./error-handler.service";
@@ -11,10 +11,11 @@ export class PageService {
 
   private pageUrl = 'http://localhost:8080/pages';
 
+  sidenavToggled = new EventEmitter();
+
   httpOptions = {
     withCredentials: true
   };
-
 
   constructor(
     private http: HttpClient,
@@ -84,6 +85,11 @@ export class PageService {
 
   changeKeyWords(id: number, keyWords: string, defaultErrorHandling: boolean = true): Observable<Page> {
     return this.http.patch<Page>(`${this.pageUrl}/${id}/keyWords`, keyWords, this.httpOptions)
+      .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
+  }
+
+  getUniversityHierarchy(universityId: number, defaultErrorHandling: boolean = true): Observable<Page> {
+    return this.http.get<Page>(`${this.pageUrl}/hierarchy/${universityId}`, this.httpOptions)
       .pipe(this.errorHandler.getErrorHandling(defaultErrorHandling));
   }
 }

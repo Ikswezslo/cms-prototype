@@ -2,16 +2,16 @@
 <span style="align-items: center; margin: 10px">
     <h1>{{'UNIVERSITIES_WE_WORK_WITH' | translate}}:</h1>
 </span>
-<mat-grid-list  cols="4" rowHeight="2:1" gutterSize="1%">
-  <ng-container *ngFor="let page of pages">
-    <mat-grid-tile>
-      <button mat-button [routerLink]="['/page', page.id]">
-      <mat-card-title>
-        {{page.title}}
-      </mat-card-title>
-    </button>
-    </mat-grid-tile>
-  </ng-container>
-</mat-grid-list>
+  <mat-grid-list  [cols]="breakpoint" rowHeight="2:1" gutterSize="1%" (window:resize)="onResize($event)">
+    <ng-container *ngFor="let page of pages">
+      <mat-grid-tile>
+        <button mat-button [routerLink]="['/page', page.id]">
+          <mat-card-title>
+            {{page.title}}
+          </mat-card-title>
+        </button>
+      </mat-grid-tile>
+    </ng-container>
+  </mat-grid-list>
 </div>
 

@@ -90,6 +90,7 @@ import {BackupComponent} from './backup/backup.component';
 import {MatTableModule} from "@angular/material/table";
 import {DialogPageEditBasicComponent} from './page/dialog-page-edit-basic/dialog-page-edit-basic.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTreeModule} from "@angular/material/tree";
 
 export function SetupApp(setup: SetupService) {
   return () => setup.initialize();
@@ -203,7 +204,8 @@ export function SetupApp(setup: SetupService) {
     MatChipsModule,
     MatProgressBarModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTreeModule
   ],
   providers: [
     SetupService,

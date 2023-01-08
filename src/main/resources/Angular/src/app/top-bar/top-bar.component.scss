@@ -23,12 +23,19 @@ button {
   height: 40px;
 }
 
+.hierarchyButton {
+  border-radius: 2px;
+  font-size: 20px;
+  height: 40px;
+  background-color: var(--base-light-blue);
+  margin-right: 10px;
+}
+
 .mainButton {
   border-radius: 2px;
   font-size: 20px;
   height: 40px;
   background-color: var(--base-light-blue);
-
 }
 
 .lanButton {

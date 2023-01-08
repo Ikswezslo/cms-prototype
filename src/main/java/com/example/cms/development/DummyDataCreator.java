@@ -590,6 +590,38 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 ""
         ));
         pageService.save(new PageDtoFormCreate(
+                "Computer Science",
+                "Computers, math, programming...",
+                "",
+                4L,
+                11L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "First degree",
+                "First degree",
+                "",
+                4L,
+                12L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "Second degree",
+                "Second degree",
+                "",
+                4L,
+                12L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "Telecommunication",
+                "Computer networks, communication...",
+                "",
+                4L,
+                11L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
@@ -639,6 +671,14 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 ""
         ));
         pageService.save(new PageDtoFormCreate(
+                "Students",
+                "News, education, work, sport...",
+                "",
+                5L,
+                2L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
                 "Research",
                 "The list of research papers and other academic studies.",
                 "",
@@ -676,6 +716,46 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "",
                 20L,
                 2L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "News",
+                "News for our students.",
+                "",
+                5L,
+                22L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "Academic Calendar",
+                "Periods of academic education and days off",
+                "",
+                5L,
+                22L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "Student Offices",
+                "Student Offices are the first point of contact for you, the students of our university.",
+                "",
+                5L,
+                22L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "Research at AMU",
+                "The Adam Mickiewicz University in Poznań carries out its fundamental and unchanging mission.",
+                "",
+                5L,
+                23L,
+                ""
+        ));
+        pageService.save(new PageDtoFormCreate(
+                "AMU Research Portal",
+                "It is a platform that links the institutional repository with the Current Research Information System (CRIS) system. It functions as part of the Omega-Psir software.",
+                "",
+                5L,
+                23L,
                 ""
         ));
 
@@ -1087,6 +1167,27 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
         pageService.modifyHiddenField(13L, false);
         pageService.modifyHiddenField(14L, false);
         pageService.modifyHiddenField(15L, false);
+        pageService.modifyHiddenField(16L, false);
+        pageService.modifyHiddenField(17L, false);
+        pageService.modifyHiddenField(18L, false);
+        pageService.modifyHiddenField(19L, false);
+        pageService.modifyHiddenField(20L, false);
+        pageService.modifyHiddenField(21L, false);
+        pageService.modifyHiddenField(22L, false);
+        pageService.modifyHiddenField(23L, false);
+        pageService.modifyHiddenField(24L, false);
+        pageService.modifyHiddenField(25L, false);
+        pageService.modifyHiddenField(26L, false);
+        pageService.modifyHiddenField(27L, false);
+        pageService.modifyHiddenField(28L, false);
+        pageService.modifyHiddenField(29L, false);
+        pageService.modifyHiddenField(30L, false);
+        pageService.modifyHiddenField(31L, false);
+        pageService.modifyHiddenField(32L, false);
+        pageService.modifyHiddenField(33L, false);
+        pageService.modifyHiddenField(34L, false);
+        pageService.modifyHiddenField(35L, false);
+        pageService.modifyHiddenField(36L, false);
 
         templateService.save("UniversityTemplate");
         templateService.modifyContentField(1L, "Template used for university main page.");

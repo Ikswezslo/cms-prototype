@@ -1,5 +1,6 @@
 h1 {
   font-size: 40px;
+  line-height: 45px;
   color: darkblue;
 }
 mat-grid-list{
@@ -15,7 +16,27 @@ mat-card-title {
   text-align: center;
   margin-left: 10px;
   margin-right: 10px;
-  font-size: 30px;
-  line-height: 40px;
+  @media screen and (min-width: 801px){
+    font-size: 30px;
+    line-height: 35px;
+  }
+  @media screen and (max-width: 800px) and (min-width: 340px){
+    font-size: 24px;
+    line-height: 29px;
+  }
+  @media screen and (max-width: 339px) and (min-width: 301px){
+    font-size: 20px;
+    line-height: 20px;
+  }
+  @media screen and (max-width: 300px){
+    font-size: 15px;
+    line-height: 2px;
+  }
+
   white-space: normal;
+}
+
+button{
+  width: 100%;
+  height: 100%;
 }

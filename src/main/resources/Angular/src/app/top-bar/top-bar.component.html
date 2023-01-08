@@ -1,12 +1,16 @@
 <span class="topBarCss">
     <button mat-button fxHide.xs style="text-align: center" [routerLink]="['/']">Logo</button>
+    <button class="hierarchyButton" fxHide fxShow.xs *ngIf="isOnPage.test(router.url)"  style="text-align: center" (click)="toggleSidenav()">
+      <mat-icon fontIcon="list_alt"></mat-icon>
+    </button>
     <button *ngIf="logged" [matMenuTriggerFor]="aboveMenu" class="mainButton">
         <mat-icon fontIcon="menu"></mat-icon>
         <span fxHide.xs>CMS</span>
     </button>
     <button [matMenuTriggerFor]="lanMenu" class="lanButton">
-        <mat-icon fontIcon="menu" fxHide.xs></mat-icon>
-        <span>{{"CURRENT_LANGUAGE" | translate}}</span>
+        <mat-icon fxHide.xs fontIcon="menu"></mat-icon>
+        <span fxHide.xs>{{"CURRENT_LANGUAGE" | translate}}</span>
+        <span fxHide fxShow.xs>{{"CURRENT_LANGUAGE_SHORT" | translate}}</span>
     </button>
 
     <button mat-button [routerLink]="['/search']">
