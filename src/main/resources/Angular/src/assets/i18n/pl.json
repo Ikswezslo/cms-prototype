@@ -228,6 +228,8 @@
   "SIZE": "Rozmiar pliku",
   "UPLOAD_DATE": "Data dodania",
   "UPLOADED_BY": "Dodano przez",
+  "DELETE_FILE_TOOLTIP": "Usuń plik",
+  "DOWNLOAD_FILE_TOOLTIP": "Pobierz plik",
   "KEYWORD": {
     "ONE": "Słowo klucz",
     "MANY": "Słowa klucze",

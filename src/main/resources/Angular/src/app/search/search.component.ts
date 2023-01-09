@@ -52,9 +52,12 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-    zip(this.pageService.searchPages(this.searchControl.value ?? ''),
-      this.universityService.searchUniversities(this.searchControl.value ?? ''),
-      this.userService.searchUsers(this.searchControl.value ?? ''))
+    if (!this.searchControl.value || this.searchControl.value == "") {
+      return;
+    }
+    zip(this.pageService.searchPages(this.searchControl.value),
+      this.universityService.searchUniversities(this.searchControl.value),
+      this.userService.searchUsers(this.searchControl.value))
       .subscribe({
         next: ([pages, universities, users]) => {
           this.pages = pages;
