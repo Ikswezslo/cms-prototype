@@ -7,12 +7,12 @@
       (templateChanged)="onTemplateChanged($event)">
     </app-template-selector>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
-    <button mat-button color="warn"
-            [mat-dialog-close]="undefined">{{"CLOSE" | translate}}
-    </button>
-    <button mat-button color="primary" [disabled]="!form.valid"
+  <mat-dialog-actions mat-dialog-actions style="justify-content: center">
+    <button mat-raised-button color="primary" [disabled]="!form.valid"
             (click)="onSubmit()">{{"CONFIRM" | translate}}
+    </button>
+    <button mat-raised-button color="warn"
+            [mat-dialog-close]="undefined">{{"CLOSE" | translate}}
     </button>
   </mat-dialog-actions>
 </form>

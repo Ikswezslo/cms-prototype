@@ -5,8 +5,8 @@
             <input matInput placeholder="Dodaj słowo klucz" [formControl]="keyWordsControl" [(ngModel)]="keyword.word" />
         </mat-form-field>
     </div>
-    <span>
-        <button mat-stroked-button color="warn" class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
-        <button mat-stroked-button color="primary" class="button-option" (click)="save()">{{"SAVE" | translate}}</button>
+    <span mat-dialog-actions style="justify-content: center">
+        <button mat-raised-button color="primary" (click)="save()">{{"SAVE" | translate}}</button>
+        <button mat-raised-button color="warn" (click)="close()">{{"CLOSE" | translate}}</button>
     </span>
 </div>

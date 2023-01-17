@@ -24,11 +24,11 @@
     </app-key-words-selectors>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-stroked-button class="button-option" [disabled]="pending"
-            [mat-dialog-close]="undefined">{{"CLOSE" | translate}}
-    </button>
-    <button mat-stroked-button class="button-option" [disabled]="!form.valid||pending"
+    <button mat-raised-button color="primary" [disabled]="!form.valid||pending"
             (click)="createPage()">{{"ADD_PAGE" | translate}}
+    </button>
+    <button mat-raised-button color="warn" [disabled]="pending"
+            [mat-dialog-close]="undefined">{{"CLOSE" | translate}}
     </button>
   </mat-dialog-actions>
 </form>
