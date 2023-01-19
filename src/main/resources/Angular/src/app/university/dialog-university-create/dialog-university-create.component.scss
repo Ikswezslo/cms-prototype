@@ -3,27 +3,20 @@
   flex-direction: column;
   align-items: center;
 }
+
 .form-input {
   min-width: 600px;
   align-items: center;
 }
+
 .row {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
 mat-form-field {
   width: 100%;
   padding: 0 10px;
 }
-.button-option{
-  display: inline-flex;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-  background-color: var(--base-button-blue);
-  color: rgb(0, 0, 0);
-  border: none;
-}
-

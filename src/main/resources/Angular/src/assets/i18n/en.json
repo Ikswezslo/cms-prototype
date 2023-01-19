@@ -228,6 +228,8 @@
   "SIZE": "File size",
   "UPLOAD_DATE": "Upload date",
   "UPLOADED_BY": "Uploaded by",
+  "DELETE_FILE_TOOLTIP": "Delete file",
+  "DOWNLOAD_FILE_TOOLTIP": "Download plik",
   "KEYWORD":{
     "ONE": "Keyword",
     "MANY": "Keywords",

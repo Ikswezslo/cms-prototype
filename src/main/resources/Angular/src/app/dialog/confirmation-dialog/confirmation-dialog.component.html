@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{title}}</h1>
 <p mat-dialog-content>{{description}}</p>
-<div mat-dialog-actions>
-    <button mat-button id="yes" (click)="save()">{{'YES' | translate}}</button>
-    <button mat-button id="no" (click)="close()">{{'NO' | translate}}</button>
+<div mat-dialog-actions style="justify-content: center">
+    <button mat-raised-button color="primary" (click)="save()">{{'YES' | translate}}</button>
+    <button mat-raised-button color="warn" (click)="close()">{{'NO' | translate}}</button>
 </div>

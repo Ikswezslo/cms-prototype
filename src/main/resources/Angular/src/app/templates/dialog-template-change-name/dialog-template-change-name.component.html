@@ -5,12 +5,12 @@
     <input matInput type="text" [formControl]="nameControl">
     <mat-error *ngIf="nameControl.hasError('required')">{{"FIELD_REQUIRED" | translate}}</mat-error>
   </mat-form-field>
-  <mat-dialog-actions>
-    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="pending">{{"CANCEL" | translate}}</button>
-    <button mat-button color="primary"
-            (click)="renameTemplate(nameControl.value)"
-            [disabled]="!nameControl.valid||pending">{{"CONFIRM" | translate}}
-    </button>
+  <mat-dialog-actions mat-dialog-actions style="justify-content: center">
+    <button mat-raised-button color="primary"
+    (click)="renameTemplate(nameControl.value)"
+    [disabled]="!nameControl.valid||pending">{{"CONFIRM" | translate}}
+  </button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="undefined" [disabled]="pending">{{"CANCEL" | translate}}</button>
   </mat-dialog-actions>
 </form>
 

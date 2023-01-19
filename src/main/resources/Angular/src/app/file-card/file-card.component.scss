@@ -44,19 +44,6 @@
   display: inline-block;
 }
 
-.deleteButton {
-  background-color: red;
-}
-
-.button, button {
-  align-items: center;
-  cursor: pointer;
-  background-color: var(--base-button-blue);
-  color: rgb(0, 0, 0);
-  border: none;
-  margin: 5px;
-}
-
 table {
   width: 100%;
 }

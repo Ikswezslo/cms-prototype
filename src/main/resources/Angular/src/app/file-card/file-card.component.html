@@ -53,15 +53,25 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> {{"ACTIONS" | translate}}</th>
         <td mat-cell *matCellDef="let row">
-          <button mat-button (click)="onDownloadFiles(row.filename)">
+          <button mat-icon-button *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)"
+                  (click)="onDeleteFile(row.filename)" 
+                  color="warn"
+                  [matTooltipPosition]="'left'"
+                  [matTooltipShowDelay]="700"
+                  matTooltipClass="cms-tooltip"
+                  [matTooltip]="'DELETE_FILE_TOOLTIP' | translate">
             <mat-icon>
-              save_alt
+              delete
             </mat-icon>
           </button>
-          <button *ngIf="securityService.hasRole('USER') && !securityService.isForbiddenPage(page)" mat-button
-                  class="deleteButton" (click)="onDeleteFile(row.filename)">
+          <button mat-icon-button (click)="onDownloadFiles(row.filename)"
+            color="primary" 
+            [matTooltipPosition]="'right'"
+            [matTooltipShowDelay]="700"
+            matTooltipClass="cms-tooltip"
+            [matTooltip]="'DOWNLOAD_FILE_TOOLTIP' | translate">
             <mat-icon>
-              delete_forever
+              download
             </mat-icon>
           </button>
         </td>
