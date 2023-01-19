@@ -8,9 +8,8 @@
         <span fxHide.xs>CMS</span>
     </button>
     <button [matMenuTriggerFor]="lanMenu" class="lanButton">
-        <mat-icon fxHide.xs fontIcon="menu"></mat-icon>
+        <mat-icon fontIcon="language"></mat-icon>
         <span fxHide.xs>{{"CURRENT_LANGUAGE" | translate}}</span>
-        <span fxHide fxShow.xs>{{"CURRENT_LANGUAGE_SHORT" | translate}}</span>
     </button>
 
     <button mat-button [routerLink]="['/search']">

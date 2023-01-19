@@ -74,7 +74,7 @@
       </mat-card>
 
       <mat-card *ngIf="showChildPages && page.children.length" fxFlex class="cms-fixed-width">
-        <mat-card-title class="mb-20">{{"SUBPAGE" | translate}}<br></mat-card-title>
+        <mat-card-title class="mb-20">{{"SUBPAGES" | translate}}<br></mat-card-title>
         <mat-card-content fxLayout='column' class="cms-layout-gap">
           <app-page-card *ngFor="let child of page.children" [page]="child" [config]="secondaryCardConfig"></app-page-card>
         </mat-card-content>
