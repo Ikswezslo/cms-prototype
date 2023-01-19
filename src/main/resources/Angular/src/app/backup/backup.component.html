@@ -10,7 +10,7 @@
           <span>{{'BACKUP.NUMBER_OF' | translate}}</span>
           <b>{{backups.length}}</b>
         </h3>
-        <button mat-stroked-button color="primary" [disabled]="createBackupPending" (click)="createBackup()">
+        <button mat-raised-button color="primary" [disabled]="createBackupPending" (click)="createBackup()">
           {{'BACKUP.CREATE_NEW' | translate}}
         </button>
       </mat-card-content>

@@ -11,11 +11,11 @@
     <mat-error *ngIf="accountTypeControl.hasError('required')">{{"ACCOUNT_TYPE_REQUIRED" | translate}}</mat-error>
   </mat-form-field>
 
-  <mat-dialog-actions>
-    <button mat-button color="warn" [mat-dialog-close]="undefined" [disabled]="pending">{{"CANCEL" | translate}}</button>
-    <button mat-button color="primary"
-            (click)="changeAccountType(accountTypeControl.value)"
-            [disabled]="!accountTypeControl.valid||pending">{{"ACCEPT" | translate}}
-    </button>
+  <mat-dialog-actions mat-dialog-actions style="justify-content: center">
+    <button mat-raised-button color="primary"
+    (click)="changeAccountType(accountTypeControl.value)"
+    [disabled]="!accountTypeControl.valid||pending">{{"ACCEPT" | translate}}
+  </button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="undefined" [disabled]="pending">{{"CANCEL" | translate}}</button>
   </mat-dialog-actions>
 </form>

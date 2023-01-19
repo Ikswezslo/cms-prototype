@@ -8,8 +8,8 @@
     </mat-form-field>
   </div>
 </div>
-<span>
-    <button mat-stroked-button class="button-option" (click)="close()">{{"CLOSE" | translate}}</button>
-    <button mat-stroked-button class="button-option" (click)="changePageCreator()">{{"SAVE" | translate}}</button>
+<span mat-dialog-actions style="justify-content: center">
+  <button mat-raised-button color="primary" (click)="changePageCreator()">{{"SAVE" | translate}}</button>
+  <button mat-raised-button color="warn" (click)="close()">{{"CLOSE" | translate}}</button>
 </span>
 

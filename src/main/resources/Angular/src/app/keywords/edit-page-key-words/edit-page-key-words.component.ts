@@ -19,7 +19,7 @@ export class EditPageKeyWordsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: EditPageKeyWordsData) { }
 
   ngOnInit(): void {
-    this.listOfKeyWords = this.data.keyWords.length > 0 ? this.data.keyWords.split(',') : [];
+    this.listOfKeyWords = this.data.keyWords?.length > 0 ? this.data.keyWords.split(',') : [];
   }
 
   onKeyWordsChanged(keyWords?: string[]) {
