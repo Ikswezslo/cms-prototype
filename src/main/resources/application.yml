@@ -5,9 +5,12 @@ server:
       secure: false
     timeout: 30m
 
-
 # Here we define active profiles
 spring:
+  data:
+    web:
+      pageable:
+        default-page-size: 1000
   servlet:
     multipart:
       max-file-size: 1000000000MB
