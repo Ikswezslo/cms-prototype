@@ -120,6 +120,7 @@
   "ASSIGN_UNIVERSITY": "Przypisz uniwersytet",
   "ACTIVATE": "Aktywuj",
   "DEACTIVATE": "Dezaktywuj",
+  "CHANGE_ACCOUNT_STATE": "Zmień stan konta",
   "DELETE_USER": "Usuń użytkownika",
   "DELETE_USER_DESCRIPTION": "Czy na pewno chcesz usunąć tego użytkownika?",
   "DELETE_USER_CONFIRMATION": "Usunięto użytkownika",

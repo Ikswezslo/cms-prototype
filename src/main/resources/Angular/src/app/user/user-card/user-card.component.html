@@ -4,7 +4,7 @@
       <div>
         <span [ngClass]="config.showLink ? 'cms-link': 'null'" [routerLink]="['/account', user.id]">
           <span>{{user.firstName}} {{user.lastName}}</span>
-          <mat-icon *ngIf="!user.enabled">visibility_off</mat-icon>
+          <mat-icon *ngIf="!user.enabled">person_off</mat-icon>
         </span>
       </div>
     </mat-card-title>

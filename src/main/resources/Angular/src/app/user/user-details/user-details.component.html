@@ -52,13 +52,13 @@
   <button mat-menu-item (click)="activeUser()"
           *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUser(user, true)
           && !user.enabled">
-    <mat-icon>visibility_on</mat-icon>
+    <mat-icon>person</mat-icon>
     <span>{{"ACTIVATE" | translate}}</span>
   </button>
   <button mat-menu-item (click)="activeUser()"
           *ngIf="securityService.hasRole('MODERATOR') && !securityService.isForbiddenUser(user, true)
           && user.enabled">
-    <mat-icon>visibility_off</mat-icon>
+    <mat-icon>person_off</mat-icon>
     <span>{{"DEACTIVATE" | translate}}</span>
   </button>
   <button mat-menu-item (click)="deleteUser()"

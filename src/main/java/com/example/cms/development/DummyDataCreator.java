@@ -105,7 +105,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "2eqf1kYN",
                 "Bożena",
                 "Banik",
-                "bożena.banik9987@gmail.com",
+                "bozena.banik9987@gmail.com",
                 "653916167",
                 true,
                 Role.ADMIN
@@ -225,7 +225,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "VIWG10Ss",
                 "Arkadiusz",
                 "Śmiałek",
-                "arkadiusz.smiałek2512@gmail.com",
+                "arkadiusz.smialek2512@gmail.com",
                 "722351974",
                 true,
                 Role.MODERATOR
@@ -265,7 +265,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "qWew71P0",
                 "Michał",
                 "Jerzak",
-                "michał.jerzak4983@gmail.com",
+                "michal.jerzak4983@gmail.com",
                 "702758897",
                 true,
                 Role.USER
@@ -385,7 +385,7 @@ class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
                 "Aofkx7BC",
                 "Grażyna",
                 "Bereza",
-                "grażyna.bereza4794@gmail.com",
+                "grazyna.bereza4794@gmail.com",
                 "525852050",
                 true,
                 Role.USER

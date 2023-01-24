@@ -86,7 +86,7 @@ export class UserDetailsComponent implements OnInit {
     if (this.user) {
       this.dialog.open(ConfirmationDialogComponent, {
         data: {
-          title: this.translate.instant("HIDING") + ": " + this.user.username,
+          title: this.translate.instant("CHANGE_ACCOUNT_STATE") + ": " + this.user.username,
           description: this.translate.instant("HIDE_DESCRIPTION")
         }
       }).afterClosed().subscribe(res => {
