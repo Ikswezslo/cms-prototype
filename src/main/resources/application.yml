@@ -13,8 +13,8 @@ spring:
         default-page-size: 1000
   servlet:
     multipart:
-      max-file-size: 1000000000MB
-      max-request-size: 1000000000MB
+      max-file-size: 200MB
+      max-request-size: 200MB
   profiles:
     active: secured, postgres
 
